@@ -1,0 +1,1 @@
+g++ -O `root-config --cflags --libs` -o convert2 convert2.cxx

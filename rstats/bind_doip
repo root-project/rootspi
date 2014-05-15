@@ -1,0 +1,1 @@
+g++ -O -o doip doip.cxx `root-config --cflags --glibs` -lGeoIP

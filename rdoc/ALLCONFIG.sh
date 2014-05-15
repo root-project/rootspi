@@ -1,0 +1,1 @@
+./configure --build=opt --all

@@ -1,0 +1,1 @@
+g++ -O `root-config --cflags --libs` -o makestats makestats.cxx

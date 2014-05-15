@@ -1,0 +1,9 @@
+/src
+htmldoc/
+html530/
+html532/
+html534/
+*_C.*
+ChangeLog*
+*.log
+*_ACLiC_*

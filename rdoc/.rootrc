@@ -1,0 +1,3 @@
+# Force X11 syncing to reduce potential Xvfb race conditions.
+X11.Sync: yes
+Canvas.Style: Classic
