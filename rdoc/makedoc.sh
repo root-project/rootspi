@@ -68,6 +68,12 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 
+./makeuser.sh $vers
+if [ $? -ne 0 ]; then
+   echo "$prog: makeuser.sh failed, exiting..."
+   exit 1
+fi
+
 ./maketut.sh $vers
 if [ $? -ne 0 ]; then
    echo "$prog: maketut.sh failed, exiting..."
