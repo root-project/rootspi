@@ -26,9 +26,7 @@ if [ ! -d $destchap ]; then
    mkdir -p $destchap
 fi
 
-cd $src
-
-cp pictures/*                 $destpic/
+cp $src/pictures/*                 $destpic/
 
 fullguides="
 ROOTUsersGuideA4.pdf
@@ -69,15 +67,15 @@ InstallandBuild
 "
 
 for f in $fullguides; do
-   cp $f $dest
+   cp $src/$f $dest
 done
 
 for c in $chapters; do
-   cp $c.html $dest
+   cp $src/$c.html $dest
 done
 
 for c in $chapters; do
-   cp $c.pdf $destchap
+   cp $src/$c.pdf $destchap
 done
 
 exit 0
