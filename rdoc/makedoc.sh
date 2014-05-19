@@ -68,9 +68,9 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 
-./makeuser.sh $vers
+./makeguides.sh $vers
 if [ $? -ne 0 ]; then
-   echo "$prog: makeuser.sh failed, exiting..."
+   echo "$prog: makeguides.sh failed, exiting..."
    exit 1
 fi
 

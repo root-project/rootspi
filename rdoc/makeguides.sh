@@ -1,26 +1,26 @@
 #!/bin/bash
 #
-# Make the User's Guide and copy to the htmldoc directory:
-# htmldoc/users-guide/.
+# Make the different guides and copy to them to the htmldoc directory:
+# htmldoc/guides/.
 # This script is called with the following arguments:
-#   makeuser.sh master [ clean ]
-#   makeuser.sh <root_major>-<root_minor> [ clean ]
+#   makeguides.sh master [ clean ]
+#   makeguides.sh <root_major>-<root_minor> [ clean ]
 # e.g.:
-#   makeuser.sh master
-#   makeuser.sh 5-34 clean
+#   makeguides.sh master
+#   makeguides.sh 5-34 clean
 
 prog=`basename $0`
 if [ $# -ge 1 ]; then
    vers="$1"
    if [ "x$1" = "xmaster" ]; then
       major=
-      docdir="htmldoc/users-guide"
+      docdir="htmldoc/guides"
       gittag="master"
       versnum=`ls src/master/doc | tail -1`
    else
       major=`echo $1 | cut -d- -f 1`
       minor=`echo $1 | cut -d- -f 2`
-      docdir="html$major$minor/users-guide"
+      docdir="html$major$minor/guides"
       gittag="v$major-$minor-00-patches"
       versnum="v$major$minor"
    fi
@@ -47,6 +47,23 @@ dir=`pwd`
 cd $srcdir/documentation/users-guide
 make
 cd $dir
-./copyug.sh $srcdir/documentation/users-guide $docdir
+
+# make Minuit2 guide
+cd $srcdir/documentation/minuit2
+make
+cd $dir
+
+# make ROOT primer
+cd $srcdir/documentation/primer
+make
+cd $dir
+
+# make Spectrum guide
+cd $srcdir/documentation/spectrum
+make
+cd $dir
+
+# copy different guides
+./copyguides.sh $srcdir $docdir
 
 exit 0
