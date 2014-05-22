@@ -63,6 +63,11 @@ cd $srcdir/documentation/spectrum
 make
 cd $dir
 
+# make HttpServer guide
+cd $srcdir/documentation/HttpServer
+make
+cd $dir
+
 # copy different guides
 ./copyguides.sh $srcdir $docdir
 

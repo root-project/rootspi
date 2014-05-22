@@ -163,4 +163,30 @@ for f in $specguides; do
    cp $srcspec/$f $destspec
 done
 
+# HttpServer products
+srchttp=$src/documentation/HttpServer
+desthttp=$dest/HttpServer
+desthttpfig=$desthttp/figures
+
+if [ ! -d $desthttp ]; then
+   mkdir -p $desthttp
+fi
+
+if [ ! -d $desthttpfig ]; then
+   mkdir -p $desthttpfig
+fi
+
+httpguides="
+HttpServer.pdf
+HttpServerLetter.pdf
+HttpServer.html
+HttpServer.epub
+"
+
+cp $srchttp/figures/*        $desthttpfig/
+
+for f in $httpguides; do
+   cp $srchttp/$f $desthttp
+done
+
 exit 0
