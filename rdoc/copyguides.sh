@@ -47,7 +47,7 @@ Histograms
 Graphs
 FittingHistograms
 ALittleC++
-CINT
+Cling
 ObjectOwnership
 Graphics
 FoldersTasks
