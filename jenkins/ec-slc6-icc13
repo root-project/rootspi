@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+#---CMake---------------------------------------------------------
+export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+
+#---Compiler------------------------------------------------------
+. /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
+. /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/bin/ifortvars.sh intel64
+. /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/bin/iccvars.sh intel64
+export CC=icc
+export CXX=icc
+export FC=ifort
+
+#---Python--------------------------------------------------------
+export PATH=/afs/cern.ch/sw/lcg/external/Python/2.7.3/x86_64-slc5-gcc46-opt/bin:${PATH}
+
+#------------------------------------------------------------------
+THIS=$(dirname $0)
+export ExtraCMakeOptions=""
+
+#---Run the CTest script-------------------------------------------
+ctest -V -S ${THIS}/root-build.cmake 
+

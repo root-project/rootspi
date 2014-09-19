@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+#---CMake---------------------------------------------------------
+export PATH=/afs/cern.ch/sw/lcg/external/CMake/2.8.8/x86_64-slc5-gcc43-opt/bin:${PATH}
+#---compiler-------------------------------------------------------
+export PATH=/afs/cern.ch/sw/lcg/contrib/gcc/4.3/x86_64-slc5-gcc43-opt/bin:${PATH}
+export LD_LIBRARY_PATH=/afs/cern.ch/sw/lcg/contrib/gcc/4.3/x86_64-slc5-gcc43-opt/lib64:${LD_LIBRARY_PATH}
+#---GSL------------------------------------------------------------
+export GSL_DIR=/afs/cern.ch/sw/lcg/external/GSL/1.10/x86_64-slc5-gcc45-opt
+export LD_LIBRARY_PATH=${GSL_DIR}/lib:${LD_LIBRARY_PATH}
+#---Xrootd---------------------------------------------------------
+export XRDSYS=/afs/cern.ch/sw/lcg/external/xrootd/3.1.0p2/x86_64-slc5-gcc43-opt
+export LD_LIBRARY_PATH=${XRDSYS}/lib64:${LD_LIBRARY_PATH}
+export PATH=${XRDSYS}/bin:${PATH}
+#---Python--------------------------------------------------------
+export PATH=/afs/cern.ch/sw/lcg/external/Python/2.7.3/x86_64-slc5-gcc43-opt/bin:${PATH}
+#-----------------------------------------------------------------
+
+THIS=$(dirname $0)
+export ExtraCMakeOptions=";-Droofit=ON"
+
+#---Run the CTest script-------------------------------------------
+ctest -V -S ${THIS}/root-build.cmake
+

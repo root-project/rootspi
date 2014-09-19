@@ -1,0 +1,40 @@
+Cron job setups:
+----------------
+macphsft06 (Slow Leopard)
+15 00 * * * /Users/mato/rootcdash/root-macphsft06 Nightly  | tee /Users/mato/rootNightly.txt
+15 02 * * * /Users/mato/rootcdash/root-macphsft06 Continuous  | tee /Users/mato/rootContinous.txt
+
+macphsft08 (Lion)
+30 00 * * * /Users/mato/rootcdash/root-macphsft08 Nightly  | tee /Users/mato/rootNightly.txt
+30 02 * * * /Users/mato/rootcdash/root-macphsft08 Continuous  | tee /Users/mato/rootContinous.txt
+
+linux (slc5)
+20 01 * * * lxbsp0516 /afs/cern.ch/user/m/mato/rootcdash/root-slc5-gcc41 Nightly
+30 01 * * * lxbsp0516 /afs/cern.ch/user/m/mato/rootcdash/root-slc5-gcc43 Nightly                                
+40 01 * * * lxbsp0516 /afs/cern.ch/user/m/mato/rootcdash/root-slc5-gcc46 Nightly                                
+20 03 * * * lxbsp0516 /afs/cern.ch/user/m/mato/rootctest/root-slc5-gcc46 Continuous 
+
+linux (Ubuntu 11)
+I had to install:
+cmake
+  sudo apt-get install cmake
+Other packages  (CMake was unable to find X11)
+  sudo apt-get install libx11-dev
+  sudo apt-get install libxpm-dev
+  sudo apt-get install libxext-dev
+  sudo apt-get install libgsl0-dev
+  sudo apt-get install xlibmesa-glu-dev
+  sudo apt-get install libglew1.5-dev
+  sudo apt-get install libxml2-dev
+  sudo apt-get install libftgl-dev
+  sudo apt-get install libpcre3-dev
+  sudo apt-get install graphviz-dev
+  sudo apt-get install libfftw3-dev
+  sudo apt-get install cfitsio-dev
+  sudo apt-get install libssl-dev
+  sudo apt-get install libkrb5-dev
+crontab
+45 00 * * * /cdash/rootcdash/root-ubuntu-gcc45 Nightly  | tee /cdash/rootNightly.txt
+
+
+

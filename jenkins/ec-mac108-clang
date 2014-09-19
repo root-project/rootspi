@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#------------------------------------------------------------------
+#---Added extre PATH (needed for cron :-()
+export PATH=${PATH}:/usr/sbin
+
+#---Setup compiler-------------------------------------------------
+export CXX=clang++
+export CC=clang
+
+#---Parameters-----------------------------------------------------
+THIS=$(dirname $0)
+export ExtraCMakeOptions=";-Droofit=ON;cocoa=ON"
+
+#---Run the CTest script-------------------------------------------
+ctest -V -S ${THIS}/root-build.cmake
+
+
+

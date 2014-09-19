@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+export SOURCE_PREFIX=/ec/ROOT-sources
+export BUILD_PREFIX=/ec/build/ROOT-incremental
+export MODE=continuous
+export VERSION=v5-34-00-patches
+export BUILDTYPE=RelWithDebInfo
+
+THIS=$(dirname $0)
+if [ "$1" ]; then
+  platform=$1
+else
+  platform=slc5-gcc46
+fi
+
+
+#---Update Scripts-------------------------------------------------
+lockfile -l 60 ${THIS}/svn_update.lock
+svn update ${THIS}
+rm -f ${THIS}/svn_update.lock
+
+${THIS}/ec-$platform
+
