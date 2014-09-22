@@ -76,7 +76,7 @@ elseif(CTEST_MODE STREQUAL install)
 else()
   ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE})
-  ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
+  #ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "-Dall=ON;-Dtesting=ON;${testing_options};-DCTEST_USE_LAUNCHERS=${CTEST_USE_LAUNCHERS};-DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install$ENV{ExtraCMakeOptions}")
