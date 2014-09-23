@@ -1,0 +1,2 @@
+//--Nightlies--------------
+COMPILER=="gcc48" && label=="slc6" || COMPILER=="gcc49" && label=="slc6" ||  COMPILER=="icc" && label=="slc6" && VERSION!="master" || COMPILER=="native" && label != "slc6" && BUILDTYPE=="Release"
