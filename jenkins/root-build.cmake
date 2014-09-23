@@ -8,33 +8,26 @@ endif()
 
 #---CTest commands----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
+
   #----Continuous-----------------------------------------------------------
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE 1)
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
-  GET_TIME(current_time)
-  while(${current_time} LESS 2300)
-    set(START_TIME ${CTEST_ELAPSED_TIME})
-    ctest_start (Continuous)
-    ctest_update(RETURN_VALUE updates)
-    if(updates GREATER 0)
-      ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
-                      SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                      OPTIONS "-Dall=ON;-Dtesting=ON;${testing_options};-DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install$ENV{ExtraCMakeOptions}")
-      if(NOT DEFINED custom_read)
-        #---Read custom files and generte a note with ignored tests---------
-        ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-        WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
-        set(CTEST_NOTES_FILES  ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
-        set(custom_read 1)
-      endif()
-      ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
-      ctest_test(PARALLEL_LEVEL ${ncpu})
-      ctest_submit()
-    endif()
-    ctest_sleep(600)
-    GET_TIME(current_time)
-  endwhile()
+  #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  ctest_start (Continuous)
+  #ctest_update(RETURN_VALUE updates)
+  ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
+                  SOURCE  ${CTEST_SOURCE_DIRECTORY}
+                  OPTIONS "-Dall=ON;-Dtesting=ON;${testing_options};-DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install$ENV{ExtraCMakeOptions}")
+  #---Read custom files and generate a note with ignored tests----------------
+  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+  WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
+  set(CTEST_NOTES_FILES  ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
+  #--------------------------------------------------------------------------
+  ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
+  ctest_test(PARALLEL_LEVEL ${ncpu})
+  ctest_submit()
+
 elseif(CTEST_MODE STREQUAL install)
+
   #---Install---------------------------------------------------------------
   ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} TRACK Install)
@@ -74,6 +67,8 @@ elseif(CTEST_MODE STREQUAL install)
              APPEND)
   ctest_submit()
 else()
+
+  #---Experimental------------------------------------------------------------
   ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE})
   #ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
