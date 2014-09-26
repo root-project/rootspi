@@ -54,8 +54,8 @@ if("$ENV{JENKINS_HOME}" STREQUAL "")
   set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_PREFIX}/${CTEST_MODE}-${CTEST_VERSION}-${tag})
   set(CTEST_BINARY_DIRECTORY ${CTEST_BUILD_PREFIX}/${CTEST_MODE}-${CTEST_VERSION}-${tag})
 else()
-  set(CTEST_SOURCE_DIRECTORY $ENV{WORKSPACE}/root)
-  set(CTEST_BINARY_DIRECTORY $ENV{WORKSPACE}/build)
+  set(CTEST_SOURCE_DIRECTORY root)
+  set(CTEST_BINARY_DIRECTORY build)
 endif()
 
 #---------------------------------------------------------------------------
