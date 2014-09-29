@@ -2,7 +2,7 @@
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 
 #---Enable roottest---------------------------------------------------------
-if(CTEST_VERSION STREQUAL "master")
+if(CTEST_VERSION STREQUAL "master" OR CTEST_VERSION STREQUAL STREQUAL "v6-02-00-patches")
   set(testing_options "-Droottest=ON")
 elseif(CTEST_VERSION STREQUAL "v5-34-00-patches")
   set(testing_options "-Dvc=OFF")
