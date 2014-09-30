@@ -33,7 +33,7 @@ elseif(CTEST_MODE STREQUAL install)
   #---Install---------------------------------------------------------------
   ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} TRACK Install)
-  ctest_update()
+  #ctest_update()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "-Dall=ON;-DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install$ENV{ExtraCMakeOptions}"
