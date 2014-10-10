@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+#---CMake----------------------------------------------------------
+export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
+#---Compiler------------------------------------------------------
+ARCH=$(uname -m)
+LABEL="slc6"
+. /afs/cern.ch/sw/lcg/contrib/gcc/4.9.0/${ARCH}-${LABEL}/setup.sh
+export FC=gfortran
+export CXX=`which g++`
+export CC=`which gcc`
+
+#------------------------------------------------------------------
+THIS=$(dirname $0)
+#EXTERNAL_VERSION=ROOT-1-25092014
+EXTERNAL_VERSION=ROOT-test
+perl ${EXTERNALDIR}${EXTERNAL_VERSION}/setup.pl -c gcc49 -v opt -t ${EXTERNAL_VERSION}
+
+eval $(${EXTERNALDIR}${EXTERNAL_VERSION}/setup.pl -c gcc49 -v opt -t ${EXTERNAL_VERSION})
+
+
+
+export ExtraCMakeOptions=";-Droofit=ON;-Dchirp=OFF;-Dhdfs=OFF;-Dbonjour=OFF;-Dfail-on-missing=ON"
+
+ 
+
+#---Run the CTest script-------------------------------------------
+#ctest -VV -S ${THIS}/root-build.cmake 
+ctest -VV -S  ${EXTERNALDIR}${EXTERNAL_VERSION}/cmake/root-build.cmake
+
