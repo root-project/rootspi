@@ -29,6 +29,6 @@ export ExtraCMakeOptions=";-Droofit=ON;-Dchirp=OFF;-Dhdfs=OFF;-Dbonjour=OFF;-Dfa
  
 
 #---Run the CTest script-------------------------------------------
-ctest -V -S ${THIS}/root-build.cmake 
+ctest -VV -S ${THIS}/root-build.cmake 
 
 
