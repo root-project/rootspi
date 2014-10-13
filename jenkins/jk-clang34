@@ -34,5 +34,5 @@ THIS=$(dirname $0)
 export ExtraCMakeOptions=";-Droofit=ON;-Dmysql=OFF"
 
 #---Run the CTest script-------------------------------------------
-ctest --debug -S ${THIS}/root-build.cmake
+ctest -V -S ${THIS}/root-build.cmake 
 
