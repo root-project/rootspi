@@ -15,7 +15,7 @@ if(CTEST_MODE STREQUAL continuous)
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE 1)
   #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   ctest_start (Continuous TRACK Continuous-${CTEST_VERSION})
-  #ctest_update(RETURN_VALUE updates)
+  ctest_update(RETURN_VALUE updates)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "-Dall=ON;-Dtesting=ON;${testing_options};-DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install$ENV{ExtraCMakeOptions}")
@@ -33,7 +33,7 @@ elseif(CTEST_MODE STREQUAL install)
   #---Install---------------------------------------------------------------
   ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} TRACK Install)
-  #ctest_update()
+  ctest_update()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "-Dall=ON;-DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install$ENV{ExtraCMakeOptions}"
