@@ -108,7 +108,7 @@ file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY})
 configure_file(${CTEST_SOURCE_DIRECTORY}/cmake/modules/CTestCustom.cmake ${CTEST_BINARY_DIRECTORY} COPYONLY)
 
 #---CTest commands----------------------------------------------------------
-#####ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
 ctest_start(${CTEST_MODE})
 ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
 ctest_configure(BUILD ${CTEST_BINARY_DIRECTORY} APPEND)
