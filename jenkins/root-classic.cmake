@@ -97,6 +97,7 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "note: variable tracking size limit exceeded with -fvar-tracking-assignments")
 
 #---Configure tests. Some of them require some files to be copied-----------
+file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY})
 configure_file(${CTEST_SOURCE_DIRECTORY}/cmake/modules/CTestCustom.cmake ${CTEST_BINARY_DIRECTORY} COPYONLY)
 
 #---CTest commands----------------------------------------------------------
