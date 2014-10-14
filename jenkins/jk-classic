@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+THIS=$(dirname $0)
+
+#---Run the CTest script-------------------------------------------
+ctest -V -S ${THIS}/root-classic.cmake
+
