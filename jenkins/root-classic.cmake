@@ -108,7 +108,7 @@ file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY})
 configure_file(${CTEST_SOURCE_DIRECTORY}/cmake/modules/CTestCustom.cmake ${CTEST_BINARY_DIRECTORY} COPYONLY)
 
 #---CTest commands----------------------------------------------------------
-#--->ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+#####ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
 ctest_start(${CTEST_MODE})
 ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
 ctest_configure(BUILD ${CTEST_BINARY_DIRECTORY})
@@ -130,8 +130,9 @@ elseif(UNIX)
   set(ENV{LD_LIBRARY_PATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{LD_LIBRARY_PATH})
 endif()
 set(ENV{PYTHONPATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{PAYTHONPATH})
-unset(CTEST_CONFIGURE_COMMAND)   # use now the default
 #---Confgure and run the tests--------------------------------------------
+unset(CTEST_CONFIGURE_COMMAND)                  # use now the default
+set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
 
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
