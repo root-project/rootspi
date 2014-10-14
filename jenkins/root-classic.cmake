@@ -26,6 +26,13 @@ else()
 set(CTEST_MODE "$ENV{MODE}")
 endif()
 
+if("$ENV{CTEST_SITE}" STREQUAL "")
+  set(CTEST_SITE "${host}")
+else()
+  set(CTEST_SITE "$ENV{CTEST_SITE}")
+  message( "Running build and test on ${host}" )
+endif()
+
 if("$ENV{VERSION}" STREQUAL "")
 set(CTEST_VERSION master)
 else()
@@ -72,7 +79,7 @@ if(NOT "$ENV{GIT_COMMIT}" STREQUAL "")  #--- From Jenkins---------------------
   set(CTEST_GIT_UPDATE_CUSTOM  ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
 endif()
 
-set(CTEST_CONFIGURE_COMMAND "${CTEST_SOURCE_DIRECTORY}/configure --enable-all")
+set(CTEST_CONFIGURE_COMMAND "${CTEST_SOURCE_DIRECTORY}/configure --all")
 set(CTEST_BUILD_COMMAND "make -s -i -j${ncpu}")
 
 set(CTEST_CONFIGURATION_TYPE "${CTEST_BUILD_CONFIGURATION}")
