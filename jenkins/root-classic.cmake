@@ -16,7 +16,7 @@ configure_file(${CTEST_SOURCE_DIRECTORY}/cmake/modules/CTestCustom.cmake ${CTEST
 ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
 ctest_start(${CTEST_MODE})
 ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
-ctest_configure(BUILD ${CTEST_BINARY_DIRECTORY} APPEND)
+ctest_configure(BUILD ${CTEST_BINARY_DIRECTORY})
 
 #---Read custom files and generate a note with ignored tests----------------
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
@@ -24,7 +24,7 @@ WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
 set(CTEST_NOTES_FILES ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
 
 #--------------------------------------------------------------------------
-ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} APPEND)
+ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
 ctest_submit()
 
 #---Set the environment---------------------------------------------------
@@ -44,11 +44,9 @@ file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
 
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
                 SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials
-                OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake
-                APPEND)
+                OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake)
 ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
-           PARALLEL_LEVEL ${ncpu}
-           APPEND)
-ctest_submit()
+           PARALLEL_LEVEL ${ncpu})
+ctest_submit(PARTS Test)
 
 
