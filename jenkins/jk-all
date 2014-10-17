@@ -4,7 +4,7 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
 
-#-----GCC compilers------------
+
 if[${COMPILER}=~ .*gcc.*];
 then
 
@@ -33,7 +33,11 @@ then
 fi
 
 
-#---Run the CTest script-------------------------------------------
-ctest -VV -S ${THIS}/root-build.cmake 
-
+#---Run the CTest script depending on the compiler-------------------------------------------
+if[${COMPILER}=~ .*gcc.*] || [${COMPILER}=~ .*native.*];
+then
+    ctest -VV -S ${THIS}/root-build.cmake 
+elif[${COMPILER}=~ .*classic.*];
+    ctest -VV -S ${THIS}/root-classic.cmake
+fi
 
