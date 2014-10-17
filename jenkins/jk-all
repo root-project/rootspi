@@ -3,6 +3,7 @@
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
+THIS=$(dirname $0)
 
 if [[ $COMPILER == *gcc* ]]
 then
@@ -17,7 +18,6 @@ then
     export CC=`which gcc`
     
 #------------------------------------------------------------------
-    THIS=$(dirname $0)
     
     perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS}  
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
