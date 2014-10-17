@@ -31,11 +31,16 @@ then
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
     export ExtraCMakeOptions=";-Dfortran=OFF"
 
+elif [[ $COMPILER == *classic* ]]
+then
+    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+    perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS}                     
+    eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
+
 elif [[ $COMPILER == *icc* ]]
 then
-#---CMake----------------------------------------------------------
+
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
-#---Compiler------------------------------------------------------
     . /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
     . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/bin/ifortvars.sh intel64
     . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/bin/iccvars.sh intel64
