@@ -34,7 +34,7 @@ fi
 
 
 #---Run the CTest script depending on the compiler-------------------------------------------
-elif [[ $COMPILER == *gcc* ] || [ $COMPILER == *native* ]]
+elif [[ $COMPILER == *gcc* ]] || [[ $COMPILER == *native* ]]
 then
     ctest -VV -S ${THIS}/root-build.cmake 
 elif [[ $COMPILER == *classic* ]]
