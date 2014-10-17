@@ -8,9 +8,9 @@ set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}-classic)
 set(CTEST_CONFIGURE_COMMAND "${CTEST_SOURCE_DIRECTORY}/configure --all")
 set(CTEST_BUILD_COMMAND "make -s -i -j${ncpu}")
 
-if (EXIST ${CTEST_BINARY_DIRECTORY}){
-file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
-}
+if (EXIST ${CTEST_BINARY_DIRECTORY})
+  file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
+endif()
 
 #---Configure tests. Some of them require some files to be copied-----------
 file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY})
