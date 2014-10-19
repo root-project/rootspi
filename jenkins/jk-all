@@ -7,22 +7,16 @@ THIS=$(dirname $0)
 
 if [[ $COMPILER == *gcc* ]]
 then
-
-#---CMake----------------------------------------------------------
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
-#---Compiler------------------------------------------------------
     ARCH=$(uname -m)
     . /afs/cern.ch/sw/lcg/contrib/gcc/4.9.0/${ARCH}-${LABEL}/setup.sh
     export FC=gfortran
     export CXX=`which g++`
     export CC=`which gcc`
-    
-#------------------------------------------------------------------
-    
+
     perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS}  
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
     export ExtraCMakeOptions=";-Droofit=ON;-Dchirp=OFF;-Dhdfs=OFF;-Dbonjour=OFF;-Dfail-on-missing=ON"
-
 
 elif [[ $COMPILER == *native* ]]
 then
@@ -39,7 +33,6 @@ then
 
 elif [[ $COMPILER == *icc* ]]
 then
-
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
     . /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
     . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/bin/ifortvars.sh intel64
@@ -56,11 +49,10 @@ fi
 
 
 #---Run the CTest script depending on the compiler------------------------------------------
-if [[ $COMPILER == *gcc* ]] || [[ $COMPILER == *native* ]] || [[ $COMPILER == *icc* ]]
+if [[ $COMPILER == *classic* ]]
 then
-    ctest -VV -S ${THIS}/root-build.cmake 
-elif [[ $COMPILER == *classic* ]]
-then
-    ctest -VV -S ${THIS}/root-classic.cmake
+    ctest -V -S ${THIS}/root-classic.cmake
+else
+    ctest -V -S ${THIS}/root-build.cmake
 fi
 
