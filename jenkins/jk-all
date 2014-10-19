@@ -20,16 +20,13 @@ then
 
 elif [[ $COMPILER == *native* ]]
 then
-    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
-    perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS}                     
-    eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
     export ExtraCMakeOptions=";-Dfortran=OFF"
 
 elif [[ $COMPILER == *classic* ]]
 then
-    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
-    perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS}                     
-    eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
+    if [ "${LABEL}" == "slc6" ]; then
+        export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+    fi
 
 elif [[ $COMPILER == *icc* ]]
 then
