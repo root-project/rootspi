@@ -7,12 +7,13 @@ THIS=$(dirname $0)
 
 if [[ $COMPILER == *gcc* ]]
 then
-    set gcc47-version=4.7
-    set gcc48-version=4.8
-    set gcc49-version=4.9
+    gcc47version=4.7
+    gcc48version=4.8
+    gcc49version=4.9
+    COMPILERversion=${COMPILER}version
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
     ARCH=$(uname -m)
-    . /afs/cern.ch/sw/lcg/contrib/gcc/${${COMPILER}-version}/${ARCH}-${LABEL}/setup.sh
+    . /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
     export FC=gfortran
     export CXX=`which g++`
     export CC=`which gcc`
