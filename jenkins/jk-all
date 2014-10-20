@@ -69,14 +69,3 @@ else
     ctest -V -S ${THIS}/root-build.cmake
 fi
 
-#---Convert CTest output to xUnit output-----(needs lxml Python package )-------------------
-if [ "${LABEL}" == "slc6" ]
-then
-  export PATH=/afs/cern.ch/sw/lcg/releases/LCG_70/Python/2.7.6/x86_64-slc6-gcc48-opt/bin:${PATH}
-  export PYTHONPATH=/afs/cern.ch/sw/lcg/releases/LCG_70/pytools/1.8_python2.7/x86_64-slc6-gcc48-opt/lib/python2.7/site-packages:${PYTHONPATH}
-  python ${THIS}/convert.py build ${THIS}/conv.xsl > ROOTtest.xml
-fi
-
-
-
-
