@@ -9,7 +9,7 @@ if [ "${LABEL}" == "slc6" ]
 then
     export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
 else
-    export EXTERNALDIR=$HOME/ROOT-externals
+    export EXTERNALDIR=$HOME/ROOT-externals/
 fi
 
 if [[ $COMPILER == *gcc* ]]
