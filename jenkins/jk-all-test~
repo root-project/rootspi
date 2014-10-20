@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+#export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
+THIS=$(dirname $0)
+
+if [ "${LABEL}" == "slc6" ] 
+then
+    export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
+else
+    export EXTERNALDIR=$HOME/ROOT-externals/
+fi
+
+if [[ $COMPILER == *gcc* ]]
+then
+    gcc47version=4.7
+    gcc48version=4.8
+    gcc49version=4.9
+    COMPILERversion=${COMPILER}version
+    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+    ARCH=$(uname -m)
+    . /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
+    export FC=gfortran
+    export CXX=`which g++`
+    export CC=`which gcc`
+    
+    perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS}  
+    eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
+    export ExtraCMakeOptions=";-Droofit=ON;-Dchirp=OFF;-Dhdfs=OFF;-Dbonjour=OFF;-Dfail-on-missing=ON"
+    
+
+elif [[ $COMPILER == *native* ]]
+then
+    perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS}
+    eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
+    export ExtraCMakeOptions=";-Dfortran=OFF"
+
+elif [[ $COMPILER == *classic* ]]
+then
+    if [ "${LABEL}" == "slc6" ]; then
+        export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+    fi
+        perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS}
+        eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
+
+elif [[ $COMPILER == *icc* ]]
+then
+    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+    . /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
+    . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/bin/ifortvars.sh intel64
+    . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/bin/iccvars.sh intel64
+    export CC=icc
+    export CXX=icc
+    export FC=ifort
+    
+    perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS}  
+    eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
+    export ExtraCMakeOptions=""
+
+fi
+
+
+#---Run the CTest script depending on the compiler------------------------------------------
+if [[ $COMPILER == *classic* ]]
+then
+    ctest -V -S ${THIS}/root-classic.cmake
+else
+    ctest -V -S ${THIS}/root-build.cmake
+fi
+
+#---Convert CTest output to xUnit output-----(needs lxml Python package )-------------------
+if [ "${LABEL}" == "slc6" ]
+then
+  export PATH=/afs/cern.ch/sw/lcg/releases/LCG_70/Python/2.7.6/x86_64-slc6-gcc48-opt/bin:${PATH}
+  export PYTHONPATH=/afs/cern.ch/sw/lcg/releases/LCG_70/pytools/1.8_python2.7/x86_64-slc6-gcc48-opt/lib/python2.7/site-packages:${PYTHONPATH}
+  python ${THIS}/convert.py build ${THIS}/conv.xsl > ROOTtest.xml
+fi
+
+
+
+
