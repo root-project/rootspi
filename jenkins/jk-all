@@ -7,9 +7,12 @@ THIS=$(dirname $0)
 
 if [[ $COMPILER == *gcc* ]]
 then
+    set gcc47-version=4.7
+    set gcc48-version=4.8
+    set gcc49-version=4.9
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
     ARCH=$(uname -m)
-    . /afs/cern.ch/sw/lcg/contrib/gcc/4.9.0/${ARCH}-${LABEL}/setup.sh
+    . /afs/cern.ch/sw/lcg/contrib/gcc/${${COMPILER}-version}/${ARCH}-${LABEL}/setup.sh
     export FC=gfortran
     export CXX=`which g++`
     export CC=`which gcc`
@@ -26,6 +29,8 @@ elif [[ $COMPILER == *classic* ]]
 then
     if [ "${LABEL}" == "slc6" ]; then
         export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+        perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS}
+        eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
     fi
 
 elif [[ $COMPILER == *icc* ]]
