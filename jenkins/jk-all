@@ -36,7 +36,7 @@ then
     . /afs/cern.ch/sw/lcg/external/llvm/3.4/${ARCH}-slc6/setup.sh
     export CC=`which clang`
     export CXX=`which clang++`
-    export FC=gfortran
+    export ExtraCMakeOptions=";-Dfortran=OFF"
 
 elif [[ $COMPILER == *native* ]]
 then
