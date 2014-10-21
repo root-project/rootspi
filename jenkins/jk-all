@@ -29,6 +29,14 @@ then
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
     export ExtraCMakeOptions=";-Droofit=ON;-Dchirp=OFF;-Dhdfs=OFF;-Dbonjour=OFF;-Dfail-on-missing=ON"
     
+elif [[ $COMPILER == *clang* ]]
+then
+    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+    ARCH=$(uname -m)
+    . /afs/cern.ch/sw/lcg/external/llvm/3.4/${ARCH}-slc6/setup.sh
+    export CC=`which clang`
+    export CXX=`which clang++`
+    export FC=gfortran
 
 elif [[ $COMPILER == *native* ]]
 then
