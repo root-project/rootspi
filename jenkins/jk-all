@@ -62,8 +62,8 @@ then
     export CXX=icc
     export FC=ifort
     
-    perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS}  
-    eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
+    #perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS}
+    #eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
     export ExtraCMakeOptions=""
 
 fi
