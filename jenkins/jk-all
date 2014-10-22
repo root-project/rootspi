@@ -68,6 +68,9 @@ then
 
 fi
 
+echo "HEREEEEEEEEEEEEEEEEEEEEE"
+env
+
 
 #---Run the CTest script depending on the compiler------------------------------------------
 if [[ $COMPILER == *classic* ]]
