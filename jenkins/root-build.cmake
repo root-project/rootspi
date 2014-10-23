@@ -22,7 +22,9 @@ if(CTEST_MODE STREQUAL continuous)
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE 1)
 
   file(GLOB testruns ${CTEST_BINARY_DIRECTORY}/Testing/*-*)
-  file(REMOVE_RECURSE ${testruns})
+  if(testruns)
+    file(REMOVE_RECURSE ${testruns})
+  endif()
 
   ctest_start (Continuous TRACK Continuous-${CTEST_VERSION})
   ctest_update(RETURN_VALUE updates)
