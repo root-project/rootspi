@@ -2,7 +2,6 @@
 
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-#export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
 THIS=$(dirname $0)
 
 if [ "${LABEL}" == "slc6" ] 
@@ -18,6 +17,7 @@ then
     gcc48version=4.8
     gcc49version=4.9
     COMPILERversion=${COMPILER}version
+
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
     ARCH=$(uname -m)
     . /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
@@ -27,8 +27,8 @@ then
     
     perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS}  
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
-    export ExtraCMakeOptions=";-Droofit=ON;-Dchirp=OFF;-Dhdfs=OFF;-Dbonjour=OFF;-Dfail-on-missing=ON"
-    
+    export ExtraCMakeOptions="-Dfail-on-missing=ON ${ExtraCMakeOptions}"
+
 elif [[ $COMPILER == *clang* ]]
 then
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
@@ -36,7 +36,7 @@ then
     . /afs/cern.ch/sw/lcg/external/llvm/3.4/${ARCH}-slc6/setup.sh
     export CC=`which clang`
     export CXX=`which clang++`
-    export ExtraCMakeOptions=";-Dfortran=OFF"
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF"
 
 elif [[ $COMPILER == *native* ]]
 then
@@ -61,16 +61,11 @@ then
     export CC=icc
     export CXX=icc
     export FC=ifort
-    
-    #perl ${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS}
-    #eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
-    export ExtraCMakeOptions=""
-
 fi
 
-echo "HEREEEEEEEEEEEEEEEEEEEEE"
-env
-
+echo "Dumping the full environment ---------------------------------------------------------"
+env | sort
+echo "--------------------------------------------------------------------------------------"
 
 #---Run the CTest script depending on the compiler------------------------------------------
 if [[ $COMPILER == *classic* ]]

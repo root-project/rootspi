@@ -8,6 +8,13 @@ elseif(CTEST_VERSION STREQUAL "v5-34-00-patches")
   set(testing_options "-Dvc=OFF")
 endif()
 
+set(options -Dall=ON
+            -Dtesting=ON
+            ${testing_options}
+            -DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install
+            $ENV{ExtraCMakeOptions}
+   )
+
 #---CTest commands----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
 
@@ -18,7 +25,7 @@ if(CTEST_MODE STREQUAL continuous)
   ctest_update(RETURN_VALUE updates)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                  OPTIONS "-Dall=ON;-Dtesting=ON;${testing_options};-DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install$ENV{ExtraCMakeOptions}")
+                  OPTIONS "${options}")
   #---Read custom files and generate a note with ignored tests----------------
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
@@ -36,7 +43,7 @@ elseif(CTEST_MODE STREQUAL install)
   ctest_update()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                  OPTIONS "-Dall=ON;-DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install$ENV{ExtraCMakeOptions}"
+                  OPTIONS "${options}"
                   APPEND)
   #---Read custom files and generate a note with ignored tests--------------
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
@@ -76,7 +83,7 @@ else()
   ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                  OPTIONS "-Dall=ON;-Dtesting=ON;${testing_options};-DCTEST_USE_LAUNCHERS=${CTEST_USE_LAUNCHERS};-DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install$ENV{ExtraCMakeOptions}")
+                  OPTIONS "${options}")
   #---Read custom files and generate a note with ignored tests----------------
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
