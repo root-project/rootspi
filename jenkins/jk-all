@@ -56,7 +56,7 @@ then
 fi
 
 echo "Dumping the full environment ---------------------------------------------------------"
-env | sort
+env | sort | sed 's/:/:?     /g' | tr '?' '\n'
 echo "--------------------------------------------------------------------------------------"
 
 #---Run the CTest script depending on the compiler------------------------------------------
