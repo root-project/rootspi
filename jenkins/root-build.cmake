@@ -20,7 +20,10 @@ if(CTEST_MODE STREQUAL continuous)
 
   #----Continuous-----------------------------------------------------------
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE 1)
-  #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+
+  file(GLOB testruns ${CTEST_BINARY_DIRECTORY}/Testing/*-*)
+  file(REMOVE_RECURSE ${testruns})
+
   ctest_start (Continuous TRACK Continuous-${CTEST_VERSION})
   ctest_update(RETURN_VALUE updates)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
