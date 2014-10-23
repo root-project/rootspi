@@ -26,7 +26,7 @@ then
     export CC=`which gcc`
     
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
-    export ExtraCMakeOptions="-Dfail-on-missing=ON ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
 
 elif [[ $COMPILER == *clang* ]]
 then
