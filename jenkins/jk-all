@@ -62,8 +62,14 @@ echo "--------------------------------------------------------------------------
 #---Run the CTest script depending on the compiler------------------------------------------
 if [[ $COMPILER == *classic* ]]
 then
-    ctest -V -S ${THIS}/root-classic.cmake
+    ctest -VV -S ${THIS}/root-classic.cmake
+    build_rc=$?
 else
-    ctest -V -S ${THIS}/root-build.cmake
+    ctest -VV -S ${THIS}/root-build.cmake
+    build_rc=$?
 fi
+
+ctest -V -S ${THIS}/root-test.cmake
+exit $build_rc
+
 

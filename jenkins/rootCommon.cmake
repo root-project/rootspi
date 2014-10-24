@@ -60,9 +60,6 @@ endif()
 
 #---------------------------------------------------------------------------
 
-message("${CTEST_SOURCE_DIRECTORY}")
-message("${CTEST_BINARY_DIRECTORY}")
-
 set(CTEST_SITE "${host}")
 if(WIN32)
   if(tag MATCHES x64)
