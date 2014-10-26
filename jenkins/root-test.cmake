@@ -1,5 +1,6 @@
 #---Common Settings-------------------------------------------------------
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
+unset(CTEST_CHECKOUT_COMMAND)  # We do not need to checkout
 
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
