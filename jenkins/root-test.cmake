@@ -2,6 +2,12 @@
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 unset(CTEST_CHECKOUT_COMMAND)  # We do not need to checkout
 
+#---Read custom files and generate a note with ignored tests----------------
+ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
+set(CTEST_NOTES_FILES  ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
+#--------------------------------------------------------------------------
+
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
   ctest_start (Continuous TRACK Continuous-${CTEST_VERSION} APPEND)
@@ -37,6 +43,6 @@ else()
 endif()
 
 
-ctest_submit(PARTS Test)
+ctest_submit(PARTS Test Notes)
 
 

@@ -25,12 +25,6 @@ if(CTEST_MODE STREQUAL continuous)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "${options}")
-  #---Read custom files and generate a note with ignored tests----------------
-  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-  WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
-  set(CTEST_NOTES_FILES  ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
-  #--------------------------------------------------------------------------
-
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
 
 #---Install---------------------------------------------------------------
@@ -43,12 +37,6 @@ elseif(CTEST_MODE STREQUAL install)
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "${options}"
                   APPEND)
-  #---Read custom files and generate a note with ignored tests--------------
-  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-  WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
-  set(CTEST_NOTES_FILES  ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
-  #-------------------------------------------------------------------------
-
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET package APPEND)
 
 #---Experimental/Nightly----------------------------------------------------
@@ -60,12 +48,6 @@ else()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "${options}")
-  #---Read custom files and generate a note with ignored tests----------------
-  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-  WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
-  set(CTEST_NOTES_FILES  ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
-  #--------------------------------------------------------------------------
-
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
 
 endif()
