@@ -25,6 +25,7 @@ if(CTEST_MODE STREQUAL continuous)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "${options}")
+  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
 
 #---Install---------------------------------------------------------------
@@ -37,6 +38,7 @@ elseif(CTEST_MODE STREQUAL install)
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "${options}"
                   APPEND)
+  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET package APPEND)
 
 #---Experimental/Nightly----------------------------------------------------
@@ -48,6 +50,7 @@ else()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "${options}")
+  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
 
 endif()
