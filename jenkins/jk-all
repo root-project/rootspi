@@ -40,7 +40,7 @@ then
 elif [[ $COMPILER == *native* ]]
 then
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
-    export ExtraCMakeOptions=";-Dfortran=OFF"
+    export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
 
 elif [[ $COMPILER == *classic* ]]
 then

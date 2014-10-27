@@ -13,6 +13,7 @@ set(options -Dall=ON
             ${testing_options}
             -DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install
             $ENV{ExtraCMakeOptions})
+separate_arguments(options)
 
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
