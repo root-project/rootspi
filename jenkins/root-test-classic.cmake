@@ -3,7 +3,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}-classic)
 
 #---CTest commands----------------------------------------------------------
-ctest_start(${CTEST_MODE})
+ctest_start(${CTEST_MODE} APPEND)
 
 #---Read custom files and generate a note with ignored tests----------------
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
