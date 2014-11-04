@@ -7,7 +7,7 @@ if [ $# -ge 3 ]; then
   EXTERNALS=ROOT-test
 else
   echo "$0: expecting 2 arguments (label, compiler)"
-  exit 1
+  return
 fi
 
 if [ "${LABEL}" == "slc6" ]
