@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # first arguments is the source directory
-if [ $# -ge 3 ]; then
+if [ $# -ge 2 ]; then
   LABEL=$1 ; shift
   COMPILER=$1 ; shift
   EXTERNALS=ROOT-test
