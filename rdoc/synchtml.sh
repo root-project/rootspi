@@ -15,7 +15,7 @@ fi
 rsync -a $docdir/ root.cern.ch:/user/httpd/root/root/$docdir
 ret=$?
 
-tar zcf /user/ftp/root/${docdir}.tar.gz $docdir
-scp /user/ftp/root/${docdir}.tar.gz root.cern.ch:/user/ftp/root/.
+tar zcf ${docdir}.tar.gz $docdir
+scp ${docdir}.tar.gz root.cern.ch:/user/ftp/root/.
 
 exit $ret
