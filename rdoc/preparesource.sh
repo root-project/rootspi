@@ -17,7 +17,7 @@ if [ -d $gittag ]; then
    cd $gittag
    git pull
 else
-   git clone --no-hardlinks -b $gittag /user/git/root.git $gittag
+   git clone --no-hardlinks -b $gittag http://root.cern.ch/git/root.git $gittag
    cd $gittag
 fi
 
