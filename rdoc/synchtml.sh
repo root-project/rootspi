@@ -16,6 +16,6 @@ rsync -a $docdir/ root.cern.ch:/user/httpd/root/root/$docdir
 ret=$?
 
 tar zcf ${docdir}.tar.gz $docdir
-scp ${docdir}.tar.gz root.cern.ch:/user/ftp/root/.
+scp ${docdir}.tar.gz root.cern.ch:/user/ftp/root
 
 exit $ret
