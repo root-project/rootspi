@@ -36,8 +36,13 @@ then
 
 elif [[ $COMPILER == *clang* ]]
 then
+  clang34version=3.4
+  clang35version=3.5
+  clang36version=3.6
+  COMPILERversion=${COMPILER}version
+
   ARCH=$(uname -m)
-  . /afs/cern.ch/sw/lcg/external/llvm/3.4/${ARCH}-slc6/setup.sh
+  . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
   export CC=`which clang`
   export CXX=`which clang++`
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
