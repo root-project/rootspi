@@ -40,13 +40,17 @@ then
   clang35version=3.5
   clang36version=3.6
   COMPILERversion=${COMPILER}version
+  clang34gcc=48
+  clang35gcc=49
+  GCCversion=${COMPILER}gcc
 
   ARCH=$(uname -m)
   . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
   export CC=`which clang`
   export CXX=`which clang++`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 
+  eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${!GCCversion} -v opt -t ${EXTERNALS})
+  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 
 elif [[ $COMPILER == *native* ]]
 then
