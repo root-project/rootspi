@@ -16,11 +16,6 @@ rem ---Options-------------------------------------------------------
 set THIS=%~d0%~p0
 set ExtraCMakeOptions=";-Droofit=ON"
 
-rem ---Run the CTest script------------------------------------------
-ctest -V -S %THIS%root-build.cmake
-ctest -V -S 
-
-
 echo Dumping the full environment ---------------------------------------------------------
 set
 echo --------------------------------------------------------------------------------------
