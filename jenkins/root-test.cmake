@@ -17,6 +17,15 @@ if(CTEST_MODE STREQUAL continuous)
 elseif(CTEST_MODE STREQUAL install)
   ctest_start(${CTEST_MODE} TRACK Install APPEND)
   set(installdir ${CTEST_BINARY_DIRECTORY}/install)
+  #---Set the environment---------------------------------------------------
+  set(ENV{PATH} ${installdir}/bin:$ENV{PATH})
+  if(APPLE)
+    set(ENV{DYLD_LIBRARY_PATH} ${installdir}/lib/root:$ENV{DYLD_LIBRARY_PATH})
+  elseif(UNIX)
+    set(ENV{LD_LIBRARY_PATH} ${installdir}/lib/root:$ENV{LD_LIBRARY_PATH})
+  endif()
+  set(ENV{PYTHONPATH} ${installdir}/lib/root:$ENV{PAYTHONPATH})
+
   #---Configure and run the tests--------------------------------------------
   file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
