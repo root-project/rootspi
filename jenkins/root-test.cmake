@@ -16,7 +16,18 @@ if(CTEST_MODE STREQUAL continuous)
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
   ctest_start(${CTEST_MODE} TRACK Install APPEND)
-  #--Untar the installtion kit----------------------------------------------
+  set(installdir ${CTEST_BINARY_DIRECTORY}/install)
+  #---Configure and run the tests--------------------------------------------
+  file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
+  ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
+                  SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials)
+  ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
+             PARALLEL_LEVEL ${ncpu})
+
+#----Package mode---------------------------------------------------------
+elseif(CTEST_MODE STREQUAL package)
+  ctest_start(${CTEST_MODE} TRACK Package APPEND)
+  #--Untar the installation kit----------------------------------------------
   file(GLOB tarfile ${CTEST_BINARY_DIRECTORY}/root_*.tar.gz)
   execute_process(COMMAND cmake -E tar xfz ${tarfile} WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
   set(installdir ${CTEST_BINARY_DIRECTORY}/root)
