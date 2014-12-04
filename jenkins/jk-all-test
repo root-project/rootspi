@@ -6,9 +6,9 @@ THIS=$(dirname $0)
 
 if [ "${BUILDTYPE}" == "Debug" ]
 then
-    VERSION=dbg
+    V_TYPE=dbg
 else
-    VERSION=opt
+    V_TYPE=opt
 fi
 
 if [ "${LABEL}" == "slc6" ] 
@@ -32,11 +32,11 @@ then
     export CXX=`which g++`
     export CC=`which gcc`
 
-    cmdout=`ls ${EXTERNALDIR}${EXTERNALS} | grep ${LABEL} | grep ${COMPILER} | grep ${VERSION}`
+    cmdout=`ls ${EXTERNALDIR}${EXTERNALS} | grep ${LABEL} | grep ${COMPILER} | grep ${V_TYPE}`
     if [ $? -eq 0 ];then
-	source ${EXTERNALDIR}${EXTERNALS}/setup.sh -c ${COMPILER} -v ${VERSION}
+	source ${EXTERNALDIR}${EXTERNALS}/setup.sh -c ${COMPILER} -v ${V_TYPE}
     else
-	eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v ${VERSION} -t ${EXTERNALS})
+	eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v ${V_TYPE} -t ${EXTERNALS})
     fi
     export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
 
@@ -54,31 +54,31 @@ then
     . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
     export CC=`which clang`
     export CXX=`which clang++`
-    cmdout=`ls ${EXTERNALDIR}${EXTERNALS} | grep ${LABEL} | grep ${COMPILER} | grep ${VERSION}`
+    cmdout=`ls ${EXTERNALDIR}${EXTERNALS} | grep ${LABEL} | grep ${COMPILER} | grep ${V_TYPE}`
     if [ $? -eq 0 ];then
-	source ${EXTERNALDIR}${EXTERNALS}/setup.sh -c ${COMPILER} -v ${VERSION}
+	source ${EXTERNALDIR}${EXTERNALS}/setup.sh -c ${COMPILER} -v ${V_TYPE}
     else
-	eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${!GCCversion} -v ${VERSION} -t ${EXTERNALS})
+	eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${!GCCversion} -v ${V_TYPE} -t ${EXTERNALS})
     fi
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 
 elif [[ $COMPILER == *native* ]]
 then
-    cmdout=`ls ${EXTERNALDIR}${EXTERNALS} | grep ${LABEL} | grep ${COMPILER} | grep ${VERSION}`
+    cmdout=`ls ${EXTERNALDIR}${EXTERNALS} | grep ${LABEL} | grep ${COMPILER} | grep ${V_TYPE}`
     if [ $? -eq 0 ];then
-	source ${EXTERNALDIR}${EXTERNALS}/setup.sh -c ${COMPILER} -v ${VERSION}
+	source ${EXTERNALDIR}${EXTERNALS}/setup.sh -c ${COMPILER} -v ${V_TYPE}
     else
-	eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v ${VERSION} -t ${EXTERNALS})
+	eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v ${V_TYPE} -t ${EXTERNALS})
     fi
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
 
 elif [[ $COMPILER == *classic* ]]
 then
-    cmdout=`ls ${EXTERNALDIR}${EXTERNALS} | grep ${LABEL} | grep ${COMPILER} | grep ${VERSION}`
+    cmdout=`ls ${EXTERNALDIR}${EXTERNALS} | grep ${LABEL} | grep ${COMPILER} | grep ${V_TYPE}`
     if [ $? -eq 0 ];then
-	source ${EXTERNALDIR}${EXTERNALS}/setup.sh -c ${COMPILER} -v ${VERSION}
+	source ${EXTERNALDIR}${EXTERNALS}/setup.sh -c ${COMPILER} -v ${V_TYPE}
     else
-	eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v ${VERSION} -t ${EXTERNALS})
+	eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v ${V_TYPE} -t ${EXTERNALS})
     fi
 elif [[ $COMPILER == *icc* ]]
 then
