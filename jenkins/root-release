@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+ THIS=$(dirname $0)
+
+ ARCH=$(uname -m)
+
+ if [[ ${LABEL} == *slc* ]] ; then
+
+    if [ "${LABEL}" == "slc6" ] ; then
+       export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+    fi
+
+    Python_gcc_version=$COMPILER
+    if [[ $COMPILER == *gcc* ]] ; then
+       gcc47version=4.7
+       gcc48version=4.8
+       gcc49version=4.9
+       COMPILERversion=${COMPILER}version
+
+       . /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
+       export FC=gfortran
+       export CXX=`which g++`
+       export CC=`which gcc`
+
+       v=${!COMPILERversion}
+       v=${v//./}       # Substitute "" for "." (remove all '.')
+       v=${v//-rc*/}    # Substitute "" for "-rc*" (remove all '-rc[1,2,..]')
+       v=${v//[a-z]/}   # Substitute "" for "a-z" (remove all patch letters).
+       if [ $v -ge 48 ] ; then
+           if [[ $ExtraCMakeOptions != *"-Dcxx11=ON"* ]] ; then
+             export ExtraCMakeOptions="-Dcxx11=ON ${ExtraCMakeOptions}"
+          fi
+       fi
+       if [ $v -ge 49 ] ; then
+          Python_gcc_version="gcc48"
+       fi
+    elif [[ $COMPILER == *clang* ]] ; then
+       clang34version=3.4
+       clang35version=3.5
+       clang36version=3.6
+       COMPILERversion=${COMPILER}version
+       clang34gcc=48
+       clang35gcc=49
+       GCCversion=${COMPILER}gcc
+
+       . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
+       export CC=`which clang`
+       export CXX=`which clang++`
+       export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
+    fi
+    export PYTHONDIR=/afs/cern.ch/sw/lcg/external/Python/2.7.3/${ARCH}-${LABEL}-${Python_gcc_version}-opt
+    export PATH=${PYTHONDIR}/bin:${PATH}
+    export LD_LIBRARY_PATH="${PYTHONDIR}/lib:${LD_LIBRARY_PATH}"
+    export PYTHONPATH="${PYTHONDIR}/lib:${PYTHONPATH}"
+    export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=${PYTHONDIR}/bin/python ${ExtraCMakeOptions}"
+ elif [[ ${LABEL} == *mac* ]] ; then
+    export CC=`which clang`
+    export CXX=`which clang++`
+    export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=/usr/bin/python -Dcxx11=ON -Dlibcxx=ON -DOPENSSL_ROOT_DIR=/usr ${ExtraCMakeOptions}"
+ fi
+
+ if [[ ${SOURCE_PREFIX} == "" ]] ; then
+    export ROOT_SOURCE_PREFIX=${PWD}/sources
+ else
+    export ROOT_SOURCE_PREFIX=${SOURCE_PREFIX}
+ fi
+
+ if [[ ${BUILD_PREFIX} == "" ]] ; then
+    export ROOT_BUILD_PREFIX=${PWD}
+ else
+    export ROOT_BUILD_PREFIX=${BUILD_PREFIX}
+ fi
+
+ # ---- Version Specific Options ----
+ r=$VERSION
+ r=${r//./}       # Substitute "" for "." (remove all '.')
+ r=${r//-rc*/}    # Substitute "" for "-rc*" (remove all '-rc[1,2,..]')
+ r=${r//[a-z]/}   # Substitute "" for "a-z" (remove all patch letters).
+
+ if [ $r -ge 60200 ] ; then
+    export SOURCE_DIR=${ROOT_SOURCE_PREFIX}/root_v${VERSION}/root-${VERSION}
+ else
+    export SOURCE_DIR=${ROOT_SOURCE_PREFIX}/root_v${VERSION}/root
+ fi
+
+ export BUILD_DIR=${ROOT_BUILD_PREFIX}/build/${ARCH}-${LABEL}-${COMPILER}/root_v${VERSION}-cmake
+ export INSTALL_DIR=${ROOT_BUILD_PREFIX}/install/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}
+ export BUILD_TYPE=Release
+
+ export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+ -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
+ -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
+ -Dbuiltin_zlib=OFF -Dkrb5=ON \
+ ${ExtraCMakeOptions} ${SOURCE_DIR} "
+
+ echo "Dumping some variables ---------------------------------------------------------------"
+ echo "User name: " `whoami`
+ echo "Machine name: " `uname -n`
+ echo "Architecture: " `uname -m`
+ echo "Compiler/version: " `${CXX} --version`
+ echo "Python: " `which python`
+ python --version
+ echo "CMake options: " "${CMakeOptions}"
+ echo "--------------------------------------------------------------------------------------"
+
+ if [ ! -d "${ROOT_SOURCE_PREFIX}/root_v${VERSION}"  ]; then
+   mkdir -p ${ROOT_SOURCE_PREFIX}/root_v${VERSION}
+   cd ${ROOT_SOURCE_PREFIX}/root_v${VERSION}
+   tar -zxvf /afs/cern.ch/sw/lcg/external/tarFiles/root_v${VERSION}.source.tar.gz
+ fi
+
+ mkdir -p ${BUILD_DIR}
+ cd ${BUILD_DIR}
+
+ cmake ${CMakeOptions}
+
+ # now lets start the build (e.g. cmake --build . --config Release)
+ #cmake --build . --config ${BUILD_TYPE}
+ # or:
+ make -j4
+ 
+ if [ -f bin/root.exe ]; then
+   # create the binary tar file
+   cpack
+   #cp root_v${VERSION}.*.tar.gz /afs/cern.ch/user/b/bellenot/scratch0/root_v${VERSION}.Linux-slc6_amd64-gcc4.8.tar.gz
+ fi
+
+# cd ${BUILD_DIR}
+# /afs/cern.ch/user/b/bellenot/scripts/cmake/sendmail.sh "${VERSION}" "${BUILD_DIR}" "${ARCH}-${LABEL}-${COMPILER}"
+# cd ..
+
