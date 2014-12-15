@@ -20,7 +20,7 @@ fi
 if [ "${LABEL}" == "slc6" ] 
 then
     export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
-    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/2.8.9/Linux-i386/bin:${PATH}
 else
     export EXTERNALDIR=$HOME/ROOT-externals/
 fi
