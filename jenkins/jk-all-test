@@ -12,6 +12,11 @@ THIS=$(dirname $0)
 #fi
 V_TYPE=opt
 
+if if [ "${LABEL}" == "slc7" ]
+then
+    LABEL=slc6
+fi
+
 if [ "${LABEL}" == "slc6" ] 
 then
     export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
