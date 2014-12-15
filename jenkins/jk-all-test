@@ -12,7 +12,7 @@ THIS=$(dirname $0)
 #fi
 V_TYPE=opt
 
-if if [ "${LABEL}" == "slc7" ]
+if [ "${LABEL}" == "slc7" ]
 then
     LABEL=slc6
 fi
