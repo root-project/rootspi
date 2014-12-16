@@ -15,7 +15,7 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
 
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
-                SOURCE  ${CTEST_BINARY_DIRECTORY}/../roottest
+                SOURCE  ${ROOTSYS}/tutorials
                 OPTIONS -DCMAKE_MODULE_PATH=$ENV{ROOTSYS}/etc/cmake)
 
 ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
