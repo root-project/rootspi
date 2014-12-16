@@ -12,6 +12,8 @@ THIS=$(dirname $0)
 #fi
 V_TYPE=opt
 
+set LABEL_ORG=${LABEL}
+
 if [ "${LABEL}" == "slc7" ]
 then
     LABEL=slc6
@@ -19,8 +21,12 @@ fi
 
 if [ "${LABEL}" == "slc6" ] 
 then
+    
     export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
-    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/2.8.9/Linux-i386/bin:${PATH}
+    if [ "${LABEL_ORG}" == "slc6" ]
+    then
+	export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/2.8.9/Linux-i386/bin:${PATH}
+    fi
 else
     export EXTERNALDIR=$HOME/ROOT-externals/
 fi
