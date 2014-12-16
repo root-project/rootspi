@@ -12,24 +12,24 @@ set(CTEST_NOTES_FILES ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
 
 #---Set the environment---------------------------------------------------
 #set(ENV{ROOTSYS} ${CTEST_BINARY_DIRECTORY})
-set(ENV{PATH} ${CTEST_BINARY_DIRECTORY}/bin:$ENV{PATH})
-if(APPLE)
-  set(ENV{DYLD_LIBRARY_PATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{DYLD_LIBRARY_PATH})
-elseif(UNIX)
-  set(ENV{LD_LIBRARY_PATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{LD_LIBRARY_PATH})
-endif()
-set(ENV{PYTHONPATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{PAYTHONPATH})
+#set(ENV{PATH} ${CTEST_BINARY_DIRECTORY}/bin:$ENV{PATH})
+#if(APPLE)
+#  set(ENV{DYLD_LIBRARY_PATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{DYLD_LIBRARY_PATH})
+#elseif(UNIX)
+#  set(ENV{LD_LIBRARY_PATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{LD_LIBRARY_PATH})
+#endif()
+#set(ENV{PYTHONPATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{PAYTHONPATH})
 
 #---Confgure and run the tests--------------------------------------------
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
 
-message(STATUS "hhhhhhhhhhhhhhh: ${CTEST_BINARY_DIRECTORY}")
+message("hhhhhhhhhhhhhhh: ${CTEST_BINARY_DIRECTORY}")
 
-ctest_configure(BUILD   ./roottest
-#                SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials
-		 SOURCE  ${CTEST_BINARY_DIRECTORY}/tutorials
-                OPTIONS -DCMAKE_MODULE_PATH=${CTEST_BINARY_DIRECTORY}/etc/cmake)
+ctest_configure(BUILD    ${CTEST_BINARY_DIRECTORY}/runtests
+                SOURCE   ${CTEST_BINARY_DIRECTORY}/../roottest
+#		 SOURCE  ${CTEST_BINARY_DIRECTORY}/tutorials
+                OPTIONS -DCMAKE_MODULE_PATH=$ENV{ROOTSYS}/etc/cmake)
 
 ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
            PARALLEL_LEVEL ${ncpu})
