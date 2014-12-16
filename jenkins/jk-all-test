@@ -53,6 +53,9 @@ then
 #    export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
     export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -DX11=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
 
+    echo "These are my extra options: ${ExtraCMakeOptions}"
+
+
 elif [[ $COMPILER == *clang* ]]
 then
     clang34version=3.4
