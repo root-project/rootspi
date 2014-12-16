@@ -44,10 +44,8 @@ then
     else 
         (git clone http://roottest.cern.ch && cd roottest && git checkout ${VERSION})
     fi
-#    cd ..
 
-    echo `pwd`
-    cmake roottest
+#    cmake roottest
 #    ctest -j2
      
 fi    
@@ -57,10 +55,7 @@ env | sort | sed 's/:/:?     /g' | tr '?' '\n'
 echo "--------------------------------------------------------------------------------------"
 
 #---Run the CTest script depending on the compiler------------------------------------------
-
-#    ctest -VV -S ${THIS}/root-build.cmake
-
-    ctest -V -S ${THIS}/root-test-slc7.cmake
+ctest -V -S ${THIS}/root-test-slc7_2.cmake
 
 
 exit 0
