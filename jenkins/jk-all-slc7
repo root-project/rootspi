@@ -44,7 +44,7 @@ then
     else 
         (git clone http://roottest.cern.ch && cd roottest && git checkout ${VERSION})
     fi
-    cd ..
+#    cd ..
 
     echo `pwd`
     cmake roottest
