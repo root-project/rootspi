@@ -48,7 +48,7 @@ then
 
     echo `pwd`
     cmake roottest
-#    ctest -j2
+    ctest -j2
      
 fi    
 
@@ -61,7 +61,7 @@ if [[ $COMPILER == *classic* ]]
 then
     ctest -VV -S ${THIS}/root-classic.cmake
     build_rc=$?
-    ctest -V -S ${THIS}/root-test-classic.cmake
+x    ctest -V -S ${THIS}/root-test-classic.cmake
 else
     ctest -VV -S ${THIS}/root-build.cmake
     build_rc=$?
