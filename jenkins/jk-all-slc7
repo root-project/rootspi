@@ -8,6 +8,10 @@ V_TYPE=opt
 
 export LABEL_ORG=${LABEL}
 
+DAY=$(date --date="yesterday"|awk '{print $1}')
+
+echo "**************************** ${DAY}"
+
 if [ "${LABEL_ORG}" == "slc7" ]
 then
     LABEL=slc6
@@ -34,8 +38,8 @@ then
 
     ARCH=$(uname -m)
 
-    . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/Tue/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
-    . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/Tue/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}/bin/thisroot.sh
+    . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
+    . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}/bin/thisroot.sh
 
     export LD_LIBRARY_PATH=`ls /afs/cern.ch/sw/lcg/app/nightlies/dev4/Tue/*/*/x86_64-slc6-gcc48-opt/lib|grep ":"|tr ":" " "|tr "\\n" ":"`:$LD_LIBRARY_PATH
 
