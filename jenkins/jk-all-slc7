@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+THIS=$(dirname $0)
+
+V_TYPE=opt
+
+export LABEL_ORG=${LABEL}
+
+if [ "${LABEL_ORG}" == "slc7" ]
+then
+    LABEL=slc6
+fi
+
+if [ "${LABEL}" == "slc6" ] 
+then
+    
+    export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
+    if [ "${LABEL_ORG}" == "slc6" ]
+    then
+	export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/2.8.9/Linux-i386/bin:${PATH}
+    fi
+else
+    export EXTERNALDIR=$HOME/ROOT-externals/
+fi
+
+if [[ $COMPILER == *gcc* ]]
+then
+    gcc47version=4.7
+    gcc48version=4.8
+    gcc49version=4.9
+    COMPILERversion=${COMPILER}version
+
+    ARCH=$(uname -m)
+
+    . /afs/cern.ch/sw/lcg/app/nightlies/dev4/Tue/gcc/4.8/x86_64-slc6/setup.sh
+    . /afs/cern.ch/sw/lcg/app/nightlies/dev4/Tue/ROOT/v6-02-00-patches/x86_64-slc6-gcc48-opt/bin/thisroot.sh
+    git clone http://root.cern.ch/git/roottest
+
+    cmake ${THIS}/roottest
+    ${THIS}/ctest -j2
+     
+fi    
+
+echo "Dumping the full environment ---------------------------------------------------------"
+env | sort | sed 's/:/:?     /g' | tr '?' '\n'
+echo "--------------------------------------------------------------------------------------"
+
+#---Run the CTest script depending on the compiler------------------------------------------
+#if [[ $COMPILER == *classic* ]]
+#then
+#/3    ctest -VV -S ${THIS}/root-classic.cmake
+#    build_rc=$?
+#    ctest -V -S ${THIS}/root-test-classic.cmake
+#else
+#    ctest -VV -S ${THIS}/root-build.cmake
+#    build_rc=$?
+#    ctest -V -S ${THIS}/root-test.cmake
+#fi
+
+#exit $build_rc
+
+
