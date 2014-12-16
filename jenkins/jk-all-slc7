@@ -34,10 +34,19 @@ then
 
     ARCH=$(uname -m)
 
-    . /afs/cern.ch/sw/lcg/app/nightlies/dev4/Tue/gcc/4.8/x86_64-slc6/setup.sh
-    . /afs/cern.ch/sw/lcg/app/nightlies/dev4/Tue/ROOT/v6-02-00-patches/x86_64-slc6-gcc48-opt/bin/thisroot.sh
+    . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/Tue/gcc/${COMPILER}/${ARCH}-${LABEL}/setup.sh
+    . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/Tue/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}/bin/thisroot.sh
     git clone http://root.cern.ch/git/roottest
 
+    if [ -d roottest ]; 
+    then 
+        (cd roottest && git pull); 
+    else 
+        (git clone http://roottest.cern.ch && cd roottest && git checkout ${VERSION})
+    fi
+    cd ..
+
+    echo `pwd`
     cmake roottest
     ctest -j2
      
@@ -48,17 +57,17 @@ env | sort | sed 's/:/:?     /g' | tr '?' '\n'
 echo "--------------------------------------------------------------------------------------"
 
 #---Run the CTest script depending on the compiler------------------------------------------
-#if [[ $COMPILER == *classic* ]]
-#then
-#/3    ctest -VV -S ${THIS}/root-classic.cmake
-#    build_rc=$?
-#    ctest -V -S ${THIS}/root-test-classic.cmake
-#else
-#    ctest -VV -S ${THIS}/root-build.cmake
-#    build_rc=$?
-#    ctest -V -S ${THIS}/root-test.cmake
-#fi
+if [[ $COMPILER == *classic* ]]
+then
+    ctest -VV -S ${THIS}/root-classic.cmake
+    build_rc=$?
+    ctest -V -S ${THIS}/root-test-classic.cmake
+else
+    ctest -VV -S ${THIS}/root-build.cmake
+    build_rc=$?
+    ctest -V -S ${THIS}/root-test.cmake
+fi
 
-#exit $build_rc
+exit $build_rc
 
 
