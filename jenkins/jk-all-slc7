@@ -37,6 +37,8 @@ then
     . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/Tue/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
     . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/Tue/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}/bin/thisroot.sh
 
+    export LD_LIBRARY_PATH=`ls /afs/cern.ch/sw/lcg/app/nightlies/dev4/Tue/*/*/x86_64-slc6-gcc48-opt/lib|grep ":"|tr ":" " "|tr "\\n" ":"`:$LD_LIBRARY_PATH
+
 
     if [ -d roottest ]; 
     then 
@@ -55,7 +57,7 @@ env | sort | sed 's/:/:?     /g' | tr '?' '\n'
 echo "--------------------------------------------------------------------------------------"
 
 #---Run the CTest script depending on the compiler------------------------------------------
-ctest -VV -S ${THIS}/root-test-slc7_2.cmake
+ctest -V -S ${THIS}/root-test-slc7_2.cmake
 
 
 exit 0
