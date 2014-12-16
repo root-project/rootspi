@@ -14,7 +14,7 @@ V_TYPE=opt
 
 export LABEL_ORG=${LABEL}
 
-if [ "${LABEL}" == "slc7" ]
+if [ "${LABEL_ORG}" == "slc7" ]
 then
     LABEL=slc6
 fi
