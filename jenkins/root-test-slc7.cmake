@@ -11,7 +11,7 @@ WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
 set(CTEST_NOTES_FILES ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
 
 #---Set the environment---------------------------------------------------
-set(ENV{ROOTSYS} ${CTEST_BINARY_DIRECTORY})
+#set(ENV{ROOTSYS} ${CTEST_BINARY_DIRECTORY})
 set(ENV{PATH} ${CTEST_BINARY_DIRECTORY}/bin:$ENV{PATH})
 if(APPLE)
   set(ENV{DYLD_LIBRARY_PATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{DYLD_LIBRARY_PATH})
@@ -26,7 +26,7 @@ file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
 
 message(STATUS "hhhhhhhhhhhhhhh: ${CTEST_BINARY_DIRECTORY}")
 
-ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
+ctest_configure(BUILD   ./roottest
 #                SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials
 		 SOURCE  ${CTEST_BINARY_DIRECTORY}/tutorials
                 OPTIONS -DCMAKE_MODULE_PATH=${CTEST_BINARY_DIRECTORY}/etc/cmake)
