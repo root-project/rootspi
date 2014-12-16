@@ -36,7 +36,7 @@ then
 
     . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/Tue/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
     . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/Tue/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}/bin/thisroot.sh
-    git clone http://root.cern.ch/git/roottest
+
 
     if [ -d roottest ]; 
     then 
