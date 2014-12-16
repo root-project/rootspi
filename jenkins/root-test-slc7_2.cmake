@@ -18,7 +18,7 @@ ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
                 SOURCE  $ENV{ROOTSYS}/tutorials
                 OPTIONS -DCMAKE_MODULE_PATH=$ENV{ROOTSYS}/etc/cmake)
 
-ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
+ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/../roottest
            PARALLEL_LEVEL ${ncpu})
 
 ctest_submit(PARTS Test Notes)
