@@ -19,10 +19,11 @@ fi
 
 if [ "${LABEL}" == "slc6" ] 
 then
-    
     export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
     if [ "${LABEL_ORG}" == "slc6" ]
     then
+
+# We need Cmake for 64b machines in order to work in CentOs7 (SPI-741 bug)
 	export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/2.8.9/Linux-i386/bin:${PATH}
     fi
 else
@@ -41,8 +42,7 @@ then
     . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
     . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}/bin/thisroot.sh
 
-    export LD_LIBRARY_PATH=`ls /afs/cern.ch/sw/lcg/app/nightlies/dev4/Tue/*/*/x86_64-slc6-gcc48-opt/lib|grep ":"|tr ":" " "|tr "\\n" ":"`:$LD_LIBRARY_PATH
-
+    export LD_LIBRARY_PATH=`ls /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/*/*/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}/lib|grep ":"|tr ":" " "|tr "\\n" ":"`:$LD_LIBRARY_PATH
 
     if [ -d roottest ]; 
     then 
@@ -50,10 +50,6 @@ then
     else 
         (git clone http://roottest.cern.ch && cd roottest && git checkout ${VERSION})
     fi
-
-#    cmake roottest
-#    ctest -j2
-     
 fi    
 
 echo "Dumping the full environment ---------------------------------------------------------"
@@ -62,6 +58,7 @@ echo "--------------------------------------------------------------------------
 
 #---Run the CTest script depending on the compiler------------------------------------------
 ctest -V -S ${THIS}/root-test-slc7_2.cmake
+
 
 
 exit 0

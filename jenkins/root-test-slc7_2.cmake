@@ -2,6 +2,12 @@
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}-slc7)
 
+if(EXISTS "${CTEST_BINARY_DIRECTORY}/runtests")
+  file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/runtests)
+endif()
+
+
+
 #---CTest commands----------------------------------------------------------
 ctest_start(${CTEST_MODE})
 
@@ -9,6 +15,8 @@ ctest_start(${CTEST_MODE})
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
 set(CTEST_NOTES_FILES ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
+
+
 
 #---Confgure and run the tests--------------------------------------------
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
