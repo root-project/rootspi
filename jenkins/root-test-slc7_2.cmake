@@ -15,10 +15,10 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
 
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
-                SOURCE  $ENV{ROOTSYS}/tutorials
+                SOURCE  ${CTEST_BINARY_DIRECTORY}/../roottest
                 OPTIONS -DCMAKE_MODULE_PATH=$ENV{ROOTSYS}/etc/cmake)
 
-ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/../roottest
+ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
            PARALLEL_LEVEL ${ncpu})
 
 ctest_submit(PARTS Test Notes)
