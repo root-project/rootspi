@@ -38,8 +38,8 @@ then
     . /afs/cern.ch/sw/lcg/app/nightlies/dev4/Tue/ROOT/v6-02-00-patches/x86_64-slc6-gcc48-opt/bin/thisroot.sh
     git clone http://root.cern.ch/git/roottest
 
-    cmake ${THIS}/roottest
-    ${THIS}/ctest -j2
+    cmake roottest
+    ctest -j2
      
 fi    
 
