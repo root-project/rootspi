@@ -65,7 +65,7 @@ then
 else
 #    ctest -VV -S ${THIS}/root-build.cmake
     build_rc=$?
-    ctest -V -S ${THIS}/root-test-classic.cmake
+    ctest -V -S ${THIS}/root-test-classic.cmake roottest
 fi
 
 exit 0
