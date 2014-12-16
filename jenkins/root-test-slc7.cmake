@@ -24,6 +24,8 @@ set(ENV{PYTHONPATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{PAYTHONPATH})
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
 
+message(STATUS "hhhhhhhhhhhhhhh: ${CTEST_BINARY_DIRECTORY}")
+
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
 #                SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials
 		 SOURCE  ${CTEST_BINARY_DIRECTORY}/tutorials
