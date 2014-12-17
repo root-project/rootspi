@@ -1,11 +1,11 @@
 #---Common Setting----------------------------------------------------------
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}-slc7)
-set(RTESTSDIR ${CTEST_BINARY_DIRECTORY}/runtests)
+set(RUN_TESTS_DIR ${CTEST_BINARY_DIRECTORY}/runtests)
 
 #---Clean the directory whe test------------------------------------------------
 if(EXISTS "${RUN_TESTS_DIR}")
-  file(REMOVE_RECURSE ${RUN_TESTS_DIR})
+  file(REMOVE_RECURSE ${RUN_TESTS_DIR}) 
 endif()
 
 #---CTest commands----------------------------------------------------------
