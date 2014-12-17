@@ -14,6 +14,7 @@ GET_CONFIGURATION_TAG(tag)
 #---------------------------------------------------------------------------
 set(TypeRelease -opt)
 set(TypeDebug   -dbg)
+set(TypeOptimized -fst)
 set(TypeRelWithDebInfo)
 set(TypeMinSizeRel -min)
 set(TypeCoverage -cov)
