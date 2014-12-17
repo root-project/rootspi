@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# This script prepares the environment to run ROOT tests using the devX
+# nightlies of the day before built for slc6 on a cc7 node.
+
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 THIS=$(dirname $0)
@@ -32,19 +35,19 @@ fi
 
 if [[ $COMPILER == *gcc* ]]
 then
-    gcc47version=4.7
     gcc48version=4.8
     gcc49version=4.9
     COMPILERversion=${COMPILER}version
 
     ARCH=$(uname -m)
 
-    . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
-    . /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}/bin/thisroot.sh
+    # Here we setup ROOT and its environment (qt, gfal, gsl, davix ...)
+    baseROOTDir=/afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}
 
-    export LD_LIBRARY_PATH=`ls /afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/*/*/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}/lib|grep ":"|tr ":" " "|tr "\\n" ":"`:$LD_LIBRARY_PATH
+    . ${baseROOTDir}/ROOT-env.sh
+    . ${baseROOTDir}/bin/thisroot.sh
 
-    if [ -d roottest ]; 
+    if [ -d roottest ];
     then 
         (cd roottest && git pull); 
     else 
