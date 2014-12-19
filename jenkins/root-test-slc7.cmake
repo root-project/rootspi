@@ -39,7 +39,6 @@ ctest_configure(BUILD ${RUN_TESTS_DIR}
 
 ctest_test(BUILD ${RUN_TESTS_DIR}
            APPEND
-           INCLUDE tutorial-pyroot-test
            PARALLEL_LEVEL ${ncpu})
 
 ctest_submit(PARTS Configure Test Notes)
@@ -52,7 +51,6 @@ ctest_configure(BUILD   ${RUN_TESTS_DIR_ROOTTEST}
 
 ctest_test(BUILD ${RUN_TESTS_DIR_ROOTTEST}
            APPEND
-           INCLUDE roottest-cling-dict-typedefs-cmsdict01-libgen-build
            PARALLEL_LEVEL ${ncpu})
 
 ctest_submit(PARTS Configure Test)
