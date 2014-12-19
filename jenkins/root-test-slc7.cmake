@@ -30,10 +30,10 @@ ctest_configure(BUILD ${RUN_TESTS_DIR}
                 SOURCE $ENV{ROOTSYS}/tutorials)
 
 ctest_test(BUILD ${RUN_TESTS_DIR}
-           INCLUDE_LABEL tutorial-pyroot-test
+           INCLUDE tutorial-pyroot-test
            PARALLEL_LEVEL ${ncpu})
 
-ctest_submit(PARTS Test Notes)
+ctest_submit(PARTS Configure Test Notes)
 
 # Run roottest also and upload to cdash: EXPERIMENTAL!
 # Will cdash accept 2 results uploads and sum them up?
@@ -47,10 +47,11 @@ ctest_configure(BUILD   ${RUN_TESTS_DIR}-roottest
                 SOURCE  ${CTEST_BINARY_DIRECTORY}/../roottest)
 
 ctest_test(BUILD ${RUN_TESTS_DIR}
-           INCLUDE_LABEL roottest-cling-dict-typedefs-cmsdict01-libgen-build
+           INCLUDE roottest-cling-dict-typedefs-cmsdict01-libgen-build
+           APPEND
            PARALLEL_LEVEL ${ncpu})
 
-ctest_submit(PARTS Test Notes)
+ctest_submit(PARTS Configure Test)
 
 
 
