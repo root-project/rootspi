@@ -6,9 +6,7 @@ set(TESTS_RESULTS_DIR ${CTEST_BINARY_DIRECTORY}/../build/Testing)
 
 #---Clean the directory where the tests results are-----------------------------
 if(EXISTS "${TESTS_RESULTS_DIR}")
-endif()
-
-   file(REMOVE_RECURSE ${RUN_TESTS_DIR})
+   file(REMOVE_RECURSE ${TESTS_RESULTS_DIR})
 endif()
 
 #---Clean the directory whe test------------------------------------------------
