@@ -37,9 +37,11 @@ endif()
 
 file(MAKE_DIRECTORY ${RUN_TESTS_DIR})
 ctest_configure(BUILD   ${RUN_TESTS_DIR}
-                SOURCE  ${CTEST_BINARY_DIRECTORY}/../roottest)
+                SOURCE  ${CTEST_BINARY_DIRECTORY}/../roottest
+                APPEND)
 
 ctest_test(BUILD ${RUN_TESTS_DIR}
+           INCLUDE_LABEL roottest-cling-bytecode-runcomplex
            PARALLEL_LEVEL ${ncpu})
 
 ctest_submit(PARTS Test Notes)
