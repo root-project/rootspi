@@ -24,7 +24,7 @@ ctest_configure(BUILD ${RUN_TESTS_DIR}
                 SOURCE $ENV{ROOTSYS}/tutorials)
 
 ctest_test(BUILD ${RUN_TESTS_DIR}
-#            INCLUDE_LABEL tutorial-fit-ErrorIntegral
+           INCLUDE_LABEL tutorial-fit-ErrorIntegral
            PARALLEL_LEVEL ${ncpu})
 
 # ctest_submit(PARTS Test Notes)
@@ -40,7 +40,7 @@ ctest_configure(BUILD   ${RUN_TESTS_DIR}-roottest
                 SOURCE  ${CTEST_BINARY_DIRECTORY}/../roottest)
 
 ctest_test(BUILD ${RUN_TESTS_DIR}
-#            INCLUDE_LABEL roottest-cling-bytecode-runcomplex
+           INCLUDE_LABEL roottest-cling-bytecode-runcomplex
            PARALLEL_LEVEL ${ncpu})
 
 ctest_submit(PARTS Test Notes)
