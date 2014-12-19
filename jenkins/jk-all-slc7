@@ -69,7 +69,7 @@ env | sort | sed 's/:/:?     /g' | tr '?' '\n'
 echo "--------------------------------------------------------------------------------------"
 
 #---Run the CTest script depending on the compiler------------------------------------------
-ctest -V -S ${THIS}/root-test-slc7_2.cmake
+ctest -V -S ${THIS}/root-test-slc7.cmake
 
 exit 0
 
