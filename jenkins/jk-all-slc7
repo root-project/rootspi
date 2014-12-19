@@ -11,7 +11,10 @@ V_TYPE=opt
 
 export LABEL_ORG=${LABEL}
 
-DAY=$(date --date="yesterday"|awk '{print $1}')
+if [ "${DAY}" == "yesterday" ]
+then
+    DAY=$(date --date="yesterday"|awk '{print $1}')
+fi
 
 echo "**************************** ${DAY}"
 
@@ -61,8 +64,6 @@ echo "--------------------------------------------------------------------------
 
 #---Run the CTest script depending on the compiler------------------------------------------
 ctest -V -S ${THIS}/root-test-slc7_2.cmake
-
-
 
 exit 0
 
