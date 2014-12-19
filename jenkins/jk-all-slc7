@@ -16,6 +16,12 @@ then
     DAY=$(date --date="yesterday"|awk '{print $1}')
 fi
 
+if [ "${DAY}" == "today" ]
+then
+    DAY=$(date |awk '{print $1}')
+fi
+
+
 echo "**************************** ${DAY}"
 
 if [ "${LABEL_ORG}" == "slc7" ]
