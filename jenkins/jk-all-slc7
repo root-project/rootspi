@@ -22,7 +22,7 @@ then
 fi
 
 
-echo "**************************** ${DAY}"
+echo "*** Picking up ROOT ${VERSION} from slot ${lcg_target} of ${DAY}"
 
 if [ "${LABEL_ORG}" == "slc7" ]
 then
