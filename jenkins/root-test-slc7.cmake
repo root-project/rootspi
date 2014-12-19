@@ -2,10 +2,18 @@
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}-slc7)
 set(RUN_TESTS_DIR ${CTEST_BINARY_DIRECTORY}/runtests)
+set(TESTS_RESULTS_DIR build/Testing/)
+
+#---Clean the directory where the tests results are-----------------------------
+if(EXISTS "${TESTS_RESULTS_DIR}")
+endif()
+
+   file(REMOVE_RECURSE ${RUN_TESTS_DIR})
+endif()
 
 #---Clean the directory whe test------------------------------------------------
 if(EXISTS "${RUN_TESTS_DIR}")
-  file(REMOVE_RECURSE ${RUN_TESTS_DIR}) 
+  file(REMOVE_RECURSE ${RUN_TESTS_DIR})
 endif()
 
 #---CTest commands----------------------------------------------------------
@@ -24,7 +32,7 @@ ctest_configure(BUILD ${RUN_TESTS_DIR}
                 SOURCE $ENV{ROOTSYS}/tutorials)
 
 ctest_test(BUILD ${RUN_TESTS_DIR}
-           INCLUDE_LABEL tutorial-fit-ErrorIntegral
+           INCLUDE_LABEL fit
            PARALLEL_LEVEL ${ncpu})
 
 # ctest_submit(PARTS Test Notes)
@@ -40,7 +48,7 @@ ctest_configure(BUILD   ${RUN_TESTS_DIR}-roottest
                 SOURCE  ${CTEST_BINARY_DIRECTORY}/../roottest)
 
 ctest_test(BUILD ${RUN_TESTS_DIR}
-           INCLUDE_LABEL roottest-cling-bytecode-runcomplex
+           INCLUDE_LABEL enum
            PARALLEL_LEVEL ${ncpu})
 
 ctest_submit(PARTS Test Notes)
