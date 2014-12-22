@@ -7,7 +7,7 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 THIS=$(dirname $0)
 
-V_TYPE=opt
+#V_TYPE=opt
 
 export LABEL_ORG=${LABEL}
 
@@ -22,7 +22,7 @@ then
 fi
 
 
-echo "*** Picking up ROOT ${VERSION} from slot ${lcg_target} of ${DAY}"
+echo "*** Picking up ROOT ${VERSION} from slot ${lcg_target} of ${DAY} of type ${V_TYPE}"
 
 if [ "${LABEL_ORG}" == "slc7" ]
 then
