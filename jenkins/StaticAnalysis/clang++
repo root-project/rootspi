@@ -15,7 +15,6 @@
 #   https://indico.cern.ch/event/267747/contribution/2/1/material/slides/0.pdf
 #   Example: SA_PLUGIN="/path/to/my/libSas.so"
 
-echo "This is the clang++ wrapper"
 if [ ! -z "$SA_CHECKERS" ]; then
   if [[ ! $@ == *"interpreter/llvm"* ]]; then
     if [[ ! $@ == *"shared"* ]]; then
@@ -32,7 +31,7 @@ if [ ! -z "$SA_CHECKERS" ]; then
       if [ ! -z "$SA_PLUGIN" ]; then
       PLUGIN_ARGS=" -Xclang -load -Xclang $SA_PLUGIN"
       fi
-      echo $SA_CLANG_CPP $BASE_XCLANG_ARGS $CHECKERS_ARGS $PLUGIN_ARGS $@ 
+      echo $SA_CLANG_CPP $BASE_XCLANG_ARGS $CHECKERS_ARGS $PLUGIN_ARGS $@
       $SA_CLANG_CPP $BASE_XCLANG_ARGS $CHECKERS_ARGS $PLUGIN_ARGS $@ -o /dev/null
       fi
     fi

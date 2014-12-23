@@ -31,11 +31,11 @@ then
     # options specific to SA
     export PATH=`pwd`/rootspi/jenkins/StaticAnalysis:${PATH}
     echo "Exported new clang path: `pwd`/rootspi/jenkins/StaticAnalysis"
-    echo ls `pwd`/rootspi/jenkins/StaticAnalysis
-    ls `pwd`/rootspi/jenkins/StaticAnalysis
-    echo which clang++
-    echo `which clang++`
+    COMPILER="${COMPILER}"SA
+else
+    echo Error: Cannot perform static analysis with compiler $COMPILER
 fi
+
 
 echo "Dumping the full environment ---------------------------------------------------------"
 env | sort | sed 's/:/:?     /g' | tr '?' '\n'
@@ -46,5 +46,3 @@ ctest -VV -S ${THIS}/root-build.cmake
 build_rc=$?
 
 exit $build_rc
-
-
