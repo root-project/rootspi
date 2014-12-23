@@ -27,7 +27,9 @@ then
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 
     # options specific to SA
-    export PATH=./StaticAnalysis:${PATH}
+    export PATH=`pwd`/StaticAnalysis:${PATH}
+    echo "Exported new clang path: `pwd`/StaticAnalysis"
+    ls
     export SA_CLANG_CPP=$CXX
 fi
 
