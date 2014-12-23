@@ -38,3 +38,6 @@ if [ ! -z "$SA_CHECKERS" ]; then
     fi
   fi
 fi
+
+$SA_CLANG_CPP  $@
+exit $?
