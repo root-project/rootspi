@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+THIS=$(dirname $0)
+
+echo THIS IS THE DIRECTORY `pwd`
+
+if [ "${LABEL}" == "slc6" ] 
+then
+    export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
+    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.1.0/Linux-x86_64/bin:${PATH}
+fi
+
+if [[ $COMPILER == *clang* ]]
+then
+    clang35version=3.5
+    COMPILERversion=${COMPILER}version
+    clang35gcc=49
+    GCCversion=${COMPILER}gcc
+
+    ARCH=$(uname -m)
+    . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
+    export CC=`which clang`
+    export CXX=`which clang++`
+    eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${!GCCversion} -v opt -t ${EXTERNALS})
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
+
+    # options specific to SA
+    export PATH=./StaticAnalysis:${PATH}
+    export SA_CLANG_CPP=$CXX
+fi
+
+echo "Dumping the full environment ---------------------------------------------------------"
+env | sort | sed 's/:/:?     /g' | tr '?' '\n'
+echo "--------------------------------------------------------------------------------------"
+
+#---Run the CTest script depending on the compiler------------------------------------------
+ctest -VV -S ${THIS}/root-build.cmake
+build_rc=$?
+
+exit $build_rc
+
+

@@ -1,0 +1,38 @@
+#! /bin/bash
+
+# This is a wrapper around clang which allows to run static analysis on ROOT.
+# To reduce the noise, no SA is performed on llvm and clang. Compilation units
+# are analysed one by one w/o studying their correlation: scan-build cannot be
+# used with a complex build procedure like the one of root.
+# In order to steer SA with Jenknins (or whatever CI system) the following variables
+# must be defined:
+# o SA_CHECKERS: list of checkers names separated by a ":", a la PATH.
+#   Example: SA_CHECKERS="core.uninitialized:cplusplus"
+# o SA_CLANG_CPP: path to clang++. This is the compiler to be called to perform
+#   static analysis.
+#   Example: SA_CLANG_CPP=/afs/cern.ch/sw/blaBlaBla/clang35/blaBlaBla/bin/clang++
+# o SA_PLUGIN: plugin library of custom checkers, for example built with SAS.
+#   https://indico.cern.ch/event/267747/contribution/2/1/material/slides/0.pdf
+#   Example: SA_PLUGIN="/path/to/my/libSas.so"
+
+if [ ! -z "$SA_CHECKERS" ]; then
+  if [[ ! $@ == *"interpreter/llvm"* ]]; then
+    if [[ ! $@ == *"shared"* ]]; then
+      if [[ $@ == *" -c "* ]]; then
+      # Here we put together the SA command
+      BASE_XCLANG_ARGS="-Xclang -analyze -Xclang -analyzer-output=text"
+      CHECKERS_ARGS=" "
+      # Accumulate the checkers
+      for checkerName in `echo "$SA_CHECKERS" | tr ":" " "`; do
+         CHECKERS_ARGS+=" -Xclang -analyzer-checker=$checkerName "
+      done
+      # Load the plugin if one has been specified
+      PLUGIN_ARGS=""
+      if [ ! -z "$SA_PLUGIN" ]; then
+      PLUGIN_ARGS=" -Xclang -load -Xclang $SA_PLUGIN"
+      fi
+      $SA_CLANG_CPP $BASE_XCLANG_ARGS $CHECKERS_ARGS $PLUGIN_ARGS $@ -o /dev/null
+      fi
+    fi
+  fi
+fi
