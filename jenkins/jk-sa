@@ -21,6 +21,8 @@ then
 
     ARCH=$(uname -m)
     . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
+    export SA_CLANG_CPP=`which clang++`
+    echo "The clang executable which will be used for the SA is $ $SA_CLANG_CPP"
     export CC=clang 
     export CXX=clang++
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${!GCCversion} -v opt -t ${EXTERNALS})
@@ -31,7 +33,6 @@ then
     echo "Exported new clang path: `pwd`/rootspi/jenkins/StaticAnalysis"
     echo ls `pwd`/rootspi/jenkins/StaticAnalysis
     ls `pwd`/rootspi/jenkins/StaticAnalysis
-    export SA_CLANG_CPP=$CXX
 fi
 
 echo "Dumping the full environment ---------------------------------------------------------"
