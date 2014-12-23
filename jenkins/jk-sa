@@ -21,8 +21,8 @@ then
 
     ARCH=$(uname -m)
     . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
-    export CC=`which clang`
-    export CXX=`which clang++`
+    export CC=clang 
+    export CXX=clang++
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${!GCCversion} -v opt -t ${EXTERNALS})
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 
