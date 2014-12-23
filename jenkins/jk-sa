@@ -33,6 +33,8 @@ then
     echo "Exported new clang path: `pwd`/rootspi/jenkins/StaticAnalysis"
     echo ls `pwd`/rootspi/jenkins/StaticAnalysis
     ls `pwd`/rootspi/jenkins/StaticAnalysis
+    echo which clang++
+    echo `which clang++`
 fi
 
 echo "Dumping the full environment ---------------------------------------------------------"
