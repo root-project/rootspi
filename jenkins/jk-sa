@@ -27,9 +27,10 @@ then
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 
     # options specific to SA
-    export PATH=`pwd`/StaticAnalysis:${PATH}
-    echo "Exported new clang path: `pwd`/StaticAnalysis"
-    ls
+    export PATH=`pwd`/rootspi/jenkins/StaticAnalysis:${PATH}
+    echo "Exported new clang path: `pwd`/rootspi/jenkins/StaticAnalysis"
+    echo ls `pwd`/rootspi/jenkins/StaticAnalysis
+    ls `pwd`/rootspi/jenkins/StaticAnalysis
     export SA_CLANG_CPP=$CXX
 fi
 
