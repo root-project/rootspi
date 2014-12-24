@@ -10,13 +10,6 @@ then
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.1.0/Linux-x86_64/bin:${PATH}
 fi
 
-if [[ $COMPILER == clang35sa ]];then
-    COMPILER = clang35
-fi
-if [[ $COMPILER == clang36sa ]];then
-    COMPILER = clang36  
-fi
-
 if [[ $COMPILER == *clang* ]]
 then
     clang35version=3.5
@@ -36,7 +29,6 @@ then
     # options specific to SA
     export PATH=`pwd`/rootspi/jenkins/StaticAnalysis:${PATH}
     echo "Exported new clang path: `pwd`/rootspi/jenkins/StaticAnalysis"
-    COMPILER="${COMPILER}"SA
 else
     echo Error: Cannot perform static analysis with compiler $COMPILER
 fi
