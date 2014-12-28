@@ -51,10 +51,16 @@ then
     ARCH=$(uname -m)
 
     # Here we setup ROOT and its environment (qt, gfal, gsl, davix ...)
-    baseROOTDir=/afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}
+    baseLCGDir=/afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/
+    platformName=${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}
+    baseROOTDir=${baseLCGDir}/ROOT/${VERSION}/${platformName}
 
     . ${baseROOTDir}/ROOT-env.sh
     . ${baseROOTDir}/bin/thisroot.sh
+
+    # Now add to the include path until the ROOT-env provides the paths
+    # Qt
+    export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${baseLCGDir}/qt/4.8.4/${platformName}/include/Qt:${baseLCGDir}/qt/4.8.4/${platformName}/include
 
     if [ -d roottest ];
     then 
