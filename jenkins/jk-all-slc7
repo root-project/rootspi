@@ -60,7 +60,8 @@ then
 
     # Now add to the include path until the ROOT-env provides the paths
     # Qt
-    export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${baseLCGDir}/qt/4.8.4/${platformName}/include/Qt:${baseLCGDir}/qt/4.8.4/${platformName}/include
+    qtBaseIncDir=${baseLCGDir}/qt/4.8.4/${platformName}/include/
+    export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}/Qt:${qtBaseIncDir}/QtCore:${qtBaseIncDir}/QtGui:${qtBaseIncDir}
 
     if [ -d roottest ];
     then 
