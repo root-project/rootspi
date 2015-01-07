@@ -62,6 +62,10 @@ then
     # Qt
     qtBaseIncDir=${baseLCGDir}/qt/4.8.4/${platformName}/include/
     export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}/Qt:${qtBaseIncDir}/QtCore:${qtBaseIncDir}/QtGui:${qtBaseIncDir}
+    # xrootd
+    xrootdIncDir=${baseLCGDir}/xrootd/3.3.6/${platformName}/include/xrootd/
+    export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}
+
 
     if [ -d roottest ];
     then 
