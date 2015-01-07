@@ -49,9 +49,14 @@ ctest_configure(BUILD   ${RUN_TESTS_DIR_ROOTTEST}
                 APPEND
                 SOURCE  ${CTEST_BINARY_DIRECTORY}/../roottest)
 
+# Exclsion regex:
+# - MakeIndex: THtml has no sources at disposal and fails
+set(EXCLUSIONREGEX html-runMakeIndex)
+
 ctest_test(BUILD ${RUN_TESTS_DIR_ROOTTEST}
            APPEND
-           PARALLEL_LEVEL ${ncpu})
+           PARALLEL_LEVEL ${ncpu}
+           EXCLUDE ${EXCLUSIONREGEX})
 
 ctest_submit(PARTS Configure Test)
 
