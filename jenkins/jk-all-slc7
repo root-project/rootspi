@@ -69,7 +69,7 @@ then
 
     if [ -d roottest ];
     then 
-        (cd roottest && git pull); 
+        (cd roottest && git checkout ${VERSION} && git pull);
     else 
         (git clone http://roottest.cern.ch && cd roottest && git checkout ${VERSION})
     fi
