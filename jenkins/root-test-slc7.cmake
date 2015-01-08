@@ -51,7 +51,9 @@ ctest_configure(BUILD   ${RUN_TESTS_DIR_ROOTTEST}
 
 # Exclsion regex:
 # - MakeIndex: THtml has no sources at disposal and fails
-set(EXCLUSIONREGEX html-runMakeIndex)
+# - tutorial-tree-staff,tutorial-tree-cernstaff,tutorial-hist-hbars: input
+#    rootfile not distributed with the externals
+set(EXCLUSIONREGEX "html-runMakeIndex|tutorial-tree-staff|tutorial-tree-cernstaff|tutorial-hist-hbars")
 
 ctest_test(BUILD ${RUN_TESTS_DIR_ROOTTEST}
            APPEND
