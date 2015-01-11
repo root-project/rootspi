@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 # first arguments is the source directory
 if [ $# -ge 2 ]; then
   LABEL=$1 ; shift
   COMPILER=$1 ; shift
   EXTERNALS=ROOT-test
 else
-  echo "$0: expecting 2 arguments (label, compiler)"
+  echo "$0: expecting 2 arguments [LABEL]  [COMPILER]"
   return
 fi
 
