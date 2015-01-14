@@ -57,7 +57,9 @@ if not exist %SOURCE_DIR% mkdir %SOURCE_DIR%
 cd %SOURCE_DIR%
 set TAR_CMD="%ProgramFiles%\7-Zip\7z.exe"
 set SRC_TAR_FILE="root_v%VERSION%.source.tar.gz"
-powershell -NoProfile -Command "(new-object System.Net.WebClient).DownloadFile('https://root.cern.ch/download/%SRC_TAR_FILE%', '%SRC_TAR_FILE%')"
+if not exist %SRC_TAR_FILE% (
+   powershell -NoProfile -Command "(new-object System.Net.WebClient).DownloadFile('http://root.cern.ch/download/%SRC_TAR_FILE%', '%SRC_TAR_FILE%')"
+)
 if not exist %SOURCE_DIR%\root %TAR_CMD% x %SRC_TAR_FILE% -so | %TAR_CMD% x -aoa -si -ttar
 
 echo Dumping the full environment ---------------------------------------------------------
