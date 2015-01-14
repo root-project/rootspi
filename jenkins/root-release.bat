@@ -16,10 +16,6 @@ rem ---Options-------------------------------------------------------
 set THIS=%~d0%~p0
 set ExtraCMakeOptions=";-Droofit=ON"
 
-echo Dumping the full environment ---------------------------------------------------------
-set
-echo --------------------------------------------------------------------------------------
-
 set DEST=root_v%VERSION%
 
 for /f "tokens=7" %%g in ('nmake 2^>^&1 ^| findstr /i /c:" Version "') do (
@@ -49,10 +45,10 @@ if "%BUILD_PREFIX%" == "" (
 )
 
 set SOURCE_DIR=%ROOT_SOURCE_PREFIX%\root_v%VERSION%
-set BUILD_DIR=%ROOT_BUILD_PREFIX%\build\%ARCH%-%LABEL%-%COMPILER%\root_v%VERSION%-cmake
-set INSTALL_DIR=%ROOT_BUILD_PREFIX%\install\ROOT\%VERSION%\%ARCH%-%LABEL%-%COMPILER%
+set BUILD_DIR=%ROOT_BUILD_PREFIX%\build\Win32-%LABEL%-%COMPILER%\root_v%VERSION%-cmake
+set INSTALL_DIR=%ROOT_BUILD_PREFIX%\install\ROOT\%VERSION%\Win32-%LABEL%-%COMPILER%
 
-rem set HOME_DIR=%CD%
+set HOME_DIR=%CD%
 rem set BUILD_DIR=%HOME_DIR%\build\%DEST%
 rem set SOURCE_DIR=%HOME_DIR%\source\root_v%VERSION%
 rem set INSTALL_DIR=%HOME_DIR%\%DEST%
@@ -60,8 +56,13 @@ rem set INSTALL_DIR=%HOME_DIR%\%DEST%
 if not exist %SOURCE_DIR% mkdir %SOURCE_DIR%
 cd %SOURCE_DIR%
 set TAR_CMD="%ProgramFiles%\7-Zip\7z.exe"
-set SRC_TAR_FILE="\\AFS\cern.ch\sw\lcg\external\tarFiles\root_v%VERSION%.source.tar.gz"
+set SRC_TAR_FILE="root_v%VERSION%.source.tar.gz"
+powershell -NoProfile -Command "(new-object System.Net.WebClient).DownloadFile('https://root.cern.ch/download/%SRC_TAR_FILE%', '%SRC_TAR_FILE%')"
 if not exist %SOURCE_DIR%\root %TAR_CMD% x %SRC_TAR_FILE% -so | %TAR_CMD% x -aoa -si -ttar
+
+echo Dumping the full environment ---------------------------------------------------------
+set
+echo --------------------------------------------------------------------------------------
 
 if not exist %BUILD_DIR% mkdir %BUILD_DIR%
 cd %BUILD_DIR%
