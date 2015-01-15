@@ -9,9 +9,6 @@ if %COMPILER% == vc11  call "%VS110COMNTOOLS%vsvars32.bat"
 if %COMPILER% == vc12  call "%VS120COMNTOOLS%vsvars32.bat"
 if %COMPILER% == vc13  call "%VS130COMNTOOLS%vsvars32.bat"
 
-rem ---External libraries--------------------------------------------
-rem set GSL_DIR=C:\libs\gsl-1.14
-
 rem ---Options-------------------------------------------------------
 set THIS=%~d0%~p0
 set ExtraCMakeOptions=";-Droofit=ON"
@@ -46,16 +43,11 @@ if "%BUILD_PREFIX%" == "" (
 )
 
 set SOURCE_DIR=%ROOT_SOURCE_PREFIX%\root_v%VERSION%
-rem set BUILD_DIR=%ROOT_BUILD_PREFIX%\build\Win32-%LABEL%-%COMPILER%\root_v%VERSION%-cmake
-rem set INSTALL_DIR=%ROOT_BUILD_PREFIX%\install\ROOT\%VERSION%\Win32-%LABEL%-%COMPILER%
 set BUILD_DIR=%ROOT_BUILD_PREFIX%\build\root_v%VERSION%-cmake
 set INSTALL_DIR=%ROOT_BUILD_PREFIX%\install\ROOT\%VERSION%
 
 set DRIVE=%~d0
 set HOME_DIR=%CD%
-rem set BUILD_DIR=%HOME_DIR%\build\%DEST%
-rem set SOURCE_DIR=%HOME_DIR%\source\root_v%VERSION%
-rem set INSTALL_DIR=%HOME_DIR%\%DEST%
 
 if not exist %SOURCE_DIR% mkdir %SOURCE_DIR%
 cd %SOURCE_DIR%
@@ -91,12 +83,19 @@ cmake -DCMAKE_BUILD_TYPE=%BUILDTYPE% ^
       -DPYTHON_LIBRARY=%DRIVE%/external/Python27/libs/python27.lib ^
       "-GVisual Studio %VS_VER%" %SOURCE_DIR%\root
 
-rem now lets start the build (cmake --build . --config RelWithDebInfo)
+rem now lets start the build (e.g. cmake --build . --config Debug)
 cmake --build . --config %BUILDTYPE%
 
 if exist %BUILD_DIR%\bin\root.exe (
   rem generate binary distribution
   cpack -C %BUILDTYPE%
+)
+rem rename files to have the "debug" part in lowercase
+if exist root_v?.??.??.?????.????.Debug.??? (
+   ren root_v?.??.??.?????.????.Debug.??? root_v?.??.??.?????.????.debug.???
+)
+if exist root_v?.??.??.?????.????.Debug.???.?? (
+   ren root_v?.??.??.?????.????.Debug.???.?? root_v?.??.??.?????.????.debug.???.??
 )
 
 cd %HOME_DIR%
