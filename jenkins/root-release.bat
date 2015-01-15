@@ -24,6 +24,7 @@ for /f "tokens=7" %%g in ('nmake 2^>^&1 ^| findstr /i /c:" Version "') do (
 for /f "delims=. tokens=1-4" %%v in ("%NMAKEVER%") do (
   set VS_VER=%%v
 )
+set VC_DIR=vc%VS_VER%
 
 if "%BUILDTYPE%" == "Debug" (
   set DEST=root_v%VERSION%_dbg
@@ -48,6 +49,7 @@ set SOURCE_DIR=%ROOT_SOURCE_PREFIX%\root_v%VERSION%
 set BUILD_DIR=%ROOT_BUILD_PREFIX%\build\Win32-%LABEL%-%COMPILER%\root_v%VERSION%-cmake
 set INSTALL_DIR=%ROOT_BUILD_PREFIX%\install\ROOT\%VERSION%\Win32-%LABEL%-%COMPILER%
 
+set DRIVE=%~d0
 set HOME_DIR=%CD%
 rem set BUILD_DIR=%HOME_DIR%\build\%DEST%
 rem set SOURCE_DIR=%HOME_DIR%\source\root_v%VERSION%
@@ -75,9 +77,19 @@ cmake -DCMAKE_BUILD_TYPE=%BUILDTYPE% ^
       -Wno-dev=ON ^
       -Dall=ON ^
       -Dvc=OFF ^
-      -DPYTHON_EXECUTABLE=c:/Python27/python.exe ^
-      -DPYTHON_INCLUDE_DIR=c:/Python27/Include ^
-      -DPYTHON_LIBRARY=c:/Python27/libs/python27.lib ^
+      -Dmathmore=ON ^
+      -DGSL_INCLUDE_DIR=%DRIVE%/external/%VC_DIR%/GSL/1.16/include ^
+      -DGSL_LIBRARY=%DRIVE%/external/%VC_DIR%/GSL/1.16/lib/Release/gsl.lib ^
+      -DGSL_CBLAS_LIBRARY=%DRIVE%/external/%VC_DIR%/GSL/1.16/lib/Release/gslcblas.lib ^
+      -Dpythia6=ON ^
+      -DPYTHIA6_INCLUDE_DIR=%DRIVE%/external/%VC_DIR%/pythia6 ^
+      -DPYTHIA6_LIBRARY=%DRIVE%/external/%VC_DIR%/pythia6/libPythia6.lib ^
+      -Dpythia8=ON ^
+      -DPYTHIA8_INCLUDE_DIR=%DRIVE%/external/%VC_DIR%/pythia8/include ^
+      -DPYTHIA8_LIBRARY=%DRIVE%/external/%VC_DIR%/pythia8/lib/Release/libPythia8.lib ^
+      -DPYTHON_EXECUTABLE=%DRIVE%/external/Python27/python.exe ^
+      -DPYTHON_INCLUDE_DIR=%DRIVE%/external/Python27/Include ^
+      -DPYTHON_LIBRARY=%DRIVE%/external/Python27/libs/python27.lib ^
       "-GVisual Studio %VS_VER%" %SOURCE_DIR%\root
 
 rem now lets start the build (cmake --build . --config RelWithDebInfo)
