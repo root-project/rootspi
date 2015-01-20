@@ -106,7 +106,11 @@
  if [ ! -d "${ROOT_SOURCE_PREFIX}/root_v${VERSION}"  ]; then
    mkdir -p ${ROOT_SOURCE_PREFIX}/root_v${VERSION}
    cd ${ROOT_SOURCE_PREFIX}/root_v${VERSION}
-   wget http://root.cern.ch/download/root_v${VERSION}.source.tar.gz
+   if [[ ${LABEL} == *mac* ]] ; then
+     curl -O https://root.cern.ch/download/root_v${VERSION}.source.tar.gz
+   else
+     wget http://root.cern.ch/download/root_v${VERSION}.source.tar.gz
+   fi
    tar -zxvf root_v${VERSION}.source.tar.gz
  fi
 
