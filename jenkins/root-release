@@ -101,8 +101,9 @@
    ${ExtraCMakeOptions} ${SOURCE_DIR} "
  else
    export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
-   -Dall=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON -Dbuiltin_glew=ON -Dbuiltin_lzma=ON \
-   -Dbuiltin_pcre=ON -Dbuiltin_zlib=OFF \
+   -Dall=ON -Dbuiltin_cfitsio=OFF -Dbuiltin_davix=OFF -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
+   -Dbuiltin_glew=ON -Dbuiltin_gsl=OFF -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=OFF \
+   -Dbuiltin_zlib=OFF \
    ${ExtraCMakeOptions} ${SOURCE_DIR} "
  fi
 
