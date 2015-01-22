@@ -87,11 +87,24 @@
  export INSTALL_DIR=${ROOT_BUILD_PREFIX}/install/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}
  export BUILD_TYPE=Release
 
- export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
- -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
- -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
- -Dbuiltin_zlib=OFF -Dkrb5=ON \
- ${ExtraCMakeOptions} ${SOURCE_DIR} "
+ if [[ ${LABEL} == *slc* ]] ; then
+   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+   -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
+   -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
+   -Dbuiltin_zlib=OFF -Dkrb5=ON \
+   ${ExtraCMakeOptions} ${SOURCE_DIR} "
+ elif [[ ${LABEL} == *mac* ]] ; then
+   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+   -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
+   -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
+   -Dbuiltin_zlib=OFF -Dkrb5=ON \
+   ${ExtraCMakeOptions} ${SOURCE_DIR} "
+ else
+   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+   -Dall=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON -Dbuiltin_glew=ON -Dbuiltin_lzma=ON \
+   -Dbuiltin_pcre=ON -Dbuiltin_zlib=OFF \
+   ${ExtraCMakeOptions} ${SOURCE_DIR} "
+ fi
 
  echo "Dumping some variables ---------------------------------------------------------------"
  echo "User name: " `whoami`
