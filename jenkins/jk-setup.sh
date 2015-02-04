@@ -13,7 +13,7 @@ else
   return
 fi
 
-if [ "${LABEL}" == "slc6" ]
+if [ $LABEL == slc6 || $LABEL == cc7 ]
 then
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
