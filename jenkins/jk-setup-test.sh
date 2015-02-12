@@ -34,7 +34,7 @@ then
     export CXX=`which g++`
     export CC=`which gcc`
     
-    eval `${EXTERNALDIR}${EXTERNALS}/setup.py -l ${LABEL} -c ${COMPILER} -v opt`	
+    eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt opt`	
     export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
     
 elif [[ $COMPILER == *clang* ]]
@@ -52,17 +52,17 @@ then
     export CC=`which clang`
     export CXX=`which clang++`
     
-    eval `${EXTERNALDIR}${EXTERNALS}/setup.py -l ${LABEL} -c ${COMPILER} -v opt`
+    eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt opt`
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
     
 elif [[ $COMPILER == *native* ]]
 then
-    eval `${EXTERNALDIR}${EXTERNALS}/setup.py -l ${LABEL} -c ${COMPILER} -v opt`
+    eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt opt`
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
     
 elif [[ $COMPILER == *classic* ]]
 then
-    eval `${EXTERNALDIR}${EXTERNALS}/setup.py -l ${LABEL} -c ${COMPILER} -v opt`	
+    eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt opt`	
     
 elif [[ $COMPILER == *icc* ]]
 then
