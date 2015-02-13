@@ -71,6 +71,4 @@ then
   export CXX=icc
   export FC=ifort
 fi
-echo "ESTOY AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
-${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b opt -v ${EXTERNALS}
 eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b opt -v ${EXTERNALS}`
