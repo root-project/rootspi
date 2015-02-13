@@ -6,7 +6,7 @@ export LC_ALL=en_US.UTF-8
 
 THIS=$(dirname ${BASH_SOURCE[0]})
 
-echo "ESTOY AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
+
 
 # first arguments is the source directory
 if [ $# -ge 4 ]; then
@@ -71,5 +71,6 @@ then
   export CXX=icc
   export FC=ifort
 fi
-
+echo "ESTOY AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
+echo ${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}
 eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
