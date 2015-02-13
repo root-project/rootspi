@@ -153,7 +153,7 @@ def directory_names():
 #      for dirName, subdirList, fileList in os.walk(i):
       for dirName, subdirList, fileList in os.walk(fullpath):   
 
-         for name in sorted(subdirList):
+         for name in subdirList:
 
             if ((name.find(compiler) != -1) and (name.find(build_type) != -1) and (name.find(op_sys) != -1)):
                Flag = True
