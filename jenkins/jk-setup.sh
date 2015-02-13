@@ -1,9 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/bash -x
 
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-THIS=$(dirname $0)
+
+THIS=$(dirname ${BASH_SOURCE[0]})
 
 # first arguments is the source directory
 if [ $# -ge 4 ]; then
