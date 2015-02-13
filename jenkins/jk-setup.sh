@@ -7,13 +7,13 @@ export LC_ALL=en_US.UTF-8
 if [ $# -ge 2 ]; then
   LABEL=$1 ; shift
   COMPILER=$1 ; shift
-  EXTERNALS=ROOT-test
+  EXTERNALS=ROOT-test-new
 else
   echo "$0: expecting 3 arguments [LABEL]  [COMPILER]"
   return
 fi
 
-if [ $LABEL == slc6 ] || [ $LABEL == cc7 ]
+if [ $LABEL == slc6 ] || [ $LABEL == cc7 ] 
 then
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
