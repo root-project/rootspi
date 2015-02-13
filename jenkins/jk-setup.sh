@@ -6,6 +6,8 @@ export LC_ALL=en_US.UTF-8
 
 THIS=$(dirname ${BASH_SOURCE[0]})
 
+echo "ESTOY AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
+
 # first arguments is the source directory
 if [ $# -ge 4 ]; then
   LABEL=$1 ; shift
