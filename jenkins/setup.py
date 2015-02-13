@@ -24,16 +24,16 @@ def main(argv):
          sys.exit()
       elif opt in ("-c"):
          compiler = arg
-         print compiler
+
       elif opt in ("-b"):
          build_type = arg
-         print build_type
+
       elif opt in ("-o"):
          op_sys = arg
-         print op_sys
+
       elif opt in ("-v"):
          external = arg
-         print external
+
 
    rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/"+external 
 
