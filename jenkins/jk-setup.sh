@@ -71,4 +71,7 @@ then
   export CXX=icc
   export FC=ifort
 fi
+echo "I AM HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo ${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b {BUILDTYPE} -v ${EXTERNALS}
+${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b {BUILDTYPE} -v ${EXTERNALS}
 eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b {BUILDTYPE} -v ${EXTERNALS}`
