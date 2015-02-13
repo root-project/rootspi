@@ -20,7 +20,7 @@ if [ $LABEL == slc6 ] || [ $LABEL == cc7 ]
 then
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
 else
-#  export EXTERNALDIR=$HOME/ROOT-externals/
+  export EXTERNALDIR=$HOME/ROOT-externals/
 fi
 
 if [[ $COMPILER == *gcc* ]]
