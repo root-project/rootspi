@@ -150,14 +150,13 @@ def directory_names():
 
       fullpath = rootDir+"/"+i
 
-#      for dirName, subdirList, fileList in os.walk(i):
       for dirName, subdirList, fileList in os.walk(fullpath):   
 
          for name in subdirList:
 
             if ((name.find(compiler) != -1) and (name.find(build_type) != -1) and (name.find(op_sys) != -1)):
                Flag = True
-               #               directory =  rootDir+"/"+os.path.join(dirName, name)
+
                directory =  os.path.join(dirName, name)
 
                if "Grid" in directory:
@@ -169,6 +168,7 @@ def directory_names():
                   directory = directory + '/usr'
                if "alien" in directory:
                   directory = directory + '/api'
+
                dirlist.append(directory);
 
 #######               
@@ -205,7 +205,7 @@ def directory_names():
                Flag = False
          if Flag:break
 
-   all_dirs = [str.join(dirlist), str.join(binlist), str.join(liblist)]       
+   all_dirs = [str.join(sorted(dirlist)), str.join(binlist), str.join(liblist)]       
 
    return all_dirs;
 
