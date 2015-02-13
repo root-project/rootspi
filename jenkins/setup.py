@@ -2,7 +2,7 @@
 
 import sys, getopt, fnmatch, os, subprocess, platform, string, re
 
-global rootDir, arch, system
+global arch, system
 
 #rootDir = os.getcwd()
 #rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/ROOT-test-new"
@@ -11,26 +11,32 @@ system = platform.system()
 
 # --------------------- Setting command lines options 
 def main(argv):
-   global compiler, build_type, op_sys, extern
+   global compiler, build_type, op_sys, external, rootDir
    compiler = ''
    build_type = ''
    op_sys = ''
+   external = ''
 
-   opts, args = getopt.getopt(argv,"hc:bt:os:v:")
+   opts, args = getopt.getopt(argv,"hc:b:o:v:")
    for opt, arg in opts:
       if opt == '-h':
-         print 'setup.py -c <compiler> -bt <build_type> -os <operating_system> -v <externals>'
+         print 'setup.py -c <compiler> -b <build_type> -o <operating_system> -v <external>'
          sys.exit()
       elif opt in ("-c"):
          compiler = arg
-      elif opt in ("-bt"):
+         print compiler
+      elif opt in ("-b"):
          build_type = arg
-      elif opt in ("-os"):
+         print build_type
+      elif opt in ("-o"):
          op_sys = arg
+         print op_sys
       elif opt in ("-v"):
-         extern = arg
+         external = arg
+         print external
 
-rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/"+extern
+   rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/"+external 
+
 
 # --------------------- Setting default OS 
 def default_os():
@@ -199,7 +205,10 @@ def directory_names():
 
 if __name__ == "__main__":
 
+
+
    main(sys.argv[1:])
+#   rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/"+external
 
    if not compiler:
       compiler = default_compiler()
