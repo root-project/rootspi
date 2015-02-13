@@ -34,6 +34,12 @@ def main(argv):
       elif opt in ("-v"):
          external = arg
 
+   
+   if build_type == 'Release' : build_type = 'opt'
+   elif build_type == 'Debug' : built_type = 'dbg'
+   elif build_type == 'Optimized' : built_type = 'opt'
+   else : build_type = 'unk'
+      
 
    rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/"+external 
 
