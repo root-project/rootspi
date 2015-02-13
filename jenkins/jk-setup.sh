@@ -72,5 +72,5 @@ then
   export FC=ifort
 fi
 echo "ESTOY AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
-echo ${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}
-eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
+${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b opt -v ${EXTERNALS}
+eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b opt -v ${EXTERNALS}`
