@@ -7,9 +7,10 @@ export LC_ALL=en_US.UTF-8
 if [ $# -ge 2 ]; then
   LABEL=$1 ; shift
   COMPILER=$1 ; shift
-  EXTERNALS=ROOT-test
+  BUILDTYPE=$1 ; shift
+  EXTERNALS=ROOT-test-new
 else
-  echo "$0: expecting 2 arguments [LABEL]  [COMPILER]"
+  echo "$0: expecting 3 arguments [LABEL]  [COMPILER] [BUILDTYPE]"
   return
 fi
 
@@ -35,7 +36,7 @@ then
   export CC=`which gcc`
 
 #  eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
-  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt opt`
+  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt ${BUILDTYPE}`
   export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
 
 elif [[ $COMPILER == *clang* ]]
@@ -54,18 +55,18 @@ then
   export CXX=`which clang++`
 
 #  eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${!GCCversion} -v opt -t ${EXTERNALS})
-  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt opt`
+  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt ${BUILDTYPE}`
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 
 elif [[ $COMPILER == *native* ]]
 then
 #  eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
-  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt opt`
+  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt ${BUILDTYPE}`
   export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
 
 elif [[ $COMPILER == *classic* ]]
 then
-  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt opt`
+  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt ${BUILDTYPE}`
 #  eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
 
 elif [[ $COMPILER == *icc* ]]
