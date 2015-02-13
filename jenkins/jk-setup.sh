@@ -10,19 +10,17 @@ if [ $# -ge 4 ]; then
   LABEL=$1 ; shift
   COMPILER=$1 ; shift
   BUILDTYPE=$1 ; shift
-#  EXTERNALS=ROOT-test-new
   EXTERNALS=$1 ; shift
 else
-  echo "$0: expecting 3 arguments [LABEL]  [COMPILER] [BUILDTYPE] [EXTERNALS]"
+  echo "$0: expecting 4 arguments [LABEL]  [COMPILER] [BUILDTYPE] [EXTERNALS]"
   return
 fi
 
 if [ $LABEL == slc6 ] || [ $LABEL == cc7 ] 
 then
-  export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
 else
-  export EXTERNALDIR=$HOME/ROOT-externals/
+#  export EXTERNALDIR=$HOME/ROOT-externals/
 fi
 
 if [[ $COMPILER == *gcc* ]]
@@ -38,9 +36,6 @@ then
   export CXX=`which g++`
   export CC=`which gcc`
 
-#  eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${COMPILER} -v opt -t ${EXTERNALS})
-#  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt ${BUILDTYPE}`
-  eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
   export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
 
 elif [[ $COMPILER == *clang* ]]
@@ -58,23 +53,11 @@ then
   export CC=`which clang`
   export CXX=`which clang++`
 
-#  eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${!GCCversion} -v opt -t ${EXTERNALS})
-#  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt ${BUILDTYPE}`
-  eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 
 elif [[ $COMPILER == *native* ]]
 then
-#  eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
-#  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt ${BUILDTYPE}`
-  eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
   export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
-
-elif [[ $COMPILER == *classic* ]]
-then
-#  eval `${EXTERNALDIR}${EXTERNALS}/setup.py -os ${LABEL} -c ${COMPILER} -bt ${BUILDTYPE}`
-#  eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c native -v opt -t ${EXTERNALS})
-    eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
 
 elif [[ $COMPILER == *icc* ]]
 then
@@ -85,3 +68,5 @@ then
   export CXX=icc
   export FC=ifort
 fi
+
+eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
