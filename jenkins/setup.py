@@ -22,7 +22,7 @@ def main(argv):
          print 'setup.py -c <compiler> -b <build_type> -o <operating_system> -v <external>'
          sys.exit()
       elif opt in ("-c"):
-         compiler = arg
+         comp = arg
 
       elif opt in ("-b"):
          build = arg
@@ -37,6 +37,12 @@ def main(argv):
    if build == 'Release' : build_type = 'opt'
    elif build == 'Debug' : built_type = 'dbg'
    elif build == 'Optimized' : built_type = 'opt'
+   elif comp == 'clang34' : 
+      built_type = 'opt'
+      compiler = 'gcc48'
+   elif comp == 'clang35' :
+      built_type = 'opt'
+      compiler = 'gcc49'   
    else : build = 'unk'
       
 
