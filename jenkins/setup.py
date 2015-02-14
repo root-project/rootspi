@@ -10,11 +10,14 @@ system = platform.system()
 # --------------------- Setting command lines options 
 def main(argv):
    global compiler, build_type, op_sys, external, rootDir
+   global comp, build
 
    compiler = ''
    build_type = ''
    op_sys = ''
    external = ''
+   build = ''
+   comp = ''
 
    opts, args = getopt.getopt(argv,"hc:b:o:v:")
    for opt, arg in opts:
@@ -35,17 +38,16 @@ def main(argv):
 
    
    if build == 'Release' : build_type = 'opt'
-   elif build == 'Debug' : built_type = 'dbg'
-   elif build == 'Optimized' : built_type = 'opt'
-   elif comp == 'clang34' : 
-      built_type = 'opt'
+   elif build == 'Debug' : build_type = 'dbg'
+   elif build == 'Optimized' : build_type = 'opt'
+   else : build_type = 'unk'
+
+   if comp == 'clang34' : 
       compiler = 'gcc48'
    elif comp == 'clang35' :
-      built_type = 'opt'
       compiler = 'gcc49'   
-   else : build = 'unk'
-      
-
+   else :
+      compiler = comp
 
    rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/"+external 
 
@@ -217,10 +219,7 @@ def directory_names():
 
 if __name__ == "__main__":
 
-
-
    main(sys.argv[1:])
-#   rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/"+external
 
    if not compiler:
       compiler = default_compiler()
