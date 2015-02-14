@@ -4,14 +4,13 @@ import sys, getopt, fnmatch, os, subprocess, platform, string, re
 
 global arch, system
 
-#rootDir = os.getcwd()
-#rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/ROOT-test-new"
 arch = platform.machine()
 system = platform.system()
 
 # --------------------- Setting command lines options 
 def main(argv):
    global compiler, build_type, op_sys, external, rootDir
+
    compiler = ''
    build_type = ''
    op_sys = ''
@@ -26,7 +25,7 @@ def main(argv):
          compiler = arg
 
       elif opt in ("-b"):
-         build_type = arg
+         build = arg
 
       elif opt in ("-o"):
          op_sys = arg
@@ -35,11 +34,12 @@ def main(argv):
          external = arg
 
    
-   if build_type == 'Release' : build_type = 'opt'
-   elif build_type == 'Debug' : built_type = 'dbg'
-   elif build_type == 'Optimized' : built_type = 'opt'
-   else : build_type = 'unk'
+   if build == 'Release' : build_type = 'opt'
+   elif build == 'Debug' : built_type = 'dbg'
+   elif build == 'Optimized' : built_type = 'opt'
+   else : build = 'unk'
       
+
 
    rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/"+external 
 
@@ -218,8 +218,10 @@ if __name__ == "__main__":
 
    if not compiler:
       compiler = default_compiler()
+
    if not build_type:
       build_type = default_bt()
+
    if not op_sys:
       op_sys = default_os()
 
