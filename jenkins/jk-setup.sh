@@ -39,7 +39,7 @@ then
   export CXX=`which g++`
   export CC=`which gcc`
 
-  export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
+  export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON -DTCMALLOC_DIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/${EXTERNALS}/${ARCH}-${LABEL}-${COMPILER}-${BUILDTYPE}/tcmalloc  ${ExtraCMakeOptions}"
 
 elif [[ $COMPILER == *clang* ]]
 then
