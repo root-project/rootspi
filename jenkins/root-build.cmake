@@ -7,9 +7,9 @@ if(CTEST_VERSION STREQUAL "master" OR CTEST_VERSION STREQUAL "v6-02-00-patches")
 endif()
 
 #---Set TCMalloc for fast builds--------------------------------------------
-#if(CTEST_BUILD_CONFIGURATION STREQUAL "Optimized")
-#  set(testing_options ${testing_options}" -Dtcmalloc=ON")
-#endif()
+if(CTEST_BUILD_CONFIGURATION STREQUAL "Optimized")
+  set(testing_options ${testing_options}" -Dtcmalloc=ON")
+endif()
 
 set(options -Dall=ON
             -Dtesting=ON
