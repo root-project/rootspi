@@ -86,8 +86,8 @@ def directory_names():
                      if "castor" in directory:
                         directory = directory + '/usr'
                      cmd = "cp -r %s/* %s"%(directory,targetDir)
-
-                     os.system(cmd)
+                     print "---------------------------------", cmd
+#                     os.system(cmd)
 
 # -------------------------------------------------------------------------------------------------
 
