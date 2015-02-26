@@ -46,7 +46,7 @@ def main(argv):
    elif build == 'Optimized' : build_type = 'opt'
    else : build_type = 'unk'
 
-   rootDir = "/afs/cern.ch/user/s/sftnight/tmp/"+external 
+   rootDir = "/afs/cern.ch/sw/lcg/releases/"+external 
    targetDir = "/afs/cern.ch/sw/lcg/hepsoft/"+destination+"/"+arch+"-"+op_sys+"-"+compiler+"-"+build_type+"/"
 # --------------------- Setting the targets
 def targets():
