@@ -89,7 +89,7 @@ def directory_names():
                         directory = directory + '/usr'
                      cmd = "cp -r %s/* %s"%(directory,targetDir)
                      print "-----------  COMMAND UNDER USE   ----------------------", cmd
-#                     os.system(cmd)
+                     os.system(cmd)
 
 # -------------------------------------------------------------------------------------------------
 
