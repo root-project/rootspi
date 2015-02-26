@@ -83,10 +83,12 @@ def directory_names():
                for name in subdirList:
                   if ((name.find(compiler) != -1) and (name.find(build_type) != -1) and (name.find(op_sys) != -1)):
                      directory =  os.path.join(dirName, name)
+                     print "starting the copy from  ", directory
+                     print "copying to  ", targetDir
                      if "castor" in directory:
                         directory = directory + '/usr'
                      cmd = "cp -r %s/* %s"%(directory,targetDir)
-                     print "---------------------------------", cmd
+                     print "-----------  COMMAND UNDER USE   ----------------------", cmd
 #                     os.system(cmd)
 
 # -------------------------------------------------------------------------------------------------
