@@ -8,18 +8,19 @@ system = platform.system()
 
 # --------------------- Setting command lines options 
 def main(argv):
-   global compiler, build_type, op_sys, external, rootDir, targetDir, packs
+   global compiler, build_type, op_sys, external, rootDir, targetDir, packs, destination
 
    build_type = ''
    op_sys = ''
    external = ''
    packs = ''
    compiler = ''
+   destination = ''
 
-   opts, args = getopt.getopt(argv,"hc:b:o:v:t:")
+   opts, args = getopt.getopt(argv,"hc:b:o:v:p:t:")
    for opt, arg in opts:
       if opt == '-h':
-         print 'setup.py -c <compiler> -b <build_type> -o <operating_system> -v <external> -t <list of packages>'
+         print 'setup.py -c <compiler> -b <build_type> -o <operating_system> -v <external> -p <list of packages> -t <destination>'
          sys.exit()
       elif opt in ("-c"):
          compiler = arg
@@ -33,8 +34,12 @@ def main(argv):
       elif opt in ("-v"):
          external = arg
 
-      elif opt in ("-t"):
+      elif opt in ("-p"):
          packs = arg
+
+      elif opt in ("-t"):
+         destination = arg
+
 
    if build == 'Release' : build_type = 'opt'
    elif build == 'Debug' : build_type = 'dbg'
@@ -42,7 +47,7 @@ def main(argv):
    else : build_type = 'unk'
 
    rootDir = "/afs/cern.ch/user/s/sftnight/tmp/"+external 
-   targetDir = "/afs/cern.ch/sw/lcg/hepsoft/0.9b/"+arch+"-"+op_sys+"-"+compiler+"-"+build_type+"/"
+   targetDir = "/afs/cern.ch/sw/lcg/hepsoft/"+destination+"/"+arch+"-"+op_sys+"-"+compiler+"-"+build_type+"/"
 # --------------------- Setting the targets
 def targets():
 
