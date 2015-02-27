@@ -2,9 +2,11 @@
 
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-THIS=$(dirname $0)
 
-if [ "${LABEL}" == "slc6" ] 
+THIS=$(dirname $0)
+source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
+
+if [ "${LABEL}" == "slc6" ]
 then
     export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.1.0/Linux-x86_64/bin:${PATH}
@@ -21,7 +23,7 @@ then
     . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
     export SA_CLANG_CPP=`which clang++`
     echo "The clang executable which will be used for the SA is $ $SA_CLANG_CPP"
-    export CC=clang 
+    export CC=clang
     export CXX=clang++
     eval $(${EXTERNALDIR}${EXTERNALS}/setup.pl -l ${LABEL} -c ${!GCCversion} -v opt -t ${EXTERNALS})
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
