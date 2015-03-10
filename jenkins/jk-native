@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-THIS=$(dirname $0)
-export ExtraCMakeOptions=";-Dfortran=OFF"
-
-#---Run the CTest script-------------------------------------------
-ctest -V -S ${THIS}/root-build.cmake 
-

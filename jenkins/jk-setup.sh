@@ -49,6 +49,7 @@ then
   COMPILERversion=${COMPILER}version
   clang34gcc=48
   clang35gcc=49
+  clang36gcc=49
   GCCversion=${COMPILER}gcc
 
   ARCH=$(uname -m)
