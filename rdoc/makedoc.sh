@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 # Generate ROOT HTML documentation:
 #   makedoc.sh master [ clean ]
