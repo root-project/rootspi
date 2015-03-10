@@ -46,6 +46,8 @@ def main(argv):
       compiler = 'gcc48'
    elif comp == 'clang35' :
       compiler = 'gcc49'   
+   elif comp == 'clang36' :
+      compiler = 'gcc49'
    else :
       compiler = comp
 
