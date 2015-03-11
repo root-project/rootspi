@@ -3,10 +3,8 @@
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-
 THIS=$(dirname ${BASH_SOURCE[0]})
-
-
+PLATFORM=`$THIS/getPlatform.py`
 
 # first arguments is the source directory
 if [ $# -ge 4 ]; then
@@ -19,8 +17,13 @@ else
   return
 fi
 
-if [ $LABEL == slc6 ] || [ $LABEL == cc7 ] 
+if [[ $PLATFORM == *slc6* ]]
 then
+  LABEL=slc6
+  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+elif [[ $PLATFORM == *cc7* ]]
+then
+  LABEL=cc7
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
 else
   export EXTERNALDIR=$HOME/ROOT-externals/
