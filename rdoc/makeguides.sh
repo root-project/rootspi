@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 # Make the different guides and copy to them to the htmldoc directory:
 # htmldoc/guides/.
