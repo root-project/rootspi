@@ -128,6 +128,10 @@
  fi
  tar -zxvf root_v${VERSION}.source.tar.gz
 
+ # Eventually apply a patch (only patches in release procedures)
+ if [ -f $THIS/patches/root_v${VERSION}.patch ]; then
+   patch -p1 -d ${SOURCE_DIR} -i $THIS/patches/root_v${VERSION}.patch
+ fi
  mkdir -p ${BUILD_DIR}
  cd ${BUILD_DIR}
 
