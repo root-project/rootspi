@@ -83,8 +83,8 @@
     export SOURCE_DIR=${ROOT_SOURCE_PREFIX}/root_v${VERSION}/root
  fi
 
- export BUILD_DIR=${ROOT_BUILD_PREFIX}/build/${ARCH}-${LABEL}-${COMPILER}/root_v${VERSION}-cmake
- export INSTALL_DIR=${ROOT_BUILD_PREFIX}/install/ROOT/${VERSION}/${ARCH}-${LABEL}-${COMPILER}
+ export BUILD_DIR=${ROOT_BUILD_PREFIX}/build/root_v${VERSION}-cmake
+ export INSTALL_DIR=${ROOT_BUILD_PREFIX}/install/ROOT/${VERSION}/
  export BUILD_TYPE=Release
 
  if [[ ${LABEL} == *slc* ]] ; then
@@ -145,6 +145,6 @@
  fi
 
 # cd ${BUILD_DIR}
-# /afs/cern.ch/user/b/bellenot/scripts/cmake/sendmail.sh "${VERSION}" "${BUILD_DIR}" "${ARCH}-${LABEL}-${COMPILER}"
+# /afs/cern.ch/user/b/bellenot/scripts/cmake/sendmail.sh "${VERSION}" "${BUILD_DIR}" 
 # cd ..
 
