@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
- THIS=$(dirname $0)
-
+ THIS=${PWD}/$(dirname $0)
  ARCH=$(uname -m)
 
  if [[ ${LABEL} == *slc* ]] ; then
@@ -126,12 +125,13 @@
  else
    wget https://root.cern.ch/download/root_v${VERSION}.source.tar.gz
  fi
- tar -zxvf root_v${VERSION}.source.tar.gz
+ tar -zxf root_v${VERSION}.source.tar.gz
 
  # Eventually apply a patch (only patches in release procedures)
  if [ -f $THIS/patches/root_v${VERSION}.patch ]; then
    patch -p1 -d ${SOURCE_DIR} -i $THIS/patches/root_v${VERSION}.patch
  fi
+
  mkdir -p ${BUILD_DIR}
  cd ${BUILD_DIR}
 
