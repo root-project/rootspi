@@ -44,6 +44,15 @@
        export CC=`which clang`
        export CXX=`which clang++`
        export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
+    else
+       export CC=`which cc`
+       export CXX=`which c++`
+       v=`c++ -dumpversion`
+       v=(${v//./ })
+       v=${v[0]}${v[1]}
+       if [ $v -ge 48 ] ; then
+         export ExtraCMakeOptions="-Dcxx11=ON ${ExtraCMakeOptions}"
+       fi
     fi
     export PYTHONDIR=/afs/cern.ch/sw/lcg/external/Python/2.7.3/${ARCH}-${LABEL}-${Python_gcc_version}-opt
     export PATH=${PYTHONDIR}/bin:${PATH}
