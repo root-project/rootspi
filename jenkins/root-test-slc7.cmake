@@ -34,14 +34,16 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 
 #---For the tutorials--------------------------------------------
 file(MAKE_DIRECTORY ${RUN_TESTS_DIR})
+
 ctest_configure(BUILD ${RUN_TESTS_DIR}
                 SOURCE $ENV{ROOTSYS}/tutorials)
 
+ctest_build(BUILD ${RUN_TESTS_DIR})
+
 ctest_test(BUILD ${RUN_TESTS_DIR}
-           APPEND
            PARALLEL_LEVEL ${ncpu})
 
-ctest_submit(PARTS Configure Test Notes)
+ctest_submit(PARTS Configure Build Test Notes)
 
 #---For the roottest--------------------------------------------
 file(MAKE_DIRECTORY ${RUN_TESTS_DIR_ROOTTEST})
