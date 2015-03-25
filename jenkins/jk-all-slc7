@@ -24,7 +24,7 @@ fi
 
 echo "*** Picking up ROOT ${VERSION} from slot ${lcg_target} of ${DAY} of type ${V_TYPE}"
 
-if [ "${LABEL_ORG}" == "slc7" ]
+if [ "${LABEL_ORG}" == "slc7" ] || [ "${LABEL_ORG}" == "cc7" ]
 then
     LABEL=slc6
 fi
@@ -34,9 +34,8 @@ then
     export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
     if [ "${LABEL_ORG}" == "slc6" ]
     then
-
-# We need Cmake for 64b machines in order to work in CentOs7 (SPI-741 bug)
-	export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/2.8.9/Linux-i386/bin:${PATH}
+       # We need Cmake for 64b machines in order to work in CentOs7 (SPI-741 bug)
+	    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/2.8.9/Linux-i386/bin:${PATH}
     fi
 else
     export EXTERNALDIR=$HOME/ROOT-externals/
