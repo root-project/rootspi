@@ -51,7 +51,9 @@ def main(argv):
    else :
       compiler = comp
 
-   rootDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/"+external 
+   if os.getenv('EXTERNALDIR'):  externalDir = os.getenv('EXTERNALDIR')
+   else:                         externalDir = '/afs/cern.ch/sw/lcg/app/releases/ROOT-externals'
+   rootDir = os.path.join(externalDir,external)
 
 
 # --------------------- Setting default OS 
