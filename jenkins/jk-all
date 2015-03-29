@@ -7,6 +7,9 @@ echo "Dumping the full environment ---------------------------------------------
 env | sort | sed 's/:/:?     /g' | tr '?' '\n'
 echo "--------------------------------------------------------------------------------------"
 
+#---Create stampfile to enable our jenkins to purge old builds------------------------------
+touch $WORKSPACE/controlfile
+
 #---Run the CTest script depending on the compiler------------------------------------------
 if [[ $COMPILER == *classic* ]]
 then
