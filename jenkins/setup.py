@@ -94,28 +94,28 @@ def default_compiler():
          ccommand = 'clang'
       else:
          ccommand = 'gcc'
-         if ccommand == 'cl':
-            versioninfo = os.popen(ccommand).read()
-            patt = re.compile('.*Version ([0-9]+)[.].*')
-            mobj = patt.match(versioninfo)
-            compiler_orig = 'vc' + str(int(mobj.group(1))-6)
-         elif ccommand == 'gcc':
-            versioninfo = os.popen(ccommand + ' -dumpversion').read()
-            patt = re.compile('([0-9]+)\\.([0-9]+)')
-            mobj = patt.match(versioninfo)
-            compiler_orig = 'gcc' + mobj.group(1) + mobj.group(2)
-         elif ccommand == 'clang':
-            versioninfo = os.popen4(ccommand + ' -v')[1].read()
-            patt = re.compile('.*version ([0-9]+)[.]([0-9]+)')
-            mobj = patt.match(versioninfo)
-            compiler_orig = 'clang' + mobj.group(1) + mobj.group(2)
-         elif ccommand == 'icc':
-            versioninfo = os.popen(ccommand + ' -dumpversion').read()
-            patt = re.compile('([0-9]+)')
-            mobj = patt.match(versioninfo)
-            compiler_orig = 'icc' + mobj.group(1) + mobj.group(2)
-         else:
-            compiler_orig = 'unk-cmp'
+      if ccommand == 'cl':
+         versioninfo = os.popen(ccommand).read()
+         patt = re.compile('.*Version ([0-9]+)[.].*')
+         mobj = patt.match(versioninfo)
+         compiler_orig = 'vc' + str(int(mobj.group(1))-6)
+      elif ccommand == 'gcc':
+         versioninfo = os.popen(ccommand + ' -dumpversion').read()
+         patt = re.compile('([0-9]+)\\.([0-9]+)')
+         mobj = patt.match(versioninfo)
+         compiler_orig = 'gcc' + mobj.group(1) + mobj.group(2)
+      elif ccommand == 'clang':
+         versioninfo = os.popen4(ccommand + ' -v')[1].read()
+         patt = re.compile('.*version ([0-9]+)[.]([0-9]+)')
+         mobj = patt.match(versioninfo)
+         compiler_orig = 'clang' + mobj.group(1) + mobj.group(2)
+      elif ccommand == 'icc':
+         versioninfo = os.popen(ccommand + ' -dumpversion').read()
+         patt = re.compile('([0-9]+)')
+         mobj = patt.match(versioninfo)
+         compiler_orig = 'icc' + mobj.group(1) + mobj.group(2)
+      else:
+         compiler_orig = 'unk-cmp'
    return compiler_orig;         
 
 # --------------------- Setting default built type 
@@ -217,7 +217,7 @@ def directory_names():
                Flag = False
          if Flag:break
 
-   all_dirs = [str.join(sorted(dirlist)), str.join(binlist), str.join(liblist)]       
+   all_dirs = (sorted(dirlist), binlist, liblist)
 
    return all_dirs;
 
@@ -225,7 +225,7 @@ if __name__ == "__main__":
 
    main(sys.argv[1:])
 
-   if not compiler:
+   if not compiler or compiler == 'native':
       compiler = default_compiler()
 
    if not build_type:
@@ -250,17 +250,19 @@ if __name__ == "__main__":
       print ld_libs
 
    else:
-      os.environ["CMAKE_PREFIX_PATH_ALL"] = directory_names()[0]
-      os.environ["PATH_ALL"] = directory_names()[1]+":"+os.environ["PATH"]
-      os.environ["LD_LIBRARY_PATH_ALL"] = directory_names()[2]+":"+os.environ["LD_LIBRARY_PATH"]
-      
-      prefix = os.environ["CMAKE_PREFIX_PATH_ALL"]
-      path = os.environ["PATH_ALL"]
-      ld_libs = os.environ["LD_LIBRARY_PATH_ALL"]
+      prefix, path, ld_libs = directory_names()
+      if os.getenv('PATH') : path.append(os.getenv('PATH'))
+      if system == 'Darwin':
+        if os.getenv('DYLD_LIBRARY_PATH') : ld_libs.append(os.getenv('DYLD_LIBRARY_PATH'))
+      else:
+        if os.getenv('LD_LIBRARY_PATH') : ld_libs.append(os.getenv('LD_LIBRARY_PATH'))
 
-      print '%s=%s' % ("export CMAKE_PREFIX_PATH", prefix)
-      print '%s=%s' % ("export PATH", path)
-      print '%s=%s' % ("export LD_LIBRARY_PATH", ld_libs)
+      print '%s=%s' % ("export CMAKE_PREFIX_PATH", ':'.join(prefix))
+      print '%s=%s' % ("export PATH", ':'.join(path))
+      if system == 'Darwin' :
+         print '%s=%s' % ("export DYLD_LIBRARY_PATH", ':'.join(ld_libs))
+      else :
+         print '%s=%s' % ("export LD_LIBRARY_PATH", ':'.join(ld_libs))
 
 
 
