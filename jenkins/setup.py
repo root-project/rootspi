@@ -166,7 +166,8 @@ def directory_names():
 
          for name in subdirList:
 
-            if ((name.find(compiler) != -1) and (name.find(build_type) != -1) and (name.find(op_sys) != -1)):
+            if (name.find(compiler) != -1) and (name.find(build_type) != -1) and (name.find(op_sys) != -1) or \
+               (name.find(compiler) != -1) and (name.find('opt') != -1) and (name.find(op_sys) != -1):
                Flag = True
 
                directory =  os.path.join(dirName, name)
