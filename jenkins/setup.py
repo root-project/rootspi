@@ -163,7 +163,7 @@ def directory_names():
       fullpath = rootDir+"/"+i
 
       for dirName, subdirList, fileList in os.walk(fullpath):   
-
+         subdirList.sort()   # -dbg will be checked first than -opt. Taking -opt will only be fallback 
          for name in subdirList:
 
             if (name.find(compiler) != -1) and (name.find(build_type) != -1) and (name.find(op_sys) != -1) or \
