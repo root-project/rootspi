@@ -68,6 +68,11 @@ cd $srcdir/documentation/HttpServer
 make
 cd $dir
 
+# make JSROOT guide
+cd $srcdir/documentation/JSROOT
+make
+cd $dir
+
 # copy different guides
 ./copyguides.sh $srcdir $docdir
 
