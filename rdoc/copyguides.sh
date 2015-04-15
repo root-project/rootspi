@@ -189,4 +189,30 @@ for f in $httpguides; do
    cp $srchttp/$f $desthttp
 done
 
+# JSROOT products
+srchttp=$src/documentation/JSROOT
+desthttp=$dest/JSROOT
+desthttpfig=$desthttp/figures
+
+if [ ! -d $desthttp ]; then
+   mkdir -p $desthttp
+fi
+
+if [ ! -d $desthttpfig ]; then
+   mkdir -p $desthttpfig
+fi
+
+httpguides="
+JSROOT.pdf
+JSROOTLetter.pdf
+JSROOT.html
+JSROOT.epub
+"
+
+cp $srchttp/figures/*        $desthttpfig/
+
+for f in $httpguides; do
+   cp $srchttp/$f $desthttp
+done
+
 exit 0
