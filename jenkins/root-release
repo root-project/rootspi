@@ -54,11 +54,13 @@
          export ExtraCMakeOptions="-Dcxx11=ON ${ExtraCMakeOptions}"
        fi
     fi
-    export PYTHONDIR=/afs/cern.ch/sw/lcg/external/Python/2.7.3/${ARCH}-${LABEL}-${Python_gcc_version}-opt
-    export PATH=${PYTHONDIR}/bin:${PATH}
-    export LD_LIBRARY_PATH="${PYTHONDIR}/lib:${LD_LIBRARY_PATH}"
-    export PYTHONPATH="${PYTHONDIR}/lib:${PYTHONPATH}"
-    export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=${PYTHONDIR}/bin/python ${ExtraCMakeOptions}"
+    if [[ $LABEL == *slc* ]] ; then
+       export PYTHONDIR=/afs/cern.ch/sw/lcg/external/Python/2.7.3/${ARCH}-${LABEL}-${Python_gcc_version}-opt
+       export PATH=${PYTHONDIR}/bin:${PATH}
+       export LD_LIBRARY_PATH="${PYTHONDIR}/lib:${LD_LIBRARY_PATH}"
+       export PYTHONPATH="${PYTHONDIR}/lib:${PYTHONPATH}"
+       export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=${PYTHONDIR}/bin/python ${ExtraCMakeOptions}"
+    fi
  elif [[ ${LABEL} == *mac* ]] ; then
     export CC=`which clang`
     export CXX=`which clang++`
