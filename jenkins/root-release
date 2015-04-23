@@ -60,6 +60,9 @@
        export LD_LIBRARY_PATH="${PYTHONDIR}/lib:${LD_LIBRARY_PATH}"
        export PYTHONPATH="${PYTHONDIR}/lib:${PYTHONPATH}"
        export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=${PYTHONDIR}/bin/python ${ExtraCMakeOptions}"
+    elif [[ ${LABEL} == *cc* ]] ; then
+       export Python_executable=`which python`
+       export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=${Python_executable} ${ExtraCMakeOptions}"
     fi
  elif [[ ${LABEL} == *mac* ]] ; then
     export CC=`which clang`
