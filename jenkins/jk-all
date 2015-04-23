@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 THIS=$(dirname $0)
+
+echo source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 
 echo "Dumping the full environment ---------------------------------------------------------"
