@@ -96,25 +96,24 @@
 
  export BUILD_DIR=${ROOT_BUILD_PREFIX}/build/root_v${VERSION}-cmake
  export INSTALL_DIR=${ROOT_BUILD_PREFIX}/install/ROOT/${VERSION}/
- export BUILD_TYPE=Release
 
  if [[ ${LABEL} == *slc* ]] ; then
-   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
    -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
  elif [[ ${LABEL} == *cc* ]] ; then
-   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
    -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
  elif [[ ${LABEL} == *mac* ]] ; then
-   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
    -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
  else
-   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=OFF -Dbuiltin_davix=OFF -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=OFF -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=OFF \
    -Dbuiltin_zlib=OFF ${ExtraCMakeOptions}"
@@ -152,7 +151,7 @@
  cmake ${CMakeOptions} ${SOURCE_DIR}
 
  # now lets start the build (e.g. cmake --build . --config Release)
- #cmake --build . --config ${BUILD_TYPE}
+ #cmake --build . --config ${BUILDTYPE}
  # or:
  make -j4
  
