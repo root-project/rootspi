@@ -34,6 +34,7 @@ then
   gcc47version=4.7
   gcc48version=4.8
   gcc49version=4.9
+  gcc51version=5.1
   COMPILERversion=${COMPILER}version
 
   ARCH=$(uname -m)
