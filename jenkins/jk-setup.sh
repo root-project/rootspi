@@ -43,12 +43,7 @@ then
   export CXX=`which g++`
   export CC=`which gcc`
 
-  if [ $COMPILER == gcc51 ];  then
-    # -- Not all the externals are there
-    export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=OFF ${ExtraCMakeOptions}"
-  else
-    export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
-  fi
+  export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
 
 elif [[ $COMPILER == *clang* ]]
 then
