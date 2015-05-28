@@ -15,7 +15,7 @@ touch $WORKSPACE/controlfile
 #---Run the CTest script depending on the compiler------------------------------------------
 if [[ $COMPILER == *classic* ]]
 then
-    ctest -VV -S ${THIS}/root-classic.cmake
+    ctest -V -S ${THIS}/root-classic.cmake
     build_rc=$?
     #ctest -V -S ${THIS}/root-test-classic.cmake
 else

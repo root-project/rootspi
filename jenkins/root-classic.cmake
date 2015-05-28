@@ -3,7 +3,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}-classic)
 
 #---Build using the classic configure/make ---------------------------------------
-#file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
+file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY})
 
 set(CTEST_CONFIGURE_COMMAND "${CTEST_SOURCE_DIRECTORY}/configure --all")
@@ -46,7 +46,6 @@ elseif(UNIX)
   set(ENV{LD_LIBRARY_PATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{LD_LIBRARY_PATH})
 endif()
 set(ENV{PYTHONPATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{PAYTHONPATH})
-set(ENV{CMAKE_MODULE_PATH} ${CTEST_SOURCE_DIRECTORY}/etc/cmake:${CTEST_SOURCE_DIRECTORY}/cmake/modules)
 
 #---Run roottest tests -------------------------------------------------------------
 file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/roottest)
@@ -55,6 +54,7 @@ file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/roottest)
 ctest_start(${CTEST_MODE} APPEND)
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/roottest
                 SOURCE  ${CTEST_SOURCE_DIRECTORY}/roottest
+                OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake
                 APPEND)
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY}/roottest)
 ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/roottest
@@ -78,19 +78,20 @@ ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtutorials
 ctest_submit(PARTS Test)
 
 #---Run root tests --------------------------------------------------------------
-file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/runtests)
-file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
+#file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/runtests)
+#file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
 
-ctest_start(${CTEST_MODE} APPEND)
-ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
-                SOURCE  ${CTEST_SOURCE_DIRECTORY}/test
-                APPEND)
-ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}/runtests)
-ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
-           PARALLEL_LEVEL ${ncpu}
-           APPEND)
-ctest_submit(PARTS Test)
+#ctest_start(${CTEST_MODE} APPEND)
+#ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
+#                SOURCE  ${CTEST_SOURCE_DIRECTORY}/test
+#                OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake
+#                APPEND)
+#ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+#ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}/runtests)
+#ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
+#           PARALLEL_LEVEL ${ncpu}
+#           APPEND)
+#ctest_submit(PARTS Test)
 
 
 
