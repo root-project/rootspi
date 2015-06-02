@@ -55,6 +55,9 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 
+echo "AXEL DEBUG"
+exit
+
 # Changelog from Git (hyperized by THTML)
 ./makedev.sh $vers
 if [ $? -ne 0 ]; then

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 # Make the release notes and copy to the htmldoc directory:
 # htmldoc/notes/release-notes.html.
