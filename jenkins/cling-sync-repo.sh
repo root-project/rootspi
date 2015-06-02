@@ -27,6 +27,7 @@ case $mode  in
   *)
     echo 'Invocation error! Passed '$1' but expected one of "", "clean", "fromscratch".' >&2
     ;;    
+esac
 
 if [ "$mode" = "xclean" ]; then
   clean
