@@ -44,7 +44,7 @@ git reset --hard
 cd ..
 
 # What was the last commit in root.git's interpreter/cling?
-rootCommit=`cd root&& $[git] rev-list -n 1 HEAD -- interpreter/cling`
+rootCommit=`cd root&& git rev-list -n 1 HEAD -- interpreter/cling`
 if [ "x$rootCommit" = "x" ]; then
   echo 'Cannot extract last cling commit in root repository!' >&2
   exit
