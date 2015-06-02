@@ -22,6 +22,8 @@ else
 fi
 
 echo "AXEL DEBUG"
+pwd
+ls -l $gittag/README/ReleaseNotes/v604/index.md
 exit 0
 
 if [ -x configure ]; then
