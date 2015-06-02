@@ -52,7 +52,7 @@ fi
 echo "Most recent commit in ROOT/interpreter/cling: $rootCommit"
 
 # What was the most recent ROOT commit merged into cling?
-clingTag=`cd cling && git tag -l '__internal-root-*`
+clingTag=`cd cling && git tag -l '__internal-root-*'`
 if [ "x$clingTag" = "x" ]; then
   echo 'Cannot extract most recent merge tag!' >&2
   exit
