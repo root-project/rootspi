@@ -16,6 +16,8 @@ cd src
 if [ -d $gittag ]; then
    cd $gittag
    git pull
+   git reset --hard
+   git checkout $gittag
 else
    git clone -b $gittag http://root.cern.ch/git/root.git $gittag
    cd $gittag
