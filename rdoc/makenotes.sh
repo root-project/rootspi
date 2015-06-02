@@ -47,7 +47,6 @@ dir=`pwd`
 cd $srcdir
 make releasenotes
 cd $dir
-rm -f $srcdir/README/ReleaseNotes/$versnum/index.md
 cp $srcdir/README/ReleaseNotes/$versnum/* $docdir/
 mv $docdir/index.html $docdir/release-notes.html
 
