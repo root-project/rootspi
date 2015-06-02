@@ -1,4 +1,6 @@
-#!/bin/bash -e -x
+#!/bin/bash -e
+
+set -x
 
 # arg1 defines the mode of operation.
 #  clean: remove repos
