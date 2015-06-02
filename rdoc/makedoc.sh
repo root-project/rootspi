@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -e
 #
 # Generate ROOT HTML documentation:
 #   makedoc.sh master [ clean ]
@@ -54,9 +54,6 @@ if [ $? -ne 0 ]; then
    echo "$prog: makenotes.sh failed, exiting..."
    exit 1
 fi
-
-echo "AXEL DEBUG"
-exit
 
 # Changelog from Git (hyperized by THTML)
 ./makedev.sh $vers
