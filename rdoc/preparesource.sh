@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -x
 #
 # Get the ROOT source specified by the gittag passed as $1.
 
