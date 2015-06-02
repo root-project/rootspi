@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -e -x
 #
 # Get the ROOT source specified by the gittag passed as $1.
 
@@ -20,6 +20,9 @@ else
    git clone -b $gittag http://root.cern.ch/git/root.git $gittag
    cd $gittag
 fi
+
+echo "AXEL DEBUG"
+exit 0
 
 if [ -x configure ]; then
    # update config script

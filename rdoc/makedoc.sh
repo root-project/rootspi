@@ -42,12 +42,11 @@ echo "$prog: using version number $gittag"
 #fi
 
 # Checkout and build the source for which to generate the doc
- 
-#./preparesource.sh $gittag
-#if [ $? -ne 0 ]; then
-#   echo "$prog: preparesource.sh failed, exiting..."
-#   exit 1
-#fi
+ ./preparesource.sh $gittag
+if [ $? -ne 0 ]; then
+   echo "$prog: preparesource.sh failed, exiting..."
+   exit 1
+fi
 
 # Release notes (from the doc directories)
 ./makenotes.sh $vers
