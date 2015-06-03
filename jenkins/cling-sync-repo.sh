@@ -19,10 +19,10 @@ case $mode  in
     clean
     exit
     ;;
-  xfromscratch)
+  xcleanrun)
     clean
     ;;
-  x)
+  xrun)
     ;;
   *)
     echo 'Invocation error! Passed '$1' but expected one of "", "clean", "fromscratch".' >&2
@@ -37,7 +37,7 @@ fi
 [ "$mode" = "xfromscratch" ] && clean
 
 # Clone / update cling
-[ -d cling ] || git clone http://root.cern.ch/git/cling.git
+[ -d cling ] || git clone https://root.cern.ch/git/cling.git
 cd cling
 git pull
 git reset --hard
@@ -79,7 +79,7 @@ cat $patch
 # apply the patch
 cd cling
 git am -p3 ../$patch
-git push
+git push origin master
 newTag="__internal-root-$rootCommit"
 git tag $newTag
 git push origin $newTag
