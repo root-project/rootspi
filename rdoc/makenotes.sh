@@ -16,7 +16,7 @@ if [ $# -ge 1 ]; then
       major=
       docdir="htmldoc/notes"
       gittag="master"
-      versnum=`ls src/master/doc | tail -1`
+      versnum=`ls src/master/README/ReleaseNotes/ | sort | tail -1`
    else
       major=`echo $1 | cut -d- -f 1`
       minor=`echo $1 | cut -d- -f 2`
