@@ -52,7 +52,7 @@ set(ENV{PYTHONPATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{PAYTHONPATH})
 file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/roottest)
 file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/roottest)
 
-#ctest_start(${CTEST_MODE} APPEND)
+ctest_start(${CTEST_MODE} APPEND)
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/roottest
                 SOURCE  ${CTEST_SOURCE_DIRECTORY}/roottest
                 OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake
@@ -67,7 +67,7 @@ ctest_submit(PARTS Test)
 file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/runtutorials)
 file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtutorials)
 
-#ctest_start(${CTEST_MODE} APPEND)
+ctest_start(${CTEST_MODE} APPEND)
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtutorials
                 SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials
                 OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake
