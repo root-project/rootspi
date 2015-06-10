@@ -68,6 +68,12 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 
+./makedoxy.sh $vers
+if [ $? -ne 0 ]; then
+   echo "$prog: makedoxy.sh failed, exiting..."
+   exit 1
+fi
+
 ./makeguides.sh $vers
 if [ $? -ne 0 ]; then
    echo "$prog: makeguides.sh failed, exiting..."
