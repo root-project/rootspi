@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -e
 #
 # Generate the ROOT Doxygen reference manual for the specified version in the
 # directory rootdoc or root<root_major><root_minor>.
@@ -44,7 +44,12 @@ echo "Using `which root` to generate the reference guide..."
 export HOME=$dir/$docdir
 
 # make doxygen
-cd $srcdir/documentation/doxygen
-make
-cd $dir
+if [ -d $srcdir/documentation/doxygen ]; then
+  cd $srcdir/documentation/doxygen
+  make
+  cd $dir
+else
+  echo "$prog: no doxygen documentation for this version"
+fi
+
 
