@@ -3,7 +3,7 @@
 # Get the ROOT source specified by the gittag passed as $1.
 
 prog=`basename $0`
-if [ $# -lt 1 ]; then
+if [ $# -ne 1 ]; then
    echo "$prog: no git tag specified"
    exit 1
 fi
