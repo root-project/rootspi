@@ -15,7 +15,9 @@ fi
 rsync -a $docdir/ root.cern.ch:/user/httpd/root/root/$docdir
 ret=$?
 
-tar zcf ${docdir}.tar.gz $docdir
-scp ${docdir}.tar.gz root.cern.ch:/user/ftp/root
+if [ $docdir != "htmldoc" -a $docdir != "html602" ]; then
+   tar zcf ${docdir}.tar.gz $docdir
+   scp ${docdir}.tar.gz root.cern.ch:/user/ftp/root
+fi
 
 exit $ret

@@ -62,10 +62,12 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 
-./makeref.sh $vers
-if [ $? -ne 0 ]; then
-   echo "$prog: makeref.sh failed, exiting..."
-   exit 1
+if [ $vers != "master" -a $vers != "v6-02-00-patches" ]; then
+   ./makeref.sh $vers
+   if [ $? -ne 0 ]; then
+      echo "$prog: makeref.sh failed, exiting..."
+      exit 1
+   fi
 fi
 
 ./makedoxy.sh $vers
