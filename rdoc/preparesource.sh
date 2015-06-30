@@ -9,6 +9,11 @@ if [ $# -ne 1 ]; then
 fi
 
 gittag=$1
+shift
+gitcommit=$1
+if [ x"$gitcommit" = "x" ]; then
+  gitcommit=$gittag
+fi
 
 mkdir -p src
 cd src
@@ -17,10 +22,11 @@ if [ -d $gittag ]; then
    cd $gittag
    git pull
    git reset --hard
-   git checkout $gittag
+   git checkout $gitcommit
 else
    git clone -b $gittag http://root.cern.ch/git/root.git $gittag
    cd $gittag
+   git checkout $gitcommit
 fi
 
 if [ -x configure ]; then
