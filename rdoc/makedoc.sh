@@ -44,7 +44,7 @@ echo "$prog: using version number $gittag"
 # Checkout and build the source for which to generate the doc
 # THtml cannot create documentation anymore since the move to doxygen syntax.
 # So instead, make sure that we use a commit before - freezing the documentation.
-sourcetag=$gittag
+$sourcetag = $gittag
 if [ $gittag = "master" ]; then
    sourcetag="82a65d347e084d5bcaf329c5f09c7f93d73f044d"
 elif [ $gittag = "v6-02-00-patches" ]; then
