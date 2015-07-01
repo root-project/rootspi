@@ -15,15 +15,24 @@ touch $WORKSPACE/controlfile
 #---Run the CTest script depending on the compiler------------------------------------------
 if [[ $COMPILER == *classic* ]]
 then
+
     ctest -V -S ${THIS}/root-classic.cmake
-    build_rc=$?
-    #ctest -V -S ${THIS}/root-test-classic.cmake
+    status=$?
+
 else
+
     ctest -VV -S ${THIS}/root-build.cmake
-    build_rc=$?
+    status=$?
+
+    # do not run the tests if continus build fails
+    if [ $status -ne 0 ] && [ "$MODE" = continuous ]; then
+       exit $status
+    fi
+
     ctest -V -S ${THIS}/root-test.cmake
+
 fi
 
-exit $build_rc
+exit $status
 
 

@@ -11,7 +11,7 @@ set(CTEST_NOTES_FILES  ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
   ctest_start (Continuous TRACK Continuous-${CTEST_VERSION} APPEND)
-  ctest_test(PARALLEL_LEVEL ${ncpu} INCLUDE "^test-")
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-")
 
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
