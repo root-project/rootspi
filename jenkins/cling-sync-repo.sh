@@ -3,13 +3,13 @@
 set -x
 
 clingRepo="$WORKSPACE/cling"
-rootRepo="$WORKSPACE/cling"
+rootRepo="$WORKSPACE/root"
 
 # What was the last commit in root.git's interpreter/cling?
 rootCommit=`cd $rootRepo && git rev-list -n 1 HEAD -- interpreter/cling`
 if [ "x$rootCommit" = "x" ]; then
   echo 'Cannot extract last cling commit in root repository!' >&2
-  exit
+  exit 1
 fi
 echo "Most recent commit in ROOT/interpreter/cling: $rootCommit"
 
@@ -17,7 +17,7 @@ echo "Most recent commit in ROOT/interpreter/cling: $rootCommit"
 clingTag=`cd $clingRepo && git tag -l '__internal-root-*'`
 if [ "x$clingTag" = "x" ]; then
   echo 'Cannot extract most recent merge tag!' >&2
-  exit
+  exit 1
 fi
 
 if [ "__internal-root-$rootCommit" =  "$clingTag" ]; then
