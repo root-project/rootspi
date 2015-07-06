@@ -49,19 +49,21 @@ endif()
 set(ENV{PYTHONPATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{PAYTHONPATH})
 
 #---Run roottest tests -------------------------------------------------------------
-file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/roottest)
-file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/roottest)
+if(EXISTS ${CTEST_SOURCE_DIRECTORY}/roottest/CMakeLists.txt)
+  file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/roottest)
+  file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/roottest)
 
-ctest_start(${CTEST_MODE} APPEND)
-ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/roottest
-                SOURCE  ${CTEST_SOURCE_DIRECTORY}/roottest
-                OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake
-                APPEND)
-ctest_read_custom_files(${CTEST_BINARY_DIRECTORY}/roottest)
-ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/roottest
-           PARALLEL_LEVEL ${ncpu}
-           APPEND)
-ctest_submit(PARTS Test)
+  ctest_start(${CTEST_MODE} APPEND)
+  ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/roottest
+                  SOURCE  ${CTEST_SOURCE_DIRECTORY}/roottest
+                  OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake
+                  APPEND)
+  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY}/roottest)
+  ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/roottest
+             PARALLEL_LEVEL ${ncpu}
+             APPEND)
+  ctest_submit(PARTS Test)
+endif()
 
 #---Run tutorials tests ----------------------------------------------------------
 file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/runtutorials)
