@@ -69,9 +69,14 @@ then
 
 elif [[ $COMPILER == *icc* ]]
 then
+  iccyear=2013
+  icc14year=2013
+  icc15year=2015
+  COMPILERyear=${COMPILER}year
+
   . /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
-  . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/bin/ifortvars.sh intel64
-  . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/bin/iccvars.sh intel64
+  . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe${!COMPILERyear}/bin/ifortvars.sh intel64
+  . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe${!COMPILERyear}/bin/iccvars.sh intel64
   export CC=icc
   export CXX=icc
   export FC=ifort
