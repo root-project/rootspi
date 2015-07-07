@@ -74,9 +74,17 @@ then
   icc15year=2015
   COMPILERyear=${COMPILER}year
 
+  iccgcc=4.8
+  icc14gcc=4.8
+  icc15gcc=4.9
+  GCCversion=${COMPILER}gcc
+
+  ARCH=$(uname -m)
+
+  . /afs/cern.ch/sw/lcg/contrib/gcc/${!GCCversion}/${ARCH}-slc6/setup.sh
   . /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
-  . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe${!COMPILERyear}/bin/ifortvars.sh intel64
-  . /afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe${!COMPILERyear}/bin/iccvars.sh intel64
+  . /afs/cern.ch/sw/IntelSoftware/linux/${ARCH}/xe${!COMPILERyear}/bin/ifortvars.sh intel64
+  . /afs/cern.ch/sw/IntelSoftware/linux/${ARCH}/xe${!COMPILERyear}/bin/iccvars.sh intel64
   export CC=icc
   export CXX=icc
   export FC=ifort
