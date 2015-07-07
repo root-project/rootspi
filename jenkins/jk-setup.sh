@@ -88,6 +88,7 @@ then
   export CC=icc
   export CXX=icc
   export FC=ifort
+  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
 fi
 
 #echo ${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}
