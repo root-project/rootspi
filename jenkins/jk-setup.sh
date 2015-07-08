@@ -74,8 +74,8 @@ then
   icc15year=2015
   COMPILERyear=${COMPILER}year
 
-  iccgcc=4.8
-  icc14gcc=4.8
+  iccgcc=4.9
+  icc14gcc=4.9
   icc15gcc=4.9
   GCCversion=${COMPILER}gcc
 
