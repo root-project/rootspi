@@ -116,7 +116,7 @@
  else
    export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=OFF -Dbuiltin_davix=OFF -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
-   -Dbuiltin_glew=ON -Dbuiltin_gsl=OFF -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=OFF \
+   -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=OFF \
    -Dbuiltin_zlib=OFF ${ExtraCMakeOptions}"
  fi
 
