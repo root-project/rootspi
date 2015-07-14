@@ -13,8 +13,6 @@ if(EXISTS "${RUN_TESTS_DIR_ROOTTEST}")
   file(REMOVE_RECURSE ${RUN_TESTS_DIR_ROOTTEST})
 endif()
 
-
-
 #---Clean the directory whe test------------------------------------------------
 if(EXISTS "${RUN_TESTS_DIR}")
   file(REMOVE_RECURSE ${RUN_TESTS_DIR})
@@ -55,12 +53,16 @@ ctest_configure(BUILD   ${RUN_TESTS_DIR_ROOTTEST}
 # - MakeIndex: THtml has no sources at disposal and fails
 # - tutorial-tree-staff,tutorial-tree-cernstaff,tutorial-hist-hbars: input
 #    rootfile not distributed with the lcg nightlies
-set(EXCLUSIONREGEX "html-runMakeIndex\|tutorial-tree-staff\|tutorial-tree-cernstaff\|tutorial-hist-hbars")
+
+list(APPEND CTEST_CUSTOM_TESTS_IGNORE
+            html-runMakeIndex
+            tutorial-tree-staff
+            tutorial-tree-cernstaff
+            tutorial-hist-hbars)
 
 ctest_test(BUILD ${RUN_TESTS_DIR_ROOTTEST}
            APPEND
-           PARALLEL_LEVEL ${ncpu}
-           EXCLUDE ${EXCLUSIONREGEX})
+           PARALLEL_LEVEL ${ncpu})
 
 ctest_submit(PARTS Configure Test)
 

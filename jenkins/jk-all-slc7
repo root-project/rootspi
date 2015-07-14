@@ -3,75 +3,50 @@
 # This script prepares the environment to run ROOT tests using the devX
 # nightlies of the day before built for slc6 on a cc7 node.
 
-export LC_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 THIS=$(dirname $0)
-
-#V_TYPE=opt
 
 export LABEL_ORG=${LABEL}
 
-if [ "${DAY}" == "yesterday" ]
-then
-    DAY=$(date --date="yesterday"|awk '{print $1}')
+if [ "${DAY}" == "yesterday" ]; then
+  DAY=$(date --date="yesterday" | awk '{print $1}')
+elif [ "${DAY}" == "today" ]; then
+  DAY=$(date | awk '{print $1}')
 fi
 
-if [ "${DAY}" == "today" ]
-then
-    DAY=$(date |awk '{print $1}')
+echo "*** Picking up ROOT ${VERSION} from slot '${LCG_SLOT}' of '${DAY}' of build type '${V_TYPE}'"
+
+if [ "${LABEL_ORG}" == "slc7" ] || [ "${LABEL_ORG}" == "cc7" ]; then
+  LABEL=slc6
 fi
 
-
-echo "*** Picking up ROOT ${VERSION} from slot ${lcg_target} of ${DAY} of type ${V_TYPE}"
-
-if [ "${LABEL_ORG}" == "slc7" ] || [ "${LABEL_ORG}" == "cc7" ]
-then
-    LABEL=slc6
+if [ "${LABEL}" == "slc6" ]; then
+  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
 fi
 
-if [ "${LABEL}" == "slc6" ] 
-then
-    export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/
-    if [ "${LABEL_ORG}" == "slc6" ]
-    then
-       # We need Cmake for 64b machines in order to work in CentOs7 (SPI-741 bug)
-	    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/2.8.9/Linux-i386/bin:${PATH}
-    fi
-else
-    export EXTERNALDIR=$HOME/ROOT-externals/
-fi
+if [[ $COMPILER == *gcc* ]]; then
+  ARCH=$(uname -m)
 
-if [[ $COMPILER == *gcc* ]]
-then
-    gcc48version=4.8
-    gcc49version=4.9
-    COMPILERversion=${COMPILER}version
+  # Here we setup ROOT and its environment (qt, gfal, gsl, davix ...)
+  baseLCGDir=/afs/cern.ch/sw/lcg/app/nightlies/${LCG_SLOT}/${DAY}/
+  platformName=${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}
+  baseROOTDir=${baseLCGDir}/ROOT/${VERSION}/${platformName}
 
-    ARCH=$(uname -m)
+  source ${baseROOTDir}/ROOT-env.sh
+  source ${baseROOTDir}/bin/thisroot.sh
 
-    # Here we setup ROOT and its environment (qt, gfal, gsl, davix ...)
-    baseLCGDir=/afs/cern.ch/sw/lcg/app/nightlies/${lcg_target}/${DAY}/
-    platformName=${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}
-    baseROOTDir=${baseLCGDir}/ROOT/${VERSION}/${platformName}
+  # Now add to the include path until the ROOT-env provides the paths
+  # Qt
+  qtBaseIncDir=${baseLCGDir}/qt/4.8.4/${platformName}/include/
+  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}/Qt:${qtBaseIncDir}/QtCore:${qtBaseIncDir}/QtGui:${qtBaseIncDir}
+  # xrootd
+  xrootdIncDir=${baseLCGDir}/xrootd/3.3.6/${platformName}/include/xrootd/
+  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}
 
-    . ${baseROOTDir}/ROOT-env.sh
-    . ${baseROOTDir}/bin/thisroot.sh
-
-    # Now add to the include path until the ROOT-env provides the paths
-    # Qt
-    qtBaseIncDir=${baseLCGDir}/qt/4.8.4/${platformName}/include/
-    export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}/Qt:${qtBaseIncDir}/QtCore:${qtBaseIncDir}/QtGui:${qtBaseIncDir}
-    # xrootd
-    xrootdIncDir=${baseLCGDir}/xrootd/3.3.6/${platformName}/include/xrootd/
-    export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}
-
-
-    if [ -d roottest ];
-    then 
-        (cd roottest && git checkout ${VERSION} && git pull);
-    else 
-        (git clone http://roottest.cern.ch && cd roottest && git checkout ${VERSION})
-    fi
+  if [ -d roottest ]; then
+    (cd roottest && git checkout ${VERSION} && git pull);
+  else
+    (git clone http://roottest.cern.ch && cd roottest && git checkout ${VERSION})
+  fi
 fi    
 
 echo "Dumping the full environment ---------------------------------------------------------"
@@ -83,7 +58,4 @@ touch $WORKSPACE/controlfile
 
 #---Run the CTest script depending on the compiler------------------------------------------
 ctest -V -S ${THIS}/root-test-slc7.cmake
-
-exit 0
-
 
