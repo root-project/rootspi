@@ -1,5 +1,7 @@
 #---Common Setting----------------------------------------------------------
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
+
+set(CTEST_CHECKOUT_COMMAND)
 set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}-slc7)
 set(RUN_TESTS_DIR ${CTEST_BINARY_DIRECTORY}/runtests)
 set(RUN_TESTS_DIR_ROOTTEST ${CTEST_BINARY_DIRECTORY}/runtests-roottest)
