@@ -40,13 +40,13 @@ if [[ $COMPILER == *gcc* ]]; then
   # Now add to the include path until the ROOT-env provides the paths
 
   # Qt
-  qtBaseIncDir=pp=`echo $PATH | tr ":" "\n" | grep "/qt/" | sed 's/bin/include/g'`
+  qtBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/qt/" | sed 's/bin/include/g'`
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}
   # mysql
-  mysqlBaseIncDir=`echo $HTAP | tr ":" "\n" | grep "/mysql/" | sed 's/bin/include/g'`
+  mysqlBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/mysql/" | sed 's/bin/include/g'`
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${mysqlBaseIncDir}
   # xrootd
-  xrootdIncDir=`echo $HTAP | tr ":" "\n" | grep "/xroot/" | sed 's/bin/include/g'`
+  xrootdIncDir=`echo $PATH | tr ":" "\n" | grep "/xroot/" | sed 's/bin/include/g'`
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}
 
   # the 'correct' compiler is not properly setup by ROOT-env.sh
