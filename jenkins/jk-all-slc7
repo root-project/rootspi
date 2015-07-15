@@ -42,6 +42,14 @@ if [[ $COMPILER == *gcc* ]]; then
   xrootdIncDir=${baseLCGDir}/xrootd/3.3.6/${platformName}/include/xrootd/
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}
 
+  # the 'correct' compiler is not properly setup by ROOT-env.sh
+  gcc47version=4.7
+  gcc48version=4.8
+  gcc49version=4.9
+  gcc51version=5.1
+  COMPILERversion=${COMPILER}version
+  source /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
+
   # CMake > 3.0 does not select the compiler in the PATH in preference
   export FC=gfortran
   export CXX=`which g++`
