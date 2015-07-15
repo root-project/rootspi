@@ -42,7 +42,7 @@ if [[ $COMPILER == *gcc* ]]; then
 
   # Qt
   qtBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/qt/" | sed 's/bin/include/g'`
-  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}
+  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}:${qtBaseIncDir}/Qt
   # mysql
   mysqlBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/mysql/" | sed 's/bin/include/g'`
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${mysqlBaseIncDir}
