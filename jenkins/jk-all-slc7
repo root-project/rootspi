@@ -42,11 +42,11 @@ if [[ $COMPILER == *gcc* ]]; then
   xrootdIncDir=${baseLCGDir}/xrootd/3.3.6/${platformName}/include/xrootd/
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}
 
-  if [ -d roottest ]; then
-    (cd roottest && git checkout ${VERSION} && git pull);
-  else
-    (git clone http://roottest.cern.ch && cd roottest && git checkout ${VERSION})
-  fi
+  # CMake > 3.0 does not select the compiler in the PATH in preference
+  export FC=gfortran
+  export CXX=`which g++`
+  export CC=`which gcc`
+
 fi    
 
 echo "Dumping the full environment ---------------------------------------------------------"
