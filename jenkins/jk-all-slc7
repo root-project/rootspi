@@ -27,19 +27,26 @@ if [[ $COMPILER == *gcc* ]]; then
   ARCH=$(uname -m)
 
   # Here we setup ROOT and its environment (qt, gfal, gsl, davix ...)
-  baseLCGDir=/afs/cern.ch/sw/lcg/app/nightlies/${LCG_SLOT}/${DAY}/
+  baseLCGDir=/afs/cern.ch/sw/lcg/app/nightlies/${LCG_SLOT}/${DAY}
   platformName=${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}
   baseROOTDir=${baseLCGDir}/ROOT/${VERSION}/${platformName}
 
   source ${baseROOTDir}/ROOT-env.sh
   source ${baseROOTDir}/bin/thisroot.sh
 
+  # epel is needed but no dependency has been declared from ROOT
+  source ${baseLCGDir}/Grid/epel/20130408/${platformName}/epel-env.sh
+
   # Now add to the include path until the ROOT-env provides the paths
+
   # Qt
-  qtBaseIncDir=${baseLCGDir}/qt/4.8.4/${platformName}/include/
-  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}/Qt:${qtBaseIncDir}/QtCore:${qtBaseIncDir}/QtGui:${qtBaseIncDir}
+  qtBaseIncDir=pp=`echo $PATH | tr ":" "\n" | grep "/qt/" | sed 's/bin/include/g'`
+  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}
+  # mysql
+  mysqlBaseIncDir=`echo $HTAP | tr ":" "\n" | grep "/mysql/" | sed 's/bin/include/g'`
+  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${mysqlBaseIncDir}
   # xrootd
-  xrootdIncDir=${baseLCGDir}/xrootd/3.3.6/${platformName}/include/xrootd/
+  xrootdIncDir=`echo $HTAP | tr ":" "\n" | grep "/xroot/" | sed 's/bin/include/g'`
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}
 
   # the 'correct' compiler is not properly setup by ROOT-env.sh

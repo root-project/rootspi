@@ -42,6 +42,7 @@ ctest_configure(BUILD   ${RUN_TESTS_DIR_ROOTTEST}
                 SOURCE  roottest)
 
 list(APPEND CTEST_CUSTOM_TESTS_IGNORE
+            roottest-cling-parsing-semicolon
             html-runMakeIndex
             tutorial-tree-staff
             tutorial-tree-cernstaff
