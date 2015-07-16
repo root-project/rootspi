@@ -37,12 +37,13 @@ if [[ $COMPILER == *gcc* ]]; then
   # epel, voms are needed but no dependency has been declared from ROOT
   source ${baseLCGDir}/Grid/epel/20130408/${platformName}/epel-env.sh
   source ${baseLCGDir}/Grid/voms/2.0.9-1/${platformName}/voms-env.sh
+  source ${baseLCGDir}/Grid/srm-ifce/1.13.0-0/${platformName}/srm_ifce-env.sh
 
   # Now add to the include path until the ROOT-env provides the paths
 
   # Qt
   qtBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/qt/" | sed 's/bin/include/g'`
-  export ROOT_INCLUDE_PATH=${qtBaseIncDir}:${qtBaseIncDir}/Qt
+  export ROOT_INCLUDE_PATH=${qtBaseIncDir}:${qtBaseIncDir}/Qt:${qtBaseIncDir}/QtCore
   # mysql
   mysqlBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/mysql/" | sed 's/bin/include/g'`
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${mysqlBaseIncDir}

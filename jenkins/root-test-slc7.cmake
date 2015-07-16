@@ -1,7 +1,9 @@
 #---Common Setting----------------------------------------------------------
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 
-set(CTEST_CHECKOUT_COMMAND)
+set(CTEST_CHECKOUT_COMMAND "cmake -E chdir roottest ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_PREVIOUS_COMMIT}")
+set(CTEST_GIT_UPDATE_CUSTOM  ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
+
 set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}-slc7)
 set(RUN_TESTS_DIR ${CTEST_BINARY_DIRECTORY}/runtests)
 set(RUN_TESTS_DIR_ROOTTEST ${CTEST_BINARY_DIRECTORY}/runtests-roottest)
@@ -22,6 +24,7 @@ endif()
 
 #---CTest commands----------------------------------------------------------
 ctest_start(${CTEST_MODE} roottest)
+ctest_update()
 
 #---For the tutorials--------------------------------------------
 file(MAKE_DIRECTORY ${RUN_TESTS_DIR})
@@ -33,7 +36,7 @@ ctest_build(BUILD ${RUN_TESTS_DIR})
 ctest_test(BUILD ${RUN_TESTS_DIR}
            PARALLEL_LEVEL ${ncpu})
 
-ctest_submit(PARTS Configure Build Test Notes)
+ctest_submit(PARTS Update Configure Build Test Notes)
 
 #---For the roottest--------------------------------------------
 file(MAKE_DIRECTORY ${RUN_TESTS_DIR_ROOTTEST})
