@@ -42,12 +42,12 @@ if [[ $COMPILER == *gcc* ]]; then
 
   # Qt
   qtBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/qt/" | sed 's/bin/include/g'`
-  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${qtBaseIncDir}:${qtBaseIncDir}/Qt
+  export ROOT_INCLUDE_PATH=${qtBaseIncDir}:${qtBaseIncDir}/Qt
   # mysql
   mysqlBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/mysql/" | sed 's/bin/include/g'`
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${mysqlBaseIncDir}
   # xrootd
-  xrootdIncDir=`echo $PATH | tr ":" "\n" | grep "/xroot/" | sed 's/bin/include/g'`
+  xrootdIncDir=`echo $PATH | tr ":" "\n" | grep "/xrootd/" | sed 's/bin/include/g'`
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}
 
   # the 'correct' compiler is not properly setup by ROOT-env.sh
