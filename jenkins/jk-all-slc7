@@ -38,7 +38,7 @@ if [[ $COMPILER == *gcc* ]]; then
   source ${baseLCGDir}/Grid/epel/20130408/${platformName}/epel-env.sh
   source ${baseLCGDir}/Grid/voms/2.0.9-1/${platformName}/voms-env.sh
   source ${baseLCGDir}/Grid/srm-ifce/1.13.0-0/${platformName}/srm_ifce-env.sh
-  source ${baseLCGDir}/Grid/is_ifce/1.15.0-0/${platformName}/srm_ifce-env.sh
+  source ${baseLCGDir}/Grid/is_ifce/1.15.0-0/${platformName}/is_ifce-env.sh
 
   # Now add to the include path until the ROOT-env provides the paths
 
@@ -50,7 +50,10 @@ if [[ $COMPILER == *gcc* ]]; then
   export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${mysqlBaseIncDir}
   # xrootd
   xrootdIncDir=`echo $PATH | tr ":" "\n" | grep "/xrootd/" | sed 's/bin/include/g'`
-  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}
+  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}:${xrootdIncDir}/xrootd
+  # oracle
+  oracleIncDir=`echo $PATH | tr ":" "\n" | grep "/oracle/" | sed 's/bin/include/g'`
+  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${oracleIncDir}
 
   # the 'correct' compiler is not properly setup by ROOT-env.sh
   gcc47version=4.7
