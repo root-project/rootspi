@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 # Hyperize the dev notes (ChangeLog) for the specified version in the
 # file htmldoc/notes/dev-notes.html.

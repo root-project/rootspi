@@ -38,7 +38,7 @@ fi
 # set ROOTSYS
 dir=`pwd`
 . $srcdir/bin/thisroot.sh
-echo "Using `which root` to generate the reference guide..."
+echo "Using `which root` to generate the doxygen guide..."
 
 # set HOME (used by doxygen/Makefile)
 export HOME=$dir/$docdir
