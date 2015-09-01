@@ -4,7 +4,6 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 THIS=$(dirname ${BASH_SOURCE[0]})
-PLATFORM=`$THIS/getPlatform.py`
 
 # first arguments is the source directory
 if [ $# -ge 4 ]; then
@@ -16,6 +15,8 @@ else
   echo "$0: expecting 4 arguments [LABEL]  [COMPILER] [BUILDTYPE] [EXTERNALS]"
   return
 fi
+
+PLATFORM=`$THIS/getPlatform.py`
 
 if [[ $PLATFORM == *slc6* ]]; then
   LABEL=slc6
@@ -95,5 +96,6 @@ fi
 eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
 
 #  Additional environment for Python tools
+PLATFORM=`$THIS/getPlatform.py`
 echo $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools_env
 source $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools_env
