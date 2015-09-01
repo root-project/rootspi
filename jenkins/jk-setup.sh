@@ -97,5 +97,5 @@ eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS
 
 #  Additional environment for Python tools
 PLATFORM=`$THIS/getPlatform.py`
-echo $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools_env
-source $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools_env
+echo $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools-env.sh
+source $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools-env.sh
