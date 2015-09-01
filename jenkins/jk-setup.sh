@@ -17,14 +17,14 @@ else
   return
 fi
 
-if [[ $PLATFORM == *slc6* ]]
-then
+if [[ $PLATFORM == *slc6* ]]; then
   LABEL=slc6
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
-elif [[ $PLATFORM == *cc7* ]]
-then
+  export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
+elif [[ $PLATFORM == *cc7* ]]; then
   LABEL=cc7
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+  export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
 else
   export EXTERNALDIR=$HOME/ROOT-externals
 fi
@@ -93,3 +93,7 @@ fi
 
 #echo ${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}
 eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
+
+#  Additional environment for Python tools
+echo $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools_env
+source $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools_env
