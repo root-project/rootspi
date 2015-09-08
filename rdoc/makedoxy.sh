@@ -28,26 +28,23 @@ else
    exit 1
 fi
 
-if [ "x$2" = "xclean" ]; then
-   if [ -d $docdir/rootdoc ]; then
-      rm -rf $docdir/rootdoc
-   fi
-   exit 0
-fi
-
 # set ROOTSYS
 dir=`pwd`
 . $srcdir/bin/thisroot.sh
 echo "Using `which root` to generate the doxygen guide..."
 
+# clean up previous files: removed types etc.
+rm -rf $docdir $dir/${docdir}_TMP
+
 # set HOME (used by doxygen/Makefile)
-export HOME=$dir/$docdir
+export DOXYGEN_OUTPUT_DIRECTORY=$dir/${docdir}_TMP
 
 # make doxygen
 if [ -d $srcdir/documentation/doxygen ]; then
   cd $srcdir/documentation/doxygen
   make
   cd $dir
+  mv $dir/${docdir}_TMP/html $dir/${docdir}
 else
   echo "$prog: no doxygen documentation for this version"
 fi
