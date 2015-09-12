@@ -12,10 +12,15 @@ else
    docdir="$1"
 fi
 
-rsync -a $docdir/ root.cern.ch:/user/httpd/root/root/$docdir
-ret=$?
+if [ "$docdir" = "master" ]; then
+  rsync -a $docdir/ root.cern.ch:/user/httpd/root/doc/$docdir
+  ret=$?
+else
+  rsync -a $docdir/ root.cern.ch:/user/httpd/root/root/$docdir
+  ret=$?
+fi
 
-if [ $docdir != "htmldoc" -a $docdir != "html602" ]; then
+if [ $docdir != "master" -a $docdir != "html602" ]; then
    tar zcf ${docdir}.tar.gz $docdir
    scp ${docdir}.tar.gz root.cern.ch:/user/ftp/root
 fi

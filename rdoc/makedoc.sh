@@ -12,7 +12,7 @@ if [ $# -ge 1 ]; then
    vers="$1"
    if [ "x$1" = "xmaster" ]; then
       major=
-      docdir="htmldoc"
+      docdir="master"
       gittag="master"
    else
       major=`echo $1 | cut -d- -f 1`
