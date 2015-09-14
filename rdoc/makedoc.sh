@@ -67,11 +67,11 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 
-./maketut.sh $vers
-if [ $? -ne 0 ]; then
-   echo "$prog: maketut.sh failed, exiting..."
-   exit 1
-fi
+#./maketut.sh $vers
+#if [ $? -ne 0 ]; then
+#   echo "$prog: maketut.sh failed, exiting..."
+#   exit 1
+#fi
 
 ./cpgifs.sh $docdir
 if [ $? -ne 0 ]; then
