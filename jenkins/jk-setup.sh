@@ -66,8 +66,11 @@ then
 
 elif [[ $COMPILER == *native* ]]
 then
-  export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
-
+  if [[ $LABEL == *mac* ]] ; then
+    export FC=gfortran
+  else
+    export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
+  fi
 elif [[ $COMPILER == *icc* ]]
 then
   iccyear=2013
