@@ -67,7 +67,7 @@ then
 elif [[ $COMPILER == *native* ]]
 then
   if [[ $LABEL == *mac* ]] ; then
-    export FC=gfortran
+    export FC=`which gfortran`
   else
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
   fi
