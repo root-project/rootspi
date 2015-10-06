@@ -104,4 +104,6 @@ eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS
 #  Additional environment for Python tools
 PLATFORM=`$THIS/getPlatform.py`
 #echo $LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools
-eval `$LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools`
+setupfile=`mktemp`
+$LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools > $setupfile
+source $setupfile
