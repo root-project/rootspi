@@ -22,12 +22,15 @@ if [[ $PLATFORM == *slc6* ]]; then
   LABEL=slc6
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
+  export LCGENV=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
 elif [[ $PLATFORM == *cc7* ]]; then
   LABEL=cc7
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
+  export LCGENV=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
 else
   export EXTERNALDIR=$HOME/ROOT-externals
+  export LCGENV=$HOME/ROOT-externals/lcgenv
 fi
 
 if [[ $COMPILER == *gcc* ]]
@@ -100,8 +103,5 @@ eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS
 
 #  Additional environment for Python tools
 PLATFORM=`$THIS/getPlatform.py`
-_version_sav=$VERSION
-echo sourcing $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools-env.sh
-source $EXTERNALDIR/$EXTERNALS/pytools/*/$PLATFORM/pytools-env.sh
-VERSION=$_version_sav
-
+#echo $LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools
+eval `$LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools`
