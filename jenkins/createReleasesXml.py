@@ -290,7 +290,7 @@ def getReleasesNotesFromGitTag(gitTag):
    shortId = series+version
    patchString = ""
    if patch!="00":
-      patchString = "#patch-releases"
+      patchString = "#release-%s.%s%s" % (series, version, patch)
    return markdownNewRN %(shortId,patchString)
 
 tarballsOnTheWeb = ROOTTarballsOnTheWeb()
