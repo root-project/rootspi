@@ -16,10 +16,6 @@ if [ -z ${ROOTVERSION+x} ]; then
   return
 fi
 
-echo "$0: ROOTVERSION: [$ROOTVERSION]" >&2
-
-exit 0
-
 rootdir_write="/afs/.cern.ch/sw/lcg/app/releases/ROOT"
 rootdir_read="/afs/cern.ch/sw/lcg/app/releases/ROOT"
 cmd1="cd $rootdir_write"
