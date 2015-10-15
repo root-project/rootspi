@@ -1,0 +1,88 @@
+#!/bin/sh
+
+# afs_release.sh
+# 
+# Created by Bertrand Bellenot on 2015/06/25
+# Copyright 2015 CERN. All rights reserved.
+#
+
+if [ ! -d "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}" ]; then
+  echo 1>&2 "The directory /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION} doesn't exist!"
+  exit 127
+fi
+
+for var in "${Configuration[@]}"
+do
+   if [[ $var == *gcc* ]] ; then
+      if [[ $var == *cc7* ]] ; then
+         FLAVOR="cc7"
+      fi
+      if [[ $var == *slc6* ]] ; then
+         FLAVOR="slc6"
+      fi
+      COMPILER=${var%-opt*}    # get the part before "-opt"
+      COMPILER=${COMPILER##*-} # get the part after the last '-'
+      GCC_VERSION=${COMPILER:0:4}.${COMPILER:4:1}
+      tarfile="root_v${ROOTVERSION}.Linux-${FLAVOR}-x86_64-${GCC_VERSION}.tar.gz"
+   fi
+   if [[ $var == *mac* ]] ; then
+      MAC_VER=${var%-clang*}   # get the part before "-clang"
+      MAC_VER=${MAC_VER##*mac} # get the part after "mac"
+      MAC_VERSION=${MAC_VER:0:2}.${MAC_VER:2:2}
+      CLANG_VER=${var%-opt*}   # get the part before "-opt"
+      CLANG_VER=${CLANG_VER##*-} # get the part after the last '-'
+      tarfile="root_v${ROOTVERSION}.macosx64-${MAC_VERSION}-${CLANG_VER}.tar.gz"
+   fi
+   echo "$0: tar file: ${tarfile}"
+   if [ -f ${tarfile} ]; then
+      rm ${tarfile}
+   fi
+done
+
+exit 0
+
+cd "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}"
+
+mkdir /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/src
+tarfile="root_v${ROOTVERSION}.source.tar.gz"
+wget "https://root.cern.ch/download/${tarfile}" >null 2>&1
+if [ -f ${tarfile} ]; then
+   tar -zxvf ${tarfile} -C /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/src
+   rm ${tarfile}
+fi
+
+for var in "${Configuration}"
+do
+   mkdir /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var
+   if [ -d "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var" ]; then
+      if [[ $var == *gcc* ]] ; then
+         if [[ $var == *cc7* ]] ; then
+            FLAVOR="cc7"
+         fi
+         if [[ $var == *slc6* ]] ; then
+            FLAVOR="slc6"
+         fi
+         COMPILER=${var%-opt*}    # get the part before "-opt"
+         COMPILER=${COMPILER##*-} # get the part after the last '-'
+         GCC_VERSION=${COMPILER:0:4}.${COMPILER:4:1}
+         tarfile="root_v${ROOTVERSION}.Linux-${FLAVOR}-x86_64-${GCC_VERSION}.tar.gz"
+         wget "https://root.cern.ch/download/${tarfile}" >null 2>&1
+      fi
+      if [[ $var == *mac* ]] ; then
+         MAC_VER=${var%-clang*}   # get the part before "-clang"
+         MAC_VER=${MAC_VER##*mac} # get the part after "mac"
+         MAC_VERSION=${MAC_VER:0:2}.${MAC_VER:2:2}
+         CLANG_VER=${var%-opt*}   # get the part before "-opt"
+         CLANG_VER=${CLANG_VER##*-} # get the part after the last '-'
+         tarfile="root_v${ROOTVERSION}.macosx64-${MAC_VERSION}-${CLANG_VER}.tar.gz"
+         wget "https://root.cern.ch/download/${tarfile}" >null 2>&1
+      fi
+      if [ -f ${tarfile} ]; then
+         tar -zxvf ${tarfile} -C /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var
+         rm ${tarfile}
+      fi
+   fi
+done
+
+cd -
+

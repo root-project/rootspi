@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+#set -x
+
+# Accepting following parameters:
+#  $1: ROOT Version
+
+THIS=$(dirname ${BASH_SOURCE[0]})
+
+if [ $# -ge 1 ]; then
+  ROOTVERSION=$1; shift
+fi
+
+if [ -z ${ROOTVERSION+x} ]; then 
+  echo "$0: expecting 1 argument: [ROOTVERSION]"
+  return
+fi
+
+echo "$0: ROOTVERSION: [$ROOTVERSION]"
+
+exit 0
+
+rootdir_write="/afs/.cern.ch/sw/lcg/app/releases/ROOT"
+rootdir_read="/afs/cern.ch/sw/lcg/app/releases/ROOT"
+cmd1="cd $rootdir_write"
+
+function error_exit
+{
+    echo "$1" 1>&2
+    exit 1
+}
+
+if $cmd1; then
+    echo "entering in AFS to create a new volume for $ROOTVERSION"
+    pwd
+else
+    error_exit "Cannot change directory!  Aborting."
+fi
+
+# creation of the volume based on the ROOT version
+volumename=${ROOTVERSION//.}
+
+if [ -d "$rootdir_write/$ROOTVERSION" ]; then
+    error_exit "The directory alredy exists in AFS!  Aborting."
+fi
+
+cmd2="afs_admin create $rootdir_read/$ROOTVERSION p.sw.lcg.rt$volumename"
+cmd3="chmod 777 $ROOTVERSION"
+cmd4="afs_admin set_quota $rootdir_read/$ROOTVERSION 69000000"
+cmd5="fs setacl -dir $rootdir_read/$ROOTVERSION -acl lcgapp:spiadm rlidwka cern:nodes rl system:anyuser rl bellenot rlidwka pmendez rlidwka"
+if $cmd2; then
+    echo "The AFS volume has been created"
+else
+    error_exit "Cannot create the volume!  Aborting."
+fi
+if $cmd3; then
+    echo "Mode has been modified"
+else
+    error_exit "Error changing the mode!  Aborting."
+fi
+if $cmd4; then
+    echo "default quota changed to 69GB"
+else
+    error_exit "Error setting the quota!  Aborting."
+fi
+if $cmd5; then
+    echo "extending permissions"
+else
+    error_exit "Error setting the access permissions!  Aborting."
+fi
+
