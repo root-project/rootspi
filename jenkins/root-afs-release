@@ -7,7 +7,7 @@
 #
 
 if [ ! -d "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}" ]; then
-  echo 1>&2 "The directory /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION} doesn't exist!"
+  echo 1>&2 "The directory /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION} doesn't exist!" >&2
   exit 127
 fi
 
@@ -33,7 +33,7 @@ do
       CLANG_VER=${CLANG_VER##*-} # get the part after the last '-'
       tarfile="root_v${ROOTVERSION}.macosx64-${MAC_VERSION}-${CLANG_VER}.tar.gz"
    fi
-   echo "$0: tar file: ${tarfile}"
+   echo "$0: tar file: ${tarfile}" >&2
    if [ -f ${tarfile} ]; then
       rm ${tarfile}
    fi

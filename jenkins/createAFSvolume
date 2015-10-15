@@ -12,11 +12,11 @@ if [ $# -ge 1 ]; then
 fi
 
 if [ -z ${ROOTVERSION+x} ]; then 
-  echo "$0: expecting 1 argument: [ROOTVERSION]"
+  echo "$0: expecting 1 argument: [ROOTVERSION]" >&2
   return
 fi
 
-echo "$0: ROOTVERSION: [$ROOTVERSION]"
+echo "$0: ROOTVERSION: [$ROOTVERSION]" >&2
 
 exit 0
 
