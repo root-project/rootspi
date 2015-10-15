@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -x
+#set -x
 
 # Accepting following parameters:
 #  $1: ROOT Version
