@@ -28,6 +28,10 @@ elif [[ $PLATFORM == *cc7* ]]; then
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
   export LCGENV=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
+elif [[ $PLATFORM == *mac1011* ]]; then
+  export PATH=/usr/local/bin:${PATH}
+  export EXTERNALDIR=$HOME/ROOT-externals
+  export LCGENV=$HOME/ROOT-externals/lcgenv
 else
   export EXTERNALDIR=$HOME/ROOT-externals
   export LCGENV=$HOME/ROOT-externals/lcgenv
