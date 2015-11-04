@@ -66,6 +66,7 @@
        export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=${Python_executable} ${ExtraCMakeOptions}"
     fi
  elif [[ ${LABEL} == *mac* ]] ; then
+    export PATH=/usr/local/bin:${PATH}
     export CC=`which clang`
     export CXX=`which clang++`
     export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=/usr/bin/python -Dcxx11=ON -Dlibcxx=ON -DOPENSSL_ROOT_DIR=/usr ${ExtraCMakeOptions}"
