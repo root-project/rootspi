@@ -11,12 +11,6 @@ if [ ! -d "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}" ]; then
   exit 127
 fi
 
-for var in $(echo ${Configuration} | tr "," " " | tr -d '"')
-do
-   echo "$var"
-done
-
-exit 0
 #cd "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}"
 
 mkdir /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/src
@@ -27,7 +21,7 @@ if [ -f ${tarfile} ]; then
    rm ${tarfile}
 fi
 
-for var in $(echo ${Configuration} | tr "," " ")
+for var in $(echo ${Configuration} | tr "," " " | tr -d '"')
 do
    mkdir /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var
    if [ -d "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var" ]; then
