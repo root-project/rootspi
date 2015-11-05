@@ -11,6 +11,12 @@ if [ ! -d "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}" ]; then
   exit 127
 fi
 
+for var in $(echo ${Configuration} | tr "," " ")
+do
+   echo "$var"
+done
+
+exit 0
 #cd "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}"
 
 mkdir /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/src
@@ -23,11 +29,6 @@ fi
 
 for var in $(echo ${Configuration} | tr "," " ")
 do
-   echo "$var"
-done
-
-exit 0
-
    mkdir /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var
    if [ -d "/afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var" ]; then
       if [[ $var == *gcc* ]] ; then
