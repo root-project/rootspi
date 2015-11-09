@@ -135,7 +135,9 @@ class ROOTTarballsOnTheWeb(object):
                  ["Linux-slc6",  "Scientific Linux Cern 6"],
                  ["Linux-ubuntu","Ubuntu "],
                  ["macosx64",    "OsX"],
-                 ["win32.vc",    "Windows Visual Studio "],
+                 ["win32.vc10",    "Windows Visual Studio 2010"],
+                 ["win32.vc11",    "Windows Visual Studio 2012"],
+                 ["win32.vc12",    "Windows Visual Studio 2013"],
                  [".debug",      " (dbg)"],
                  ["x86_64-",     ""]]
         for old, new in pairs:
@@ -279,7 +281,7 @@ def getReleasesNotesFromGitTag(gitTag):
 
    if gitTag in DrupalBasedRNGitTags or gitTag.startswith("v5-34"):
       RNurl ="/root-version-%s-patch-release-notes" %gitTag
-      if gitTag.startswith("v5-34"): 
+      if gitTag.startswith("v5-34"):
           RNurl="/root-version-v5-34-00-patch-release-notes#%s" %patch
           #print "------>",RNurl
       markdownOldRN = markdownTemplate %RNurl
