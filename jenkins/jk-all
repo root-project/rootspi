@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -e
 THIS=$(dirname $0)
 
 echo source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
