@@ -1,11 +1,17 @@
 #!/usr/bin/env python
 
 import sys, getopt, fnmatch, os, subprocess, platform, string, re
+from __future__ import print_function
 
 global arch, system
 
 arch = platform.machine()
 system = platform.system()
+
+def warning(*objs):
+   print("WARNING: ", *objs, file=sys.stderr)
+def info(*objs):
+   print("INFO: ", *objs, file=sys.stderr)
 
 # --------------------- Setting command lines options 
 def main(argv):
@@ -235,6 +241,7 @@ if __name__ == "__main__":
    if not op_sys:
       op_sys = default_os()
 
+   # txt_directory is not used anymore.
    txt_directory = rootDir+"/"+arch+"-"+op_sys+"-"+compiler+"-"+build_type+".txt"
 
    if os.path.exists(txt_directory):
@@ -251,19 +258,21 @@ if __name__ == "__main__":
       print ld_libs
 
    else:
-      prefix, path, ld_libs = directory_names()
-      if os.getenv('PATH') : path.append(os.getenv('PATH'))
-      if system == 'Darwin':
-        if os.getenv('DYLD_LIBRARY_PATH') : ld_libs.append(os.getenv('DYLD_LIBRARY_PATH'))
+      if os.path.exists(rootDir):
+         prefix, path, ld_libs = directory_names()
+         if os.getenv('PATH') : path.append(os.getenv('PATH'))
+         if system == 'Darwin':
+            if os.getenv('DYLD_LIBRARY_PATH') : ld_libs.append(os.getenv('DYLD_LIBRARY_PATH'))
+         else:
+            if os.getenv('LD_LIBRARY_PATH') : ld_libs.append(os.getenv('LD_LIBRARY_PATH'))
+
+         print '%s=%s' % ("export CMAKE_PREFIX_PATH", ':'.join(prefix))
+         print '%s=%s' % ("export PATH", ':'.join(path))
+         if system == 'Darwin' :
+            print '%s=%s' % ("export DYLD_LIBRARY_PATH", ':'.join(ld_libs))
+         else :
+            print '%s=%s' % ("export LD_LIBRARY_PATH", ':'.join(ld_libs))
       else:
-        if os.getenv('LD_LIBRARY_PATH') : ld_libs.append(os.getenv('LD_LIBRARY_PATH'))
-
-      print '%s=%s' % ("export CMAKE_PREFIX_PATH", ':'.join(prefix))
-      print '%s=%s' % ("export PATH", ':'.join(path))
-      if system == 'Darwin' :
-         print '%s=%s' % ("export DYLD_LIBRARY_PATH", ':'.join(ld_libs))
-      else :
-         print '%s=%s' % ("export LD_LIBRARY_PATH", ':'.join(ld_libs))
-
+         info("No externals in /afs for this platform / build combination!")
 
 
