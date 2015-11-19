@@ -108,7 +108,7 @@ eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS
 #  Additional environment for Python tools
 PLATFORM=`$THIS/getPlatform.py`
 #echo $LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools
-setupfile=`mktemp`
+setupfile=`mktemp jenkins-setup.XXXXXX`
 if ( $LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools > $setupfile ); then
     source $setupfile
 else
