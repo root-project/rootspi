@@ -109,5 +109,8 @@ eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS
 PLATFORM=`$THIS/getPlatform.py`
 #echo $LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools
 setupfile=`mktemp`
-$LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools > $setupfile
-source $setupfile
+if ( $LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools > $setupfile ); then
+    source $setupfile
+else
+    echo "No configuration for $PLATFORM in $EXTERNALDIR/$EXTERNALS"
+fi
