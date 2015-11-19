@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import sys, getopt, fnmatch, os, subprocess, platform, string, re
 from __future__ import print_function
+import sys, getopt, fnmatch, os, subprocess, platform, string, re
 
 global arch, system
 
@@ -28,7 +28,7 @@ def main(argv):
    opts, args = getopt.getopt(argv,"hc:b:o:v:")
    for opt, arg in opts:
       if opt == '-h':
-         print 'setup.py -c <compiler> -b <build_type> -o <operating_system> -v <external>'
+         print('setup.py -c <compiler> -b <build_type> -o <operating_system> -v <external>')
          sys.exit()
       elif opt in ("-c"):
          comp = arg
@@ -253,9 +253,9 @@ if __name__ == "__main__":
       path = env_var[1].rstrip('\r\n')+":"+os.environ["PATH"]
       ld_libs = env_var[2].rstrip('\r\n')+":"+os.environ["LD_LIBRARY_PATH"] 
 
-      print prefix 
-      print path 
-      print ld_libs
+      print(prefix)
+      print(path)
+      print(ld_libs)
 
    else:
       if os.path.exists(rootDir):
@@ -266,12 +266,12 @@ if __name__ == "__main__":
          else:
             if os.getenv('LD_LIBRARY_PATH') : ld_libs.append(os.getenv('LD_LIBRARY_PATH'))
 
-         print '%s=%s' % ("export CMAKE_PREFIX_PATH", ':'.join(prefix))
-         print '%s=%s' % ("export PATH", ':'.join(path))
+         print('%s=%s' % ("export CMAKE_PREFIX_PATH", ':'.join(prefix)))
+         print('%s=%s' % ("export PATH", ':'.join(path)))
          if system == 'Darwin' :
-            print '%s=%s' % ("export DYLD_LIBRARY_PATH", ':'.join(ld_libs))
+            print('%s=%s' % ("export DYLD_LIBRARY_PATH", ':'.join(ld_libs)))
          else :
-            print '%s=%s' % ("export LD_LIBRARY_PATH", ':'.join(ld_libs))
+            print('%s=%s' % ("export LD_LIBRARY_PATH", ':'.join(ld_libs)))
       else:
          info("No externals in /afs for this platform / build combination!")
 
