@@ -13,10 +13,14 @@ from glob import glob
 from subprocess import check_call
 
 def make(rootsrc, branch):
+    # Append '/' to the rootsrc prefix if needed.
+    if rootsrc and rootsrc[-1] != '/': rootsrc += '/'
+
+    # Determine the subdirectory of README/ReleaseNotes/ to use
     versionDir = branch.replace('-00-patches', '').replace('-', '')
     if versionDir == 'master':
         # Take the one with the highest number:
-        mdDir = sorted(glob('README/ReleaseNotes/v*/'))[-1]
+        mdDir = sorted(glob(rootsrc + 'README/ReleaseNotes/v*/'))[-1]
     else:
         mdDir = 'README/ReleaseNotes/' + versionDir + '/'
 
