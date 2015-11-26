@@ -54,13 +54,6 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 
-# Release notes (from the doc directories)
-./makenotes.sh $vers
-if [ $? -ne 0 ]; then
-   echo "$prog: makenotes.sh failed, exiting..."
-   exit 1
-fi
-
 ./makeguides.sh $vers
 if [ $? -ne 0 ]; then
    echo "$prog: makeguides.sh failed, exiting..."
