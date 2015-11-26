@@ -11,25 +11,29 @@ import sys
 from glob import glob
 from subprocess import check_call
 
-branch = sys.argv[1]
-versionDir = branch.replace('-00-patches', '').replace('-', '')
-if versionDir == 'master':
-    # Take the one with the highest number:
-    print glob('README/ReleaseNotes/v*/').sort()
-    mdDir = sorted(glob('README/ReleaseNotes/v*/'))[-1]
-else:
-    mdDir = 'README/ReleaseNotes/' + versionDir + '/'
+def make(branch):
+    versionDir = branch.replace('-00-patches', '').replace('-', '')
+    if versionDir == 'master':
+        # Take the one with the highest number:
+        mdDir = sorted(glob('README/ReleaseNotes/v*/'))[-1]
+    else:
+        mdDir = 'README/ReleaseNotes/' + versionDir + '/'
 
-invocation = ['pandoc',
-      '-f', 'markdown',
-      '-t', 'html',
-      '-s', '-S',
-      '-f', 'markdown',
-      '--toc',
-      '-H', 'documentation/users-guide/css/github.css',
-      '--mathjax',
-      mdDir + 'index.md',
-      '-o', 'release-notes.html']
+    invocation = ['pandoc',
+                  '-f', 'markdown',
+                  '-t', 'html',
+                  '-s', '-S',
+                  '-f', 'markdown',
+                  '--toc',
+                  '-H', 'documentation/users-guide/css/github.css',
+                  '--mathjax',
+                  mdDir + 'index.md',
+                  '-o', 'release-notes.html']
 
-print('Invoking: ' + ' '.join(invocation))
-check_call(invocation)
+    print('Invoking: ' + ' '.join(invocation))
+    check_call(invocation)
+
+if __name__ == '__main__':
+    # test1.py executed as script
+    # do something
+    make(sys.argv[1])
