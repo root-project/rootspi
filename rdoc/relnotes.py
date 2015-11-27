@@ -10,7 +10,7 @@
  
 import sys
 from glob import glob
-from distutils.dir_utils import copy_tree
+from distutils import dir_utils
 from subprocess import check_call
 
 def mkdir_p(path):
@@ -48,7 +48,7 @@ def make(rootsrc, branch):
 
     print('Invoking: ' + ' '.join(invocation))
     check_call(invocation)
-    copy_tree(mdDir, 'output/')
+    dir_utils.copy_tree(mdDir, 'output/')
 
 if __name__ == '__main__':
     # test1.py executed as script
