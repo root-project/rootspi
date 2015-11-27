@@ -22,7 +22,7 @@ def make(rootsrc, branch):
         # Take the one with the highest number:
         mdDir = sorted(glob(rootsrc + 'README/ReleaseNotes/v*/'))[-1]
     else:
-        mdDir = 'README/ReleaseNotes/' + versionDir + '/'
+        mdDir = rootsrc + 'README/ReleaseNotes/' + versionDir + '/'
 
     invocation = ['pandoc',
                   '-f', 'markdown',
@@ -32,7 +32,7 @@ def make(rootsrc, branch):
                   '--toc',
                   '-H', rootsrc + 'documentation/users-guide/css/github.css',
                   '--mathjax',
-                  rootsrc + mdDir + 'index.md',
+                  mdDir + 'index.md',
                   '-o', 'release-notes.html']
 
     print('Invoking: ' + ' '.join(invocation))
