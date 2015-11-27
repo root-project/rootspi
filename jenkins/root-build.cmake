@@ -11,11 +11,17 @@ if(CTEST_BUILD_CONFIGURATION STREQUAL "Optimized")
   set(testing_options ${testing_options}" -Dtcmalloc=ON")
 endif()
 
+#---Compose the confguration options---------------------------------------- 
 set(options -Dall=ON
             -Dtesting=ON
             ${testing_options}
             -DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install
             $ENV{ExtraCMakeOptions})
+ 
+if("$ENV{BUILDOPTS}" STREQUAL "cxx14root7")
+  set(options ${options} -Dcxx14=ON -Droot7=ON)
+endif()
+
 separate_arguments(options)
 
 #----Continuous-----------------------------------------------------------
