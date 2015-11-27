@@ -1,4 +1,6 @@
-#!/usr/bin/env bash -e -x
+#!/usr/bin/env bash
+set -e
+set -x
 
 # This script prepares the environment to run ROOT tests using the devX
 # nightlies of the day before built for slc6 on a cc7 node.
