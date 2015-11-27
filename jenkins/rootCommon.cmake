@@ -84,7 +84,10 @@ else()
   set(CTEST_BUILD_FLAGS "-j${ncpu}")
 endif()
 set(CTEST_CONFIGURATION_TYPE "${CTEST_BUILD_CONFIGURATION}")
-set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}})
+if(NOT "$ENV{BUILDOPTS}"  STREQUAL "" )
+  set(Opts -$ENV{BUILDOPTS})
+endif()
+set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}${Opts})
 
 #---CDash settings----------------------------------------------------------
 set(CTEST_PROJECT_NAME "ROOT")
