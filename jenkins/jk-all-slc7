@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -e -x
 
 # This script prepares the environment to run ROOT tests using the devX
 # nightlies of the day before built for slc6 on a cc7 node.
@@ -20,7 +20,7 @@ if [ "${LABEL_ORG}" == "slc7" ] || [ "${LABEL_ORG}" == "cc7" ]; then
 fi
 
 if [ "${LABEL}" == "slc6" ]; then
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-x86_64/bin:${PATH}
 fi
 
 if [[ $COMPILER == *gcc* ]]; then
@@ -35,16 +35,11 @@ if [[ $COMPILER == *gcc* ]]; then
   source ${baseROOTDir}/bin/thisroot.sh
 
   # epel, voms are needed but no dependency has been declared from ROOT
-  eval  `${lcgenv}  -p ${baseROOTDir} ${platformName} ROOT`
-  eval  `${lcgenv}  -p ${baseROOTDir} ${platformName} epel`
-  eval  `${lcgenv}  -p ${baseROOTDir} ${platformName} voms`
-  eval  `${lcgenv}  -p ${baseROOTDir} ${platformName} srm_ifce`
-  eval  `${lcgenv}  -p ${baseROOTDir} ${platformName} is_ifce`
-  
-  source ${baseLCGDir}/Grid/epel/20130408/${platformName}/epel-env.sh
-  source ${baseLCGDir}/Grid/voms/2.0.9-1/${platformName}/voms-env.sh
-  source ${baseLCGDir}/Grid/srm-ifce/1.13.0-0/${platformName}/srm_ifce-env.sh
-  source ${baseLCGDir}/Grid/is-ifce/1.15.0-0/${platformName}/is_ifce-env.sh
+  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} ROOT`
+  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} epel`
+  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} voms`
+  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} srm_ifce`
+  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} is_ifce`
 
   # Now add to the include path until the ROOT-env provides the paths
 
