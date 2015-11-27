@@ -10,7 +10,16 @@
  
 import sys
 from glob import glob
+from distutils.dir_utils import copy_tree
 from subprocess import check_call
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc: # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else: raise
 
 def make(rootsrc, branch):
     # Append '/' to the rootsrc prefix if needed.
@@ -24,6 +33,8 @@ def make(rootsrc, branch):
     else:
         mdDir = rootsrc + 'README/ReleaseNotes/' + versionDir + '/'
 
+    mkdir_p('output')
+
     invocation = ['pandoc',
                   '-f', 'markdown',
                   '-t', 'html',
@@ -33,10 +44,11 @@ def make(rootsrc, branch):
                   '-H', rootsrc + 'documentation/users-guide/css/github.css',
                   '--mathjax',
                   mdDir + 'index.md',
-                  '-o', 'release-notes.html']
+                  '-o', 'output/release-notes.html']
 
     print('Invoking: ' + ' '.join(invocation))
     check_call(invocation)
+    copy_tree(mdDir, 'output/')
 
 if __name__ == '__main__':
     # test1.py executed as script
