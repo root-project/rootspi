@@ -8,9 +8,9 @@
 #
 # Axel, 2015-11-26
  
-import sys
+import sys, os
 from glob import glob
-from distutils import dir_utils
+from distutils import dir_util
 from subprocess import check_call
 
 def mkdir_p(path):
@@ -48,7 +48,7 @@ def make(rootsrc, branch):
 
     print('Invoking: ' + ' '.join(invocation))
     check_call(invocation)
-    dir_utils.copy_tree(mdDir, 'output/')
+    dir_util.copy_tree(mdDir, 'output/')
 
 if __name__ == '__main__':
     # test1.py executed as script
