@@ -25,12 +25,13 @@ else
     ctest -VV -S ${THIS}/root-build.cmake
     status=$?
 
-    # do not run the tests if continus build fails
+    # do not run the tests if continous build fails
     if [ $status -ne 0 ] && [ "$MODE" = continuous ]; then
        exit $status
     fi
 
     ctest -V -S ${THIS}/root-test.cmake
+    status=$?
 
 fi
 
