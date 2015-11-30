@@ -107,10 +107,9 @@ eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS
 
 #  Additional environment for Python tools
 PLATFORM=`$THIS/getPlatform.py`
-#echo $LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools
-setupfile=`mktemp jenkins-setup.XXXXXX`
-if ( $LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools > $setupfile ); then
-    source $setupfile
+if [ -a $EXTERNALDIR/$EXTERNALS ]; then
+  eval `$LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools`
 else
-    echo "No configuration for $PLATFORM in $EXTERNALDIR/$EXTERNALS"
+  echo "No externals for $PLATFORM in $EXTERNALDIR/$EXTERNALS"
 fi
+
