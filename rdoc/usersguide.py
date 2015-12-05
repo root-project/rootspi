@@ -33,6 +33,7 @@ def make(rootsrc):
     check_call(invocation)
 
     outdir = 'output/'
+    shutil.rmtree(outdir, True)
     for fil in glob(rootsrc + r'documentation/users-guide/output/*'):
         shutil.move(fil, outdir)
     for fil in glob(rootsrc + r'documentation/users-guide/pictures/*'):
