@@ -37,8 +37,10 @@ def make(rootsrc):
     mkdir_p(outdir)
     for fil in glob(rootsrc + r'documentation/users-guide/output/*'):
         shutil.move(fil, outdir)
+    mkdir_p(outdir + 'pictures')
     for fil in glob(rootsrc + r'documentation/users-guide/pictures/*'):
         shutil.copy(fil, outdir + 'pictures/')
+    mkdir_p(outdir + 'css')
     for fil in glob(rootsrc + r'documentation/users-guide/css/*'):
         shutil.copy(fil, outdir + 'css/')
 
