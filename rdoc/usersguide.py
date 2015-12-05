@@ -34,6 +34,7 @@ def make(rootsrc):
 
     outdir = 'output/'
     shutil.rmtree(outdir, True)
+    shutil.mkdir(outdir)
     for fil in glob(rootsrc + r'documentation/users-guide/output/*'):
         shutil.move(fil, outdir)
     for fil in glob(rootsrc + r'documentation/users-guide/pictures/*'):
