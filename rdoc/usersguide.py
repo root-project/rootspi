@@ -35,6 +35,10 @@ def make(rootsrc):
     outdir = 'output/'
     for fil in glob(rootsrc + r'documentation/users-guide/output/*'):
         shutil.move(fil, outdir)
+    for fil in glob(rootsrc + r'documentation/users-guide/pictures/*'):
+        shutil.copy(fil, outdir + 'pictures/')
+    for fil in glob(rootsrc + r'documentation/users-guide/css/*'):
+        shutil.copy(fil, outdir + 'css/')
 
 if __name__ == '__main__':
     make(sys.argv[1])
