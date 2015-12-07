@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
  THIS=${PWD}/$(dirname $0)
  ARCH=$(uname -m)
