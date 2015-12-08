@@ -38,7 +38,7 @@ def make(rootsrc, branch):
     invocation = ['pandoc',
                   '-f', 'markdown',
                   '-t', 'html',
-                  '--filter', rootsrc + '/build/unix/pandoc-jira.py',
+                  '--filter', rootsrc + 'build/unix/pandoc-jira.sh',
                   '-s', '-S',
                   '-f', 'markdown',
                   '--toc',
