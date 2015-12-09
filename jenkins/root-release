@@ -4,7 +4,7 @@ set -e
  THIS=${PWD}/$(dirname $0)
  ARCH=$(uname -m)
 
- if [[ $LABEL == *slc* ]] || [[ $LABEL == *cc* ]]; then
+ if [[ $LABEL == *slc* ]] || [[ $LABEL == *cc* ]] || [[ $LABEL == *centos* ]]; then
 
     export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
 
@@ -62,7 +62,7 @@ set -e
        export LD_LIBRARY_PATH="${PYTHONDIR}/lib:${LD_LIBRARY_PATH}"
        export PYTHONPATH="${PYTHONDIR}/lib:${PYTHONPATH}"
        export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=${PYTHONDIR}/bin/python ${ExtraCMakeOptions}"
-    elif [[ ${LABEL} == *cc* ]] ; then
+    elif [[ ${LABEL} == *cc* ]] || [[ $LABEL == *centos* ]] ; then
        export Python_executable=`which python`
        export ExtraCMakeOptions="-DPYTHON_EXECUTABLE=${Python_executable} ${ExtraCMakeOptions}"
     fi
@@ -105,7 +105,7 @@ set -e
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
    -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
- elif [[ ${LABEL} == *cc* ]] ; then
+ elif [[ ${LABEL} == *cc* ]] || [[ $LABEL == *centos* ]] ; then
    export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
