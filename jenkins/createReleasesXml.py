@@ -132,6 +132,7 @@ class ROOTTarballsOnTheWeb(object):
 
         # Replace to beautify
         pairs = [["Linux-cc7",   "CentOS Cern 7"],
+                 ["Linux-centos7", "CentOS Cern 7"]
                  ["Linux-slc6",  "Scientific Linux Cern 6"],
                  ["Linux-ubuntu","Ubuntu "],
                  ["macosx64",    "OsX"],
@@ -199,6 +200,7 @@ def getStandaloneInstallationPaths(afsTag):
     Starting from the tag, query afs and cvmfs in order to collect a list of
     paths like
     "
+    /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-centos7-gcc49-opt
     /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-cc7-gcc49-opt
     /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt
     /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc49-opt
