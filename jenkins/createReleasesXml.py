@@ -132,7 +132,7 @@ class ROOTTarballsOnTheWeb(object):
 
         # Replace to beautify
         pairs = [["Linux-cc7",   "CentOS Cern 7"],
-                 ["Linux-centos7", "CentOS Cern 7"]
+                 ["Linux-centos7", "CentOS Cern 7"],
                  ["Linux-slc6",  "Scientific Linux Cern 6"],
                  ["Linux-ubuntu","Ubuntu "],
                  ["macosx64",    "OsX"],
