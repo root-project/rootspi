@@ -16,7 +16,7 @@ fi
 
 echo "*** Picking up ROOT ${VERSION} from slot '${LCG_SLOT}' of '${DAY}' of build type '${V_TYPE}'"
 
-if [ "${LABEL_ORG}" == "slc7" ] || [ "${LABEL_ORG}" == "cc7" ]; then
+if [ "${LABEL_ORG}" == "slc7" ] || [ "${LABEL_ORG}" == "cc7" ] || [ "${LABEL_ORG}" == "centos7" ]; then
   LABEL=slc6
 fi
 

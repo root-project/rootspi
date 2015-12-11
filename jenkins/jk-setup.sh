@@ -23,8 +23,8 @@ if [[ $PLATFORM == *slc6* ]]; then
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-x86_64/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
   export LCGENV=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
-elif [[ $PLATFORM == *cc7* ]]; then
-  LABEL=cc7
+elif [[ $PLATFORM == *centos7* ]]; then
+  LABEL=centos7
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-x86_64/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
   export LCGENV=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
