@@ -56,7 +56,7 @@ else:
      versioninfo = os.popen(ccommand + ' -dumpversion').read()
      patt = re.compile('([0-9]+)')
      mobj = patt.match(versioninfo)
-     compiler = 'icc' + mobj.group(1) + mobj.group(2)
+     compiler = 'icc' + mobj.group(1)
   else:
      compiler = 'unk-cmp'
 
