@@ -45,7 +45,7 @@ cat $patch
 # apply the patch
 cd $clingRepo
 git am -p3 $patch
-GIT_ASKPASS=$ASKPASSHELPER git push origin master
+GIT_ASKPASS=$ASKPASSHELPER git push origin HEAD:master
 newTag="__internal-root-$rootCommit"
 git tag $newTag
 GIT_ASKPASS=$ASKPASSHELPER git push origin $newTag
