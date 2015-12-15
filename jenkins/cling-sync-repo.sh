@@ -5,6 +5,11 @@ set -x
 clingRepo="$WORKSPACE/cling"
 rootRepo="$WORKSPACE/root"
 
+export ASKPASSHELPER=$WORKSPACE/credhelper.sh
+# Note: this will write '$', 'C', 'L'... into the tool, not the pass!
+echo 'echo $CLINGGITPW' > $ASKPASSHELPER
+chmod a+x $ASKPASSHELPER
+
 # What was the last commit in root.git's interpreter/cling?
 rootCommit=`cd $rootRepo && git rev-list -n 1 HEAD -- interpreter/cling`
 if [ "x$rootCommit" = "x" ]; then
@@ -45,6 +50,6 @@ newTag="__internal-root-$rootCommit"
 git tag $newTag
 git push origin $newTag
 git tag -d $clingTag
-echo "${CLINGGITPW}" | git push origin :refs/tags/$clingTag
+ASKPASS=$ASKPASSHELPER git push origin :refs/tags/$clingTag
 # clean up
 rm $patch
