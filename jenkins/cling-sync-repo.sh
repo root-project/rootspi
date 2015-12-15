@@ -45,7 +45,6 @@ newTag="__internal-root-$rootCommit"
 git tag $newTag
 git push origin $newTag
 git tag -d $clingTag
-git push origin :refs/tags/$clingTag
-
+echo ${CLINGGITPW} | git push origin :refs/tags/$clingTag
 # clean up
 rm $patch
