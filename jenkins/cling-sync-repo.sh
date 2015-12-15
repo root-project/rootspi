@@ -45,10 +45,10 @@ cat $patch
 # apply the patch
 cd $clingRepo
 git am -p3 $patch
-git push origin master
+ASKPASS=$ASKPASSHELPER git push origin master
 newTag="__internal-root-$rootCommit"
 git tag $newTag
-git push origin $newTag
+ASKPASS=$ASKPASSHELPER git push origin $newTag
 git tag -d $clingTag
 ASKPASS=$ASKPASSHELPER git push origin :refs/tags/$clingTag
 # clean up
