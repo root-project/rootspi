@@ -44,6 +44,8 @@ cat $patch
 
 # apply the patch
 cd $clingRepo
+# get rid of previous git-rebase leftovers
+git reset --hard origin/master
 git am -p3 $patch
 GIT_ASKPASS=$ASKPASSHELPER git push origin HEAD:master
 newTag="__internal-root-$rootCommit"
