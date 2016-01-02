@@ -25,12 +25,12 @@ if [ "x$clingTag" = "x" ]; then
   exit 1
 fi
 
-if [ "__internal-root-$rootCommit" =  "$clingTag" ]; then
+if [ "$rootCommit" =  "$clingTag" ]; then
   echo 'cling is already up to date, exiting.'
   exit
 fi
 
-startCommit="${clingTag/__internal-root-/}"
+startCommit=$clingTag
 echo "Applying patches after $startCommit and up to $rootCommit"
 
 patch="$WORKSPACE/root-to-cling-$startCommit-$rootCommit.patch";
@@ -51,7 +51,7 @@ GIT_ASKPASS=$ASKPASSHELPER git push origin HEAD:master
 newTag="__internal-root-$rootCommit"
 git tag $newTag
 GIT_ASKPASS=$ASKPASSHELPER git push origin $newTag
-git tag -d $clingTag
-GIT_ASKPASS=$ASKPASSHELPER git push origin :refs/tags/$clingTag
+git tag -d __internal-root-$clingTag
+GIT_ASKPASS=$ASKPASSHELPER git push origin :refs/tags/__internal-root-$clingTag
 # clean up
 rm $patch
