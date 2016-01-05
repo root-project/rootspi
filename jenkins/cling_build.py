@@ -48,7 +48,7 @@ class Builder:
     """Build cling"""
 
     def printConfig(self):
-        print('CONFIGURATION: ' + str(dict(self)))
+        print('CONFIGURATION: ' + str(self.__dict__))
 
 
     def cmake_build(self, targetname = '', check = True):
