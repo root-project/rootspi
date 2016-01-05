@@ -34,7 +34,7 @@ class Builder:
     def cmake_build(self, targetname = '', check = True):
         target = ''
         if targetname:
-            target = '--target ' + target
+            target = '--target ' + targetname
         print_and_call('cmake --build . ' + target + self.parallelFlag, check = check)
 
 
