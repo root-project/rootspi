@@ -175,7 +175,7 @@ class Builder:
         print('STEP: DOCUMENTATION')
         self.documentation()
 
-        os.chdir(workspace)
+        os.chdir(self.workspace)
         print('STEP: PACKAGING')
         self.packaging()
 
