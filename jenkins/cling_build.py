@@ -85,7 +85,7 @@ class Builder:
 
         self.instdir = 'inst'
         if binaries:
-            self.instdir = 'cling_' + today + '_' + label
+            self.instdir = 'cling_' + self.today + '_' + label
             cleanbuild = True
 
         if not os.path.isdir('obj'):
