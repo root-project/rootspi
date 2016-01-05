@@ -135,6 +135,11 @@ class Builder:
     def maybe_test(self):
         if self.testcling:
             self.cmake_build('cling-test')
+        else:
+            # create empty xunit file to make Jenkins publisher happy.
+            xunitout = open('tools/cling/test/lit-xunit-output.xml', 'wb')
+            xunitout.write('<testsuite tests="0"></testsuite>')
+            xunitout.close()
 
         if self.testllvmclang:
             self.cmake_build('check-llvm')
