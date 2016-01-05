@@ -153,7 +153,7 @@ class Builder:
         mkdir_p('artifacts') # needed for scp step, even if empty
 
         if self.binaries:
-            tar = tarfile.open(os.path.join('artifacts', instdir + '.tar.bz2'), "w:bz2")
+            tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
             tar.add(self.instdir)
             tar.close()
             if self.label == 'ubuntu14':
