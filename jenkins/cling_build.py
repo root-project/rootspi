@@ -1,25 +1,5 @@
 # Build cling in Jenkins.
 #
-# Triggered by SCM: incremental build.
-# Triggered by schedule: full build.
-# Manual trigger: parametrized.
-#
-# Parameters == env vars:
-# - CLEAN:
-# remove build and install directories. Default for full builds.
-# - BINARIES:
-# whether to publish binaries, source snapshot and doxygen documentation to
-# root.cern.ch
-# - TESTCLING:
-# whether to run cling's test suite (and fail if it fails)
-# - TESTLLVMCLANG:
-# whether to run llvm's and clang's test suite. clang's test suite is known to
-# fail; clang's test result is thus ignored in the outcome of this step. A
-# failure in llvm's test suite will fail the build, though.
-# - LABEL:
-# 'ubuntu14' is expected to be able to run doxygen and will create source
-# snapshot if binaries are requested.
-#
 # Axel, 2016-01-05
 
 import sys, os, errno, shutil, tarfile
@@ -59,6 +39,34 @@ class Builder:
 
 
     def __init__(self, workspace, label, generatorType, cleanbuild, binaries, buildcause, testcling, testllvmclang):
+        """ Parameters:
+        workspace: str
+          Jenkins workspace directory.
+        label: str
+          Label of the node this script is running on. 'ubuntu14' is expected to
+          be able to run doxygen and will create source snapshot if binaries are
+          requested.
+        clean: bool
+          remove build and install directories. Overridden to `True` for full
+          builds.
+        binaries: bool
+          whether to publish binaries, source snapshot and doxygen documentation
+          to root.cern.ch. Overridden to `True` for full builds, `False` for
+          incrementals.
+        label: str
+        buildcause: str
+          Jenkins ROOT_BUILD_CAUSE. Determins build mode. If triggered by:
+            - SCM: incremental build. Sets `clean` and `binaries` to `False`.
+            - schedule: full build. Sets `clean` and `binaries` to `True`.
+        testcling: bool
+          whether to run cling's test suite (and fail if it fails)
+        testllvmclang: bool
+          whether to run llvm's and clang's test suite. clang's test suite is
+          known to fail; the outcome of clang's test result is thus ignored when
+          determining the outcome of this step. A failure in llvm's test suite
+          will fail the build.
+        """
+
         self.today = str(date.today())
         self.workspace = workspace
         self.label = label
