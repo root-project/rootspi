@@ -122,6 +122,7 @@ class Builder:
             print_and_call('cmake ../src -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
                            + ' -DCMAKE_INSTALL_PREFIX=' + self.workspace + '/' + self.instdir
+                           + ' -DLLVM_INSTALL_TOOLCHAIN_ONLY=On'
                            + ' "-DLLVM_LIT_ARGS=-sv --no-progress-bar --xunit-xml-output=lit-xunit-output.xml"'
                            + doxygen)
 
