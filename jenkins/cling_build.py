@@ -117,7 +117,7 @@ class Builder:
     def configure(self):
         if self.cleanbuild:
             doxygen = ''
-            if label == 'ubuntu14':
+            if self.label == 'ubuntu14':
                 doxygen = ' -DLLVM_ENABLE_DOXYGEN=On'
             print_and_call('cmake ../src -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
