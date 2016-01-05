@@ -72,7 +72,7 @@ class Builder:
 
 
         # Build setup (manual, nightly, incremental)
-        if buildcause != 'MANUALTRIGGER':
+        if type(buildcause) is str and buildcause != 'MANUALTRIGGER':
             # nightly wins, even if there was a commit right before.
             if 'TIMERTRIGGER' in buildcause:
                 # nightly build
