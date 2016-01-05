@@ -107,7 +107,6 @@ class Builder:
 
 
     def configure(self):
-        mkdir_p('obj')
         if self.cleanbuild:
             print_and_call('cmake ../src -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
@@ -153,6 +152,8 @@ class Builder:
     def build(self):
         print('STEP: CLEAN')
         self.maybe_clean()
+
+        mkdir_p('obj')
         os.chdir('obj')
         print('STEP: CONFIGURE')
         self.configure()
@@ -162,6 +163,7 @@ class Builder:
         self.maybe_test()
         print('STEP: DOCUMENTATION')
         self.documentation()
+
         os.chdir(workspace)
         print('STEP: PACKAGING')
         self.packaging()
