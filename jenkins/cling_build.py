@@ -122,7 +122,6 @@ class Builder:
             print_and_call('cmake ../src -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
                            + ' -DCMAKE_INSTALL_PREFIX=' + self.workspace + '/' + self.instdir
-                           + ' -DLLVM_INSTALL_TOOLCHAIN_ONLY=On'
                            + ' "-DLLVM_LIT_ARGS=-sv --no-progress-bar --xunit-xml-output=lit-xunit-output.xml"'
                            + doxygen)
 
@@ -150,6 +149,9 @@ class Builder:
     def documentation(self):
         if self.label == 'ubuntu14':
             self.cmake_build('doxygen-cling')
+            # make install wants to copy them.
+            mkdir_p('tools/clang/docs/doxygen/html')
+            mkdir_p('docs/doxygen/html')
 
 
     def packaging(self):
