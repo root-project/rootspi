@@ -138,7 +138,7 @@ class Builder:
         else:
             # create empty xunit file to make Jenkins publisher happy.
             xunitout = open('tools/cling/test/lit-xunit-output.xml', 'wb')
-            xunitout.write('<testsuite tests="1" skipped="1"><testcase classname="SKIPPED" name="SKIPPED"/><skipped/></testcase></testsuite>')
+            xunitout.write('<testsuite tests="1" skipped="1"><testcase classname="SKIPPED" name="SKIPPED"><skipped/></testcase></testsuite>')
             xunitout.close()
 
         if self.testllvmclang:
