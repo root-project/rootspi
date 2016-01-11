@@ -32,17 +32,14 @@ NOT YET IMPLEMENTED
 {binariesTable}
 
 {StandaloneInstallationPaths}
-## AFS
-Versions for many different platforms and compilers are available at:
-/afs/cern.ch/sw/lcg/app/releases/ROOT/{afsTag}
 
-To use ROOT directly from AFS:
+## Example for setting up ROOT and the corresponding compiler from AFS
 ~~~
 . {compilerSetupScript}
 . {rootSetupScript}
 ~~~
 
-## Direct Git repository access
+## Git
 The entire ROOT source can be obtained from our public Git repository:
 
 ~~~
@@ -51,7 +48,6 @@ git clone http://root.cern.ch/git/root.git
 The release specific tag can be obtained using:
 ~~~
 cd root
-git tag -l
 git checkout -b {gitTag} {gitTag}
 ~~~
 '''
@@ -152,7 +148,7 @@ class ROOTTarballsOnTheWeb(object):
 
     def tableFromTriplets(self,tagTriplets,title,gitTag):
         table = """
-## %s distributions
+## %s
 | Platform       | Files | Size |
 |-----------|-------|-----|
 """ %title
@@ -166,11 +162,11 @@ class ROOTTarballsOnTheWeb(object):
 
     def getBinaryDistributionsTableMarkdown(self,gitTag):
         tagTriplets = filter (lambda triplet: gitTag in triplet[0] and not "source" in triplet[0], self.tarballsNameLinkSizeTriplets)
-        return self.tableFromTriplets(tagTriplets, "Binary",gitTag)
+        return self.tableFromTriplets(tagTriplets, "Binary distributions",gitTag)
 
     def getSourceDistributionsTableMarkdown(self,gitTag):
         tagTriplets = filter (lambda triplet: gitTag in triplet[0] and "source" in triplet[0], self.tarballsNameLinkSizeTriplets)
-        return self.tableFromTriplets(tagTriplets, "Source",gitTag)
+        return self.tableFromTriplets(tagTriplets, "Source distribution",gitTag)
 
 tagPrefix = " (tag: "
 
@@ -264,7 +260,7 @@ def getReleasesNotesFromGitTag(gitTag):
    if int(version) % 2 == 1: return ""
 
    markdownTemplate = "## Release Notes\n" +\
-                      "The release notes for this release can be found [here](%s)"
+                      "The release notes for this release can be found [here](%s)."
 
    # Check if we have Drupal Based RN
    DrupalBasedRNGitTags =  ["v6-02-00",
@@ -351,7 +347,6 @@ def getBodyFromTag(gitTagStr):
          return ""
 
    return markDownTemplate.format(gitTag = gitTagStr,
-                                  afsTag = afsTagStr,
                                   compilerSetupScript = compilerSetupScriptStr,
                                   rootSetupScript = rootSetupScriptStr,
                                   binariesTable = binariesTableStr,
