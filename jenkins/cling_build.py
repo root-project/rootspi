@@ -128,6 +128,7 @@ class Builder:
 
     def make(self):
         self.cmake_build()
+        self.documentation()
         self.cmake_build('install')
 
 
@@ -180,8 +181,6 @@ class Builder:
         self.make()
         print('STEP: TEST')
         self.maybe_test()
-        print('STEP: DOCUMENTATION')
-        self.documentation()
 
         os.chdir(self.workspace)
         print('STEP: PACKAGING')
