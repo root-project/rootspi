@@ -143,13 +143,14 @@ def default_bt():
 
 def directories():
    dir_hash = []
-
-   for dirs in os.listdir(rootDir):
-      if os.path.isfile(dirs):
-         pass
-      else:
-         dir_hash.append(dirs)
-
+   for d in os.listdir(rootDir):
+      if os.path.isdir(os.path.join(rootDir,d)):
+         if d in ('MCGenerators', 'Grid') :
+             for s in os.listdir(os.path.join(rootDir,d)):
+                 if os.path.isdir(os.path.join(rootDir,d,s)) :
+                     dir_hash.append(os.path.join(d,s))
+         else :
+             dir_hash.append(d)
    return dir_hash;      
 
 # --------------------- Setting paths  
@@ -187,19 +188,11 @@ def directory_names():
                      if (name2 == "lib" or name2 == "lib64"):
                         subFlaglibs = True
                         libs = directory+"/"+name2
-                        if "Grid" in libs:
-                           subFlaglibs = False
-                        if "MCGenerators" in libs:
-                           subFlaglibs = False
                         liblist.append(libs)
                         break
                      elif (name2 == "bin"):
                         subFlagbins = True
                         bins = directory+"/"+name2
-                        if "Grid" in bins:
-                           subFlaglibs = False
-                        if "MCGenerators" in bins:
-                           subFlaglibs = False
                         binlist.append(bins)
                      else:
                         subFlaglibs = False
