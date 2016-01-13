@@ -17,15 +17,16 @@ else
 fi
 
 PLATFORM=`$THIS/getPlatform.py`
+ARCH=$(uname -m)
 
 if [[ $PLATFORM == *slc6* ]]; then
   LABEL=slc6
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-x86_64/bin:${PATH}
+  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-${ARCH}/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
   export LCGENV=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
 elif [[ $PLATFORM == *centos7* ]]; then
   LABEL=centos7
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-x86_64/bin:${PATH}
+  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-${ARCH}/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
   export LCGENV=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
 elif [[ $PLATFORM == *mac1011* ]]; then
@@ -45,7 +46,6 @@ then
   gcc51version=5.1
   COMPILERversion=${COMPILER}version
 
-  ARCH=$(uname -m)
   . /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
   export FC=gfortran
   export CXX=`which g++`
@@ -64,7 +64,6 @@ then
   clang36gcc=49
   GCCversion=${COMPILER}gcc
 
-  ARCH=$(uname -m)
   . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
   export CC=`which clang`
   export CXX=`which clang++`
@@ -89,8 +88,6 @@ then
   icc14gcc=4.8
   icc15gcc=4.9
   GCCversion=${COMPILER}gcc
-
-  ARCH=$(uname -m)
 
   . /afs/cern.ch/sw/lcg/contrib/gcc/${!GCCversion}/${ARCH}-slc6/setup.sh
   . /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
