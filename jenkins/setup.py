@@ -163,7 +163,10 @@ def directory_names():
 
    Flag = False
    subFlagbins = False
-
+   
+   platform_patt = re.compile('%s-%s-%s-(%s|opt)' % (arch, op_sys, compiler, build_type))
+   dummy_patt = re.compile('(x86_64|i686)-(.*)-(.*)-(.*)')
+   
    for i in dir_hash:
 
       fullpath = rootDir+"/"+i
@@ -171,30 +174,16 @@ def directory_names():
       for dirName, subdirList, fileList in os.walk(fullpath):   
          subdirList.sort()   # -dbg will be checked first than -opt. Taking -opt will only be fallback 
          for name in subdirList:
-
-            if (name.find(compiler) != -1) and (name.find(build_type) != -1) and (name.find(op_sys) != -1) or \
-               (name.find(compiler) != -1) and (name.find('opt') != -1) and (name.find(op_sys) != -1):
+            if platform_patt.match(name) :
                Flag = True
-
                directory =  os.path.join(dirName, name)
-
-               if "Grid" in directory:
-                  Flag = False
-               if "MCGenerators" in directory:
-                  Flag = False
-
                if "castor" in directory:
                   directory = directory + '/usr'
                if "alien" in directory:
                   directory = directory + '/api'
-
                dirlist.append(directory);
-
-#######               
                for subdirName, subsubdirList, fileList2 in os.walk(directory):
-
                   for name2 in sorted(subsubdirList):
-
                      if (name2 == "lib" or name2 == "lib64"):
                         subFlaglibs = True
                         libs = directory+"/"+name2
@@ -202,7 +191,6 @@ def directory_names():
                            subFlaglibs = False
                         if "MCGenerators" in libs:
                            subFlaglibs = False
-
                         liblist.append(libs)
                         break
                      elif (name2 == "bin"):
@@ -212,17 +200,16 @@ def directory_names():
                            subFlaglibs = False
                         if "MCGenerators" in bins:
                            subFlaglibs = False
-
                         binlist.append(bins)
-
                      else:
                         subFlaglibs = False
                   if (subFlaglibs):break         
-########
                break
+            elif dummy_patt.match(name) :
+               Flag = True   
             else:
                Flag = False
-         if Flag:break
+         if Flag : break
 
    all_dirs = (sorted(dirlist), binlist, liblist)
 
