@@ -51,7 +51,7 @@ if [[ $COMPILER == *gcc* ]]; then
   export CC=`which gcc`
 
   export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
-  if [ $ARCH != i386 ]; then
+  if [ $ARCH != i686 ]; then
     export ExtraCMakeOptions="-Dfail-on-missing=ON ${ExtraCMakeOptions}"
   fi 
   
