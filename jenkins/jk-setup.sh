@@ -19,7 +19,6 @@ fi
 PLATFORM=`$THIS/getPlatform.py`
 ARCH=$(uname -m)
 
-
 if [[ $PLATFORM == *slc6* ]]; then
   LABEL=slc6
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.3.2/Linux-${ARCH}/bin:${PATH}
@@ -39,8 +38,7 @@ else
   export LCGENV=$HOME/ROOT-externals/lcgenv
 fi
 
-if [[ $COMPILER == *gcc* ]]
-then
+if [[ $COMPILER == *gcc* ]]; then
   gcc47version=4.7
   gcc48version=4.8
   gcc49version=4.9
@@ -52,10 +50,12 @@ then
   export CXX=`which g++`
   export CC=`which gcc`
 
-  export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF -Dfail-on-missing=ON ${ExtraCMakeOptions}"
-
-elif [[ $COMPILER == *clang* ]]
-then
+  export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
+  if [ $ARCH != i386 ]; then
+    export ExtraCMakeOptions="-Dfail-on-missing=ON ${ExtraCMakeOptions}"
+  fi 
+  
+elif [[ $COMPILER == *clang* ]]; then
   clang34version=3.4
   clang35version=3.5
   clang36version=3.6
@@ -71,15 +71,13 @@ then
 
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 
-elif [[ $COMPILER == *native* ]]
-then
+elif [[ $COMPILER == *native* ]]; then
   if [[ $LABEL == *mac* ]] ; then
     export FC=`which gfortran`
   else
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
   fi
-elif [[ $COMPILER == *icc* ]]
-then
+elif [[ $COMPILER == *icc* ]]; then
   iccyear=2013
   icc14year=2013
   icc15year=2015
