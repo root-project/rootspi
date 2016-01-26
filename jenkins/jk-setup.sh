@@ -43,6 +43,7 @@ if [[ $COMPILER == *gcc* ]]; then
   gcc48version=4.8
   gcc49version=4.9
   gcc51version=5.1
+  gcc52version=5.2
   COMPILERversion=${COMPILER}version
 
   . /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
