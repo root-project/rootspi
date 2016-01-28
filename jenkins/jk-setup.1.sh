@@ -16,6 +16,7 @@ else
   return
 fi
 
+export BUILDTYPE
 PLATFORM=`$THIS/getPlatform.py`
 ARCH=$(uname -m)
 
