@@ -16,46 +16,30 @@ else
   return
 fi
 
+export BUILDTYPE
 PLATFORM=`$THIS/getPlatform.py`
 ARCH=$(uname -m)
 
 if [[ $PLATFORM == *slc6* ]]; then
   LABEL=slc6
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.3.2/Linux-${ARCH}/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
-  export LCGENV=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
 elif [[ $PLATFORM == *centos7* ]]; then
   LABEL=centos7
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.3.2/Linux-${ARCH}/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
-  export LCGENV=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
 elif [[ $PLATFORM == *mac1011* ]]; then
   export PATH=/usr/local/bin:${PATH}
   export EXTERNALDIR=$HOME/ROOT-externals
-  export LCGENV=$HOME/ROOT-externals/lcgenv
 else
   export EXTERNALDIR=$HOME/ROOT-externals
-  export LCGENV=$HOME/ROOT-externals/lcgenv
 fi
 
 if [[ $COMPILER == *gcc* ]]; then
-  gcc47version=4.7
-  gcc48version=4.8
-  gcc49version=4.9
-  gcc51version=5.1
-  gcc52version=5.2
-  COMPILERversion=${COMPILER}version
-
-  . /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
-  export FC=gfortran
-  export CXX=`which g++`
-  export CC=`which gcc`
 
   export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
     export ExtraCMakeOptions="-Dfail-on-missing=ON ${ExtraCMakeOptions}"
   fi 
-  
+
 elif [[ $COMPILER == *clang* ]]; then
   clang34version=3.4
   clang35version=3.5
@@ -99,14 +83,10 @@ elif [[ $COMPILER == *icc* ]]; then
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
 fi
 
-#echo ${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}
-eval `${THIS}/setup.py -o ${LABEL} -c ${COMPILER} -b ${BUILDTYPE} -v ${EXTERNALS}`
-
-#  Additional environment for Python tools
+# Setup all the externals now-----------------------------------------------------
 PLATFORM=`$THIS/getPlatform.py`
 if [ -a $EXTERNALDIR/$EXTERNALS ]; then
-  eval `$LCGENV -p $EXTERNALDIR/$EXTERNALS $PLATFORM pytools`
+  source $EXTERNALDIR/$EXTERNALS/$PLATFORM/setup.sh
 else
   echo "No externals for $PLATFORM in $EXTERNALDIR/$EXTERNALS"
 fi
-
