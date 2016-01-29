@@ -36,23 +36,12 @@ else
 fi
 
 if [[ $COMPILER == *gcc* ]]; then
-  gcc47version=4.7
-  gcc48version=4.8
-  gcc49version=4.9
-  gcc51version=5.1
-  gcc52version=5.2
-  COMPILERversion=${COMPILER}version
-
-  . /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
-  export FC=gfortran
-  export CXX=`which g++`
-  export CC=`which gcc`
 
   export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
     export ExtraCMakeOptions="-Dfail-on-missing=ON ${ExtraCMakeOptions}"
   fi 
-  
+
 elif [[ $COMPILER == *clang* ]]; then
   clang34version=3.4
   clang35version=3.5
