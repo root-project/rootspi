@@ -22,11 +22,9 @@ ARCH=$(uname -m)
 
 if [[ $PLATFORM == *slc6* ]]; then
   LABEL=slc6
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.3.2/Linux-${ARCH}/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
 elif [[ $PLATFORM == *centos7* ]]; then
   LABEL=centos7
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.3.2/Linux-${ARCH}/bin:${PATH}
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
 elif [[ $PLATFORM == *mac1011* ]]; then
   export PATH=/usr/local/bin:${PATH}
@@ -92,4 +90,3 @@ if [ -a $EXTERNALDIR/$EXTERNALS ]; then
 else
   echo "No externals for $PLATFORM in $EXTERNALDIR/$EXTERNALS"
 fi
-
