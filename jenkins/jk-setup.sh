@@ -17,6 +17,8 @@ else
 fi
 
 export BUILDTYPE
+export COMPILER
+
 PLATFORM=`$THIS/getPlatform.py`
 ARCH=$(uname -m)
 
