@@ -3,7 +3,7 @@ set -e
 set -x
 THIS=$(dirname $0)
 
-echo source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
+echo source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS > setup.sh
 source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 
 echo "Dumping the full environment ---------------------------------------------------------"
