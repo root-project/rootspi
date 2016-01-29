@@ -178,8 +178,6 @@ def directory_names():
             if platform_patt.match(name) :
                Flag = True
                directory =  os.path.join(dirName, name)
-               if "castor" in directory:
-                  directory = directory + '/usr'
                if "alien" in directory:
                   directory = directory + '/api'
                dirlist.append(directory);
