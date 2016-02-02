@@ -26,7 +26,7 @@ else:
    osvers = 'unk-os'
 
 #---Determine the compiler and version--------------------------------
-if os.getenv('COMPILER') and not os.getenv("CC"):
+if os.getenv('COMPILER') and os.getenv('COMPILER') != 'native' and not os.getenv("CC"):
   compiler = os.getenv('COMPILER')
 else:
   if os.getenv('CC'):
