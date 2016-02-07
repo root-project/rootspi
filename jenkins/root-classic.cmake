@@ -48,7 +48,7 @@ endif()
 set(ENV{PYTHONPATH} ${CTEST_BINARY_DIRECTORY}/lib:$ENV{PAYTHONPATH})
 
 #---Run roottest tests -------------------------------------------------------------
-if(EXISTS ${CTEST_SOURCE_DIRECTORY}/roottest/CMakeLists.txt)
+if(EXISTS ${CTEST_SOURCE_DIRECTORY}/../roottest/CMakeLists.txt)
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/roottest)
   file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/roottest)
 
