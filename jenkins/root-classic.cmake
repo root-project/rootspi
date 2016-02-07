@@ -21,22 +21,21 @@ unset(CTEST_CONFIGURE_COMMAND)
 unset(CTEST_BUILD_COMMAND)
 
 #---Checkout rootest--------------------------------------------------------------
-execute_process(COMMAND git rev-parse --abbrev-ref HEAD
-                WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
-                OUTPUT_VARIABLE GIT_BRANCH OUTPUT_STRIP_TRAILING_WHITESPACE)
-if(GIT_BRANCH STREQUAL HEAD)
-   string(REPLACE "origin/" "" GIT_BRANCH "$ENV{GIT_BRANCH}")  # Comming from Jenkins checkout
-endif()
-if(IS_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
-   execute_process(COMMAND git clean -xfdq WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
-   execute_process(COMMAND git checkout ${GIT_BRANCH} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
-   execute_process(COMMAND git fetch origin WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
-   execute_process(COMMAND git rebase origin/${GIT_BRANCH} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
-else()
-   message("-- Could not find roottest directory! Cloning from the repository...")
-   execute_process(COMMAND git clone -b ${GIT_BRANCH} http://root.cern.ch/git/roottest.git
-                   WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-endif()
+#execute_process(COMMAND git rev-parse --abbrev-ref HEAD
+#                WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+#                OUTPUT_VARIABLE GIT_BRANCH OUTPUT_STRIP_TRAILING_WHITESPACE)
+#if(GIT_BRANCH STREQUAL HEAD)
+#   string(REPLACE "origin/" "" GIT_BRANCH "$ENV{GIT_BRANCH}")  # Comming from Jenkins checkout
+#endif()
+#   execute_process(COMMAND git clean -xfdq WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
+#   execute_process(COMMAND git checkout ${GIT_BRANCH} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
+#   execute_process(COMMAND git fetch origin WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
+#   execute_process(COMMAND git rebase origin/${GIT_BRANCH} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
+#else()
+#   message("-- Could not find roottest directory! Cloning from the repository...")
+#   execute_process(COMMAND git clone -b ${GIT_BRANCH} http://root.cern.ch/git/roottest.git
+#                   WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+#endif()
 
 #---Setup the environment---------------------------------------------------------
 set(ENV{ROOTSYS} ${CTEST_BINARY_DIRECTORY})
@@ -55,7 +54,7 @@ if(EXISTS ${CTEST_SOURCE_DIRECTORY}/roottest/CMakeLists.txt)
 
   ctest_start(${CTEST_MODE} APPEND)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/roottest
-                  SOURCE  ${CTEST_SOURCE_DIRECTORY}/roottest
+                  SOURCE  ${CTEST_SOURCE_DIRECTORY}/../roottest
                   OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake
                   APPEND)
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY}/roottest)
