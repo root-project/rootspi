@@ -104,29 +104,29 @@ set -e
    export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
-   -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
+   -Dbuiltin_fftw3=ON -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
  elif [[ ${LABEL} == *cc* ]] || [[ $LABEL == *centos* ]] ; then
    export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
-   -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
+   -Dbuiltin_fftw3=ON -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
  elif [[ ${LABEL} == *mac1011* ]] ; then
    export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -DCMAKE_CXX_COMPILER=${CXX} -DCMAKE_C_COMPILER=${CC} \
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
-   -Dbuiltin_zlib=OFF -Dkrb5=ON -Dbuiltin_openssl=ON ${ExtraCMakeOptions}"
+   -Dbuiltin_fftw3=ON -Dbuiltin_zlib=OFF -Dkrb5=ON -Dbuiltin_openssl=ON ${ExtraCMakeOptions}"
  elif [[ ${LABEL} == *mac* ]] ; then
    export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -DCMAKE_CXX_COMPILER=${CXX} -DCMAKE_C_COMPILER=${CC} \
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
-   -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
+   -Dbuiltin_fftw3=ON -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
  else
    export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=OFF -Dbuiltin_davix=OFF -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=OFF \
-   -Dbuiltin_zlib=OFF ${ExtraCMakeOptions}"
+   -Dbuiltin_fftw3=ON -Dbuiltin_zlib=OFF ${ExtraCMakeOptions}"
  fi
 
  echo "Dumping some variables ---------------------------------------------------------------"
