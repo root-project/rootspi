@@ -286,7 +286,7 @@ def getReleasesNotesFromGitTag(gitTag):
       return markdownOldRN
 
    # Proceed with the new Scheme
-   markdownNewRN = markdownTemplate % "https://root.cern.ch/root/html%s/notes/release-notes.html%s"
+   markdownNewRN = markdownTemplate % "https://root.cern.ch/doc/v%s/release-notes.html%s"
    shortId = series+version
    patchString = ""
    if patch!="00":
