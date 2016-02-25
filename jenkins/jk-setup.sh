@@ -39,7 +39,7 @@ if [[ $COMPILER == *gcc* ]]; then
 
   export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
-    export ExtraCMakeOptions="-Dfail-on-missing=ON ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Dfail-on-missing=ON -Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
   fi 
 
 elif [[ $COMPILER == *clang* ]]; then
