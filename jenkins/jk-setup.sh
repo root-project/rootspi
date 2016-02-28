@@ -87,8 +87,10 @@ fi
 
 # Setup all the externals now-----------------------------------------------------
 PLATFORM=`$THIS/getPlatform.py`
-if [ -a $EXTERNALDIR/$EXTERNALS ]; then
+if [ -a $EXTERNALDIR/$EXTERNALS/$PLATFORM ]; then
   source $EXTERNALDIR/$EXTERNALS/$PLATFORM/setup.sh
+elif [[ $PLATFORM == *slc6* ]]; then
+  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-$ARCH/bin:${PATH}
 else
   echo "No externals for $PLATFORM in $EXTERNALDIR/$EXTERNALS"
 fi
