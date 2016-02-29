@@ -68,6 +68,7 @@ else:
 
 if buildtype == 'Release' : bt = 'opt'
 elif buildtype == 'Debug' : bt = 'dbg'
+elif buildtype == 'Optimized' : bt = 'fst'
 else : bt = 'unk'
 
 print '%s-%s-%s-%s' %  (arch, osvers, compiler, bt)
