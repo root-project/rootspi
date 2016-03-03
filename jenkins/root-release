@@ -6,7 +6,7 @@ set -e
 
  if [[ $LABEL == *slc* ]] || [[ $LABEL == *cc* ]] || [[ $LABEL == *centos* ]]; then
 
-    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.0.0/Linux-i386/bin:${PATH}
+    export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.3.2/Linux-$ARCH/bin:${PATH}
 
     Python_gcc_version=$COMPILER
     if [[ $COMPILER == *gcc* ]] ; then
