@@ -52,7 +52,7 @@ do
          wget "https://root.cern.ch/download/${tarfile}" >null 2>&1
       fi
       if [ -f ${tarfile} ]; then
-         tar -zxvf ${tarfile} -C /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var
+         tar -zxf ${tarfile} -C /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var
          rm ${tarfile}
       fi
    fi
