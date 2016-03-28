@@ -9,8 +9,8 @@ source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 if [[ $COMPILER == *clang* ]]
 then
     # options specific to SA
-    export NEW_CLANG_PATH=`pwd`/StaticAnalysis
-    export PATH=${NEW_CLANG_PATH}:${PATH}
+    NEW_CLANG_PATH=`pwd`/StaticAnalysis
+    export PATH=$NEW_CLANG_PATH:$PATH
     echo "Exported new clang path: $NEW_CLANG_PATH"
     export SA_CLANG_CPP=`which clang++`
     echo "The clang executable which will be used for the SA is $ $SA_CLANG_CPP"
