@@ -9,7 +9,7 @@ source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 if [[ $COMPILER == *clang* ]]
 then
     # options specific to SA
-    NEW_CLANG_PATH=`pwd`/StaticAnalysis
+    NEW_CLANG_PATH=`pwd`/rootspi/jenkins/StaticAnalysis
     export PATH=$NEW_CLANG_PATH:$PATH
     echo "Exported new clang path: $NEW_CLANG_PATH"
     export SA_CLANG_CPP=`which clang++`
