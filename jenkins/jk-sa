@@ -6,18 +6,24 @@ THIS=$(dirname $0)
 echo source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS > setup.sh
 source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 
+NEW_COMPILER_PATH=`pwd`/rootspi/jenkins/StaticAnalysis
+export PATH=$NEW_COMPILER_PATH:$PATH
+echo "Exported new compiler path: $NEW_COMPILER_PATH"
+export SA_CLANG_CPP=`which clang++`
+
+
 if [[ $COMPILER == *clang* ]]
 then
-    # options specific to SA
-    NEW_CLANG_PATH=`pwd`/rootspi/jenkins/StaticAnalysis
-    export PATH=$NEW_CLANG_PATH:$PATH
-    echo "Exported new clang path: $NEW_CLANG_PATH"
     export SA_CLANG_CPP=`which clang++`
-    echo "The clang executable which will be used for the SA is $ $SA_CLANG_CPP"
-
+elif [[ $COMPILER == *gcc* ]]
+then
+    export SA_CLANG_CPP=`which g++`
 else
     echo Error: Cannot perform static analysis with compiler $COMPILER
 fi
+
+echo "The compiler wrapper executable which will be used for the SA is $ $SA_CLANG_CPP"
+
 
 echo "Dumping the full environment ---------------------------------------------------------"
 env | sort | sed 's/:/:?     /g' | tr '?' '\n'
