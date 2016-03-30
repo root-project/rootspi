@@ -103,11 +103,12 @@ class Builder:
         self.cleanbuild = cleanbuild
         self.binaries = binaries
 
-        self.printConfig()
-
         self.cmake = 'cmake'
         if self.label == 'cc7':
             self.cmake = '/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/ROOT-20151211/CMake/3.4.1/x86_64-centos7-gcc48-opt/bin/cmake'
+
+        self.printConfig()
+
 
     def maybe_clean(self):
         if self.cleanbuild:
