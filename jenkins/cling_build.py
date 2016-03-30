@@ -2,7 +2,7 @@
 #
 # Axel, 2016-01-05
 
-import sys, os, errno, shutil, tarfile
+import sys, os, errno, shutil
 from subprocess import check_call, call
 from datetime import date
 
@@ -161,13 +161,13 @@ class Builder:
         mkdir_p('artifacts') # needed for scp step, even if empty
 
         if self.binaries:
-            tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
-            tar.add(self.instdir)
-            tar.close()
+            check_call(["tar", "--exclude-vcs", "cjf",
+                        os.path.join('artifacts', self.instdir + '.tar.bz2'),
+                        self.instdir])
             if self.label == 'ubuntu14':
-                tar = tarfile.open(os.path.join('artifacts', 'cling_' + self.today + '_sources.tar.bz2'), "w:bz2")
-                tar.add('src')
-                tar.close()
+                check_call(["tar", "--exclude-vcs", "cjf",
+                            os.path.join('artifacts', 'cling_' + self.today + '_sources.tar.bz2'),
+                            'src'])
 
     def build(self):
         print('STEP: CLEAN')
