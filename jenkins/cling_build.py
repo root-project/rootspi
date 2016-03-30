@@ -35,7 +35,7 @@ class Builder:
         target = ''
         if targetname:
             target = '--target ' + targetname
-        print_and_call('cmake --build . ' + target + self.parallelFlag, check = check)
+        print_and_call(self.cmake + ' --build . ' + target + self.parallelFlag, check = check)
 
 
     def __init__(self, workspace, label, generatorType, cleanbuild, binaries, buildcause, testcling, testllvmclang):
@@ -105,6 +105,11 @@ class Builder:
 
         self.printConfig()
 
+        self.cmake = 'cmake'
+        if self.label == 'cc7':
+            self.cmake = '/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/ROOT-20151211/CMake/3.4.1/x86_64-centos7-gcc48-opt/bin/cmake'
+        elif self.label == 'slc6':
+            self.cmake = '/afs/cern.ch/sw/lcg/app/releases/ROOT-externals/ROOT-20151211/CMake/3.4.1/x86_64-slc6-gcc47-opt/bin/cmake'
 
     def maybe_clean(self):
         if self.cleanbuild:
@@ -119,7 +124,7 @@ class Builder:
             doxygen = ''
             if self.label == 'ubuntu14':
                 doxygen = ' -DLLVM_ENABLE_DOXYGEN=On'
-            print_and_call('cmake ../src' # -G "' + self.generatorType + '"'
+            print_and_call(self.cmake + ' ../src' # -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
                            + ' -DCMAKE_INSTALL_PREFIX=' + self.workspace + '/' + self.instdir
                            + ' "-DLLVM_LIT_ARGS=-sv --no-progress-bar --xunit-xml-output=lit-xunit-output.xml"'
