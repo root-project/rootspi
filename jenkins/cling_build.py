@@ -165,13 +165,19 @@ class Builder:
         mkdir_p('artifacts') # needed for scp step, even if empty
 
         if self.binaries:
-            check_call(["tar", "--exclude-vcs", "cjf",
+            check_call(["tar", "cjf",
                         os.path.join('artifacts', self.instdir + '.tar.bz2'),
+                        "--exclude-vcs",
                         self.instdir])
             if self.label == 'ubuntu14':
-                check_call(["tar", "--exclude-vcs", "cjf",
+                check_call(["tar", "cjf",
                             os.path.join('artifacts', 'cling_' + self.today + '_sources.tar.bz2'),
+                            "--exclude-vcs",
                             'src'])
+
+    def housekeeping(self):
+        if os.path.isdir(self.instdir):
+            shutil.rmtree(self.instdir)
 
     def build(self):
         print('STEP: CLEAN')
@@ -189,5 +195,7 @@ class Builder:
         os.chdir(self.workspace)
         print('STEP: PACKAGING')
         self.packaging()
+        print('STEP: HOUSEKEEPING')
+        self.housekeeping()
 
 
