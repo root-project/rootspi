@@ -166,7 +166,7 @@ class Builder:
 
         if self.binaries:
             tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
-                      tar.add(self.instdir)
+            tar.add(self.instdir)
             tar.close()
             if self.label == 'ubuntu14':
                 shutil.rmtree('src/.git') # remove .git; not part of source tar
