@@ -2,7 +2,7 @@
 #
 # Axel, 2016-01-05
 
-import sys, os, errno, shutil
+import sys, os, errno, shutil, tarfile
 from subprocess import check_call, call
 from datetime import date
 
@@ -165,15 +165,14 @@ class Builder:
         mkdir_p('artifacts') # needed for scp step, even if empty
 
         if self.binaries:
-            check_call(["tar", "cjf",
-                        os.path.join('artifacts', self.instdir + '.tar.bz2'),
-                        "--exclude-vcs",
-                        self.instdir])
+            tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
+                      tar.add(self.instdir)
+            tar.close()
             if self.label == 'ubuntu14':
-                check_call(["tar", "cjf",
-                            os.path.join('artifacts', 'cling_' + self.today + '_sources.tar.bz2'),
-                            "--exclude-vcs",
-                            'src'])
+                shutil.rmtree('src/.git') # remove .git; not part of source tar
+                tar = tarfile.open(os.path.join('artifacts', 'cling_' + self.today + '_sources.tar.bz2'), "w:bz2")
+                tar.add('src')
+                tar.close()
 
     def housekeeping(self):
         if os.path.isdir(self.instdir):
