@@ -13,10 +13,10 @@ else
 fi
 
 if [ "$docdir" = "master" ]; then
-  rsync -a $docdir/ root.cern.ch:/user/httpd/root/doc/$docdir
+  rsync -a $docdir/ root.cern.ch:/var/www/root/doc/$docdir
   ret=$?
 else
-  rsync -a $docdir/ root.cern.ch:/user/httpd/root/root/$docdir
+  rsync -a $docdir/ root.cern.ch:/var/www/root/root/$docdir
   ret=$?
 fi
 
