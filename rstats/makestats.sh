@@ -11,7 +11,7 @@ cp /var/log/xferlog xferlog
 ./makestats
 ./doip
 root.exe -b -q st.C
-cp -f ftpstats.gif  /user/httpd/root/root/images/ftpstats.gif 
-cp -f ftpstats2.gif /user/httpd/root/root/images/ftpstats2.gif 
-cp -f ftpstats3.gif /user/httpd/root/root/images/ftpstats3.gif 
-cp -f ftpstats4.gif /user/httpd/root/root/images/ftpstats4.gif 
+cp -f ftpstats.gif  /var/www/root/root/images/ftpstats.gif 
+cp -f ftpstats2.gif /var/www/root/root/images/ftpstats2.gif 
+cp -f ftpstats3.gif /var/www/root/root/images/ftpstats3.gif 
+cp -f ftpstats4.gif /var/www/root/root/images/ftpstats4.gif 
