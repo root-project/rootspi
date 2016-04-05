@@ -1,4 +1,4 @@
-@echo off
+rem @echo off
 
 echo Execution started: %date% %time%
 
