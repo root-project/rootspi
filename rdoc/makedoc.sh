@@ -60,12 +60,6 @@ fi
 #   exit 1
 #fi
 
-./cpgifs.sh $docdir
-if [ $? -ne 0 ]; then
-   echo "$prog: cpgifs.sh failed, exiting..."
-   exit 1
-fi
-
 ./synchtml.sh $docdir
 if [ $? -ne 0 ]; then
    echo "$prog: synchtml.sh failed, exiting..."
