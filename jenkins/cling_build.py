@@ -165,10 +165,23 @@ class Builder:
         mkdir_p('artifacts') # needed for scp step, even if empty
 
         if self.binaries:
+            if self.label == 'ubuntu14':
+                # Grab doc from inst/ then rm -rf it so it doesn't end up in binary.
+                os.chdir(os.path.join(self.instdir, 'docs', 'doxygen'))
+                tar = tarfile.open(os.path.join(self.workspace, 'artifacts', 'cling_' + self.today + '_doc.tar.bz2'), "w:bz2")
+                tar.add('html')
+                tar.close()
+                os.chdir(self.workspace)
+                shutil.rmtree(os.path.join(self.instdir, 'docs'))
+                # and then publish to /afs/cern.ch/project/lcg/app/www/cling/doxygen/ - but how?!
+
+            # Tar the install directory.
             tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
             tar.add(self.instdir)
             tar.close()
+
             if self.label == 'ubuntu14':
+                # Tar the source directory.
                 shutil.rmtree('src/.git') # remove .git; not part of source tar
                 tar = tarfile.open(os.path.join('artifacts', 'cling_' + self.today + '_sources.tar.bz2'), "w:bz2")
                 tar.add('src')
