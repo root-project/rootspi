@@ -167,8 +167,8 @@ class Builder:
         if self.binaries:
             if self.label == 'ubuntu14':
                 # Grab doc from inst/ then rm -rf it so it doesn't end up in binary.
-                os.chdir(os.path.join(self.instdir, 'docs', 'doxygen'))
-                tar = tarfile.open(os.path.join(self.workspace, 'artifacts', 'cling_' + self.today + '_doc.tar.bz2'), "w:bz2")
+                os.chdir(os.path.join(self.instdir, 'docs'))
+                tar = tarfile.open(os.path.join(self.workspace, 'artifacts', 'cling_' + self.today + '_docs.tar.bz2'), "w:bz2")
                 tar.add('html')
                 tar.close()
                 os.chdir(self.workspace)
