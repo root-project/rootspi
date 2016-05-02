@@ -172,8 +172,9 @@ class Builder:
                 tar.add('html')
                 tar.close()
                 os.chdir(self.workspace)
-                shutil.rmtree(os.path.join(self.instdir, 'docs'))
-                # and then publish to /afs/cern.ch/project/lcg/app/www/cling/doxygen/ - but how?!
+                # Make docs/doxygen/html/html available as doxygen/ for copying to /afs in Jenkins
+                shutil.copytree(os.path.join(self.instdir, 'docs', 'doxygen', 'html', 'html'), 'doxygen')
+                # and then publish to /afs/cern.ch/project/lcg/app/www/cling/doxygen/ through post-build copy-to-head-node step
 
             # Tar the install directory.
             tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
