@@ -50,7 +50,24 @@ The release specific tag can be obtained using:
 cd root
 git checkout -b {gitTag} {gitTag}
 ~~~
+{windows}
 '''
+
+windowsMarkDownTemplate='''
+
+## Windows
+Windows 7/Vista/XP/NT/2000 are supported. We offer two packaging types:
+
+ * **exe**: a regular Windows installer package also setting up the required environment variables. With uninstall via "Control Panel" / "Add or Remove Programs". Simply download and start, or open directly. You can double-click ROOT to start it, ROOT files get registered with Windows.
+ * **tar**: the traditional variant. Unpack e.g. with [7zip](http://www.7-zip.org). Start ROOT in a Microsoft Visual Studio Prompt (in Start / Programs / Microsoft Visual Studio / Tools). If you installed ROOT to C:\root then call C:\root\bin\thisroot.bat before using ROOT to set up required environment variables.
+
+### Important installation notes
+ * You must download the binary built with the exact same version of Visual Studio than the one installed on your system.
+ * Do not untar in a directory with a name containing blank characters.
+ * Take the release version if performance matters.
+ * If you want to debug your code you need the ROOT debug build (you cannot mix release / debug builds due to a Microsoft restriction).
+'''
+
 
 from HTMLParser import HTMLParser
 from urllib2 import urlopen
@@ -346,13 +363,19 @@ def getBodyFromTag(gitTagStr):
          #print "Warning: setup script (%s) does not exist" %script
          return ""
 
+   # Add the windows paragraph if needed
+   winPar = ""
+   if 'Windows' in binariesTableStr:
+      winPar = windowsMarkDownTemplate
+
    return markDownTemplate.format(gitTag = gitTagStr,
                                   compilerSetupScript = compilerSetupScriptStr,
                                   rootSetupScript = rootSetupScriptStr,
                                   binariesTable = binariesTableStr,
                                   sourcesTable = sourcesTableStr,
                                   releaseNotes = releaseNotesStr,
-                                  StandaloneInstallationPaths = StandaloneInstallationPathsStr)
+                                  StandaloneInstallationPaths = StandaloneInstallationPathsStr,
+                                  windows = winPar)
 
 class tagInfo(object):
     def __init__(self, rawTagLine):
