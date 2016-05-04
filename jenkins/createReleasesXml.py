@@ -149,6 +149,7 @@ class ROOTTarballsOnTheWeb(object):
                  ["Linux-slc6",  "Scientific Linux Cern 6"],
                  ["Linux-ubuntu","Ubuntu "],
                  ["macosx64",    "OsX"],
+                 ["win32.vc90",    "Windows Visual Studio 90"],
                  ["win32.vc10",    "Windows Visual Studio 2010"],
                  ["win32.vc11",    "Windows Visual Studio 2012"],
                  ["win32.vc12",    "Windows Visual Studio 2013"],
