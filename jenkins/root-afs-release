@@ -20,6 +20,8 @@ wget "https://root.cern.ch/download/${tarfile}" >null 2>&1
 if [ -f ${tarfile} ]; then
    tar -zxvf ${tarfile} -C /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/src
    rm ${tarfile}
+else
+  echo 1>&2 "ERROR: wget https://root.cern.ch/download/${tarfile} failed!" >&2
 fi
 
 for var in $(echo ${Configuration} | tr "," " " | tr -d '"')
@@ -54,6 +56,8 @@ do
       if [ -f ${tarfile} ]; then
          tar -zxf ${tarfile} -C /afs/.cern.ch/sw/lcg/app/releases/ROOT/${ROOTVERSION}/$var
          rm ${tarfile}
+      else
+         echo 1>&2 "ERROR: wget https://root.cern.ch/download/${tarfile} failed!" >&2
       fi
    fi
 done
