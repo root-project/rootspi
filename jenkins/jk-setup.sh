@@ -28,7 +28,7 @@ if [[ $PLATFORM == *slc6* ]]; then
 elif [[ $PLATFORM == *centos7* ]]; then
   LABEL=centos7
   export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
-elif [[ $PLATFORM == *mac1011* ]]; then
+elif [[ $PLATFORM == *mac* ]]; then
   export PATH=/usr/local/bin:${PATH}
   export EXTERNALDIR=$HOME/ROOT-externals
 else
