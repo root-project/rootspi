@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+set -e -x
+
+# afs_release.sh
+# 
+# Created by Bertrand Bellenot on 2015/06/25
+# Copyright 2015 CERN. All rights reserved.
+#
+
+
+if [ $# -ge 1 ]; then
+  ENDSYSTEM=$1; shift
+else
+  echo "$0: expecting 1 argument: [endsystem]"
+  return
+fi
+
+export ENDSYSTEM
+
+function actions(){
+
+    mkdir $1/${ROOTVERSION}/src
+    tarfile="root_v${ROOTVERSION}.source.tar.gz"
+    wget "https://root.cern.ch/download/${tarfile}" >null 2>&1
+    if [ -f ${tarfile} ]; then
+	tar -zxvf ${tarfile} -C $1/${ROOTVERSION}/src
+	rm ${tarfile}
+    else
+	echo 1>&2 "ERROR: wget https://root.cern.ch/download/${tarfile} failed!" >&2
+    fi
+    
+    for var in $(echo ${Configuration} | tr "," " " | tr -d '"')
+    do
+	mkdir $1/${ROOTVERSION}/$var
+	if [ -d "$1/${ROOTVERSION}/$var" ]; then
+	    if [[ $var == *gcc* ]] ; then
+		if [[ $var == *cc7* ]] ; then
+		    FLAVOR="cc7"
+		fi
+		if [[ $var == *centos7* ]] ; then
+		    FLAVOR="centos7"
+		fi
+		if [[ $var == *slc6* ]] ; then
+		    FLAVOR="slc6"
+		fi
+		COMPILER=${var%-opt*}    # get the part before "-opt"
+		COMPILER=${COMPILER##*-} # get the part after the last '-'
+		GCC_VERSION=${COMPILER:0:4}.${COMPILER:4:1}
+		tarfile="root_v${ROOTVERSION}.Linux-${FLAVOR}-x86_64-${GCC_VERSION}.tar.gz"
+		wget "https://root.cern.ch/download/${tarfile}" >null 2>&1
+	    fi
+	    if [[ $var == *mac* ]] ; then
+		MAC_VER=${var%-clang*}   # get the part before "-clang"
+		MAC_VER=${MAC_VER##*mac} # get the part after "mac"
+		MAC_VERSION=${MAC_VER:0:2}.${MAC_VER:2:2}
+		CLANG_VER=${var%-opt*}   # get the part before "-opt"
+		CLANG_VER=${CLANG_VER##*-} # get the part after the last '-'
+		tarfile="root_v${ROOTVERSION}.macosx64-${MAC_VERSION}-${CLANG_VER}.tar.gz"
+		wget "https://root.cern.ch/download/${tarfile}" >null 2>&1
+	    fi
+	    if [ -f ${tarfile} ]; then
+		tar -zxf ${tarfile} -C $1/${ROOTVERSION}/$var
+		rm ${tarfile}
+	    else
+		echo 1>&2 "ERROR: wget https://root.cern.ch/download/${tarfile} failed!" >&2
+	    fi
+	fi
+    done
+}
+
+if [[ $ENDSYSTEM == *afs* ]]; then
+    rootdir="/afs/.cern.ch/sw/lcg/app/releases/ROOT"
+    if [ ! -d "${rootdir}/${ROOTVERSION}" ]; then
+        echo 1>&2 "The directory ${rootdir}/${ROOTVERSION} doesn't exist!" >&2
+        exit 127
+    fi
+    actions $rootdir
+
+elif [[ $ENDSYSTEM == *cvmfs* ]]; then
+    rootdir="/cvmfs/sft.cern.ch/lcg/app/releases/ROOT"
+    sudo -i -u cvsft <<EOF
+    cvmfs_server transaction sft.cern.ch                                                                                                                                                                                                        if [ "\$?" == "1" ]; then                                                                                                                                                                                                                     echo "Transaction is already open. Exiting ..."                                                                                                                                                                                             exit 1                                                                                                                                                                                                                                    fi
+   actions $rootdir
+   cd $HOME
+   cvmfs_server publish -v -m "Jenkins commit: ROOT version ${ROOTVERSION}" sft.cern.ch
+EOF
+fi
+
+
+
+#cd -
+
