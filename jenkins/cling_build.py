@@ -175,7 +175,8 @@ class Builder:
                 tar.close()
                 os.chdir(self.workspace)
                 # Make docs/doxygen/html/html available as doxygen/ for copying to /afs in Jenkins
-                shutil.rmtree('doxygen')
+                if os.path.isdir('doxygen'):
+                    shutil.rmtree('doxygen')
                 shutil.copytree(os.path.join(self.instdir, 'docs', 'html', 'html'), 'doxygen')
                 # and then publish to /afs/cern.ch/project/lcg/app/www/cling/doxygen/ through post-build copy-to-head-node step
 
