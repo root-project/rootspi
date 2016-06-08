@@ -44,8 +44,6 @@ elif [ -a $EXTERNALDIR/$EXTERNALS/$COMPATIBLE ]; then
   source $EXTERNALDIR/$EXTERNALS/$COMPATIBLE/setup.sh
 elif [[ $PLATFORM == *slc6* ]]; then
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-$ARCH/bin:${PATH}
-elif [[ $PLATFORM == *centos7* ]]; then
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-$ARCH/bin:${PATH}  
 else
   echo "No externals for $PLATFORM in $EXTERNALDIR/$EXTERNALS"
 fi
@@ -55,7 +53,10 @@ if [[ $COMPILER == *gcc* ]]; then
   export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
     export ExtraCMakeOptions="-Dfail-on-missing=ON -Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
-  fi 
+  fi
+  if [[ $COMPILER == *gcc6* ]]; then   # problems with Vc on GCC 6.X
+    export ExtraCMakeOptions="-Dvc=OFF ${ExtraCMakeOptions}"
+  fi
 elif [[ $COMPILER == *clang* ]]; then
   clang34version=3.4
   clang35version=3.5
