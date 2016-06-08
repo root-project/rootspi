@@ -44,6 +44,8 @@ elif [ -a $EXTERNALDIR/$EXTERNALS/$COMPATIBLE ]; then
   source $EXTERNALDIR/$EXTERNALS/$COMPATIBLE/setup.sh
 elif [[ $PLATFORM == *slc6* ]]; then
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-$ARCH/bin:${PATH}
+elif [[ $PLATFORM == *centos7* ]]; then
+  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-$ARCH/bin:${PATH}  
 else
   echo "No externals for $PLATFORM in $EXTERNALDIR/$EXTERNALS"
 fi
