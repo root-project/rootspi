@@ -106,7 +106,7 @@ class Builder:
         self.cmake = 'cmake'
         if self.label == 'cc7':
             self.cmake = '/afs/cern.ch/sw/lcg/contrib/CMake/3.5.2/Linux-x86_64/bin/cmake'
-        elif 'mac' in self.label:
+        elif 'mac' in self.label or 'fedora' in self.label:
             self.cmake = '/usr/local/bin/cmake'
 
         self.printConfig()
