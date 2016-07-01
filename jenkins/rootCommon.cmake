@@ -100,6 +100,7 @@ set(CTEST_DROP_SITE_CDASH TRUE)
 #---Custom CTest settings---------------------------------------------------
 #set(CTEST_NOTES_FILES  ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME})
 set(CTEST_USE_LAUNCHERS 0)
+set(CTEST_CUSTOM_MAXIMUM_PASSED_TEST_OUTPUT_SIZE 64000)
 
 #---Git Stuff--------------------------------------------------------------
 find_program(CTEST_GIT_COMMAND NAMES git)
