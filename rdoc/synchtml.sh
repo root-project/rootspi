@@ -22,7 +22,7 @@ fi
 
 if [ $docdir != "master" -a $docdir != "html602" ]; then
    tar zcf ${docdir}.tar.gz $docdir
-   scp ${docdir}.tar.gz root.cern.ch:/user/ftp/root
+   scp ${docdir}.tar.gz root.cern.ch:/var/www/root/download/
 fi
 
 exit $ret
