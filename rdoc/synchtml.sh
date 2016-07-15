@@ -1,4 +1,4 @@
-#!/bin/bash -x -e
+#!/bin/bash -e
 #
 # Sync the generated doc tree.
 # To be called like:
