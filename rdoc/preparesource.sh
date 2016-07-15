@@ -23,17 +23,17 @@ else
    git clone -b $gittag http://root.cern.ch/git/root.git $gittag
 fi
 
-if [ -d $gittag.build ]; then
+if [ ! -d $gittag.build ]; then
    mkdir -p $gittag.build 
 fi
 
-if [ -x $gittag/CMakeLists.txt ]; then
+if [ -f $gittag/CMakeLists.txt ]; then
    cd $gittag.build
    cmake ../$gittag -Dall=ON 
    make -j 4
    exit $?
 else
-   echo "$prog: ./CMakeLists.txt not found, checkout of $gittag failed"
+   echo "$prog: $gittag/CMakeLists.txt not found, checkout of $gittag failed"
    exit 1
 fi
 
