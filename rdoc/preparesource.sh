@@ -18,19 +18,22 @@ if [ -d $gittag ]; then
    git pull
    git reset --hard
    git checkout $gittag
+   cd ..
 else
    git clone -b $gittag http://root.cern.ch/git/root.git $gittag
-   cd $gittag
 fi
 
-if [ -x configure ]; then
-   # update config script
-   cp ../../ALLCONFIG.sh .
-   ./ALLCONFIG.sh
+if [ -d $gittag.build ]; then
+   mkdir -p $gittag.build 
+fi
+
+if [ -x $gittag/CMakeLists.txt ]; then
+   cd $gittag.build
+   cmake ../$gittag -Dall=ON 
    make -j 4
    exit $?
 else
-   echo "$prog: ./configure not found, checkout of $gittag failed"
+   echo "$prog: ./CMakeLists.txt not found, checkout of $gittag failed"
    exit 1
 fi
 

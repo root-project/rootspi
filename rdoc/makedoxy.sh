@@ -23,6 +23,7 @@ if [ $# -ge 1 ]; then
       gittag="v$major-$minor-00-patches"
    fi
    srcdir="src/$gittag"
+   builddir="src/$gittag.build"
 else
    echo "$prog: no version arguments specified"
    exit 1
@@ -30,7 +31,7 @@ fi
 
 # set ROOTSYS
 dir=`pwd`
-. $srcdir/bin/thisroot.sh
+. $builddir/bin/thisroot.sh
 echo "Using `which root` to generate the doxygen guide..."
 
 # clean up previous files: removed types etc.
@@ -45,6 +46,7 @@ if [ -d $srcdir/documentation/doxygen ]; then
   make
   cd $dir
   mv $dir/${docdir}_TMP/html $dir/${docdir}
+  mv $dir/${docdir}_TMP/notebooks $dir/${docdir}/notebooks
 else
   echo "$prog: no doxygen documentation for this version"
 fi
