@@ -46,7 +46,9 @@ if [ -d $srcdir/documentation/doxygen ]; then
   make
   cd $dir
   mv $dir/${docdir}_TMP/html $dir/${docdir}
-  mv $dir/${docdir}_TMP/notebooks $dir/${docdir}/notebooks
+  if [ -d $dir/${docdir}_TMP/notebooks ]; then
+    mv $dir/${docdir}_TMP/notebooks $dir/${docdir}/notebooks
+  fi
 else
   echo "$prog: no doxygen documentation for this version"
 fi
