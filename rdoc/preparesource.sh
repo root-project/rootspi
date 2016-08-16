@@ -29,7 +29,7 @@ fi
 
 if [ -f $gittag/CMakeLists.txt ]; then
    cd $gittag.build
-   cmake ../$gittag -Dall=ON 
+   cmake ../$gittag -Dall=ON -Dtesting=ON
    make -j 4
    exit $?
 else
