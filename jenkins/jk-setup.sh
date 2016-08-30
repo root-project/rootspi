@@ -31,6 +31,9 @@ elif [[ $PLATFORM == *centos7* ]]; then
 elif [[ $PLATFORM == *mac* ]]; then
   export PATH=/usr/local/bin:${PATH}
   export EXTERNALDIR=$HOME/ROOT-externals
+elif [[ $PLATFORM == *fedora* ]]; then
+  export PATH=/usr/local/bin:${PATH}
+  export EXTERNALDIR=$HOME/ROOT-externals
 else
   export EXTERNALDIR=$HOME/ROOT-externals
 fi
