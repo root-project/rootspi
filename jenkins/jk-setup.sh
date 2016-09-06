@@ -83,10 +83,12 @@ elif [[ $COMPILER == *icc* ]]; then
   iccyear=2013
   icc14year=2013
   icc15year=2015
+  icc16year=2016
   COMPILERyear=${COMPILER}year
   iccgcc=4.8
   icc14gcc=4.8
   icc15gcc=4.9
+  icc16gcc=4.9
   GCCversion=${COMPILER}gcc
   . /afs/cern.ch/sw/lcg/contrib/gcc/${!GCCversion}/${ARCH}-slc6/setup.sh
   . /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
