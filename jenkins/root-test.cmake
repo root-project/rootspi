@@ -15,7 +15,8 @@ if(CTEST_MODE STREQUAL continuous)
 
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
-  ctest_start(${CTEST_MODE} TRACK Install)
+  get_filename_component(CTEST_RUNTESTS_DIRECTORY runtests ABSOLUTE)
+  ctest_start(${CTEST_MODE} TRACK Install ${CTEST_INSTALL_DIRECTORY} ${CTEST_RUNTESTS_DIRECTORY})
   #---Set the environment---------------------------------------------------
   set(ENV{PATH} ${CTEST_INSTALL_DIRECTORY}/bin:$ENV{PATH})
   if(APPLE)
@@ -26,7 +27,6 @@ elseif(CTEST_MODE STREQUAL install)
   set(ENV{PYTHONPATH} ${CTEST_INSTALL_DIRECTORY}/lib/root:$ENV{PAYTHONPATH})
 
   #---Configure and run the tests--------------------------------------------
-  get_filename_component(CTEST_RUNTESTS_DIRECTORY runtests ABSOLUTE)
   ctest_configure(BUILD   ${CTEST_RUNTESTS_DIRECTORY}/tutorials
                   SOURCE  ${CTEST_INSTALL_DIRECTORY}/tutorials)
   ctest_test(BUILD ${CTEST_RUNTESTS_DIRECTORY}/tutorials PARALLEL_LEVEL ${ncpu})
