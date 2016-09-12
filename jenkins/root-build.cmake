@@ -55,6 +55,7 @@ elseif(CTEST_MODE STREQUAL install)
                   APPEND)
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET install APPEND)
+  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
 
 #---Package---------------------------------------------------------------
 elseif(CTEST_MODE STREQUAL package)
