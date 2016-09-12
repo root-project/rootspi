@@ -15,7 +15,7 @@ if(CTEST_MODE STREQUAL continuous)
 
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
-  ctest_start(${CTEST_MODE} TRACK Install APPEND)
+  ctest_start(${CTEST_MODE} TRACK Install)
   #---Set the environment---------------------------------------------------
   set(ENV{PATH} ${CTEST_INSTALL_DIRECTORY}/bin:$ENV{PATH})
   if(APPLE)
