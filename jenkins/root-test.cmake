@@ -28,7 +28,7 @@ elseif(CTEST_MODE STREQUAL install)
 
   #---Configure and run the tests--------------------------------------------
   ctest_configure(BUILD   ${CTEST_RUNTESTS_DIRECTORY}/tutorials
-                  SOURCE  ${CTEST_INSTALL_DIRECTORY}/tutorials)
+                  SOURCE  ${CTEST_INSTALL_DIRECTORY}/share/doc/root/tutorials)
   ctest_test(BUILD ${CTEST_RUNTESTS_DIRECTORY}/tutorials PARALLEL_LEVEL ${ncpu})
 
 #----Package mode---------------------------------------------------------
