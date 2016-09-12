@@ -15,7 +15,7 @@ endif()
 set(options -Dall=ON
             -Dtesting=ON
             ${testing_options}
-            -DCMAKE_INSTALL_PREFIX=${CTEST_BINARY_DIRECTORY}/install
+            -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
             $ENV{ExtraCMakeOptions})
  
 if("$ENV{BUILDOPTS}" STREQUAL "cxx14root7")
@@ -42,6 +42,7 @@ if(CTEST_MODE STREQUAL continuous)
                   OPTIONS "${options}")
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
+  ctest_submit(PARTS Update Configure Build)
 
 #---Install---------------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
@@ -55,6 +56,7 @@ elseif(CTEST_MODE STREQUAL install)
                   APPEND)
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET install APPEND)
+  ctest_submit(PARTS Update Configure Build)
   ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
 
 #---Package---------------------------------------------------------------
@@ -69,6 +71,7 @@ elseif(CTEST_MODE STREQUAL package)
                   APPEND)
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET package APPEND)
+  ctest_submit(PARTS Update Configure Build)
 
 #---Experimental/Nightly----------------------------------------------------
 else()
@@ -81,9 +84,7 @@ else()
                   OPTIONS "${options}")
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
-
+  ctest_submit(PARTS Update Configure Build)
 endif()
-
-ctest_submit(PARTS Update Configure Build)
 
 

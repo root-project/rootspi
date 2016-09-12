@@ -54,9 +54,11 @@ endif()
 if("$ENV{JENKINS_HOME}" STREQUAL "")
   set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_PREFIX}/${CTEST_MODE}-${CTEST_VERSION}-${tag})
   set(CTEST_BINARY_DIRECTORY ${CTEST_BUILD_PREFIX}/${CTEST_MODE}-${CTEST_VERSION}-${tag})
+  set(CTEST_INSTALL_DIRECTORY ${CTEST_BUILD_PREFIX}/install/${CTEST_MODE}-${CTEST_VERSION}-${tag})
 else()
   get_filename_component(CTEST_SOURCE_DIRECTORY root ABSOLUTE)
   get_filename_component(CTEST_BINARY_DIRECTORY build ABSOLUTE)
+  get_filename_component(CTEST_INSTALL_DIRECTORY install ABSOLUTE)
 endif()
 
 #---------------------------------------------------------------------------

@@ -16,22 +16,20 @@ if(CTEST_MODE STREQUAL continuous)
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
   ctest_start(${CTEST_MODE} TRACK Install APPEND)
-  set(installdir ${CTEST_BINARY_DIRECTORY}/install)
   #---Set the environment---------------------------------------------------
-  set(ENV{PATH} ${installdir}/bin:$ENV{PATH})
+  set(ENV{PATH} ${CTEST_INSTALL_DIRECTORY}/bin:$ENV{PATH})
   if(APPLE)
-    set(ENV{DYLD_LIBRARY_PATH} ${installdir}/lib/root:$ENV{DYLD_LIBRARY_PATH})
+    set(ENV{DYLD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib/root:$ENV{DYLD_LIBRARY_PATH})
   elseif(UNIX)
-    set(ENV{LD_LIBRARY_PATH} ${installdir}/lib/root:$ENV{LD_LIBRARY_PATH})
+    set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib/root:$ENV{LD_LIBRARY_PATH})
   endif()
-  set(ENV{PYTHONPATH} ${installdir}/lib/root:$ENV{PAYTHONPATH})
+  set(ENV{PYTHONPATH} ${CTEST_INSTALL_DIRECTORY}/lib/root:$ENV{PAYTHONPATH})
 
   #---Configure and run the tests--------------------------------------------
-  file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtests)
-  ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
-                  SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials)
-  ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
-             PARALLEL_LEVEL ${ncpu})
+  get_filename_component(CTEST_RUNTESTS_DIRECTORY runtests ABSOLUTE)
+  ctest_configure(BUILD   ${CTEST_RUNTESTS_DIRECTORY}/tutorials
+                  SOURCE  ${CTEST_INSTALL_DIRECTORY}/tutorials)
+  ctest_test(BUILD ${CTEST_RUNTESTS_DIRECTORY}/tutorials PARALLEL_LEVEL ${ncpu})
 
 #----Package mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL package)
