@@ -3,20 +3,20 @@ include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 unset(CTEST_CHECKOUT_COMMAND)  # We do not need to checkout
 
 #---Read custom files and generate a note with ignored tests----------------
-ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-WRITE_INGNORED_TESTS(${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
-set(CTEST_NOTES_FILES  ${CTEST_BINARY_DIRECTORY}/ignoredtests.txt)
+WRITE_INGNORED_TESTS(ignoredtests.txt)
+set(CTEST_NOTES_FILES  ignoredtests.txt)
 #--------------------------------------------------------------------------
 
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
+  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_start (Continuous TRACK Continuous-${CTEST_VERSION} APPEND)
   ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-")
 
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
-  get_filename_component(CTEST_RUNTESTS_DIRECTORY runtests ABSOLUTE)
-  ctest_start(${CTEST_MODE} TRACK Install ${CTEST_INSTALL_DIRECTORY} ${CTEST_RUNTESTS_DIRECTORY})
+  get_filename_component(CTEST_BINARY_DIRECTORY runtests ABSOLUTE)
+  ctest_start(${CTEST_MODE} TRACK Install)
   #---Set the environment---------------------------------------------------
   set(ENV{PATH} ${CTEST_INSTALL_DIRECTORY}/bin:$ENV{PATH})
   if(APPLE)
@@ -27,12 +27,13 @@ elseif(CTEST_MODE STREQUAL install)
   set(ENV{PYTHONPATH} ${CTEST_INSTALL_DIRECTORY}/lib/root:$ENV{PAYTHONPATH})
 
   #---Configure and run the tests--------------------------------------------
-  ctest_configure(BUILD   ${CTEST_RUNTESTS_DIRECTORY}/tutorials
+  ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/tutorials
                   SOURCE  ${CTEST_INSTALL_DIRECTORY}/share/doc/root/tutorials)
   ctest_test(BUILD ${CTEST_RUNTESTS_DIRECTORY}/tutorials PARALLEL_LEVEL ${ncpu})
 
 #----Package mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL package)
+  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} TRACK Package APPEND)
   #--Untar the installation kit----------------------------------------------
   file(GLOB tarfile ${CTEST_BINARY_DIRECTORY}/root_*.tar.gz)
@@ -56,10 +57,10 @@ elseif(CTEST_MODE STREQUAL package)
 
 #---Experimental/Nightly----------------------------------------------------
 else()
+  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} APPEND)
   ctest_test(PARALLEL_LEVEL ${ncpu})
 endif()
-
 
 ctest_submit(PARTS Test Notes)
 

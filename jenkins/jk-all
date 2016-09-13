@@ -30,7 +30,7 @@ else
        exit $status
     fi
 
-    ctest -V -S ${THIS}/root-test.cmake
+    ctest -VV -S ${THIS}/root-test.cmake
     status=$?
 
 fi
