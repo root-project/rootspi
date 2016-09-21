@@ -21,56 +21,12 @@ if [ "${LABEL_ORG}" == "slc7" ] || [ "${LABEL_ORG}" == "cc7" ] || [ "${LABEL_ORG
   LABEL=slc6
 fi
 
-if [ "${LABEL}" == "slc6" ]; then
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.2.3/Linux-x86_64/bin:${PATH}
-fi
-
 if [[ $COMPILER == *gcc* ]]; then
   ARCH=$(uname -m)
-
-  # Here we setup ROOT and its environment (qt, gfal, gsl, davix ...)
-  lcgenv=/afs/cern.ch/sw/lcg/releases/lcgenv/latest/lcgenv
   baseLCGDir=/afs/cern.ch/sw/lcg/app/nightlies/${LCG_SLOT}/${DAY}
   platformName=${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}
-  baseROOTDir=${baseLCGDir}/ROOT/${VERSION}/${platformName}
-
-  source ${baseROOTDir}/bin/thisroot.sh
-
-  # epel, voms are needed but no dependency has been declared from ROOT
-  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} ROOT`
-  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} epel`
-  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} voms`
-  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} srm_ifce`
-  eval  `${lcgenv}  -p ${baseLCGDir} ${platformName} is_ifce`
-
-  # Now add to the include path until the ROOT-env provides the paths
-
-  # Qt
-  qtBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/qt/" | sed 's/bin/include/g'`
-  export ROOT_INCLUDE_PATH=${qtBaseIncDir}:${qtBaseIncDir}/Qt:${qtBaseIncDir}/QtCore:${qtBaseIncDir}/QtGui
-  # mysql
-  mysqlBaseIncDir=`echo $PATH | tr ":" "\n" | grep "/mysql/" | sed 's/bin/include/g'`
-  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${mysqlBaseIncDir}
-  # xrootd
-  xrootdIncDir=`echo $PATH | tr ":" "\n" | grep "/xrootd/" | sed 's/bin/include/g'`
-  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${xrootdIncDir}:${xrootdIncDir}/xrootd
-  # oracle
-  oracleIncDir=`echo $PATH | tr ":" "\n" | grep "/oracle/" | sed 's/bin/include/g'`
-  export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${oracleIncDir}
-
-  # the 'correct' compiler is not properly setup by ROOT-env.sh
-  gcc47version=4.7
-  gcc48version=4.8
-  gcc49version=4.9
-  gcc51version=5.1
-  COMPILERversion=${COMPILER}version
-  source /afs/cern.ch/sw/lcg/contrib/gcc/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
-
-  # CMake > 3.0 does not select the compiler in the PATH in preference
-  export FC=gfortran
-  export CXX=`which g++`
-  export CC=`which gcc`
-
+  # Use the view of the nighlies
+  source ${baseLCGDir}/${platformName}/setup.sh
 fi    
 
 echo "Dumping the full environment ---------------------------------------------------------"
