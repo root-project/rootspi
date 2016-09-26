@@ -76,6 +76,7 @@ elif [[ $COMPILER == *clang* ]]; then
 elif [[ $COMPILER == *native* ]]; then
   if [[ $LABEL == *mac* ]] ; then
     export FC=`which gfortran`
+    export ExtraCMakeOptions="-Dmacos_native=ON ${ExtraCMakeOptions}"
   else
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
   fi
