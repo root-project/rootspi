@@ -101,3 +101,12 @@ elif [[ $COMPILER == *icc* ]]; then
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
 fi
 
+# If run from Jenkins-----------------------------------------------------------------------
+if [ x$WORKSPACE != x ]; then
+  SCRATCH_DIR=$WORKSPACE/ipython
+  export JUPYTER_CONFIG_DIR=$SCRATCH_DIR/.jupyter
+  export JUPYTER_DATA_DIR=$SCRATCH_DIR/.local/share/jupyter
+  export JUPYTER_PATH=$SCRATCH_DIR/.local/share/jupyter
+  export JUPYTER_RUNTIME_DIR=$SCRATCH_DIR/.local/share/jupyter/runtime
+  export IPYTHONDIR=$SCRATCH_DIR/.ipython
+fi
