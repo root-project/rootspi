@@ -64,10 +64,12 @@ elif [[ $COMPILER == *clang* ]]; then
   clang34version=3.4
   clang35version=3.5
   clang36version=3.6
+  clang39version=3.9
   COMPILERversion=${COMPILER}version
   clang34gcc=48
   clang35gcc=49
   clang36gcc=49
+  clang39gcc=49
   GCCversion=${COMPILER}gcc
   . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
   export CC=`which clang`
