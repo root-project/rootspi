@@ -12,11 +12,11 @@ else
    docdir="$1"
 fi
 
-if [ "$docdir" = "master" ]; then
-  rsync --delete -a $docdir/ root.cern.ch:/var/www/root/doc/$docdir
+if [ "$docdir" != "${docdir/html/}" ]; then
+  rsync --delete -a $docdir/ root.cern.ch:/var/www/root/root/$docdir
   ret=$?
 else
-  rsync --delete -a $docdir/ root.cern.ch:/var/www/root/root/$docdir
+  rsync --delete -a $docdir/ root.cern.ch:/var/www/root/doc/$docdir
   ret=$?
 fi
 

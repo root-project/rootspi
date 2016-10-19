@@ -12,13 +12,17 @@ if [ $# -ge 1 ]; then
    vers="$1"
    if [ "x$1" = "xmaster" ]; then
       major=
-      docdir="master"
       gittag="master"
+      docdir="master"
    else
       major=`echo $1 | cut -d- -f 1`
       minor=`echo $1 | cut -d- -f 2`
-      docdir="html$major$minor"
       gittag="v$major-$minor-00-patches"
+      if [ "$major" = "5" -o "$vers" = "6-02" -o "$vers" = "6-04" -o "$vers" = "6-06" ]; then
+         docdir="html$major$minor"
+      else
+         docdir="v$major$minor"
+      fi
    fi
    srcdir="src/$gittag"
 else
