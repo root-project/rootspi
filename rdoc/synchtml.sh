@@ -16,7 +16,7 @@ if [ "$docdir" != "${docdir/html/}" ]; then
   rsync --delete -a $docdir/ root.cern.ch:/var/www/root/root/$docdir
   ret=$?
 else
-  rsync --delete -a $docdir/ root.cern.ch:/var/www/root/doc/$docdir
+  rsync --delete --exclude $docdir/release-notes.html -a $docdir/ root.cern.ch:/var/www/root/doc/$docdir
   ret=$?
 fi
 
