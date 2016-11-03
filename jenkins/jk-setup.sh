@@ -41,11 +41,11 @@ fi
 # Setup all the externals now-----------------------------------------------------
 PLATFORM=`$THIS/getPlatform.py`
 COMPATIBLE=`$THIS/getCompatiblePlatform.py $PLATFORM`
-if [ -a $EXTERNALDIR/$EXTERNALS/$PLATFORM ]; then
-  export ROOT_INCLUDE_PATH=$EXTERNALDIR/$EXTERNALS/$PLATFORM/include
+if [ -a /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$PLATFORM ]; then
+  source /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$PLATFORM/setup.sh
+elif [ -a $EXTERNALDIR/$EXTERNALS/$PLATFORM ]; then
   source $EXTERNALDIR/$EXTERNALS/$PLATFORM/setup.sh
 elif [ -a $EXTERNALDIR/$EXTERNALS/$COMPATIBLE ]; then
-  export ROOT_INCLUDE_PATH=$EXTERNALDIR/$EXTERNALS/$COMPATIBLE/include
   source $EXTERNALDIR/$EXTERNALS/$COMPATIBLE/setup.sh
 elif [[ $PLATFORM == *slc6* ]]; then
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
