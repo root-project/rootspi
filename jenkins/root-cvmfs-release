@@ -3,8 +3,9 @@ set -e -x
 
 # afs_release.sh
 # 
-# Created by Bertrand Bellenot on 2015/06/25
-# Copyright 2015 CERN. All rights reserved.
+# Created by Bertrand Bellenot on 2015/06/25.
+# Adjusted to cvmfs by Patricia Mendez Lorenzo on 2016/11/04.
+# Copyright 2016 CERN. All rights reserved.
 #
 
 # Let's create the directory first in CVMFS
