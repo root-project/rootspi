@@ -78,15 +78,15 @@ elif [[ $COMPILER == *clang* ]]; then
   export CXX=`which clang++`
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 elif [[ $COMPILER == *native* ]]; then
+  unset CC
+  unset CXX
+  unset FC
   if [[ $LABEL == *mac* ]] ; then
-    export FC=`which gfortran`
-    export CC=`which clang`
-    export CXX=`which clang++`
+#    export FC=`which gfortran`
+#    export CC=`which clang`
+#    export CXX=`which clang++`
     export ExtraCMakeOptions="-Dmacos_native=ON ${ExtraCMakeOptions}"
   else
-    unset CC
-    unset CXX
-    unset FC
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
   fi
 elif [[ $COMPILER == *icc* ]]; then
