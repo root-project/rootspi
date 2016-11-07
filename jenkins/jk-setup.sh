@@ -84,6 +84,9 @@ elif [[ $COMPILER == *native* ]]; then
     export CXX=`which clang++`
     export ExtraCMakeOptions="-Dmacos_native=ON ${ExtraCMakeOptions}"
   else
+    unset CC
+    unset CXX
+    unset FC
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
   fi
 elif [[ $COMPILER == *icc* ]]; then
