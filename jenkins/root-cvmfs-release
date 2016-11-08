@@ -22,7 +22,8 @@ fi
 # Let's make the directory for new ROOT version first:
 
 basedir="/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/${ROOTVERSION}"
-mkdir $basedir
+echo "Value of the basedir: $basedir"
+mkdir -p $basedir
 
 
 if [ ! -d "$basedir" ]; then
@@ -30,7 +31,7 @@ if [ ! -d "$basedir" ]; then
   exit 127
 fi
 
-mkdir $basedir/${ROOTVERSION}/src
+mkdir -p $basedir/${ROOTVERSION}/src
 tarfile="root_v${ROOTVERSION}.source.tar.gz"
 wget "https://root.cern.ch/download/${tarfile}" >null 2>&1
 if [ -f ${tarfile} ]; then
@@ -42,7 +43,7 @@ fi
 
 for var in $(echo ${Configuration} | tr "," " " | tr -d '"')
 do
-   mkdir $basedir/${ROOTVERSION}/$var
+   mkdir -p $basedir/${ROOTVERSION}/$var
    if [ -d "$basedir/${ROOTVERSION}/$var" ]; then
       if [[ $var == *gcc* ]] ; then
          if [[ $var == *cc7* ]] ; then
