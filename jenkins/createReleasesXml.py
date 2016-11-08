@@ -33,7 +33,7 @@ NOT YET IMPLEMENTED
 
 {StandaloneInstallationPaths}
 
-## Example for setting up ROOT and the corresponding compiler from AFS
+## Example for setting up ROOT and the corresponding compiler from CVMFS
 ~~~
 . {compilerSetupScript}
 . {rootSetupScript}
@@ -223,7 +223,7 @@ def getStandaloneInstallationPaths(afsTag):
     "
     The function returns a dictionary whose keys are "src" and "installationsList"
     """
-    baseAFSDir="/afs/cern.ch/sw/lcg/app/releases/ROOT/%s" %afsTag
+    baseAFSDir="/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/%s" %afsTag
     rawAfsDirList = glob.glob("%s/*" %baseAFSDir)
     srcList = [s for s in rawAfsDirList if s.endswith("src")]
     src=""
@@ -249,7 +249,7 @@ def getMarkDownInstallationPathSection(installationPaths):
     """
     if len(installationPaths) == 0 : return ""
     markDownSection = """
-## Installations in AFS and CVMFS
+## Installations in CVMFS
 Standalone installations with minimal external dependencies are available at:
 ~~~
 {paths}
@@ -315,11 +315,13 @@ tarballsOnTheWeb = ROOTTarballsOnTheWeb()
 
 def getCompilerAndRootSetupScriptFromAfsTag(afsTagStr):
    """ Find on afs the list of releases based on the tag"""
-   baseDir = "/afs/cern.ch/sw/lcg/app/releases/ROOT/%s" %afsTagStr
+   baseDir = "/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/%s" %afsTagStr
    # Take the ones compiled with gcc in optimised mode on slc
    platforms = map(lambda s: s.split("/")[-1], glob.glob("%s/x86_64-slc*-gcc*-opt" %baseDir))
    if not platforms:
       platforms = map(lambda s: s.split("/")[-1], glob.glob("%s/x86_64-cc*-gcc*-opt" %baseDir))
+   if not platforms:
+      platforms = map(lambda s: s.split("/")[-1], glob.glob("%s/x86_64-centos*-gcc*-opt" %baseDir))
    # take the last, i.e. the one compiled with the latest compiler ;)
    if not platforms: return "",""
 
@@ -327,10 +329,14 @@ def getCompilerAndRootSetupScriptFromAfsTag(afsTagStr):
 
    rootSetupScript = "%s/%s/root/bin/thisroot.sh" %(baseDir,platform)
 
-   compilerVersion = platform[15:17]
+   if 'centos' in platform:
+      compilerVersion = platform[18:20]
+      print platform
+   else:
+      compilerVersion = platform[15:17]
    compilerVersionWithDot = "%s.%s" %(compilerVersion[0],compilerVersion[1])
 
-   compilerBaseDir = "/afs/cern.ch/sw/lcg/external/gcc"
+   compilerBaseDir = "/cvmfs/sft.cern.ch/lcg/contrib/gcc"
 
    compilerSetupScript = "%s/%s/%s/setup.sh" %(compilerBaseDir,compilerVersionWithDot,platform)
 
@@ -348,20 +354,20 @@ def getBodyFromTag(gitTagStr):
    # in this case, no body is returned
    totalLenght =  len(StandaloneInstallationPathsStr) + len(binariesTableStr)
    if totalLenght == 0:
-       #print "No standalone paths nor binearies for", gitTagStr
+       print "No standalone paths nor binaries for", gitTagStr
        return ""
 
    sourcesTableStr = tarballsOnTheWeb.getSourceDistributionsTableMarkdown(afsTagStr)
    releaseNotesStr = getReleasesNotesFromGitTag(gitTagStr)
    compilerSetupScriptStr, rootSetupScriptStr = getCompilerAndRootSetupScriptFromAfsTag(afsTagStr)
    if "" == rootSetupScriptStr:
-       #print "No rootSetupScript for",gitTagStr
+       print "No rootSetupScript for",gitTagStr
        return ""
 
    # check the the scripts actually exist
    for script in (compilerSetupScriptStr, rootSetupScriptStr):
       if not os.path.exists(script):
-         #print "Warning: setup script (%s) does not exist" %script
+         print "Warning: setup script (%s) does not exist" %script
          return ""
 
    # Add the windows paragraph if needed
@@ -456,7 +462,7 @@ class tagInfo(object):
         Get, if existing, the afs directory where the installation is located
         e.g: /afs/cern.ch/sw/lcg/app/releases/ROOT/6.03.04/
         """
-        afsRootTemplate = "/afs/cern.ch/sw/lcg/app/releases/ROOT/%s"
+        afsRootTemplate = "/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/%s"
 
         # Default value
         self.afsDir = ""
@@ -496,7 +502,7 @@ class tagInfo(object):
        bodyMarkdown = getBodyFromTag(tagName)
 
        if bodyMarkdown == "":
-           #print "Body is '': skipping ", tagName
+           print "Body is '': skipping ", tagName
            return
 
        nodeEl = ET.SubElement(XMLelement, 'node')
