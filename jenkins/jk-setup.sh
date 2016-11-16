@@ -43,6 +43,8 @@ PLATFORM=`$THIS/getPlatform.py`
 COMPATIBLE=`$THIS/getCompatiblePlatform.py $PLATFORM`
 if [ -a /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$PLATFORM ]; then
   source /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$PLATFORM/setup.sh
+elif [ -a /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$COMPATIBLE ]; then
+  source /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$COMPATIBLE/setup.sh
 elif [ -a $EXTERNALDIR/$EXTERNALS/$PLATFORM ]; then
   source $EXTERNALDIR/$EXTERNALS/$PLATFORM/setup.sh
 elif [ -a $EXTERNALDIR/$EXTERNALS/$COMPATIBLE ]; then
