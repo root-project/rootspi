@@ -30,9 +30,9 @@ else
        exit $status
     fi
 
-    if [ $COVERITY_JOB == False ]; then
-	ctest -V -S ${THIS}/root-test.cmake
-	status=$?
+    if [  "x$COVERITY_JOB" == "x" ]; then
+      ctest -V -S ${THIS}/root-test.cmake
+      status=$?
     fi	
 fi
 
