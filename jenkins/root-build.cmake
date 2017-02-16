@@ -73,6 +73,24 @@ elseif(CTEST_MODE STREQUAL package)
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET package APPEND)
   ctest_submit(PARTS Update Configure Build)
 
+#----Pullrequests-----------------------------------------------------------
+elseif(CTEST_MODE STREQUAL pullrequests)
+  set(empty $ENV{EMPTY_BINARY})
+  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  file(REMOVE_RECURSE ${testruns})
+
+  set(CTEST_CHECKOUT_COMMAND "${CTEST_SCRIPT_DIRECTORY}/pr-reset.sh ${CTEST_SOURCE_DIRECTORY} ${CTEST_GIT_COMMAND}")
+  set(CTEST_GIT_UPDATE_CUSTOM  ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
+
+  ctest_start (Pullrequests TRACK Pullrequests)
+  ctest_update(RETURN_VALUE updates)
+  ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
+                  SOURCE  ${CTEST_SOURCE_DIRECTORY}
+                  OPTIONS "${options}")
+  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+  ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
+  ctest_submit(PARTS Update Configure Build)
+
 #---Experimental/Nightly----------------------------------------------------
 else()
 
