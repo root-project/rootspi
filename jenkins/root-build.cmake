@@ -75,10 +75,8 @@ elseif(CTEST_MODE STREQUAL package)
 
 #----Pullrequests-----------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
-  set(empty $ENV{EMPTY_BINARY})
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
-  file(REMOVE_RECURSE ${testruns})
 
+  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   set(CTEST_CHECKOUT_COMMAND "${CTEST_SCRIPT_DIRECTORY}/pr-reset.sh ${CTEST_SOURCE_DIRECTORY} ${CTEST_GIT_COMMAND}")
   set(CTEST_GIT_UPDATE_CUSTOM  ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
 
