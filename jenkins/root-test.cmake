@@ -54,6 +54,11 @@ elseif(CTEST_MODE STREQUAL package)
   ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
              PARALLEL_LEVEL ${ncpu})
 
+#---Pullrequest mode--------------------------------------------------------
+elseif(CTEST_MODE STREQUAL pullrequests)
+  ctest_start(Pullrequests TRACK Pullrequests APPEND)
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-")
+
 #---Experimental/Nightly----------------------------------------------------
 else()
   ctest_start(${CTEST_MODE} APPEND)
