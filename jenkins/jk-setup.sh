@@ -104,18 +104,17 @@ elif [[ $COMPILER == *icc* ]]; then
   icc15gcc=4.9
   icc16gcc=4.9
   GCCversion=${COMPILER}gcc
-
-  if [[ $COMPILER == *icc17* ]]; then
+  if [ $COMPILER == icc17 ]; then
       . /cvmfs/projects.cern.ch/intelsw/psxe/linux/all-setup.sh
   else
       . /afs/cern.ch/sw/lcg/contrib/gcc/${!GCCversion}/${ARCH}-slc6/setup.sh
       . /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
       . /afs/cern.ch/sw/IntelSoftware/linux/${ARCH}/xe${!COMPILERyear}/bin/ifortvars.sh intel64
       . /afs/cern.ch/sw/IntelSoftware/linux/${ARCH}/xe${!COMPILERyear}/bin/iccvars.sh intel64
-      export CC=icc
-      export CXX=icc
-      export FC=ifort
   fi
+  export CC=`which icc`
+  export CXX=`which icc`
+  export FC=`which ifort`
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
 fi
 
