@@ -7,7 +7,7 @@ echo source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS > setup.sh
 source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 
 echo "Dumping the full environment ---------------------------------------------------------"
-env | sort | sed 's/:/:?     /g' | tr '?' '\n'
+env | grep -v ghprbPullLongDescription | sort | sed 's/:/:?     /g' | tr '?' '\n'
 echo "--------------------------------------------------------------------------------------"
 
 #---Create stampfile to enable our jenkins to purge old builds------------------------------
