@@ -22,6 +22,7 @@ if   (compiler == 'clang34') : new_compiler = 'gcc48'
 elif (compiler == 'clang35') : new_compiler = 'gcc49'
 elif (compiler == 'clang36') : new_compiler = 'gcc49'
 elif (compiler == 'clang39') : new_compiler = 'gcc49'
+elif (compiler.startswith('clang_gcc')) : new_compiler = compiler[6:]
 elif (compiler == 'icc') : new_compiler = 'gcc48'
 elif (compiler == 'icc14') : new_compiler = 'gcc48'
 elif (compiler == 'icc15') : new_compiler = 'gcc49'
