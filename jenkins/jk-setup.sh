@@ -58,7 +58,7 @@ else
 fi
 
 # The final compiler may not yet be totally setup-------------------------------------
-if [[ $COMPILER == *gcc* ]]; then
+if [[ $COMPILER == gcc* ]]; then
   export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
     export ExtraCMakeOptions="-Dfail-on-missing=ON -Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
@@ -72,12 +72,23 @@ elif [[ $COMPILER == *clang* ]]; then
   clang36version=3.6
   clang39version=3.9
   COMPILERversion=${COMPILER}version
-  clang34gcc=48
-  clang35gcc=49
-  clang36gcc=49
-  clang39gcc=49
+  clang34gcc=4.8
+  clang35gcc=4.9
+  clang36gcc=4.9
+  clang39gcc=4.9
   GCCversion=${COMPILER}gcc
-  . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
+  if [[ $COMPILERversion == clang_gcc* ]]; then
+    # We are cross compiling. We use clang as a compiler with libstdc++.
+    # Get the gcc version. First parameter is a zero-based offset and the second is the length.
+    GCCcompiler=${COMPILER:6:5}
+    GCCversion=${COMPILER:9:2}
+    GCCversion="${GCCversion:0:1}.${GCCversion:1:1}"
+    . /afs/cern.ch/sw/lcg/contrib/gcc/${GCCversion}/${ARCH}-slc6/setup.sh
+    export PATH=/afs/cern.ch/sw/lcg/external/llvm/latest/${ARCH}-slc6-${GCCcompiler}-opt/bin/:$PATH
+  else
+    . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
+  fi
+
   export CC=`which clang`
   export CXX=`which clang++`
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
