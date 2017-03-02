@@ -26,7 +26,7 @@ elif (compiler == 'icc') : new_compiler = 'gcc48'
 elif (compiler == 'icc14') : new_compiler = 'gcc48'
 elif (compiler == 'icc15') : new_compiler = 'gcc49'
 elif (compiler == 'icc16') : new_compiler = 'gcc49'
-elif (compiler == 'icc17') : new_compiler = 'gcc49'
+elif (compiler == 'icc17') : new_compiler = 'gcc62'
 else : new_compiler = compiler
 
 if   (btype == 'dbg') : new_btype = 'opt'
