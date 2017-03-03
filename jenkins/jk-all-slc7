@@ -23,7 +23,7 @@ fi
 
 if [[ $COMPILER == *gcc* ]]; then
   ARCH=$(uname -m)
-  baseLCGDir=/afs/cern.ch/sw/lcg/app/nightlies/${LCG_SLOT}/${DAY}
+  baseLCGDir=/cvmfs/sft.cern.ch/lcg/nightlies/${LCG_SLOT}/${DAY}
   platformName=${ARCH}-${LABEL}-${COMPILER}-${V_TYPE}
   # Use the view of the nighlies
   source ${baseLCGDir}/${platformName}/setup.sh
