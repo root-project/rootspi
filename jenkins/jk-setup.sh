@@ -84,7 +84,7 @@ elif [[ $COMPILER == *clang* ]]; then
     GCCversion=${COMPILER:9:2}
     GCCversion="${GCCversion:0:1}.${GCCversion:1:1}"
     . /afs/cern.ch/sw/lcg/contrib/gcc/${GCCversion}/${ARCH}-slc6/setup.sh
-    export PATH=/afs/cern.ch/sw/lcg/external/llvm/latest/${ARCH}-slc6-${GCCcompiler}-opt/bin/:$PATH
+    export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/${ARCH}-slc6-${GCCcompiler}-opt/bin/:$PATH
   else
     . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-slc6/setup.sh
   fi
