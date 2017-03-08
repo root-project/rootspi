@@ -25,7 +25,7 @@ endif()
 if(CTEST_MODE STREQUAL continuous)
   find_program(NINJA_EXECUTABLE ninja)
   if(NINJA_EXECUTABLE)
-    set(options ${options} -G Ninja)
+    set(CTEST_CMAKE_GENERATOR "Ninja")
   endif()
 endif()
 
