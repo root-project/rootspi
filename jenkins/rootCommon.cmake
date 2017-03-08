@@ -92,7 +92,7 @@ endif()
 if("$ENV{ghprbPullId}" STREQUAL "")
   set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}${Opts})
 else()
-  set(CTEST_BUILD_NAME PR#$ENV{ghprbPullId}-${tag}${Type$ENV{BUILDTYPE}}${Opts})
+  set(CTEST_BUILD_NAME PR-$ENV{ghprbPullId}-${tag}${Type$ENV{BUILDTYPE}}${Opts})
 endif()
 
 #---CDash settings----------------------------------------------------------

@@ -22,7 +22,7 @@ if("$ENV{BUILDOPTS}" STREQUAL "cxx14root7")
   set(options ${options} -Dcxx14=ON -Droot7=ON)
 endif()
 
-if(CTEST_MODE STREQUAL continuous)
+if(CTEST_MODE STREQUAL continuous OR CTEST_MODE STREQUAL pullrequests)
   find_program(NINJA_EXECUTABLE ninja)
   if(NINJA_EXECUTABLE)
     set(CTEST_CMAKE_GENERATOR "Ninja")
