@@ -89,7 +89,11 @@ set(CTEST_CONFIGURATION_TYPE "${CTEST_BUILD_CONFIGURATION}")
 if(NOT "$ENV{BUILDOPTS}"  STREQUAL "" )
   set(Opts -$ENV{BUILDOPTS})
 endif()
-set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}${Opts})
+if("$ENV{ghprbPullId}" STREQUAL "")
+  set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}${Opts})
+else()
+  set(CTEST_BUILD_NAME PR#$ENV{ghprbPullId}-${tag}${Type$ENV{BUILDTYPE}}${Opts})
+endif()
 
 #---CDash settings----------------------------------------------------------
 set(CTEST_PROJECT_NAME "ROOT")
