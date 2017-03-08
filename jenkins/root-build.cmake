@@ -22,6 +22,13 @@ if("$ENV{BUILDOPTS}" STREQUAL "cxx14root7")
   set(options ${options} -Dcxx14=ON -Droot7=ON)
 endif()
 
+if(CTEST_MODE STREQUAL continuous)
+  find_program(NINJA_EXECUTABLE ninja)
+  if(NINJA_EXECUTABLE)
+    set(options ${options} -G Ninja)
+  endif()
+endif()
+
 separate_arguments(options)
 
 #----Continuous-----------------------------------------------------------
