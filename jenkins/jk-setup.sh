@@ -91,7 +91,12 @@ elif [[ $COMPILER == *clang* ]]; then
 
   export CC=`which clang`
   export CXX=`which clang++`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
+  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF"
+
+  # On slc we want to compile with a more 'standard' toolchain.
+  if [[ $PLATFORM == *slc* ]]; then
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
+  fi
 elif [[ $COMPILER == *native* ]]; then
   unset CC
   unset CXX
