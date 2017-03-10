@@ -57,7 +57,7 @@ elseif(CTEST_MODE STREQUAL package)
 #---Pullrequest mode--------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_start(Pullrequests TRACK Pullrequests APPEND)
-  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-")
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
 
 #---Experimental/Nightly----------------------------------------------------
 else()
