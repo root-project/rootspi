@@ -134,6 +134,13 @@ elif [[ $COMPILER == *icc* ]]; then
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
 fi
 
+if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
+    CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
+    CCACHE_DIR=/mnt/build/jenkins/workspace/
+    CCACHE_MAXSIZE=10G
+fi
+
+
 # If run from Jenkins-----------------------------------------------------------------------
 if [ x$WORKSPACE != x ]; then
   SCRATCH_DIR=$WORKSPACE/ipython
