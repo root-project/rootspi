@@ -3,6 +3,24 @@ set -e
 set -x
 THIS=$(dirname $0)
 
+# Jenkins bot can request a change to the default build configuration.
+# Currently we support the syntax:
+# build with compiler:compiler1; cmake_extra_options:-Dopt1, -Dopt2, ..., -DoptN!
+
+# Get the first line of the github comment.
+BOT_COMMAND=${ghprbCommentBody/%'\n'*/''}
+
+if [[ "$BOT_COMMAND" == build\ with*\! ]]; then
+  # We are left with 'build with real command!'
+  if [[ "$BOT_COMMAND" =~ [[:space:]]*(compiler:)[[:space:]]*(.*)\;[[:space:]]*(extra_cmake_options:)(.*)[[:space:]]*\! ]]; then
+      echo "Modifying the default config as the ph-sft bot requested."
+      echo "Swapping $COMPILER with ${BASH_REMATCH[2]}"
+      COMPILER=${BASH_REMATCH[2]}
+      echo "Swapping $ExtraCMakeOptions with ${BASH_REMATCH[4]}"
+      ExtraCMakeOptions=${BASH_REMATCH[4]}
+  fi
+fi
+
 echo source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS > setup.sh
 source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 
