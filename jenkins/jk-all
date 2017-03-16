@@ -8,9 +8,9 @@ THIS=$(dirname $0)
 # build with compiler:compiler1; cmake_extra_options:-Dopt1, -Dopt2, ..., -DoptN!
 
 # Get the first line of the github comment.
-BOT_COMMAND=${ghprbCommentBody/%'\n'*/''}
+BOT_COMMAND=${ghprbCommentBody/%'\r\n'*/''}
 
-if [[ "$BOT_COMMAND" == build\ with*\! ]]; then
+if [[ "$BOT_COMMAND" == *build\ with*\! ]]; then
   # We are left with 'build with real command!'
   if [[ "$BOT_COMMAND" =~ [[:space:]]*(compiler:)[[:space:]]*(.*)\;[[:space:]]*(extra_cmake_options:)(.*)[[:space:]]*\! ]]; then
       echo "Modifying the default config as the ph-sft bot requested."
