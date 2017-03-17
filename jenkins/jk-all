@@ -21,6 +21,15 @@ if [[ "$BOT_COMMAND" == *build\ with*\! ]]; then
   fi
 fi
 
+# Set the home directory for slc6 and centos7 to avoid dealing with afs and kerb tickets with ccache on PRs.
+if [[ "$MODE" == "pullrequests" ]]
+then
+    if [ "$LABEL" == "slc6" ] ||  [ "$LABEL" == "centos7" ]
+    then
+        HOME=/
+    fi
+fi
+
 echo source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS > setup.sh
 source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 
