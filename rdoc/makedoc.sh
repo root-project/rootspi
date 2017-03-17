@@ -70,11 +70,4 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 
-. ../ROOT-Primer/scripts/build.sh root.cern.ch:/var/www/root/root/htmldoc/guides/nbprimer all
-if [ $? -ne 0 ]; then
-   echo "$prog: Primer failed, exiting..."
-   exit 1
-fi
-
-
 exit 0
