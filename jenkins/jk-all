@@ -26,7 +26,7 @@ if [[ "$MODE" == "pullrequests" ]]
 then
     if [ "$LABEL" == "slc6" ] ||  [ "$LABEL" == "centos7" ]
     then
-        HOME=/
+        HOME=/build
     fi
 fi
 
