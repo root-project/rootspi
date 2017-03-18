@@ -57,10 +57,13 @@ else
        exit $status
     fi
 
-    if [  "x$COVERITY_JOB" == "x" ]; then
-      ctest -V -S ${THIS}/root-test.cmake
-      status=$?
-    fi	
+    # do not run tests if coverity run
+    if [ "$BUILDOPTS" == "coverity" ]; then
+       exit $status
+    fi
+
+    ctest -V -S ${THIS}/root-test.cmake
+    status=$?
 fi
 
 exit $status
