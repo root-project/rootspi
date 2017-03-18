@@ -58,7 +58,7 @@ else
     fi
 
     # do not run tests if coverity run
-    if [ "$BUILDOPTS" == "coverity" ]; then
+    if [ "$BUILDOPTS" == coverity ]; then
        exit $status
     fi
 
