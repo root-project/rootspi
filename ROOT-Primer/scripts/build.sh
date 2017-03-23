@@ -24,7 +24,7 @@ if [ -d "$BASEDIR/../$DIRECTORY" ]; then
 	rm -rf $BASEDIR/../$DIRECTORY
 fi
 if [ ! -d "$BASEDIR/../$DIRECTORY" ]; then
-	git clone https://github.com/bytemonster/ROOT-PRIMER-notebooks.git $BASEDIR/../$DIRECTORY
+	git clone https://github.com/root-project/NotebookPrimer.git $BASEDIR/../$DIRECTORY
 fi
 
 if [ "$2" = "html" ] || [ "$2" = "all" ]
