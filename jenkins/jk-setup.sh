@@ -13,7 +13,7 @@ if [ $# -ge 4 ]; then
   EXTERNALS=$1 ; shift
 else
   echo "$0: expecting 4 arguments [LABEL]  [COMPILER] [BUILDTYPE] [EXTERNALS]"
-  return
+  exit 1
 fi
 
 export BUILDTYPE
