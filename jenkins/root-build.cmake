@@ -18,8 +18,13 @@ set(options -Dall=ON
             -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
             $ENV{ExtraCMakeOptions})
  
+#---Special build options---------------------------------------------------
 if("$ENV{BUILDOPTS}" STREQUAL "cxx14root7")
   set(options ${options} -Dcxx14=ON -Droot7=ON)
+endif()
+
+if("$ENV{BUILDOPTS}" STREQUAL "cxxmodules")
+  unset(CTEST_CHECKOUT_COMMAND)
 endif()
 
 if(CTEST_MODE STREQUAL continuous OR CTEST_MODE STREQUAL pullrequests)
