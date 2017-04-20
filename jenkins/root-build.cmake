@@ -23,7 +23,8 @@ if("$ENV{BUILDOPTS}" STREQUAL "cxx14root7")
   set(options ${options} -Dcxx14=ON -Droot7=ON)
 endif()
 
-if("$ENV{BUILDOPTS}" STREQUAL "cxxmodules")
+if("$ENV{BUILDOPTS}" STREQUAL "cxxmodules" OR
+   "$ENV{BUILDOPTS}" STREQUAL "coverity")
   unset(CTEST_CHECKOUT_COMMAND)
 endif()
 
