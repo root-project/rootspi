@@ -49,23 +49,26 @@ then
 
 else
 
-    ctest -VV -S ${THIS}/root-build.cmake
-    status=$?
+    if [[ "$1" != "test" ]]; then 
+        ctest -VV -S ${THIS}/root-build.cmake
+        status=$?
 
-    # do not run the tests if continous build fails
-    if [ $status -ne 0 ] && [ "$MODE" = continuous ]; then
-       exit $status
+        # do not run the tests if continous build fails
+        if [ $status -ne 0 ] && [ "$MODE" = continuous ]; then
+            exit $status
+        fi
+
+        # do not run tests if coverity run
+        if [ "$BUILDOPTS" == coverity ]; then
+            exit $status
+        fi
     fi
 
-    # do not run tests if coverity run
-    if [ "$BUILDOPTS" == coverity ]; then
-       exit $status
+    if [[ "$1" != "build" ]]; then 
+        ctest -V -S ${THIS}/root-test.cmake
+        status=$?
     fi
-
-    ctest -V -S ${THIS}/root-test.cmake
-    status=$?
 fi
 
 exit $status
-
 
