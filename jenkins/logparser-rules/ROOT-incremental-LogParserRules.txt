@@ -1,0 +1,51 @@
+
+ok /not really/
+ok /^make\[[[:digit:]]+\]: [*][*][*] \[.*[.]test. Error [[:digit:]]+$/
+ok /^make\[[[:digit:]]+\]: Target `test. not remade because of errors.$/
+
+
+# match line starting with 'error ', case-insensitive
+error /(?i)^error /
+error /(?i)^error: /
+error /\[ERROR\]/
+error /\[FATAL\]/
+error / FAILED /
+error /: error:/
+error /MSBUILD : error MSB/
+
+
+# list of warnings here...
+warning /: warning:/
+warning /UNSTABLE/
+
+# create a quick access link to lines in the report containing 'INFO'
+info /INFO/
+
+# each line containing 'BUILD' represents the start of a section for grouping errors and warnings found after the line.
+# also creates a quick access link.
+
+ok /not really/
+ok /^make\[[[:digit:]]+\]: [*][*][*] \[.*[.]test. Error [[:digit:]]+$/
+ok /^make\[[[:digit:]]+\]: Target `test. not remade because of errors.$/
+
+
+# match line starting with 'error ', case-insensitive
+error /(?i)^error /
+error /(?i)^error: /
+error /\[ERROR\]/
+error /\[FATAL\]/
+error / FAILED /
+error /: error:/
+error /MSBUILD : error MSB/
+
+
+# list of warnings here...
+warning /: warning:/
+warning /UNSTABLE/
+
+# create a quick access link to lines in the report containing 'INFO'
+info /INFO/
+
+# each line containing 'BUILD' represents the start of a section for grouping errors and warnings found after the line.
+# also creates a quick access link.
+
