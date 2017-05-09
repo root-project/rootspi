@@ -66,6 +66,10 @@ if [[ $COMPILER == gcc* ]]; then
   if [[ $COMPILER == *gcc6* ]]; then   # problems with Vc on GCC 6.X
     export ExtraCMakeOptions="-Dvc=OFF ${ExtraCMakeOptions}"
   fi
+  if [[ $COMPILER == *gcc7* ]]; then   # missing xrootd for the time being
+    export ExtraCMakeOptions="-Dcxx17=ON -Dxrootd=OFF ${ExtraCMakeOptions}"
+  fi
+
 elif [[ $COMPILER == *clang* ]]; then
   clang34version=3.4
   clang35version=3.5
