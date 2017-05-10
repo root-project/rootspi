@@ -67,7 +67,7 @@ if [[ $COMPILER == gcc* ]]; then
     export ExtraCMakeOptions="-Dvc=OFF ${ExtraCMakeOptions}"
   fi
   if [[ $COMPILER == *gcc7* ]]; then   # missing xrootd for the time being
-    export ExtraCMakeOptions="-Dvc=OFF -Dxrootd=OFF ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Dvc=OFF ${ExtraCMakeOptions}"
   fi
 
 elif [[ $COMPILER == *clang* ]]; then
