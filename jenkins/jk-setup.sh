@@ -109,7 +109,7 @@ elif [[ $COMPILER == *native* ]]; then
 #    export FC=`which gfortran`
 #    export CC=`which clang`
 #    export CXX=`which clang++`
-    export ExtraCMakeOptions="-Dmacos_native=ON ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
   else
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
   fi
