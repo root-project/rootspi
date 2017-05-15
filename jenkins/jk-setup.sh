@@ -87,10 +87,10 @@ elif [[ $COMPILER == *clang* ]]; then
     GCCcompiler=${COMPILER:6:5}
     GCCversion=${COMPILER:9:2}
     GCCversion="${GCCversion:0:1}.${GCCversion:1:1}"
-    . /afs/cern.ch/sw/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
+    . /cvmfs/sft.cern.ch/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
     export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/${ARCH}-${LABEL}-${GCCcompiler}-opt/bin/:$PATH
   else
-    . /afs/cern.ch/sw/lcg/external/llvm/${!COMPILERversion}/${ARCH}-${LABEL}/setup.sh
+    . /cvmfs/sft.cern.ch/lcg/contrib/llvm/${!COMPILERversion}/${COMPATIBLE}/setup.sh
   fi
 
   export CC=`which clang`
