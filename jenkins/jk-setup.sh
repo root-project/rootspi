@@ -22,20 +22,15 @@ export COMPILER
 PLATFORM=`$THIS/getPlatform.py`
 ARCH=$(uname -m)
 
+# Adjust LABEL and enviroment PATH depending on the OS
 if [[ $PLATFORM == *slc6* ]]; then
   LABEL=slc6
-  export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
 elif [[ $PLATFORM == *centos7* ]]; then
   LABEL=centos7
-  export EXTERNALDIR=/afs/cern.ch/sw/lcg/app/releases/ROOT-externals
 elif [[ $PLATFORM == *mac* ]]; then
   export PATH=/usr/local/bin:${PATH}
-  export EXTERNALDIR=$HOME/ROOT-externals
 elif [[ $PLATFORM == *fedora* ]]; then
   export PATH=/usr/local/bin:${PATH}
-  export EXTERNALDIR=$HOME/ROOT-externals
-else
-  export EXTERNALDIR=$HOME/ROOT-externals
 fi
 
 # Setup all the externals now-----------------------------------------------------
@@ -45,16 +40,12 @@ if [ -a /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$PLATFORM ]; then
   source /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$PLATFORM/setup.sh
 elif [ -a /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$COMPATIBLE ]; then
   source /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$COMPATIBLE/setup.sh
-elif [ -a $EXTERNALDIR/$EXTERNALS/$PLATFORM ]; then
-  source $EXTERNALDIR/$EXTERNALS/$PLATFORM/setup.sh
-elif [ -a $EXTERNALDIR/$EXTERNALS/$COMPATIBLE ]; then
-  source $EXTERNALDIR/$EXTERNALS/$COMPATIBLE/setup.sh
 elif [[ $PLATFORM == *slc6* ]]; then
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
 elif [[ $PLATFORM == *centos7* ]]; then
   export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
 else
-  echo "No externals for $PLATFORM in $EXTERNALDIR/$EXTERNALS"
+  echo "No externals for $PLATFORM in /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS"
 fi
 
 # The final compiler may not yet be totally setup-------------------------------------
@@ -64,9 +55,6 @@ if [[ $COMPILER == gcc* ]]; then
     export ExtraCMakeOptions="-Dfail-on-missing=ON -Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
   fi
   if [[ $COMPILER == *gcc6* ]]; then   # problems with Vc on GCC 6.X
-    export ExtraCMakeOptions="-Dvc=OFF ${ExtraCMakeOptions}"
-  fi
-  if [[ $COMPILER == *gcc7* ]]; then   # missing xrootd for the time being
     export ExtraCMakeOptions="-Dvc=OFF ${ExtraCMakeOptions}"
   fi
 
@@ -106,9 +94,6 @@ elif [[ $COMPILER == *native* ]]; then
   unset CXX
   unset FC
   if [[ $LABEL == *mac* ]] ; then
-#    export FC=`which gfortran`
-#    export CC=`which clang`
-#    export CXX=`which clang++`
     export ExtraCMakeOptions="-Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
   else
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
@@ -143,7 +128,6 @@ if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
     CCACHE_DIR=/mnt/build/jenkins/workspace/
     CCACHE_MAXSIZE=10G
 fi
-
 
 # If run from Jenkins-----------------------------------------------------------------------
 if [ x$WORKSPACE != x ]; then
