@@ -58,6 +58,22 @@ if [[ $COMPILER == gcc* ]]; then
     export ExtraCMakeOptions="-Dvc=OFF ${ExtraCMakeOptions}"
   fi
 
+elif [[ $COMPILER == clang_gcc* ]]; then
+  # We are cross compiling. We use clang as a compiler with libstdc++.
+  # Get the gcc version. First parameter is a zero-based offset and the second is the length.
+  GCCcompiler=${COMPILER:6:5}
+  GCCversion=${COMPILER:9:2}
+  GCCversion="${GCCversion:0:1}.${GCCversion:1:1}"
+  . /cvmfs/sft.cern.ch/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
+  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/${ARCH}-${LABEL}-${GCCcompiler}-opt/bin/:$PATH
+  export CC=`which clang`
+  export CXX=`which clang++`
+  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF"
+  # On slc we want to compile with a more 'standard' toolchain.
+  if [[ $PLATFORM == *slc* ]]; then
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
+  fi
+  
 elif [[ $COMPILER == *clang* ]]; then
   clang34version=3.4
   clang35version=3.5
@@ -67,19 +83,9 @@ elif [[ $COMPILER == *clang* ]]; then
   clang34gcc=4.8
   clang35gcc=4.9
   clang36gcc=4.9
-  clang39gcc=4.9
+  clang39gcc=6.2
   GCCversion=${COMPILER}gcc
-  if [[ $COMPILERversion == clang_gcc* ]]; then
-    # We are cross compiling. We use clang as a compiler with libstdc++.
-    # Get the gcc version. First parameter is a zero-based offset and the second is the length.
-    GCCcompiler=${COMPILER:6:5}
-    GCCversion=${COMPILER:9:2}
-    GCCversion="${GCCversion:0:1}.${GCCversion:1:1}"
-    . /cvmfs/sft.cern.ch/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
-    export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/${ARCH}-${LABEL}-${GCCcompiler}-opt/bin/:$PATH
-  else
-    . /cvmfs/sft.cern.ch/lcg/contrib/llvm/${!COMPILERversion}/${COMPATIBLE}/setup.sh
-  fi
+  . /cvmfs/sft.cern.ch/lcg/contrib/llvm/${!COMPILERversion}/${COMPATIBLE}/setup.sh
 
   export CC=`which clang`
   export CXX=`which clang++`
