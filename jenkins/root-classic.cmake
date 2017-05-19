@@ -71,8 +71,7 @@ file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/runtutorials)
 ctest_start(${CTEST_MODE} APPEND)
 ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtutorials
                 SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials
-                OPTIONS -DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake
-                        -DROOT_CLASSIC_BUILD=ON
+                OPTIONS "-DCMAKE_MODULE_PATH=${CTEST_SOURCE_DIRECTORY}/etc/cmake;-DROOT_CLASSIC_BUILD=ON"
                 APPEND)
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtutorials
