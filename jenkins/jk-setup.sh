@@ -41,9 +41,9 @@ if [ -a /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$PLATFORM ]; then
 elif [ -a /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$COMPATIBLE ]; then
   source /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$COMPATIBLE/setup.sh
 elif [[ $PLATFORM == *slc6* ]]; then
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
+  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
 elif [[ $PLATFORM == *centos7* ]]; then
-  export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
+  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
 else
   echo "No externals for $PLATFORM in /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS"
 fi
