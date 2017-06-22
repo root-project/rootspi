@@ -14,6 +14,11 @@ elif system == 'Linux' :
       osvers = 'slc' + dist[1].split('.')[0]
    elif re.search('CentOS', dist[0]):
       osvers = 'centos' + dist[1].split('.')[0]
+   elif re.search('Scientific', dist[0]):
+      if dist[1].split('.')[0] >= '7':
+         osvers = 'centos' + dist[1].split('.')[0]
+      else:
+         osvers = 'slc' + dist[1].split('.')[0]
    elif re.search('Ubuntu', dist[0]):
       osvers = 'ubuntu' + dist[1].split('.')[0]
    elif re.search('Fedora', dist[0]):
