@@ -65,6 +65,14 @@ elif [[ $COMPILER == clang_gcc* ]]; then
   GCCversion=${COMPILER:9:2}
   GCCversion="${GCCversion:0:1}.${GCCversion:1:1}"
   . /cvmfs/sft.cern.ch/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
+
+  # FIXME: Horrible hack for finding the lcg releases on mac1012. They are under x86_64-mac1012-clang81-opt
+  # We shouldn't use the compiler version to denote the toolchain which was used to compile the releases
+  # but the version of the standard library. I.e. libcxx or libstdc++.
+  if [[ $PLATFORM == *mac1012* ]]; then
+    GCCcompiler="clang81"
+  fi
+
   export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/${ARCH}-${LABEL}-${GCCcompiler}-opt/bin/:$PATH
   export CC=`which clang`
   export CXX=`which clang++`
