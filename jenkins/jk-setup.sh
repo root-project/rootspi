@@ -70,7 +70,9 @@ elif [[ $COMPILER == clang_gcc* ]]; then
   # We shouldn't use the compiler version to denote the toolchain which was used to compile the releases
   # but the version of the standard library. I.e. libcxx or libstdc++.
   if [[ $PLATFORM == *mac1012* ]]; then
-    GCCcompiler="clang81"
+      GCCcompiler="clang81"
+  else
+      . /cvmfs/sft.cern.ch/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
   fi
 
   export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/${ARCH}-${LABEL}-${GCCcompiler}-opt/bin/:$PATH
