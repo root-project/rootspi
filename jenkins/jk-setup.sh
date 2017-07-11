@@ -110,7 +110,7 @@ elif [[ $COMPILER == *native* ]]; then
   unset CXX
   unset FC
   if [[ $LABEL == *mac* ]] ; then
-    export ExtraCMakeOptions="-Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Dmacos_native=ON -Dbuiltin_gsl=ON -Doracle=OFF ${ExtraCMakeOptions}"
   else
     export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
   fi
