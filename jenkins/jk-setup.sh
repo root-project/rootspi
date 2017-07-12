@@ -139,6 +139,12 @@ elif [[ $COMPILER == *icc* ]]; then
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
 fi
 
+if [[ $ARCH == ppc64le ]]; then
+    # The ppc64le build node does not have X11 or GSL installed, and Vc does not support ppc64le
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF -Dx11=OFF -Dbuiltin_gsl=ON"
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dbuiltin_afterimage=OFF -Dasimage=OFF -Dastiff=OFF"
+fi
+
 if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
     CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
     CCACHE_DIR=/mnt/build/jenkins/workspace/
