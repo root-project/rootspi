@@ -44,7 +44,7 @@ touch $WORKSPACE/controlfile
 if [[ $COMPILER == *classic* ]]
 then
 
-    ctest -VV -S ${THIS}/root-classic.cmake
+    ctest -V -S ${THIS}/root-classic.cmake
     status=$?
 
 else
