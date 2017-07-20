@@ -47,7 +47,8 @@ separate_arguments(options)
 if(CTEST_MODE STREQUAL continuous)
   set(empty $ENV{EMPTY_BINARY})
   if(empty)
-    ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+    #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+    file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
   else()
     file(GLOB testruns ${CTEST_BINARY_DIRECTORY}/Testing/*-*)
     if(testruns)
@@ -66,7 +67,8 @@ if(CTEST_MODE STREQUAL continuous)
 #---Install---------------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
 
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} TRACK Install)
   ctest_update()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
@@ -76,12 +78,14 @@ elseif(CTEST_MODE STREQUAL install)
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET install APPEND)
   ctest_submit(PARTS Update Configure Build)
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 
 #---Package---------------------------------------------------------------
 elseif(CTEST_MODE STREQUAL package)
 
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} TRACK Package)
   ctest_update()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
@@ -95,7 +99,8 @@ elseif(CTEST_MODE STREQUAL package)
 #----Pullrequests-----------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
 
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
   set(CTEST_CHECKOUT_COMMAND "${CTEST_SCRIPT_DIRECTORY}/pr-reset.sh ${CTEST_SOURCE_DIRECTORY} ${CTEST_GIT_COMMAND}")
   set(CTEST_GIT_UPDATE_CUSTOM  ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
 
@@ -111,7 +116,8 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 #---Experimental/Nightly----------------------------------------------------
 else()
 
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE})
   ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
