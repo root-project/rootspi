@@ -114,7 +114,7 @@ elif [[ $COMPILER == *native* ]]; then
   elif [[ $LABEL == *mac* ]]; then
     export ExtraCMakeOptions="-Dmacos_native=ON -Dbuiltin_gsl=ON -Doracle=OFF ${ExtraCMakeOptions}"
   else
-    export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
+    # export ExtraCMakeOptions="-Dfortran=OFF ${ExtraCMakeOptions}"
   fi
 elif [[ $COMPILER == *icc* ]]; then
   iccyear=2013
