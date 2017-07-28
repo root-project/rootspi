@@ -51,7 +51,12 @@ else:
      versioninfo = os.popen(ccommand + ' -dumpversion').read()
      patt = re.compile('([0-9]+)\\.([0-9]+)')
      mobj = patt.match(versioninfo)
-     compiler = 'gcc' + mobj.group(1) + mobj.group(2)
+     if mobj == None :
+        pattn = re.compile('([0-9]+)')
+        mobjn = pattn.match(versioninfo)
+        compiler = 'gcc' + mobjn.group(1)
+     else:
+        compiler = 'gcc' + mobj.group(1) + mobj.group(2)
   elif ccommand.endswith('clang'):
      versioninfo = os.popen4(ccommand + ' -v')[1].read()
      patt = re.compile('.*version ([0-9]+)[.]([0-9]+)')
