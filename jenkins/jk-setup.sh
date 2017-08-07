@@ -54,9 +54,6 @@ if [[ $COMPILER == gcc* ]]; then
   if [ $ARCH != i686 ]; then
     export ExtraCMakeOptions="-Dfail-on-missing=ON -Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
   fi
-  if [[ $COMPILER == *gcc6* ]]; then   # problems with Vc on GCC 6.X
-    export ExtraCMakeOptions="-Dvc=OFF ${ExtraCMakeOptions}"
-  fi
 
 elif [[ $COMPILER == clang_gcc* ]]; then
   # We are cross compiling. We use clang as a compiler with libstdc++.
