@@ -23,6 +23,7 @@ elif (compiler == 'clang35') : new_compiler = 'gcc49'
 elif (compiler == 'clang36') : new_compiler = 'gcc49'
 elif (compiler == 'clang39') : new_compiler = 'gcc62'
 elif (compiler.startswith('clang_gcc')) : new_compiler = compiler[6:] if (osvers != 'mac1012') else "clang81"
+elif (compiler == 'clang80') : new_compiler = 'clang81'
 elif (compiler == 'icc') : new_compiler = 'gcc48'
 elif (compiler == 'icc14') : new_compiler = 'gcc48'
 elif (compiler == 'icc15') : new_compiler = 'gcc49'
