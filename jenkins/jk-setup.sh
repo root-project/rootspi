@@ -133,7 +133,6 @@ elif [[ $COMPILER == *icc* ]]; then
   export CC=`which icc`
   export CXX=`which icc`
   export FC=`which ifort`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
 fi
 
 if [[ $ARCH == ppc64le ]]; then
