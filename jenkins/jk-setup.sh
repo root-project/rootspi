@@ -137,7 +137,7 @@ fi
 
 if [[ $ARCH == ppc64le ]]; then
     # The ppc64le build node does not have X11 or GSL installed, and Vc does not support ppc64le
-    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF -Dx11=OFF -Dbuiltin_gsl=ON"
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dx11=OFF -Dbuiltin_gsl=ON"
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dbuiltin_afterimage=OFF -Dasimage=OFF -Dastiff=OFF"
 fi
 
