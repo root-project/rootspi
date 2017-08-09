@@ -107,9 +107,9 @@ elif [[ $COMPILER == *native* ]]; then
   unset CXX
   unset FC
   if [[ $LABEL == *mac1012* ]]; then
-    export ExtraCMakeOptions="-Dmacos_native=ON -Dvc=OFF -Doracle=OFF ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
   elif [[ $LABEL == *mac* ]]; then
-    export ExtraCMakeOptions="-Dmacos_native=ON -Dbuiltin_gsl=ON -Doracle=OFF ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Dmacos_native=ON -Dveccore=OFF -Dbuiltin_gsl=ON -Doracle=OFF ${ExtraCMakeOptions}"
   fi
 elif [[ $COMPILER == *icc* ]]; then
   iccyear=2013
@@ -133,12 +133,11 @@ elif [[ $COMPILER == *icc* ]]; then
   export CC=`which icc`
   export CXX=`which icc`
   export FC=`which ifort`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
 fi
 
 if [[ $ARCH == ppc64le ]]; then
     # The ppc64le build node does not have X11 or GSL installed, and Vc does not support ppc64le
-    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF -Dx11=OFF -Dbuiltin_gsl=ON"
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dx11=OFF -Dbuiltin_gsl=ON"
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dbuiltin_afterimage=OFF -Dasimage=OFF -Dastiff=OFF"
 fi
 
