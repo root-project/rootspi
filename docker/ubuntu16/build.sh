@@ -18,6 +18,7 @@ cd /root-build
 export CCACHE_DIR=/ccache
 export JENKINS_HOME=/tmp
 export EXTERNALS=docker
+export WORKSPACE=$(pwd)
 
 export MODE=experimental
 export ExtraCMakeOptions='-Dccache=ON -DCMAKE_INSTALL_PREFIX=/usr/local -Dgnuinstall=ON'
