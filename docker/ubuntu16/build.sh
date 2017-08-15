@@ -12,6 +12,8 @@ else
   exit 1
 fi
 
+sudo chown sftnight: -R /ccache
+
 # Setup build env
 cd /root-build
 
