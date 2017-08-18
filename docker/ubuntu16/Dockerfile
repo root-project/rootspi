@@ -3,14 +3,9 @@ FROM rootproject/root-ubuntu16-base
 ADD build.sh /
 
 ARG uid
-ARG gid
 
-RUN mkdir -p /home/sftnight && \
-    echo "sftnight:x:${uid}:${gid}:sftnight,,,:/home/sftnight:/bin/bash" >> /etc/passwd && \
-    echo "sftnight:x:${uid}:" >> /etc/group && \
-    echo "sftnight ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/sftnight && \
-    chmod 0440 /etc/sudoers.d/sftnight && \
-    chown ${uid}:${gid} -R /home/sftnight
+RUN useradd --create-home --home-dir /home/sftnight/ --uid ${uid} --groups sudo sftnight && \
+    passwd --delete sftnight
 
 USER sftnight
 ENV HOME /home/sftnight
