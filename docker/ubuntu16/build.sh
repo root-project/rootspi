@@ -6,9 +6,8 @@ if [ $# -ge 4 ]; then
   LABEL=$1 ; shift
   COMPILER=$1 ; shift
   BUILDTYPE=$1 ; shift
-  BRANCH=$1 ; shift
 else
-  echo "$0: expecting 4 arguments [LABEL] [COMPILER] [BUILDTYPE] [BRANCH]"
+  echo "$0: expecting 4 arguments [LABEL] [COMPILER] [BUILDTYPE]"
   exit 1
 fi
 
