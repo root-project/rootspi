@@ -2,12 +2,12 @@
 set -x
 set -e
 
-if [ $# -ge 4 ]; then
+if [ $# -ge 3 ]; then
   LABEL=$1 ; shift
   COMPILER=$1 ; shift
   BUILDTYPE=$1 ; shift
 else
-  echo "$0: expecting 4 arguments [LABEL] [COMPILER] [BUILDTYPE]"
+  echo "$0: expecting 3 arguments [LABEL] [COMPILER] [BUILDTYPE]"
   exit 1
 fi
 
