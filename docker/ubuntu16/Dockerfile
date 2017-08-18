@@ -7,5 +7,5 @@ ARG uid
 RUN useradd --create-home --home-dir /home/sftnight/ --uid ${uid} --groups sudo sftnight && \
     passwd --delete sftnight
 
-USER sftnight
+USER sftnight:sftnight
 ENV HOME /home/sftnight
