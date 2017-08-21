@@ -8,6 +8,11 @@ RUN apt-get update \
             gcc
             git
             libgsl0-dev
+            libmysqlclient-dev
+            libodbc1
+            libpythia8-dev
+            libpq-dev
+            libsqlite3-dev
             libx11-dev
             libxext-dev
             libxft-dev
