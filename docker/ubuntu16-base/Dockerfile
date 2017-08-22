@@ -7,6 +7,7 @@ RUN apt-get update \
             davix-dev \
             g++ \
             gcc \
+            gfortran \
             git \
             libgif-dev \
             libgsl0-dev \
