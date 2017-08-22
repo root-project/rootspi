@@ -43,7 +43,7 @@ class Builder:
         workspace: str
           Jenkins workspace directory.
         label: str
-          Label of the node this script is running on. 'ubuntu14' is expected to
+          Label of the node this script is running on. 'ubuntu-14.04' is expected to
           be able to run doxygen and will create source snapshot if binaries are
           requested.
         clean: bool
@@ -73,6 +73,9 @@ class Builder:
         self.generatorType = generatorType
         self.testcling = testcling
         self.testllvmclang = testllvmclang
+        self.doxygen = False
+        if 'ubuntu-14-04' in self.label:
+            self.doxygen = True
 
         self.parallelFlag = ''
         if generatorType == 'Unix Makefiles':
@@ -123,8 +126,8 @@ class Builder:
     def configure(self):
         if self.cleanbuild:
             doxygen = ''
-            if 'ubuntu' in self.label:
-                doxygen = ' -DLLVM_ENABLE_DOXYGEN=On'
+            if self.doxygen:
+                doxygen = ' -DLLVM_BUILD_DOCS=On'
             print_and_call(self.cmake + ' ../src' # -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
                            + ' -DCMAKE_INSTALL_PREFIX=' + self.workspace + '/' + self.instdir
@@ -154,7 +157,7 @@ class Builder:
 
 
     def documentation(self):
-        if self.label == 'ubuntu14':
+        if self.doxygen:
             self.cmake_build('doxygen-cling')
             # make install wants to copy them.
             mkdir_p('tools/clang/docs/doxygen/html')
@@ -167,7 +170,7 @@ class Builder:
         mkdir_p('artifacts') # needed for scp step, even if empty
 
         if self.binaries:
-            if self.label == 'ubuntu14':
+            if self.doxygen:
                 # Grab doc from inst/ then rm -rf it so it doesn't end up in binary.
                 os.chdir(os.path.join(self.instdir, 'docs'))
                 tar = tarfile.open(os.path.join(self.workspace, 'artifacts', 'cling_' + self.today + '_docs.tar.bz2'), "w:bz2")
