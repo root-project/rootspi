@@ -127,7 +127,7 @@ class Builder:
         if self.cleanbuild:
             doxygen = ''
             if self.doxygen:
-                doxygen = ' -DLLVM_BUILD_DOCS=On'
+                doxygen = ' -DLLVM_ENABLE_DOXYGEN=On -DLLVM_INCLUDE_DOCS=On'
             print_and_call(self.cmake + ' ../src' # -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
                            + ' -DCMAKE_INSTALL_PREFIX=' + self.workspace + '/' + self.instdir
