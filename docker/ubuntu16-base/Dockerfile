@@ -3,16 +3,21 @@ FROM ubuntu:16.04
 RUN apt-get update \
     && apt-get -y install \
             ccache \
-            cmakev \
+            cmake \
+            davix-dev \
             g++ \
             gcc \
             git \
+            libgif-dev \
             libgsl0-dev \
+            libjpeg-dev \
             libmysqlclient-dev \
             libodbc1 \
-            libpythia8-dev \
             libpq-dev \
             libsqlite3-dev \
+            libpythia8-dev \
+            libtbb-dev \
+            libtiff-dev
             libx11-dev \
             libxext-dev \
             libxft-dev \
