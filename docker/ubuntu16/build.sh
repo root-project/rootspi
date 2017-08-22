@@ -22,7 +22,7 @@ export EXTERNALS=docker
 export WORKSPACE=$(pwd)
 
 export MODE=experimental
-export ExtraCMakeOptions='-Dccache=ON -DCMAKE_INSTALL_PREFIX=/usr/local -Dgnuinstall=ON -Drpath=ON -Dbuiltin_xrootd=ON'
+export ExtraCMakeOptions='-Dccache=ON -DCMAKE_INSTALL_PREFIX=/usr/local -Dgnuinstall=ON -Drpath=ON -Dbuiltin_xrootd=ON -Dbuiltin_davix=ON'
 
 export LABEL
 export COMPILER
