@@ -17,7 +17,7 @@ RUN apt-get update \
             libsqlite3-dev \
             libpythia8-dev \
             libtbb-dev \
-            libtiff-dev
+            libtiff-dev \
             libx11-dev \
             libxext-dev \
             libxft-dev \
