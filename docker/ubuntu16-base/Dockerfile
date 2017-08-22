@@ -17,7 +17,6 @@ RUN apt-get update \
             libpq-dev \
             libsqlite3-dev \
             libpythia8-dev \
-            libtbb-dev \
             libtiff-dev \
             libx11-dev \
             libxext-dev \
