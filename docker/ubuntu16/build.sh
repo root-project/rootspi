@@ -28,6 +28,9 @@ export LABEL
 export COMPILER
 export BUILDTYPE
 
+export PYTHIA8DATA=/usr/share/pythia8-data/xmldoc
+export PYTHIA8=/usr/
+
 # Build
 rootspi/jenkins/jk-all build
 # Install
