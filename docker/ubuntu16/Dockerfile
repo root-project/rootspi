@@ -4,8 +4,8 @@ ADD build.sh /
 
 ARG uid
 
-RUN useradd --create-home --home-dir /home/sftnight/ --uid ${uid} --groups sudo sftnight && \
-    passwd --delete sftnight
+RUN useradd --create-home --home-dir /home/builder/ --uid ${uid} --groups sudo builder && \
+    passwd --delete builder
 
-USER sftnight
-ENV HOME /home/sftnight
+USER builder
+ENV HOME /home/builder
