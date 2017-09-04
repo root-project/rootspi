@@ -182,7 +182,7 @@ class Builder:
                     shutil.rmtree('doxygen')
                 shutil.copytree(os.path.join(self.instdir, 'docs', 'html', 'html'), 'doxygen')
                 # and then publish to EOS:
-		subprocess.checked_call('rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" doxygen epsft-jenkins.cern.ch:/eos/project/r/root-eos/www/cling/')
+		check_call('rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" doxygen epsft-jenkins.cern.ch:/eos/project/r/root-eos/www/cling/', shell=True)
 
             # Tar the install directory.
             tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
