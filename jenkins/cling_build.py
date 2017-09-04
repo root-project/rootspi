@@ -177,11 +177,12 @@ class Builder:
                 tar.add('html')
                 tar.close()
                 os.chdir(self.workspace)
-                # Make docs/doxygen/html/html available as doxygen/ for copying to /afs in Jenkins
+                # Make docs/doxygen/html/html available as doxygen/ for copying to /eos in Jenkins
                 if os.path.isdir('doxygen'):
                     shutil.rmtree('doxygen')
                 shutil.copytree(os.path.join(self.instdir, 'docs', 'html', 'html'), 'doxygen')
-                # and then publish to /afs/cern.ch/project/lcg/app/www/cling/doxygen/ through post-build copy-to-head-node step
+                # and then publish to EOS:
+		subprocess.checked_call('rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" doxygen epsft-jenkins.cern.ch:/eos/project/r/root-eos/www/cling/')
 
             # Tar the install directory.
             tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
