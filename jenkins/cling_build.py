@@ -169,7 +169,7 @@ class Builder:
                 shutil.rmtree('doxygen')
             shutil.copytree(os.path.join(self.instdir, 'docs', 'html', 'html'), 'doxygen')
             # and then publish to EOS:
-            check_call('rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" doxygen epsft-jenkins.cern.ch:/eos/project/r/root-eos/www/cling/', shell=True)
+            check_call('rsync -avz -e "ssh -K -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" doxygen epsft-jenkins.cern.ch:/eos/project/r/root-eos/www/cling/', shell=True)
 
     def packaging(self):
         if os.path.isdir('artifacts'):
