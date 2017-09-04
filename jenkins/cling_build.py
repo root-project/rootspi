@@ -163,6 +163,13 @@ class Builder:
             mkdir_p('tools/clang/docs/doxygen/html')
             mkdir_p('docs/doxygen/html')
 
+            os.chdir(self.workspace)
+            # Make docs/doxygen/html/html available as doxygen/ for copying to /eos in Jenkins
+            if os.path.isdir('doxygen'):
+                shutil.rmtree('doxygen')
+            shutil.copytree(os.path.join(self.instdir, 'docs', 'html', 'html'), 'doxygen')
+            # and then publish to EOS:
+            check_call('rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" doxygen epsft-jenkins.cern.ch:/eos/project/r/root-eos/www/cling/', shell=True)
 
     def packaging(self):
         if os.path.isdir('artifacts'):
@@ -176,13 +183,6 @@ class Builder:
                 tar = tarfile.open(os.path.join(self.workspace, 'artifacts', 'cling_' + self.today + '_docs.tar.bz2'), "w:bz2")
                 tar.add('html')
                 tar.close()
-                os.chdir(self.workspace)
-                # Make docs/doxygen/html/html available as doxygen/ for copying to /eos in Jenkins
-                if os.path.isdir('doxygen'):
-                    shutil.rmtree('doxygen')
-                shutil.copytree(os.path.join(self.instdir, 'docs', 'html', 'html'), 'doxygen')
-                # and then publish to EOS:
-		check_call('rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" doxygen epsft-jenkins.cern.ch:/eos/project/r/root-eos/www/cling/', shell=True)
 
             # Tar the install directory.
             tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
