@@ -163,7 +163,9 @@ class Builder:
             mkdir_p('tools/clang/docs/doxygen/html')
             mkdir_p('docs/doxygen/html')
 
-            os.chdir(self.workspace)
+
+    def scp_documentation(self):
+        if self.doxygen:
             # Make docs/doxygen/html/html available as doxygen/ for copying to /eos in Jenkins
             if os.path.isdir('doxygen'):
                 shutil.rmtree('doxygen')
@@ -214,6 +216,8 @@ class Builder:
         self.maybe_test()
 
         os.chdir(self.workspace)
+        print('STEP: COPY DOC TO EOS')
+        self.scp_documentation()
         print('STEP: PACKAGING')
         self.packaging()
         print('STEP: HOUSEKEEPING')
