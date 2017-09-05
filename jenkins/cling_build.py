@@ -165,7 +165,7 @@ class Builder:
 
 
     def scp_documentation(self):
-        if self.doxygen:
+        if self.doxygen and self.binaries:
             # Make docs/doxygen/html/html available as doxygen/ for copying to /eos in Jenkins
             if os.path.isdir('doxygen'):
                 shutil.rmtree('doxygen')
