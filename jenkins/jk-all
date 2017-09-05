@@ -65,7 +65,7 @@ else
     fi
 
     if [[ "$1" != "build" ]]; then 
-        ctest -V -S ${THIS}/root-test.cmake
+        ctest --no-compress-output -V -S ${THIS}/root-test.cmake
         status=$?
     fi
 fi
