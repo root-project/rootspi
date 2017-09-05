@@ -135,11 +135,19 @@ elif [[ $COMPILER == *icc* ]]; then
   export FC=`which ifort`
 fi
 
-if [[ $ARCH == ppc64le ]]; then
-    # The ppc64le build node does not have X11 or GSL installed, and Vc does not support ppc64le
-    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dx11=OFF -Dbuiltin_gsl=ON"
-    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dbuiltin_afterimage=OFF -Dasimage=OFF -Dastiff=OFF"
-fi
+case $ARCH in
+	ppc64le)
+		# The ppc64le build node does not have X11 or GSL installed
+		export ExtraCMakeOptions="${ExtraCMakeOptions} -Dx11=OFF -Dbuiltin_gsl=ON"
+		export ExtraCMakeOptions="${ExtraCMakeOptions} -Dbuiltin_afterimage=OFF"
+		export ExtraCMakeOptions="${ExtraCMakeOptions} -Dasimage=OFF -Dastiff=OFF"
+	;;
+	x86_64)
+		# Default to SSE4.2 on x86_64 (any computer from 2008 or later should have it)
+		export ExtraCMakeOptions="${ExtraCMakeOptions} -DCMAKE_C_FLAGS='-msse4.2'"
+		export ExtraCMakeOptions="${ExtraCMakeOptions} -DCMAKE_CXX_FLAGS='-msse4.2'"
+	;;
+esac
 
 if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
     CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
