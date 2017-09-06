@@ -185,6 +185,7 @@ class Builder:
                 tar = tarfile.open(os.path.join(self.workspace, 'artifacts', 'cling_' + self.today + '_docs.tar.bz2'), "w:bz2")
                 tar.add('html')
                 tar.close()
+                os.chdir(self.workspace)
 
             # Tar the install directory.
             tar = tarfile.open(os.path.join('artifacts', self.instdir + '.tar.bz2'), "w:bz2")
