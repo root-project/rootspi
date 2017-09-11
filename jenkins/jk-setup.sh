@@ -136,17 +136,22 @@ elif [[ $COMPILER == *icc* ]]; then
 fi
 
 case $ARCH in
-	ppc64le)
-		# The ppc64le build node does not have X11 or GSL installed
-		export ExtraCMakeOptions="${ExtraCMakeOptions} -Dx11=OFF -Dbuiltin_gsl=ON"
-		export ExtraCMakeOptions="${ExtraCMakeOptions} -Dbuiltin_afterimage=OFF"
-		export ExtraCMakeOptions="${ExtraCMakeOptions} -Dasimage=OFF -Dastiff=OFF"
-	;;
-	x86_64)
-		# Default to SSE4.2 on x86_64 (any computer from 2008 or later should have it)
-		export ExtraCMakeOptions="${ExtraCMakeOptions} -DCMAKE_C_FLAGS='-msse4.2'"
-		export ExtraCMakeOptions="${ExtraCMakeOptions} -DCMAKE_CXX_FLAGS='-msse4.2'"
-	;;
+  ppc64le)
+    # The ppc64le build node does not have X11 or GSL installed
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dx11=OFF -Dbuiltin_gsl=ON"
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dbuiltin_afterimage=OFF"
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -Dasimage=OFF -Dastiff=OFF"
+  ;;
+  x86_64)
+    # Default to SSE4.2 on x86_64 (any computer from 2008 or later should have it)
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -DCMAKE_C_FLAGS='-msse4.2'"
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -DCMAKE_CXX_FLAGS='-msse4.2'"
+
+    # Disable Vc in builds where GCC compiler bug triggers static_assert() in Vc
+    if [[ $COMPILER == gcc7 && ($LABEL == slc7 || $LABEL == centos7) ]]; then
+        export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
+    fi
+  ;;
 esac
 
 if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
