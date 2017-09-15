@@ -155,9 +155,9 @@ case $ARCH in
 esac
 
 if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
-    CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
-    CCACHE_DIR=/ccache
-    CCACHE_MAXSIZE=10G
+    export CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
+    export CCACHE_DIR=/ccache
+    export CCACHE_MAXSIZE=10G
 fi
 
 # If run from Jenkins-----------------------------------------------------------------------
