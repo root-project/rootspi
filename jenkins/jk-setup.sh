@@ -80,7 +80,7 @@ elif [[ $COMPILER == clang_gcc* ]]; then
   if [[ $PLATFORM == *slc* ]]; then
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
   fi
-  
+
 elif [[ $COMPILER == *clang* ]]; then
   clang34version=3.4
   clang35version=3.5
@@ -156,7 +156,7 @@ esac
 
 if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
     CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
-    CCACHE_DIR=/mnt/build/jenkins/workspace/
+    CCACHE_DIR=/ccache
     CCACHE_MAXSIZE=10G
 fi
 
