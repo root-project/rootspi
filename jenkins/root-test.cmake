@@ -11,7 +11,7 @@ set(CTEST_NOTES_FILES  ignoredtests.txt)
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
   ctest_start (Continuous TRACK Continuous-${CTEST_VERSION} APPEND)
-  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-")
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark")
 
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
@@ -29,7 +29,7 @@ elseif(CTEST_MODE STREQUAL install)
   #---Configure and run the tests--------------------------------------------
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/tutorials
                   SOURCE  ${CTEST_INSTALL_DIRECTORY}/share/doc/root/tutorials)
-  ctest_test(BUILD ${CTEST_RUNTESTS_DIRECTORY}/tutorials PARALLEL_LEVEL ${ncpu})
+  ctest_test(BUILD ${CTEST_RUNTESTS_DIRECTORY}/tutorials PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark")
 
 #----Package mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL package)
@@ -52,7 +52,7 @@ elseif(CTEST_MODE STREQUAL package)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials)
   ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
-             PARALLEL_LEVEL ${ncpu})
+             PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark")
 
 #---Pullrequest mode--------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
@@ -62,7 +62,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 #---Experimental/Nightly----------------------------------------------------
 else()
   ctest_start(${CTEST_MODE} APPEND)
-  ctest_test(PARALLEL_LEVEL ${ncpu})
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark")
 endif()
 
 ctest_submit(PARTS Test Notes)
