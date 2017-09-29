@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import os, platform, string, re
+import os, platform, re
 
 arch = platform.machine()
 
@@ -7,7 +7,7 @@ system = platform.system()
 
 #---Determine the OS and version--------------------------------------
 if system == 'Darwin' :
-   osvers = 'mac' + string.join(platform.mac_ver()[0].split('.')[:2],'')
+   osvers = 'mac' + ''.join(platform.mac_ver()[0].split('.')[:2])
 elif system == 'Linux' :
    dist = platform.linux_distribution()
    if re.search('SLC', dist[0]):
@@ -24,7 +24,7 @@ elif system == 'Linux' :
    elif re.search('Fedora', dist[0]):
       osvers = 'fedora' + dist[1].split('.')[0]
    else:
-      osvers = 'linux' + string.join(platform.linux_distribution()[1].split('.')[:2],'')
+      osvers = 'linux'
 elif system == 'Windows':
    osvers = win + platform.win32_ver()[0]
 else:
@@ -47,7 +47,7 @@ else:
     patt = re.compile('.*Version ([0-9]+)[.].*')
     mobj = patt.match(versioninfo)
     compiler = 'vc' + str(int(mobj.group(1))-6)
-  elif ccommand.endswith('gcc'):
+  elif ccommand.startswith('gcc') or ccommand.endswith('gcc'):
      versioninfo = os.popen(ccommand + ' -dumpversion').read()
      patt = re.compile('([0-9]+)\\.([0-9]+)')
      mobj = patt.match(versioninfo)
@@ -58,7 +58,7 @@ else:
      else:
         compiler = 'gcc' + mobj.group(1) + mobj.group(2)
   elif ccommand.endswith('clang'):
-     versioninfo = os.popen4(ccommand + ' -v')[1].read()
+     versioninfo = os.popen(ccommand + ' --version').read()
      patt = re.compile('.*version ([0-9]+)[.]([0-9]+)')
      mobj = patt.match(versioninfo)
      compiler = 'clang' + mobj.group(1) + mobj.group(2)
@@ -81,4 +81,4 @@ elif buildtype == 'Debug' : bt = 'dbg'
 elif buildtype == 'Optimized' : bt = 'fst'
 else : bt = 'unk'
 
-print '%s-%s-%s-%s' %  (arch, osvers, compiler, bt)
+print('%s-%s-%s-%s' %  (arch, osvers, compiler, bt))
