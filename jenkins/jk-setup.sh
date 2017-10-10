@@ -143,16 +143,13 @@ case $ARCH in
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dasimage=OFF -Dastiff=OFF"
   ;;
   x86_64)
-    # Default to SSE4.2 on x86_64 (any computer from 2008 or later should have it)
-    export ExtraCMakeOptions="${ExtraCMakeOptions} -DCMAKE_C_FLAGS='-msse4.2'"
-    export ExtraCMakeOptions="${ExtraCMakeOptions} -DCMAKE_CXX_FLAGS='-msse4.2'"
-
-    # Disable Vc in builds where GCC compiler bug triggers static_assert() in Vc
-    if [[ $COMPILER == gcc7 && ($LABEL == slc7 || $LABEL == centos7) ]]; then
+    # Disable Vc since it's broken with both GCC and ICC
+    if [[ $COMPILER == *gcc* || $COMPILER == *icc* ]]; then
         export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
     fi
   ;;
 esac
+
 
 if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
     export CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
