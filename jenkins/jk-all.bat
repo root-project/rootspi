@@ -8,6 +8,7 @@ if %COMPILER% == vc10  call "%VS100COMNTOOLS%vsvars32.bat"
 if %COMPILER% == vc11  call "%VS110COMNTOOLS%vsvars32.bat"
 if %COMPILER% == vc12  call "%VS120COMNTOOLS%vsvars32.bat"
 if %COMPILER% == vc13  call "%VS130COMNTOOLS%vsvars32.bat"
+if %COMPILER% == vc15  call "%VSINSTALLDIR%\VC\Auxiliary\Build\vcvars32.bat"
 
 rem ---External libraries--------------------------------------------
 rem set GSL_DIR=C:\libs\gsl-1.14
