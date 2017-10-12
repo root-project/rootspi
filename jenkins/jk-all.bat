@@ -15,7 +15,11 @@ rem set GSL_DIR=C:\libs\gsl-1.14
 
 rem ---Options-------------------------------------------------------
 set THIS=%~d0%~p0
-set ExtraCMakeOptions=";-Droofit=ON"
+if %COMPILER% == vc15 (
+  set ExtraCMakeOptions=";-Dall=OFF;-Dcxx11=OFF;-Dcxx14=ON;-dtmva=OFF;-Dimt=OFF;-Dbuiltin_tbb=OFF"
+) else (
+  set ExtraCMakeOptions=";-Droofit=ON"
+)
 
 echo Dumping the full environment ---------------------------------------------------------
 set
