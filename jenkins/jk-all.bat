@@ -27,6 +27,8 @@ echo ---------------------------------------------------------------------------
 
 rem ---Run the CTest script depending on the compiler------------------------------------------
 ctest -VV -S %THIS%/root-build.cmake
-ctest -V  -S %THIS%/root-test.cmake
+if not %COMPILER% == vc15 (
+  ctest -V  -S %THIS%/root-test.cmake
+)
 
 
