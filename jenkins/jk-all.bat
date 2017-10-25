@@ -27,8 +27,12 @@ echo ---------------------------------------------------------------------------
 
 rem ---Run the CTest script depending on the compiler------------------------------------------
 ctest -VV -S %THIS%/root-build.cmake
+if %ERRORLEVEL% neq 0 (
+  exit /B %ERRORLEVEL%
+)
 if not %COMPILER% == vc15 (
   ctest -V  -S %THIS%/root-test.cmake
 )
 
+exit /B %ERRORLEVEL%
 
