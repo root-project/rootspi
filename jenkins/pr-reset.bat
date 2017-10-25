@@ -6,4 +6,4 @@ rem Second parameter: Location of git
 
 cd %1
 %2 fetch $GIT_URL +refs/heads/*:refs/remotes/origin/*
-%2 checkout -f origin/$ghprbTargetBranch\
+%2 checkout -f origin/%ghprbTargetBranch%\
