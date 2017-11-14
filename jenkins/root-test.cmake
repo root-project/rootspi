@@ -57,12 +57,12 @@ elseif(CTEST_MODE STREQUAL package)
 #---Pullrequest mode--------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_start(Pullrequests TRACK Pullrequests APPEND)
-  set(LIST_OF_EXCLUDES "EXCLUDE \"^tutorial-\" EXCLUDE_LABEL \"longtest\"")
   string(TOLOWER "$ENV{ExtraCMakeOptions}" EXTRA_CMAKE_OPTS_LOWER)
   if(${EXTRA_CMAKE_OPTS_LOWER} MATCHES "dctest_test_exclude_none=on")
-    set(LIST_OF_EXCLUDES "")
+    ctest_test(PARALLEL_LEVEL ${ncpu})
+  else()
+    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
   endif()
-  ctest_test(PARALLEL_LEVEL ${ncpu} ${LIST_OF_EXCLUDES})
 
 #---Experimental/Nightly----------------------------------------------------
 else()
