@@ -29,8 +29,8 @@ fi
 
 if [ -f $gittag/CMakeLists.txt ]; then
    cd $gittag.build
-   cmake ../$gittag -Dall=ON -Dtesting=ON
-   make -j 4
+   cmake ../$gittag
+   cmake --build .
    exit $?
 else
    echo "$prog: $gittag/CMakeLists.txt not found, checkout of $gittag failed"
