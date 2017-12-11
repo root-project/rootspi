@@ -29,7 +29,7 @@ fi
 
 if [ -f $gittag/CMakeLists.txt ]; then
    cd $gittag.build
-   cmake ../$gittag
+   cmake -G Ninja ../$gittag
    cmake --build .
    exit $?
 else
