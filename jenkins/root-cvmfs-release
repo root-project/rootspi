@@ -35,6 +35,7 @@ if [ -f \$tarfile ]; then
     rm \$tarfile
 else
     echo 1>&2 "ERROR: wget https://root.cern.ch/download/${tarfile} failed!" >&2
+    exit 127
 fi
 
 for var in $config
@@ -67,6 +68,7 @@ do
             rm \$tarfile
         else
             echo 1>&2 "ERROR: wget https://root.cern.ch/download/\${tarfile} failed!" >&2
+            exit 127
         fi
     fi
 done
