@@ -24,6 +24,7 @@ fi
 
 if [ ! -d $basedir ]; then
     echo 1>&2 "The directory $basedir doesn't exist!" >&2
+    cvmfs_server abort -f sft.cern.ch
     exit 127
 fi
 
@@ -35,6 +36,7 @@ if [ -f \$tarfile ]; then
     rm \$tarfile
 else
     echo 1>&2 "ERROR: wget https://root.cern.ch/download/${tarfile} failed!" >&2
+    cvmfs_server abort -f sft.cern.ch
     exit 127
 fi
 
@@ -68,6 +70,7 @@ do
             rm \$tarfile
         else
             echo 1>&2 "ERROR: wget https://root.cern.ch/download/\${tarfile} failed!" >&2
+            cvmfs_server abort -f sft.cern.ch
             exit 127
         fi
     fi
