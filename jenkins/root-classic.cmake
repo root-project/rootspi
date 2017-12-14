@@ -33,7 +33,7 @@ unset(CTEST_BUILD_COMMAND)
 #   execute_process(COMMAND git rebase origin/${GIT_BRANCH} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/roottest)
 #else()
 #   message("-- Could not find roottest directory! Cloning from the repository...")
-#   execute_process(COMMAND git clone -b ${GIT_BRANCH} http://root.cern.ch/git/roottest.git
+#   execute_process(COMMAND git clone -b ${GIT_BRANCH} https://github.com/root-project/roottest.git
 #                   WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
 #endif()
 

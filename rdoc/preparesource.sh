@@ -20,7 +20,7 @@ if [ -d $gittag ]; then
    git checkout $gittag
    cd ..
 else
-   git clone -b $gittag http://root.cern.ch/git/root.git $gittag
+   git clone -b $gittag https://github.com/root-project/root.git $gittag
 fi
 
 if [ ! -d $gittag.build ]; then
