@@ -5,6 +5,7 @@
 import sys, os, errno, shutil, tarfile
 from subprocess import check_call, call
 from datetime import date
+from distutils import spawn
 
 
 def mkdir_p(path):
@@ -106,11 +107,9 @@ class Builder:
         self.cleanbuild = cleanbuild
         self.binaries = binaries
 
-        self.cmake = 'cmake'
-        if self.label == 'cc7':
-            self.cmake = '/afs/cern.ch/sw/lcg/contrib/CMake/3.5.2/Linux-x86_64/bin/cmake'
-        elif 'mac' in self.label or 'fedora' in self.label:
-            self.cmake = '/usr/local/bin/cmake'
+        self.cmake = spawn.find_executable('cmake')
+        if self.cmake == None or self.label == 'cc7':
+            self.cmake = '/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.7.0/Linux-x86_64/bin/cmake'
 
         self.printConfig()
 
