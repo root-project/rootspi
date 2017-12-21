@@ -108,8 +108,11 @@ class Builder:
         self.binaries = binaries
 
         self.cmake = spawn.find_executable('cmake')
-        if self.cmake == None or self.label == 'cc7':
-            self.cmake = '/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.7.0/Linux-x86_64/bin/cmake'
+        if self.cmake == None:
+            if self.label == 'cc7':
+                self.cmake = '/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.7.0/Linux-x86_64/bin/cmake'
+            else
+                self.cmake = '/usr/local/bin/cmake'
 
         self.printConfig()
 
