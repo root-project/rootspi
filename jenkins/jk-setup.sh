@@ -50,7 +50,7 @@ fi
 
 # The final compiler may not yet be totally setup-------------------------------------
 if [[ $COMPILER == gcc* ]]; then
-  export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
+  export ExtraCMakeOptions="-Dchirp=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
     export ExtraCMakeOptions="-Dfail-on-missing=ON -Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
   fi
