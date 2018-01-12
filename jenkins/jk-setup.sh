@@ -75,7 +75,7 @@ elif [[ $COMPILER == clang_gcc* ]]; then
   export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/${ARCH}-${LABEL}-${GCCcompiler}-opt/bin/:$PATH
   export CC=`which clang`
   export CXX=`which clang++`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF"
+  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dhdfs=OFF"
   # On slc we want to compile with a more 'standard' toolchain.
   if [[ $PLATFORM == *slc* ]]; then
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
