@@ -158,6 +158,11 @@ if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
     export CCACHE_MAXSIZE=10G
 fi
 
+# Set PYTHON_EXECUTABLE variable if BUILDOPTS is python3
+if [ $BUILDOPTS == python3 ]; then
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -DPYTHON_EXECUTABLE=$(which python3)"
+fi
+
 # If run from Jenkins-----------------------------------------------------------------------
 if [ x$WORKSPACE != x ]; then
   SCRATCH_DIR=$WORKSPACE/ipython
