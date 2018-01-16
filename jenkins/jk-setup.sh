@@ -159,8 +159,8 @@ if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
 fi
 
 # Set PYTHON_EXECUTABLE variable if BUILDOPTS is python3
-if [[ $BUILDOPTS == python3 ]]; then
-    export ExtraCMakeOptions="${ExtraCMakeOptions} -DPYTHON_EXECUTABLE=\"$(which python3)\""
+if [[ "$BUILDOPTS" == "python3" ]]; then
+    export ExtraCMakeOptions="${ExtraCMakeOptions} -DPYTHON_EXECUTABLE=$(which python3)"
 fi
 
 # If run from Jenkins-----------------------------------------------------------------------
