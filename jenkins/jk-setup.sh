@@ -107,10 +107,8 @@ elif [[ $COMPILER == *native* ]]; then
   unset CXX
   unset FC
   export ExtraCMakeOptions="-Dhdfs=OFF ${ExtraCMakeOptions}"
-  if [[ $LABEL == *mac1012* ]]; then
+  if [[ $LABEL == *mac* ]]; then
     export ExtraCMakeOptions="-Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
-  elif [[ $LABEL == *mac* ]]; then
-    export ExtraCMakeOptions="-Dmacos_native=ON -Dveccore=OFF -Dbuiltin_gsl=ON -Doracle=OFF ${ExtraCMakeOptions}"
   fi
 elif [[ $COMPILER == *icc* ]]; then
   iccyear=2013
