@@ -44,6 +44,8 @@ elif [[ $PLATFORM == *slc6* ]]; then
   export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
 elif [[ $PLATFORM == *centos7* ]]; then
   export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
+elif [[ $PLATFORM == *mac* ]]; then
+  echo "Externals not used for platform $PLATFORM"
 else
   echo "No externals for $PLATFORM in /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS"
 fi
