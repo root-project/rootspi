@@ -36,18 +36,18 @@ fi
 # Setup all the externals now-----------------------------------------------------
 PLATFORM=`$THIS/getPlatform.py`
 COMPATIBLE=`$THIS/getCompatiblePlatform.py $PLATFORM`
-if [ -a /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$PLATFORM ]; then
-  source /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$PLATFORM/setup.sh
-elif [ -a /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$COMPATIBLE ]; then
-  source /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS/$COMPATIBLE/setup.sh
-elif [[ $PLATFORM == *slc6* ]]; then
-  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
-elif [[ $PLATFORM == *centos7* ]]; then
-  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
-elif [[ $PLATFORM == *mac* ]]; then
-  echo "Externals not used for platform $PLATFORM"
-else
-  echo "No externals for $PLATFORM in /cvmfs/sft.cern.ch/lcg/views/$EXTERNALS"
+
+if [[ $(uname -s) == Linux ]]; then
+  LCG_EXTERNALS=/cvmfs/sft.cern.ch/lcg/views/$EXTERNALS
+  if [[ -e $LCG_EXTERNALS/$PLATFORM/setup.sh ]]; then
+    source $LCG_EXTERNALS/$PLATFORM/setup.sh
+  elif [[ -e $LCG_EXTERNALS/$COMPATIBLE/setup.sh ]]; then
+    source $LCG_EXTERNALS/$COMPATIBLE/setup.sh
+  elif [[ $PLATFORM == *slc6* || $PLATFORM == *centos7* ]]; then
+    export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
+  else
+    echo "No $EXTERNALS externals found for $PLATFORM"
+  fi
 fi
 
 # The final compiler may not yet be totally setup-------------------------------------
