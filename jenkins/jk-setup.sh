@@ -57,6 +57,11 @@ if [[ $COMPILER == gcc* ]]; then
     export ExtraCMakeOptions="-Dfail-on-missing=ON -Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
   fi
 
+  if [[ $COMPILER == gcc73 ]]; then
+    source /cvmfs/sft.cern.ch/lcg/contrib/gcc/7.3.0binutils/$COMPATIBLE/setup.sh || exit 1
+    export PATH=/cvmfs/sft.cern.ch/lcg/contrib/gcc/7.3.0binutils/$COMPATIBLE/bin:$PATH
+  fi
+
 elif [[ $COMPILER == clang_gcc* ]]; then
   # We are cross compiling. We use clang as a compiler with libstdc++.
   # Get the gcc version. First parameter is a zero-based offset and the second is the length.
