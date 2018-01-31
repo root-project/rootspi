@@ -75,7 +75,7 @@ class Builder:
         self.testcling = testcling
         self.testllvmclang = testllvmclang
         self.doxygen = False
-        if 'ubuntu-1404' in self.label:
+        if 'ubuntu14' in self.label:
             self.doxygen = True
 
         self.parallelFlag = ''
