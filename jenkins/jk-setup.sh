@@ -33,14 +33,14 @@ elif [[ $PLATFORM == *fedora* ]]; then
   export PATH=/usr/local/bin:${PATH}
 fi
 
+# Setup all the externals now-----------------------------------------------------
+PLATFORM=`$THIS/getPlatform.py`
+COMPATIBLE=`$THIS/getCompatiblePlatform.py $PLATFORM`
+
 if [[ $COMPILER == gcc73 ]]; then
   PLATFORM=${PLATFORM/gcc73/gcc7}
   COMPATIBLE=${COMPATIBLE/gcc73/gcc7}
 fi
-
-# Setup all the externals now-----------------------------------------------------
-PLATFORM=`$THIS/getPlatform.py`
-COMPATIBLE=`$THIS/getCompatiblePlatform.py $PLATFORM`
 
 if [[ $(uname -s) == Linux ]]; then
   LCG_EXTERNALS=/cvmfs/sft.cern.ch/lcg/views/$EXTERNALS
