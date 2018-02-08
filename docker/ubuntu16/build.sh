@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
 set -x
 set -e
 
@@ -23,7 +24,6 @@ export WORKSPACE=$(pwd)
 
 export EMPTY_BINARY=true
 export MODE=experimental
-export ExtraCMakeOptions='-Dccache=ON -DCMAKE_INSTALL_PREFIX=/usr/local -Dgnuinstall=ON -Drpath=ON -Dbuiltin_xrootd=ON -Dbuiltin_davix=ON'
 
 export LABEL
 export COMPILER
@@ -31,6 +31,8 @@ export BUILDTYPE
 
 export PYTHIA8DATA=/usr/share/pythia8-data/xmldoc
 export PYTHIA8=/usr/
+
+export ExtraCMakeOptions="-DCMAKE_INSTALL_PREFIX=/usr/local -Dall=ON -Dchirp=OFF -Ddcache=ON -Dfail-on-missing=ON -Dgnuinstall=ON -Drpath=ON -Dbonjour=ON -Dbuiltin_afterimage=OFF -Dbuiltin_ftgl=OFF -Dbuiltin_gl2ps=OFF -Dbuiltin_glew=OFF -Dbuiltin_unuran=ON -Dbuiltin_xrootd=ON -Dcastor=OFF -Dfortran=ON -Dgeocad=ON -Dglite=OFF -Dgviz=ON -Djemalloc=ON -Dkrb5=ON -Dldap=ON -Dodbc=OFF -Doracle=OFF -Dpythia6=OFF -Drfio=OFF -Dsapdb=OFF -Dsrp=OFF -Dvc=OFF -Dvdt=OFF -Dveccore=OFF"
 
 # Build
 rootspi/jenkins/jk-all build

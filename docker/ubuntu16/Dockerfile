@@ -1,6 +1,6 @@
 FROM rootproject/root-ubuntu16-base
 
-ADD build.sh /
+COPY build.sh build.sh
 
 ARG uid
 
@@ -9,3 +9,4 @@ RUN useradd --create-home --home-dir /home/builder/ --uid ${uid} --groups sudo b
 
 USER builder
 ENV HOME /home/builder
+ENV PYTHONPATH /usr/local/lib
