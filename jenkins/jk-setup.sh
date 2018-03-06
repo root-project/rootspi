@@ -136,6 +136,8 @@ elif [[ $COMPILER == *icc* ]]; then
   GCCversion=${COMPILER}gcc
   if [ $COMPILER == icc17 ]; then
       . /cvmfs/projects.cern.ch/intelsw/psxe/linux/17-all-setup.sh
+  elif [ $COMPILER == icc18 ]; then
+      . /cvmfs/projects.cern.ch/intelsw/psxe/linux/18-all-setup.sh
   else
       . /afs/cern.ch/sw/lcg/contrib/gcc/${!GCCversion}/${ARCH}-slc6/setup.sh
       . /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
