@@ -9,4 +9,4 @@ RUN useradd --create-home --home-dir /home/builder/ --uid ${uid} --groups sudo b
 
 USER builder
 ENV HOME /home/builder
-ENV PYTHONPATH /usr/local/lib
+ENV PYTHONPATH /usr/local/lib/root
