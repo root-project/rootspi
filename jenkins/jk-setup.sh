@@ -59,7 +59,7 @@ fi
 if [[ $COMPILER == gcc* ]]; then
   export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
-    export ExtraCMakeOptions="-Dfail-on-missing=ON -Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
   fi
 
   if [[ $COMPILER == gcc73 ]]; then
