@@ -16,13 +16,11 @@ if [ $# -ge 1 ]; then
       major=
       docdir="htmldoc/guides"
       gittag="master"
-      versnum=`ls src/master/doc | tail -1`
    else
       major=`echo $1 | cut -d- -f 1`
       minor=`echo $1 | cut -d- -f 2`
       docdir="html$major$minor/guides"
       gittag="v$major-$minor-00-patches"
-      versnum="v$major$minor"
    fi
    srcdir="src/$gittag"
 else
@@ -37,6 +35,13 @@ if [ "x$2" = "xclean" ]; then
 fi
 
 echo "$prog: using version number $gittag"
+
+# Checkout and build the source for which to generate the doc
+ ./preparesource.sh $gittag
+if [ $? -ne 0 ]; then
+   echo "$prog: preparesource.sh failed, exiting..."
+   exit 1
+fi
 
 if [ ! -d $docdir ]; then
    mkdir -p $docdir
