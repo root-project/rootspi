@@ -44,6 +44,7 @@ if [ -d $gittag ]; then
    git pull
    git reset --hard
    git checkout $gittag
+   cd ..
 else
    git clone -b $gittag https://github.com/root-project/root.git $gittag
 fi
