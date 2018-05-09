@@ -36,12 +36,18 @@ fi
 
 echo "$prog: using version number $gittag"
 
-# Checkout and build the source for which to generate the doc
- ./preparesource.sh $gittag
-if [ $? -ne 0 ]; then
-   echo "$prog: preparesource.sh failed, exiting..."
-   exit 1
+# Checkout the source for which to generate the doc
+mkdir -p src
+cd src
+if [ -d $gittag ]; then
+   cd $gittag
+   git pull
+   git reset --hard
+   git checkout $gittag
+else
+   git clone -b $gittag https://github.com/root-project/root.git $gittag
 fi
+cd ..
 
 if [ ! -d $docdir ]; then
    mkdir -p $docdir
