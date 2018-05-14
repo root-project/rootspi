@@ -120,7 +120,7 @@ EOF
 	done
 	rm mytemplate.tpl
 	cd $NBDIR
-	pandoc --toc --template=$BASEDIR/mdtemplate.tex --highlight-style=tango $NBDIR/*_NOJS$NBEXTMD --latex-engine=pdflatex -o $NBDIR/ROOT-Primer_v0.pdf
+	pandoc --toc --template=$BASEDIR/mdtemplate.tex --highlight-style=tango $NBDIR/*_NOJS$NBEXTMD --pdf-engine=pdflatex -o $NBDIR/ROOT-Primer_v0.pdf
 	pdftk frontpage.pdf $NBDIR/ROOT-Primer_v0.pdf output $NBDIR/ROOT-Primer.pdf
 	rm -rf *NOJS*
 	rm $NBDIR/ROOT-Primer_v0.pdf
