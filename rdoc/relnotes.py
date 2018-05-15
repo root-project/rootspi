@@ -7,7 +7,7 @@
 # where <rootsrc> is the location of the ROOT sources
 #
 # Axel, 2015-11-26
- 
+
 import sys, os, errno
 from glob import glob
 from distutils import dir_util
@@ -39,8 +39,8 @@ def make(rootsrc, branch):
                   '-f', 'markdown',
                   '-t', 'html',
                   '--filter', rootsrc + 'build/unix/pandoc-jira.sh',
-                  '-s', '-S',
-                  '-f', 'markdown',
+                  '-s',
+                  '-f', 'markdown+smart',
                   '--toc',
                   '-H', rootsrc + 'documentation/users-guide/css/github.css',
                   '--mathjax',
