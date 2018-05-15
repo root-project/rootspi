@@ -16,7 +16,7 @@ src=$1
 dest=$2
 
 # User's Guide products
-srcug=$src/documentation/users-guide
+srcug=$src/documentation/users-guide/output
 destug=$dest/users-guide
 destugpic=$destug/pictures
 destugchap=$destug/ROOTUsersGuideChapters
@@ -71,7 +71,7 @@ HTMLDoc
 InstallandBuild
 "
 
-cp $srcug/pictures/*        $destugpic/
+cp $srcug/../pictures/*        $destugpic/
 
 for f in $fullguides; do
    cp $srcug/$f $destug
