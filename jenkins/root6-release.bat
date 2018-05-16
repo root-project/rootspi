@@ -59,10 +59,10 @@ cmake -DCMAKE_BUILD_TYPE=%BUILDTYPE% ^
       -DCMAKE_VERBOSE_MAKEFILE=ON ^
       -Wno-dev=ON ^
       -Dall=OFF ^
-      -Dbuiltin_tbb=ON ^
-      -Dimt=ON ^
-      -Droofit=ON ^
-      -Droot7=ON ^
+      -Dbuiltin_tbb=OFF ^
+      -Dimt=OFF ^
+      -Droofit=OFF ^
+      -Droot7=OFF ^
       -Dtmva=OFF ^
       -Dvc=OFF ^
       -G"Visual Studio 15 2017" ^
