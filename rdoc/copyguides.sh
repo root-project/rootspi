@@ -216,6 +216,6 @@ for f in $httpguides; do
 done
 
 # Copy the guides to root.cern.ch
-rsync --delete -a htmldoc/guides/ root.cern.ch:/var/www/root/root/htmldoc/guides/
+rsync --delete --exclude nbprimer -a htmldoc/guides/ root.cern.ch:/var/www/root/root/htmldoc/guides/
 
 exit 0
