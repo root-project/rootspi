@@ -233,7 +233,7 @@ done
 
 
 # Copy the guides to root.cern.ch
-echo "Synchronize $dest with root.cern.ch:/var/www/root/root/$dest"
-rsync --delete --exclude nbprimer -a $dest root.cern.ch:/var/www/root/root/$dest
+echo "Synchronize $dest/ with root.cern.ch:/var/www/root/root/$dest/"
+rsync --delete --exclude nbprimer -a $dest/ root.cern.ch:/var/www/root/root/$dest/
 
 exit 0
