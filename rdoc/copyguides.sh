@@ -215,6 +215,7 @@ for f in $httpguides; do
    cp $srchttp/$f $desthttp
 done
 
-rsync  -a htmldoc/guides/ root.cern.ch:/var/www/root/root/htmldoc/guides/
+# Copy the guides to root.cern.ch
+rsync --delete -a htmldoc/guides/ root.cern.ch:/var/www/root/root/htmldoc/guides/
 
 exit 0
