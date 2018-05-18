@@ -34,8 +34,7 @@ if [ "x$2" = "xclean" ]; then
    exit 0
 fi
 
-echo "$prog: using version number $gittag"
-pwd
+echo "$prog: using version number \"$gittag\" running in directory" `pwd`
 
 # Checkout the source for which to generate the doc
 mkdir -p src

@@ -215,4 +215,6 @@ for f in $httpguides; do
    cp $srchttp/$f $desthttp
 done
 
+rsync  -a htmldoc/guides/ root.cern.ch:/var/www/root/root/htmldoc/guides/
+
 exit 0
