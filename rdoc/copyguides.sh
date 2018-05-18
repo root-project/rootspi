@@ -215,6 +215,23 @@ for f in $httpguides; do
    cp $srchttp/$f $desthttp
 done
 
+# TMVA products
+srctmva=$src/documentation/tmva/UsersGuide
+desttmva=$dest/tmva
+
+if [ ! -d $desttmva ]; then
+   mkdir -p $desttmva
+fi
+
+tmvaguides="
+TMVAUsersGuide.pdf
+"
+
+for f in $tmvaguides; do
+   cp $srctmva/$f $desttmva
+done
+
+
 # Copy the guides to root.cern.ch
 echo "Synchronize $dest with root.cern.ch:/var/www/root/root/$dest"
 rsync --delete --exclude nbprimer -a $dest root.cern.ch:/var/www/root/root/$dest
