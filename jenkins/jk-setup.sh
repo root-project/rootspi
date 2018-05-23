@@ -96,14 +96,26 @@ elif [[ $COMPILER == *clang* ]]; then
   clang34version=3.4
   clang35version=3.5
   clang36version=3.6
+  clang37version=3.7
+  clang38version=3.8
   clang39version=3.9
   clang50version=5.0
+  clang501version=5.0.1
+  clang600version=6.0.0binutils
+  clang501binutilsversion=5.0.1binutils
+  clang600binutilsversion=6.0.0binutils
   COMPILERversion=${COMPILER}version
   clang34gcc=4.8
   clang35gcc=4.9
   clang36gcc=4.9
+  clang37gcc=4.9
+  clang38gcc=4.9
   clang39gcc=6.2
   clang50gcc=6.2
+  clang501gcc=6.2
+  clang501binutilsgcc=6.2binutils
+  clang600binutilsgcc=6.2binutils
+  clang600gcc=6.2binutils
   GCCversion=${COMPILER}gcc
   . /cvmfs/sft.cern.ch/lcg/contrib/llvm/${!COMPILERversion}/${COMPATIBLE}/setup.sh
 
