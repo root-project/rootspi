@@ -542,13 +542,13 @@ def extractTagInfos(tagLines):
     """
     tagInfos = []
     for line in tagLines:
-        print "Found tag line:", rawTagLine
+        print "Found tag line:", line
         # split tag info: last ')' followed by space followed by info.
-        info = rawTagLine.split(')')[-1][1:]
+        info = line.split(')')[-1][1:]
         # split tags:
-        tagsInParens = rawTagLine[:len(info) + 2].strip(' ')
+        tagsInParens = line[:len(info) + 2].strip(' ')
         tagsNoParens = tagsInParens[1:-1]
-        for tagColTag in rawTagLine.split(', '):
+        for tagColTag in line.split(', '):
             tag = tagColTag[5:] # strip "tag: "
             tagInfos.append(tagInfo(tag, info))
     return tagInfos
