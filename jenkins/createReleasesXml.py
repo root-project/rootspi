@@ -385,7 +385,7 @@ def getBodyFromTag(gitTagStr):
                                   windows = winPar)
 
 class tagInfo(object):
-    def __init__(self, rawTagLine):
+    def __init__(self, tag, info):
         """
         Expects something like
         (tag: v6-02-08) 2015-04-13 14:47:49 +0200 efe57f3
@@ -397,7 +397,7 @@ class tagInfo(object):
         self.afsDir=None
         self.drupalNodeName=None
         self.releasesNotesPage=None
-        self.__processRawTagLine(rawTagLine)
+        self.__processOneTag(tag, info)
         self.__findAfsDir()
         self.__createDrupalNodeName()
         self.__createReleasesNotesPage()
@@ -435,15 +435,12 @@ class tagInfo(object):
     def getReleasesNotesPage(self):
         return self.releasesNotesPage
 
-    def __processRawTagLine(self, rawTagLine):
+    def __pocessOneTag(self, version, info):
         """
-        Process a line like (tag: v6-02-08) 2015-04-13 14:47:49 +0200 efe57f3
+           Process a parsed line, tag: "v6-02-08", info: "2015-04-13 14:47:49 +0200 efe57f3"
         """
-        print "Found tag line:", rawTagLine
-        tagLine = rawTagLine.replace(tagPrefix,"")
-        tagLine = tagLine.replace(")","")
-        # now in the form v2-25-02 2000-08-21 16:56:04 +0000 078e50f
-        version, date, hour, timezone, shortHash = tagLine.split()
+        # now in the form 2000-08-21 16:56:04 +0000 078e50f
+        date, hour, timezone, shortHash = tagLine.split()
         dateHour = "%sT%s" %(date,hour)
         self.tagName=version
         self.humanReadableTagDate = date
@@ -538,6 +535,25 @@ class tagInfo(object):
 
        print "Release added:", tagName
 
+def extractTagInfos(tagLines):
+    """
+    Split ' (tag: v6-14-00-rc1, tag: v6-13-04) 2018-05-08 08:22:05 +0200 b7cf40b'
+    into multiple tags and create a TagInfo for each.
+    """
+    tagInfos = []
+    for line in tagLines:
+        print "Found tag line:", rawTagLine
+        # split tag info: last ')' followed by space followed by info.
+        info = rawTagLine.split(')')[-1][1:]
+        # split tags:
+        tagsInParens = rawTagLine[:len(info) + 2].strip(' ')
+        tagsNoParens = tagsInParens[1:-1]
+        for tagColTag in rawTagLine.split(', '):
+            tag = tagColTag[5:] # strip "tag: "
+            tagInfos.append(tagInfo(tag, info))
+    return tagInfos
+
+
 def getTagInfos():
     """
     Get the list of tags and infos in git. Something of the form
@@ -552,7 +568,7 @@ def getTagInfos():
     tagLines = gitShowOutput.split("\n")
     # remove local branches and other bad lines
     tagLines = filter(lambda tagLine: tagLine.startswith(tagPrefix), tagLines)
-    tagInfos = map(tagInfo, tagLines)
+    tagInfos = extractTagInfos(tagLines)
     return tagInfos
 
 import sys
