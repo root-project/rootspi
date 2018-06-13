@@ -545,11 +545,15 @@ def extractTagInfos(tagLines):
         print "Found tag line:", line
         # split tag info: last ')' followed by space followed by info.
         info = line.split(')')[-1][1:]
+        print "info:", info
         # split tags:
         tagsInParens = line[:len(info) + 2].strip(' ')
+        print "Tags in parens:", tagsInParens
         tagsNoParens = tagsInParens[1:-1]
+        print "Tags no parens:", tagsNoParens
         for tagColTag in line.split(', '):
             tag = tagColTag[5:] # strip "tag: "
+            print "adding tag", tag
             tagInfos.append(tagInfo(tag, info))
     return tagInfos
 
