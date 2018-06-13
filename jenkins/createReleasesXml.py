@@ -439,10 +439,10 @@ class tagInfo(object):
         """
         Process a line like (tag: v6-02-08) 2015-04-13 14:47:49 +0200 efe57f3
         """
+        print "Found tagLine:", tagLine
         tagLine = rawTagLine.replace(tagPrefix,"")
         tagLine = tagLine.replace(")","")
         # now in the form v2-25-02 2000-08-21 16:56:04 +0000 078e50f
-        print "Found tagLine:", tagLine
         version, date, hour, timezone, shortHash = tagLine.split()
         dateHour = "%sT%s" %(date,hour)
         self.tagName=version
