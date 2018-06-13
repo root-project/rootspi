@@ -435,7 +435,7 @@ class tagInfo(object):
     def getReleasesNotesPage(self):
         return self.releasesNotesPage
 
-    def __pocessOneTag(self, version, info):
+    def __processOneTag(self, version, info):
         """
            Process a parsed line, tag: "v6-02-08", info: "2015-04-13 14:47:49 +0200 efe57f3"
         """
