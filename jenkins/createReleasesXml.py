@@ -547,7 +547,7 @@ def extractTagInfos(tagLines):
         info = line.split(')')[-1][1:]
         print "info:", info
         # split tags:
-        tagsInParens = line[:len(info) + 2].strip(' ')
+        tagsInParens = line[:-len(info)].strip(' ')
         print "Tags in parens:", tagsInParens
         tagsNoParens = tagsInParens[1:-1]
         print "Tags no parens:", tagsNoParens
