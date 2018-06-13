@@ -440,7 +440,7 @@ class tagInfo(object):
            Process a parsed line, tag: "v6-02-08", info: "2015-04-13 14:47:49 +0200 efe57f3"
         """
         # now in the form 2000-08-21 16:56:04 +0000 078e50f
-        date, hour, timezone, shortHash = tagLine.split()
+        date, hour, timezone, shortHash = info.split()
         dateHour = "%sT%s" %(date,hour)
         self.tagName=version
         self.humanReadableTagDate = date
