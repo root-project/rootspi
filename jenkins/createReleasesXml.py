@@ -551,7 +551,7 @@ def extractTagInfos(tagLines):
         print "Tags in parens:", tagsInParens
         tagsNoParens = tagsInParens[1:-1]
         print "Tags no parens:", tagsNoParens
-        for tagColTag in line.split(', '):
+        for tagColTag in tagsNoParens.split(', '):
             tag = tagColTag[5:] # strip "tag: "
             print "adding tag", tag
             tagInfos.append(tagInfo(tag, info))
