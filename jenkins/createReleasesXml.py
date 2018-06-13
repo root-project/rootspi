@@ -442,6 +442,7 @@ class tagInfo(object):
         tagLine = rawTagLine.replace(tagPrefix,"")
         tagLine = tagLine.replace(")","")
         # now in the form v2-25-02 2000-08-21 16:56:04 +0000 078e50f
+        print "Found tagLine:", tagLine
         version, date, hour, timezone, shortHash = tagLine.split()
         dateHour = "%sT%s" %(date,hour)
         self.tagName=version
