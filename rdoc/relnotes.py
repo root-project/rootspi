@@ -38,7 +38,10 @@ def make(rootsrc, branch):
     invocation = ['pandoc',
                   '-f', 'markdown',
                   '-t', 'html',
-                  '--filter', rootsrc + 'build/unix/pandoc-jira.sh',
+# Filter fails since last pandoc upgrade:
+# Error in $.block[0].c[0][0].c[0].c: cannot unpack array of length 2 into a tuple of length 3
+#                  '--filter', rootsrc + 'build/unix/pandoc-jira.sh',
+# Disable the filter...
                   '-s',
                   '-f', 'markdown+smart',
                   '--toc',
