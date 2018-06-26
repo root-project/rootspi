@@ -65,6 +65,7 @@ cmake -DCMAKE_BUILD_TYPE=%BUILDTYPE% ^
       -Droot7=OFF ^
       -Dtmva=OFF ^
       -Dvc=OFF ^
+      -Dminuit2=ON ^
       -G"Visual Studio 15 2017" ^
       %SOURCE_DIR%\root-%VERSION%
 
