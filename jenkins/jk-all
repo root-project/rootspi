@@ -50,7 +50,7 @@ then
 else
 
     if [[ "$1" != "test" ]]; then 
-        ctest -VV -S ${THIS}/root-build.cmake
+        ctest -j4 -VV -S ${THIS}/root-build.cmake
         status=$?
 
         # do not run the tests if continous build fails
@@ -65,7 +65,7 @@ else
     fi
 
     if [[ "$1" != "build" ]]; then 
-        ctest --no-compress-output -V -S ${THIS}/root-test.cmake
+        ctest -j4 --no-compress-output -V -S ${THIS}/root-test.cmake
         status=$?
     fi
 fi
