@@ -105,13 +105,9 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 
   #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
-  if(WIN32)
-    set(CTEST_CHECKOUT_COMMAND "${CTEST_SCRIPT_DIRECTORY}/pr-reset.bat ${CTEST_SOURCE_DIRECTORY} git.exe")
-    set(CTEST_GIT_UPDATE_CUSTOM "${CTEST_SCRIPT_DIRECTORY}/pr-rebase.bat ${CTEST_SOURCE_DIRECTORY} ${CTEST_GIT_COMMAND}")
-  else()
-    set(CTEST_CHECKOUT_COMMAND  "${CTEST_SCRIPT_DIRECTORY}/pr-reset.sh ${CTEST_SOURCE_DIRECTORY} ${CTEST_GIT_COMMAND}")
-    set(CTEST_GIT_UPDATE_CUSTOM "${CTEST_SCRIPT_DIRECTORY}/pr-rebase.sh ${CTEST_SOURCE_DIRECTORY} ${CTEST_GIT_COMMAND}")
-  endif()
+
+  unset(CTEST_CHECKOUT_COMMAND)
+  set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} -f -v rebase origin/$ENV{ghprbTargetBranch})
 
   ctest_start (Pullrequests TRACK Pullrequests)
   ctest_update(RETURN_VALUE updates)
