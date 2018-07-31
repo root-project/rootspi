@@ -7,4 +7,4 @@
 
 cd $1
 $2 checkout -f origin/pr/$ghprbPullId/head
-$2 rebase -v -f $ghprbTargetBranch
+$2 rebase -v -f origin/$ghprbTargetBranch
