@@ -112,7 +112,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_start (Pullrequests TRACK Pullrequests)
   ctest_update(RETURN_VALUE updates)
   if(updates LESS 0) # stop if update error
-    execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort)
+    execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
     ctest_submit(PARTS Update)
     return()
   endif()
