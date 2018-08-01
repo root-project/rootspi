@@ -114,7 +114,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   if(updates LESS 0) # stop if update error
     execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
     ctest_submit(PARTS Update)
-    return()
+    message(FATAL_ERROR "Failed to rebase source branch on top of $ENV{ghprbTargetBranch}!")
   endif()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
