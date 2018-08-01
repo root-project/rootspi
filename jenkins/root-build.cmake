@@ -106,9 +106,9 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 
-  unset(CTEST_CHECKOUT_COMMAND)
+  set(CTEST_CHECKOUT_COMMAND ${CTEST_GIT_COMMAND} -C ${CTEST_SOURCE_DIRECTORY} -f origin/$ENV{ghprbTargetBranch})
   set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} -c user.name=sftnight
-    -c user.email=sftnight@cern.ch rebase -f -v origin/$ENV{ghprbTargetBranch})
+    -c user.email=sftnight@cern.ch rebase -f -v origin/$ENV{ghprbTargetBranch} origin/pr/$ENV{ghprbPullId}/head)
 
   ctest_start (Pullrequests TRACK Pullrequests)
   ctest_update(RETURN_VALUE updates)
