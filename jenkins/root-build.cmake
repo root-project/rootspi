@@ -106,13 +106,13 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 
-  set(CTEST_CHECKOUT_COMMAND
-    ${CTEST_GIT_COMMAND} -C ${CTEST_SOURCE_DIRECTORY} checkout -f origin/pr/$ENV{ghprbPullId}/head)
+  unset(CTEST_CHECKOUT_COMMAND)
   set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} rebase -v origin/$ENV{ghprbTargetBranch})
 
   ctest_start (Pullrequests TRACK Pullrequests)
   ctest_update(RETURN_VALUE updates)
   if(updates LESS 0) # stop if update error
+    execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort)
     ctest_submit(PARTS Update)
     return()
   endif()
