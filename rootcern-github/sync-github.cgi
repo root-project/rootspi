@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# axel@cern.ch, August 2018
 
 import cgi
 import hmac
