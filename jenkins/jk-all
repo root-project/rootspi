@@ -35,6 +35,7 @@ source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
 
 echo "Dumping the full environment ---------------------------------------------------------"
 env | grep -v ghprbPullLongDescription | grep -v ghprbPullDescription | grep -v ghprbPullTitle | sort | sed 's/:/:?     /g' | tr '?' '\n'
+env > $WORKSPACE/jenkins_node_env.txt
 echo "--------------------------------------------------------------------------------------"
 
 #---Create stampfile to enable our jenkins to purge old builds------------------------------
