@@ -6,8 +6,10 @@ import hmac
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
+
 import githubsecret
 
 DEBUG = False
@@ -58,6 +60,31 @@ try:
         for line in iter(pipe.stderr.readline, b''):
           errFetch += line.decode()
       exitcodeFetch = pipe.wait()
+
+      if exitcodeFetch == 0:
+        if '[new ref]' in errFetch:
+          prHeads = set()
+          prMerges = set()
+          for line in iter(errFetch.splitlines()):
+            if '[new ref]' in line:
+              mHead = re.search('refs/pull/(\d+)/head', line)
+              if mHead:
+                prHeads.add(mHead.group(1))
+              else:
+                mMerge = re.search('refs/pull/(\d+)/merge', line)
+              if mMerge:
+                prMerges.add(mMerge.group(1))
+          prNeedMerge = prHeads.difference(prMerges)
+          for pr in prNeedMerge:
+            pipe = subprocess.Popen(['/usr/bin/git', 'fetch', 'github', 'refs/pull/' + pr + '/merge'] ,
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+            with pipe.stdout:
+              for line in iter(pipe.stdout.readline, b''):
+                outFetch += line.decode()
+            with pipe.stderr:
+              for line in iter(pipe.stderr.readline, b''):
+                errFetch += line.decode()
+            exitcodeFetch += pipe.wait()
 
       exitcodeNotifier = 0
       outNotifier = ""
