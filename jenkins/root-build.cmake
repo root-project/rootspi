@@ -107,13 +107,15 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 
   unset(CTEST_CHECKOUT_COMMAND)
-  set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
+  set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} -c user.name=sftnight
+    -c user.email=sftnight@cern.ch rebase -f -v origin/$ENV{ghprbTargetBranch} origin/pr/$ENV{ghprbPullId}/head)
 
   ctest_start (Pullrequests TRACK Pullrequests)
   ctest_update(RETURN_VALUE updates)
   if(updates LESS 0) # stop if update error
+    execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
     ctest_submit(PARTS Update)
-    message(FATAL_ERROR "Failed to checkout source branch!")
+    message(FATAL_ERROR "Failed to rebase source branch on top of $ENV{ghprbTargetBranch}!")
   endif()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
