@@ -72,10 +72,11 @@ try:
                 prHeads.add(mHead.group(1))
               else:
                 mMerge = re.search('refs/pull/(\d+)/merge', line)
-              if mMerge:
-                prMerges.add(mMerge.group(1))
+                if mMerge:
+                  prMerges.add(mMerge.group(1))
           prNeedMerge = prHeads.difference(prMerges)
           for pr in prNeedMerge:
+            outFetch += 'Explicitly fetching refs/pull/' + pr + '/merge'
             pipe = subprocess.Popen(['/usr/bin/git', 'fetch', 'github', 'refs/pull/' + pr + '/merge'] ,
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
             with pipe.stdout:
