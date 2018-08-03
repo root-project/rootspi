@@ -110,7 +110,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # git checkout -b AUTHOR_ID-BRANCH_NAME master
   # git pull https://github.com/AUTHOR_ID/root.git BRANCH_NAME
   set(CTEST_BRANCH_NAME $ENV{ghprbPullAuthorLogin}-$ENV{ghprbSourceBranch})
-  set(CTEST_CHECKOUT_COMMAND ${CTEST_GIT_COMMAND}
+  set(CTEST_CHECKOUT_COMMAND ${CTEST_GIT_COMMAND} -C ${CTEST_SOURCE_DIRECTORY}
     checkout -b ${CTEST_BRANCH_NAME} origin/$ENV{ghprbTargetBranch})
   set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} pull $ENV{ghprbAuthorRepoGitUrl} $ENV{ghprbSourceBranch})
 
