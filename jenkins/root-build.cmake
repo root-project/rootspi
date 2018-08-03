@@ -106,13 +106,20 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 
-  unset(CTEST_CHECKOUT_COMMAND)
-  set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout -f origin/pr/$ENV{ghprbPullId}/head)
+  # Follow the github commandline instructions:
+  # git checkout -b AUTHOR_ID-BRANCH_NAME master
+  # git pull https://github.com/AUTHOR_ID/root.git BRANCH_NAME
+  set(CTEST_BRANCH_NAME $ENV{ghprbPullAuthorLogin}-$ENV{ghprbSourceBranch})
+  set(CTEST_CHECKOUT_COMMAND ${CTEST_GIT_COMMAND}
+    checkout -b ${CTEST_BRANCH_NAME} origin/$ENV{ghprbTargetBranch})
+  set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} pull $ENV{ghprbAuthorRepoGitUrl} $ENV{ghprbSourceBranch})
 
   ctest_start (Pullrequests TRACK Pullrequests)
   ctest_update(RETURN_VALUE updates)
   if(updates LESS 0) # stop if update error
-    execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+    # We are in the error case, switch to master to clean up the created branch.
+    execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout origin/master WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+    execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${CTEST_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
     ctest_submit(PARTS Update)
     message(FATAL_ERROR "Failed to rebase source branch on top of $ENV{ghprbTargetBranch}!")
   endif()
@@ -122,6 +129,9 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
   ctest_submit(PARTS Update Configure Build)
+  # We are done, switch to master to clean up the created branch.
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout origin/master WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${CTEST_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
 
 #---Experimental/Nightly----------------------------------------------------
 else()
