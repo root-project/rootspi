@@ -50,9 +50,13 @@ try:
       pipe = subprocess.Popen(['/usr/bin/git', 'fetch', '--all', '--prune'] ,
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
       outFetch = ""
+      errFetch = ""
       with pipe.stdout:
         for line in iter(pipe.stdout.readline, b''):
           outFetch += line.decode()
+      with pipe.stderr:
+        for line in iter(pipe.stderr.readline, b''):
+          errFetch += line.decode()
       exitcodeFetch = pipe.wait()
 
       exitcodeNotifier = 0
@@ -74,6 +78,7 @@ try:
         print 'Called git fetch in ' + os.getcwd() + ':<br/>'
         print '<pre>'
         print outFetch
+        print errFetch
         print "HTTP_X_GITHUB_EVENT:" , os.environ['HTTP_X_GITHUB_EVENT']
         print '</pre>'
 
@@ -92,6 +97,7 @@ try:
           print "Fetch failed:"
           print '<pre>'
           print outFetch
+          print errFetch
           print '</pre>'
           print
         if exitcodeNotifier != 0:
