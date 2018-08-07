@@ -106,36 +106,13 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 
-  # git fetch https://github.com/AUTHOR_ID/root.git REMOTE_BRANCH_NAME:LOCAL_BRANCH_NAME
-  # git checkout AUTHOR_ID-BRANCH_NAME master
-  # git rebase master
-  set(REMOTE_BRANCH_NAME "$ENV{ghprbSourceBranch}")
-  set(LOCAL_BRANCH_NAME "$ENV{ghprbPullAuthorLogin}-$ENV{ghprbSourceBranch}")
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-  # We must be on the master to avoid ctest displaying updates from LOCAL_BRANCH_NAME..master.
-  # This way ctest should pick only the author's changes.
-  set(CTEST_CHECKOUT_COMMAND "${CTEST_GIT_COMMAND} -C ${CTEST_SOURCE_DIRECTORY} checkout ${LOCAL_BRANCH_NAME}")
-  # git rebase master LOCAL_BRANCH_NAME rebases the LOCAL_BRANCH_NAME on master and checks out LOCAL_BRANCH_NAME.
-  # Note that we cannot rebase against origin/master because sometimes (for an unknown to me reason)
-  # origin/master is behind master. It is likely due to the git fetch configuration on the nodes.
-  execute_process(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
-    -c user.email=sftnight@cern.ch rebase -f -v $ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+  unset(CTEST_CHECKOUT_COMMAND)
+  set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout -f origin/pr/$ENV{ghprbPullId}/head)
 
   ctest_start (Pullrequests TRACK Pullrequests)
-
-  # Note that we cannot use CTEST_GIT_UPDATE_CUSTOM to host our rebase command because cdash will
-  # start showing all changes from the PR's HEAD (which can be very old) to current master.
-  # In order to workaround this issue we do the rebase outside of the ctest update system. Then,
-  # we checkout the master branch and then checkout the already rebased branch. This way we trick
-  # ctest_update to pick up only the relevant differences.
-  execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-  set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME})
   ctest_update(RETURN_VALUE updates)
   if(updates LESS 0) # stop if update error
-    # We are in the error case, switch to master to clean up the created branch.
     execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-    execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout master WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-    execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
     ctest_submit(PARTS Update)
     message(FATAL_ERROR "Failed to rebase source branch on top of $ENV{ghprbTargetBranch}!")
   endif()
@@ -145,10 +122,6 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
   ctest_submit(PARTS Update Configure Build)
-  # We are done, switch to master to clean up the created branch.
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout master WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-
 
 #---Experimental/Nightly----------------------------------------------------
 else()
