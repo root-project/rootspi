@@ -114,7 +114,8 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
   # We must be on the master to avoid ctest displaying updates from LOCAL_BRANCH_NAME..master.
   # This way ctest should pick only the author's changes.
-  set(CTEST_CHECKOUT_COMMAND "${CTEST_GIT_COMMAND} -C ${CTEST_SOURCE_DIRECTORY} checkout ${LOCAL_BRANCH_NAME}")
+  # Use --git-dir as -C isn't available for old git.
+  set(CTEST_CHECKOUT_COMMAND "${CTEST_GIT_COMMAND} --git-dir=${CTEST_SOURCE_DIRECTORY}/.git/ checkout ${LOCAL_BRANCH_NAME}")
   # git rebase master LOCAL_BRANCH_NAME rebases the LOCAL_BRANCH_NAME on master and checks out LOCAL_BRANCH_NAME.
   # Note that we cannot rebase against origin/master because sometimes (for an unknown to me reason)
   # origin/master is behind master. It is likely due to the git fetch configuration on the nodes.
