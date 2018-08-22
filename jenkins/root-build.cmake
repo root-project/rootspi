@@ -145,9 +145,8 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
   ctest_submit(PARTS Update Configure Build)
-  # We are done, switch to master to clean up the created branch.
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout master WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+
+  # We must not delete the branches here. They are deleted *after* running ctest (in root-test.cmake).
 
 
 #---Experimental/Nightly----------------------------------------------------
