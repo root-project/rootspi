@@ -54,10 +54,6 @@ elseif(CTEST_MODE STREQUAL package)
   ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
              PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark")
 
-  # We are done, switch to master to clean up the created branch.
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout master WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-
 #---Pullrequest mode--------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_start(Pullrequests TRACK Pullrequests APPEND)
@@ -68,6 +64,11 @@ elseif(CTEST_MODE STREQUAL pullrequests)
     ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
   endif()
 
+  # We are done, switch to master to clean up the created branch.
+  set(LOCAL_BRANCH_NAME "$ENV{ghprbPullAuthorLogin}-$ENV{ghprbSourceBranch}")
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout master WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+
 #---Experimental/Nightly----------------------------------------------------
 else()
   ctest_start(${CTEST_MODE} APPEND)
@@ -75,5 +76,4 @@ else()
 endif()
 
 ctest_submit(PARTS Test Notes)
-
 
