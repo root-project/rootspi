@@ -103,7 +103,6 @@ elseif(CTEST_MODE STREQUAL package)
 #----Pullrequests-----------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
 
-  #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 
   # git fetch https://github.com/AUTHOR_ID/root.git REMOTE_BRANCH_NAME:LOCAL_BRANCH_NAME
@@ -114,25 +113,25 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 
   # Clean up the area here. If for some reason the rebase screwed up we do not
   # need to wait N times the rest of the cleanup procedures to kick in.
-  cleanup_pr($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
+  cleanup_pr($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
 
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
   # We must be on the master to avoid ctest displaying updates from LOCAL_BRANCH_NAME..master.
   # This way ctest should pick only the author's changes.
   # Use --git-dir as -C isn't available for old git.
-  set(CTEST_CHECKOUT_COMMAND "${CTEST_GIT_COMMAND} --git-dir=${CTEST_SOURCE_DIRECTORY}/.git/ checkout ${LOCAL_BRANCH_NAME}")
+  set(CTEST_CHECKOUT_COMMAND "${CTEST_GIT_COMMAND} --git-dir=${REBASE_WORKING_DIR}/.git/ checkout ${LOCAL_BRANCH_NAME}")
   # git rebase master LOCAL_BRANCH_NAME rebases the LOCAL_BRANCH_NAME on master and checks out LOCAL_BRANCH_NAME.
   # Note that we cannot rebase against origin/master because sometimes (for an unknown to me reason)
   # origin/master is behind master. It is likely due to the git fetch configuration on the nodes.
   set(ERROR_OCCURRED 0)
   execute_process(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
     -c user.email=sftnight@cern.ch rebase -f -v $ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME}
-    WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+    WORKING_DIRECTORY ${REBASE_WORKING_DIR}
     RESULT_VARIABLE ERROR_OCCURRED
     )
   if (ERROR_OCCURRED)
     # We are in the error case, switch to master to clean up the created branch.
-    cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
+    cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
     message(FATAL_ERROR "Rebase of ${LOCAL_BRANCH_NAME} branch on top of $ENV{ghprbTargetBranch} failed!")
   endif()
 
@@ -143,12 +142,12 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # In order to workaround this issue we do the rebase outside of the ctest update system. Then,
   # we checkout the master branch and then checkout the already rebased branch. This way we trick
   # ctest_update to pick up only the relevant differences.
-  execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+  execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
   set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME})
   ctest_update(RETURN_VALUE updates)
   if(updates LESS 0) # stop if update error
     # We are in the error case, switch to master to clean up the created branch.
-    cleanup_pr($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
+    cleanup_pr($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
     ctest_submit(PARTS Update)
     message(FATAL_ERROR "There are no updated files. Perhaps the rebase of ${LOCAL_BRANCH_NAME} branch on top of $ENV{ghprbTargetBranch} failed!")
   endif()

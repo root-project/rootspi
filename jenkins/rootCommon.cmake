@@ -96,6 +96,11 @@ if("$ENV{ghprbPullId}" STREQUAL "")
   set(CTEST_BUILD_NAME ${CTEST_VERSION}-${tag}${Type$ENV{BUILDTYPE}}${Opts})
 else()
   set(CTEST_BUILD_NAME PR-$ENV{ghprbPullId}-${tag}${Type$ENV{BUILDTYPE}}${Opts})
+  if($ENV{ghprbGhRepository} STREQUAL "root-project/roottest")
+    set(REBASE_WORKING_DIR "${CTEST_SOURCE_DIRECTORY}/../roottest/")
+  else()
+    set(REBASE_WORKING_DIR "${CTEST_SOURCE_DIRECTORY}")
+  endif()
 endif()
 
 #---CDash settings----------------------------------------------------------

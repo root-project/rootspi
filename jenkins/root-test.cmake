@@ -66,8 +66,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 
   # We are done, switch to master to clean up the created branch.
   set(LOCAL_BRANCH_NAME "$ENV{ghprbPullAuthorLogin}-$ENV{ghprbSourceBranch}")
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout master WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+  cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
 
 #---Experimental/Nightly----------------------------------------------------
 else()
