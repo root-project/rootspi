@@ -114,7 +114,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 
   # Clean up the area here. If for some reason the rebase screwed up we do not
   # need to wait N times the rest of the cleanup procedures to kick in.
-  cleanup_pr_area_after_rebase($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
+  cleanup_pr($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
 
   # --update-head-ok fixes Refusing to fetch into current branch refs/heads/...
   execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch --update-head-ok $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
@@ -135,7 +135,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
     )
   if (ERROR_OCCURRED)
     # We are in the error case, switch to master to clean up the created branch.
-    cleanup_pr_area_after_rebase($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
+    cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
     message(FATAL_ERROR "Rebase of ${LOCAL_BRANCH_NAME} branch on top of $ENV{ghprbTargetBranch} failed!")
   endif()
 
@@ -151,7 +151,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_update(RETURN_VALUE updates)
   if(updates LESS 0) # stop if update error
     # We are in the error case, switch to master to clean up the created branch.
-    cleanup_pr_area_after_rebase($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
+    cleanup_pr($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
     ctest_submit(PARTS Update)
     message(FATAL_ERROR "There are no updated files. Perhaps the rebase of ${LOCAL_BRANCH_NAME} branch on top of $ENV{ghprbTargetBranch} failed!")
   endif()

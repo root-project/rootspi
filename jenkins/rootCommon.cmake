@@ -127,8 +127,14 @@ if(NOT "$ENV{GIT_COMMIT}" STREQUAL "")  #--- From Jenkins---------------------
 endif()
 
 #----Recover From Errors------------------------------------------------------
-function(cleanup_pr_area_after_rebase target_branch local_branch_name cleanup_working_dir)
-  cleanup_pr_area_before_rebase(${target_branch} ${cleanup_working_dir})
+function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
+  message(STATUS "Cleaning up [git rebase --abort] in ${cleanup_working_dir}")
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir})
+
+  message(STATUS "Checking out branch ${target_branch} [git checkout ${target_branch}] in ${cleanup_working_dir}")
+  # git fetch cannot update the HEAD of the current branch. We should check out some 'safe' branch.
+  # The problem can arise if our cleanup failed to checkout different from local_branch_name branch.
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout ${target_branch} WORKING_DIRECTORY ${cleanup_working_dir})
 
   # Check if the branch exists.
   set(branch_missing)
@@ -140,15 +146,5 @@ function(cleanup_pr_area_after_rebase target_branch local_branch_name cleanup_wo
     message(STATUS "Cleaning up [git branch -D ${local_branch_name}] in ${cleanup_working_dir}")
     execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${local_branch_name} WORKING_DIRECTORY ${cleanup_working_dir})
   endif()
-endfunction()
-
-function(cleanup_pr_area_before_rebase target_branch cleanup_working_dir)
-  message(STATUS "Cleaning up [git rebase --abort] in ${cleanup_working_dir}")
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir})
-
-  message(STATUS "Checking out branch ${target_branch} [git checkout ${target_branch}] in ${cleanup_working_dir}")
-  # git fetch cannot update the HEAD of the current branch. We should check out some 'safe' branch.
-  # The problem can arise if our cleanup failed to checkout different from local_branch_name branch.
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout ${target_branch} WORKING_DIRECTORY ${cleanup_working_dir})
 endfunction()
 
