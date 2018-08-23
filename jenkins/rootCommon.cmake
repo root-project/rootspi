@@ -126,4 +126,11 @@ if(NOT "$ENV{GIT_COMMIT}" STREQUAL "")  #--- From Jenkins---------------------
   set(CTEST_GIT_UPDATE_CUSTOM  ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
 endif()
 
+#----Recover From Errors------------------------------------------------------
+function(cleanup_pr_area_after_rebase local_branch_name cleanup_working_dir)
+  # We are in the error case, switch to master to clean up the created branch.
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir})
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout master WORKING_DIRECTORY ${cleanup_working_dir})
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${local_branch_name} WORKING_DIRECTORY ${cleanup_working_dir})
+endfunction()
 
