@@ -111,6 +111,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   set(REMOTE_BRANCH_NAME "$ENV{ghprbSourceBranch}")
   set(LOCAL_BRANCH_NAME "$ENV{ghprbPullAuthorLogin}-$ENV{ghprbSourceBranch}")
 
+  # Use --git-dir as -C isn't available for old git.
   # FIXME: This can go if we have newer git versions supporting git -C.
   set(GIT_WORKING_DIR "--git-dir=${REBASE_WORKING_DIR}/.git/ --work-tree=${REBASE_WORKING_DIR}")
 
@@ -119,10 +120,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
 
   execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
-  # We must be on the master to avoid ctest displaying updates from LOCAL_BRANCH_NAME..master.
-  # This way ctest should pick only the author's changes.
-  # Use --git-dir as -C isn't available for old git.
-  set(CTEST_CHECKOUT_COMMAND "${CTEST_GIT_COMMAND} ${GIT_WORKING_DIR} checkout ${LOCAL_BRANCH_NAME}")
+
   # git rebase master LOCAL_BRANCH_NAME rebases the LOCAL_BRANCH_NAME on master and checks out LOCAL_BRANCH_NAME.
   # Note that we cannot rebase against origin/master because sometimes (for an unknown to me reason)
   # origin/master is behind master. It is likely due to the git fetch configuration on the nodes.
@@ -137,6 +135,10 @@ elseif(CTEST_MODE STREQUAL pullrequests)
     cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
     message(FATAL_ERROR "Rebase of ${LOCAL_BRANCH_NAME} branch on top of $ENV{ghprbTargetBranch} failed!")
   endif()
+
+  # We must be on the master to avoid ctest displaying updates from LOCAL_BRANCH_NAME..master.
+  # This way ctest should pick only the author's changes.
+  set(CTEST_CHECKOUT_COMMAND "${CTEST_GIT_COMMAND} ${GIT_WORKING_DIR} checkout ${LOCAL_BRANCH_NAME}")
 
   ctest_start (Pullrequests TRACK Pullrequests)
 
