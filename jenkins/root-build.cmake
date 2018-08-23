@@ -147,6 +147,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # ctest_update to pick up only the relevant differences.
   execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
 
+  # Do not put ${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME} in quotes! It breaks ctest_update.
   set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME})
   ctest_update(SOURCE "${REBASE_WORKING_DIR}" RETURN_VALUE updates)
 
