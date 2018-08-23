@@ -138,10 +138,6 @@ elseif(CTEST_MODE STREQUAL pullrequests)
     message(FATAL_ERROR "Rebase of ${LOCAL_BRANCH_NAME} branch on top of $ENV{ghprbTargetBranch} failed!")
   endif()
 
-  # We must be on the master to avoid ctest displaying updates from LOCAL_BRANCH_NAME..master.
-  # This way ctest should pick only the author's changes.
-  set(CTEST_CHECKOUT_COMMAND "${CTEST_GIT_COMMAND} ${GIT_WORKING_DIR} checkout ${LOCAL_BRANCH_NAME}")
-
   ctest_start (Pullrequests TRACK Pullrequests)
 
   # Note that we cannot use CTEST_GIT_UPDATE_CUSTOM to host our rebase command because cdash will
