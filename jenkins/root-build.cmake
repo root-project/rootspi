@@ -116,7 +116,10 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # need to wait N times the rest of the cleanup procedures to kick in.
   cleanup_pr_area_before_rebase($ENV{ghprbTargetBranch} ${CTEST_SOURCE_DIRECTORY})
 
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+  # --update-head-ok fixes Refusing to fetch into current branch refs/heads/...
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch --update-head-ok $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
+    WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+    )
   # We must be on the master to avoid ctest displaying updates from LOCAL_BRANCH_NAME..master.
   # This way ctest should pick only the author's changes.
   # Use --git-dir as -C isn't available for old git.
