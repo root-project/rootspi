@@ -128,9 +128,14 @@ endif()
 
 #----Recover From Errors------------------------------------------------------
 function(cleanup_pr_area_after_rebase local_branch_name cleanup_working_dir)
-  # We are in the error case, switch to master to clean up the created branch.
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir})
+  cleanup_pr_area_before_rebase(${cleanup_working_dir})
   execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout master WORKING_DIRECTORY ${cleanup_working_dir})
+  message(STATUS "Cleaning up [git branch -D ${local_branch_name}] in ${cleanup_working_dir}")
   execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${local_branch_name} WORKING_DIRECTORY ${cleanup_working_dir})
+endfunction()
+
+function(cleanup_pr_area_before_rebase cleanup_working_dir)
+  message(STATUS "Cleaning up [git rebase --abort] in ${cleanup_working_dir}")
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir})
 endfunction()
 
