@@ -114,7 +114,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 
   # Clean up the area here. If for some reason the rebase screwed up we do not
   # need to wait N times the rest of the cleanup procedures to kick in.
-  cleanup_pr_area_before_rebase($ENV{ghprbTargetBranch} ${CTEST_SOURCE_DIRECTORY})
+  cleanup_pr_area_after_rebase($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${CTEST_SOURCE_DIRECTORY})
 
   # --update-head-ok fixes Refusing to fetch into current branch refs/heads/...
   execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch --update-head-ok $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
