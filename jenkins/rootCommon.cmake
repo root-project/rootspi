@@ -129,8 +129,17 @@ endif()
 #----Recover From Errors------------------------------------------------------
 function(cleanup_pr_area_after_rebase target_branch local_branch_name cleanup_working_dir)
   cleanup_pr_area_before_rebase(${target_branch} ${cleanup_working_dir})
-  message(STATUS "Cleaning up [git branch -D ${local_branch_name}] in ${cleanup_working_dir}")
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${local_branch_name} WORKING_DIRECTORY ${cleanup_working_dir})
+
+  # Check if the branch exists.
+  set(branch_missing)
+  execute_process(COMMAND  ${CTEST_GIT_COMMAND} rev-parse --quiet --verify ${local_branch_name}
+    WORKING_DIRECTORY ${cleanup_working_dir}
+    RESULT_VARIABLE branch_missing
+    )
+  if (NOT branch_missing)
+    message(STATUS "Cleaning up [git branch -D ${local_branch_name}] in ${cleanup_working_dir}")
+    execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${local_branch_name} WORKING_DIRECTORY ${cleanup_working_dir})
+  endif()
 endfunction()
 
 function(cleanup_pr_area_before_rebase target_branch cleanup_working_dir)
