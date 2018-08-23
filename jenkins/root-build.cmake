@@ -112,7 +112,8 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   set(LOCAL_BRANCH_NAME "$ENV{ghprbPullAuthorLogin}-$ENV{ghprbSourceBranch}")
 
   # FIXME: This can go if we have newer git versions supporting git -C.
-  set(GIT_WORKING_DIR "--git-dir=${REBASE_WORKING_DIR}/.git/ --work-tree=${REBASE_WORKING_DIR}")
+  #set(GIT_WORKING_DIR "--git-dir=${REBASE_WORKING_DIR}/.git/ --work-tree=${REBASE_WORKING_DIR}")
+  set(GIT_WORKING_DIR "--git-dir=${REBASE_WORKING_DIR}/.git/")
 
   # Clean up the area here. If for some reason the rebase screwed up we do not
   # need to wait N times the rest of the cleanup procedures to kick in.
