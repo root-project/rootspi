@@ -145,7 +145,20 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
   set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME})
   ctest_update(RETURN_VALUE updates)
-  if(updates LESS 0) # stop if update error
+
+  # In order to pick up updates from a roottest-triggered pull request we need to call:
+  # set(CTEST_GIT_UPDATE_CUSTOM "${CTEST_GIT_COMMAND} --git-dir=${REBASE_WORKING_DIR}/.git/ checkout ${LOCAL_BRANCH_NAME}")
+  # However on recent git this seems to be broken https://stackoverflow.com/questions/51279331/difference-between-git-git-dir-checkout-and-git-checkout
+  #
+  # This prevents ctest to see the changes and we enter the error case. Do that only if the PR not
+  # coming from roottest.
+  #
+  # FIXME: We can resolve this in several ways:
+  # (a) trivial -- upgrade all nodes to use git which supports git -C;
+  # (b) non-trivial -- undestand what's wrong with the --git-dir;
+  # (c) godlike -- find out how to instruct ctest to cd in the right folder.
+  #
+  if(NOT IS_ROOTTEST_PR AND updates LESS 0) # stop if update error
     # We are in the error case, switch to master to clean up the created branch.
     cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
     ctest_submit(PARTS Update)
