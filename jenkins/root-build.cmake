@@ -146,8 +146,8 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # we checkout the master branch and then checkout the already rebased branch. This way we trick
   # ctest_update to pick up only the relevant differences.
   execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
-  set(CTEST_GIT_UPDATE_CUSTOM "${CTEST_GIT_COMMAND} ${GIT_WORKING_DIR} checkout ${LOCAL_BRANCH_NAME}")
-  ctest_update(SOURCE ${REBASE_WORKING_DIR} RETURN_VALUE updates)
+  set(CTEST_GIT_UPDATE_CUSTOM "${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME}")
+  ctest_update(SOURCE "${REBASE_WORKING_DIR}" RETURN_VALUE updates)
 
   if(updates LESS 0) # stop if update error
     # We are in the error case, switch to master to clean up the created branch.
