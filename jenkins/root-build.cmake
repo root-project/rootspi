@@ -116,11 +116,17 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # This way ctest should pick only the author's changes.
   # Use --git-dir as -C isn't available for old git.
   set(CTEST_CHECKOUT_COMMAND "${CTEST_GIT_COMMAND} --git-dir=${CTEST_SOURCE_DIRECTORY}/.git/ checkout ${LOCAL_BRANCH_NAME}")
+
+  set(ERROR_OCCURRED 0)
+
   # git rebase master LOCAL_BRANCH_NAME rebases the LOCAL_BRANCH_NAME on master and checks out LOCAL_BRANCH_NAME.
   # Note that we cannot rebase against origin/master because sometimes (for an unknown to me reason)
   # origin/master is behind master. It is likely due to the git fetch configuration on the nodes.
   execute_process(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
-    -c user.email=sftnight@cern.ch rebase -f -v $ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+    -c user.email=sftnight@cern.ch rebase -f -v $ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME}
+    WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+    RESULT_VARIABLE ERROR_OCCURRED
+    )
 
   ctest_start (Pullrequests TRACK Pullrequests)
 
@@ -131,14 +137,17 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # ctest_update to pick up only the relevant differences.
   execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
   set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME})
-  ctest_update(RETURN_VALUE updates)
-  if(updates LESS 0) # stop if update error
+  ctest_update(RETURN_VALUE update_count)
+  if (update_count LESS 0)
+    set(ERROR_OCCURRED 1)
+  endif()
+  if(ERROR_OCCURRED) # stop if update error
     # We are in the error case, switch to master to clean up the created branch.
     execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
     execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout master WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
     execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
     ctest_submit(PARTS Update)
-    message(FATAL_ERROR "Failed to rebase source branch on top of $ENV{ghprbTargetBranch}!")
+    message(FATAL_ERROR "Failed to process branch ${REMOTE_BRANCH_NAME} on top of $ENV{ghprbTargetBranch}!")
   endif()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
