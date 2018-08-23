@@ -113,7 +113,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 
   # Clean up the area here. If for some reason the rebase screwed up we do not
   # need to wait N times the rest of the cleanup procedures to kick in.
-  cleanup_pr($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
+  cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
 
   execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
   # We must be on the master to avoid ctest displaying updates from LOCAL_BRANCH_NAME..master.
