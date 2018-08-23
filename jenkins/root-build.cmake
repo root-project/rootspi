@@ -105,9 +105,11 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 
-  # git fetch https://github.com/AUTHOR_ID/root.git REMOTE_BRANCH_NAME:LOCAL_BRANCH_NAME
-  # git checkout AUTHOR_ID-BRANCH_NAME master
-  # git rebase master
+  # The code semantically does the following:
+  # 1. Resets the working area (and checks out the ghprbTargetBranch aka master).
+  # 2. git fetch https://github.com/AUTHOR_ID/root.git REMOTE_BRANCH_NAME:LOCAL_BRANCH_NAME
+  # 3. git rebase master
+
   set(REMOTE_BRANCH_NAME "$ENV{ghprbSourceBranch}")
   set(LOCAL_BRANCH_NAME "$ENV{ghprbPullAuthorLogin}-$ENV{ghprbSourceBranch}")
 
