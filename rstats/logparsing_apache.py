@@ -71,16 +71,16 @@ def filter_and_parse_line(line):
 
     ipAddress = splitLine[0]
     geoIPResult = geolite2.lookup(ipAddress)
+    ipCountry = ''
+    ipLat = ''
+    ipLong = ''
 
     if geoIPResult:
         ipCountry = geoIPResult.country
         ipLoc = geoIPResult.location
-        ipLat = repr(ipLoc[0])
-        ipLong = repr(ipLoc[1])
-    else:
-        ipCountry = ''
-        ipLat = ''
-        ipLong = ''
+	if geoIPResult.location:
+            ipLat = repr(ipLoc[0])
+            ipLong = repr(ipLoc[1])
 
     if ':' in ipAddress:
         ipVersion = "IPv6"
@@ -112,6 +112,9 @@ def parse_file_into_db(logFile, cursor, conn):
                 rowNumberOfFirstLine = get_row_number(parseResult, cursor)
                 if rowNumberOfFirstLine:
                     linesToSkip = get_lines_to_skip(rowNumberOfFirstLine, cursor)
+                    if linesToSkip < 0:
+                         # We had already parsed the whole file.
+                         return
             if linesToSkip and linesToSkip >= 0 :
                 linesToSkip -= 1
             else:
