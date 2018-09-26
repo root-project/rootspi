@@ -88,7 +88,7 @@ elif [[ $COMPILER == clang_gcc* ]]; then
   export CXX=`which clang++`
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dhdfs=OFF"
   # On slc we want to compile with a more 'standard' toolchain.
-  if [[ $PLATFORM == *slc* ]]; then
+  if [[ $PLATFORM == *slc* ]] || [[ $LABEL == *centos7* ]] ; then
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
   fi
 
@@ -100,6 +100,7 @@ elif [[ $COMPILER == *clang* ]]; then
   clang38version=3.8
   clang39version=3.9
   clang50version=5.0
+  clang500version=5.0.0
   clang501version=5.0.1
   clang600version=6.0.0binutils
   clang501binutilsversion=5.0.1binutils
@@ -112,10 +113,11 @@ elif [[ $COMPILER == *clang* ]]; then
   clang38gcc=4.9
   clang39gcc=6.2
   clang50gcc=6.2
+  clang500gcc=6.2
   clang501gcc=6.2
-  clang501binutilsgcc=6.2binutils
-  clang600binutilsgcc=6.2binutils
-  clang600gcc=6.2binutils
+  clang501binutilsgcc=6.2
+  clang600binutilsgcc=6.2
+  clang600gcc=6.2
   GCCversion=${COMPILER}gcc
   . /cvmfs/sft.cern.ch/lcg/contrib/llvm/${!COMPILERversion}/${COMPATIBLE}/setup.sh
 
@@ -124,7 +126,7 @@ elif [[ $COMPILER == *clang* ]]; then
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Doracle=OFF -Dhdfs=OFF"
 
   # On slc we want to compile with a more 'standard' toolchain.
-  if [[ $PLATFORM == *slc* ]]; then
+  if [[ $PLATFORM == *slc* ]] || [[ $LABEL == *centos7* ]] ; then
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
   fi
 elif [[ $COMPILER == *native* ]]; then
