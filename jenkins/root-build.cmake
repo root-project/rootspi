@@ -154,7 +154,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
       set (WARNING_OTHER_REPO "root")
     endif()
     message(WARNING "Found remote $ENV{ghprbAuthorRepoGitUrl} with corresponding branch name ${REMOTE_BRANCH_NAME}.\
-Integrating against it. Please make sure you open and merge a PR against ${WARNING_OTHER_REPO}."
+Integrating against it. Please make sure you open and merge a PR against ${WARNING_OTHER_REPO}.")
     # If we have a corresponding branch, check it out and rebase it as we do for above.
     # FIXME: Figure out how to factor out the rebase cmake fragments.
     execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch}
