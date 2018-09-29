@@ -130,6 +130,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   execute_process(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
     -c user.email=sftnight@cern.ch rebase -f -v $ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME}
     WORKING_DIRECTORY ${REBASE_WORKING_DIR}
+    TIMEOUT 300
     RESULT_VARIABLE ERROR_OCCURRED
     )
   if (ERROR_OCCURRED)
@@ -163,6 +164,7 @@ Please make sure you open and merge a PR against ${WARNING_OTHER_REPO}.")
     execute_process(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
       -c user.email=sftnight@cern.ch rebase -f -v $ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME}
       WORKING_DIRECTORY ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}
+      TIMEOUT 300
       RESULT_VARIABLE ERROR_OCCURRED
       )
     if (ERROR_OCCURRED)
