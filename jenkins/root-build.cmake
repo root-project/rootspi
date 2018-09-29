@@ -138,6 +138,38 @@ elseif(CTEST_MODE STREQUAL pullrequests)
     message(FATAL_ERROR "Rebase of ${LOCAL_BRANCH_NAME} branch on top of $ENV{ghprbTargetBranch} failed!")
   endif()
 
+  # A PR can require changes to root.git and roottest.git. Try switching root or roottest
+  # (depending if the PR build was triggered from root or roottest repo) to AUTHOR_ID-BRANCH_NAME if
+  # we have if. This ensures consistent building and testing.
+  set(FETCH_FAILED)
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
+    WORKING_DIRECTORY "${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}"
+    RESULT_VARIABLE FETCH_FAILED)
+  # If fetch failed this means the user did not have the clone of root/roottest or did not have a branch
+  # with the expected name. Ignore and continue.
+  if(NOT FETCH_FAILED)
+    if (IS_ROOTTEST_PR)
+      set (WARNING_OTHER_REPO "roottest")
+    else()
+      set (WARNING_OTHER_REPO "root")
+    endif()
+    message(WARNING "Found remote $ENV{ghprbAuthorRepoGitUrl} with corresponding branch name ${REMOTE_BRANCH_NAME}.\
+Integrating against it. Please make sure you open and merge a PR against ${WARNING_OTHER_REPO}."
+    # If we have a corresponding branch, check it out and rebase it as we do for above.
+    # FIXME: Figure out how to factor out the rebase cmake fragments.
+    execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch}
+      WORKING_DIRECTORY ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
+    execute_process(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
+      -c user.email=sftnight@cern.ch rebase -f -v $ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME}
+      WORKING_DIRECTORY ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}
+      RESULT_VARIABLE ERROR_OCCURRED
+      )
+    if (ERROR_OCCURRED)
+      cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
+      message(FATAL_ERROR "Rebase of ${LOCAL_BRANCH_NAME} branch on top of $ENV{ghprbTargetBranch} in ${WARNING_OTHER_REPO} failed!")
+    endif()
+  endif()
+
   ctest_start (Pullrequests TRACK Pullrequests)
 
   # Note that we cannot use CTEST_GIT_UPDATE_CUSTOM to host our rebase command because cdash will
