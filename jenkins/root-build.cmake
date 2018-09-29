@@ -143,20 +143,15 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # (depending if the PR build was triggered from root or roottest repo) to AUTHOR_ID-BRANCH_NAME if
   # we have if. This ensures consistent building and testing.
   set(FETCH_FAILED)
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
     WORKING_DIRECTORY "${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}"
     RESULT_VARIABLE FETCH_FAILED)
+
   # If fetch failed this means the user did not have the clone of root/roottest or did not have a branch
   # with the expected name. Ignore and continue.
   if(NOT FETCH_FAILED)
-    if (IS_ROOTTEST_PR)
-      set (WARNING_OTHER_REPO "root")
-    else()
-      set (WARNING_OTHER_REPO "roottest")
-    endif()
-    message(WARNING "Found remote https://github.com/$ENV{ghprbPullAuthorLogin}/${WARNING_OTHER_REPO}.git \
-with corresponding branch name ${REMOTE_BRANCH_NAME}. Integrating against it.\
-Please make sure you open and merge a PR against ${WARNING_OTHER_REPO}.")
+    message(WARNING "Found remote ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} with corresponding branch name ${REMOTE_BRANCH_NAME}. \
+Integrating against it. Please make sure you open and merge a PR against it.")
     # If we have a corresponding branch, check it out and rebase it as we do for above.
     # FIXME: Figure out how to factor out the rebase cmake fragments.
     execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch}
