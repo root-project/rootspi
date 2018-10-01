@@ -170,12 +170,6 @@ case $ARCH in
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dbuiltin_afterimage=OFF"
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dasimage=OFF -Dastiff=OFF"
   ;;
-  x86_64)
-    # Disable Vc since it's broken with both GCC and ICC
-    if [[ $COMPILER == *gcc* || $COMPILER == *icc* ]]; then
-        export ExtraCMakeOptions="${ExtraCMakeOptions} -Dvc=OFF"
-    fi
-  ;;
 esac
 
 
