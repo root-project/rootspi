@@ -29,7 +29,7 @@ fi
 
 if [ -f $gittag/CMakeLists.txt ]; then
    cd $gittag.build
-   cmake -G Ninja ../$gittag -Dcxx14=ON -Dall=ON -Dtesting=ON
+   cmake -G Ninja ../$gittag -Dall=ON -Dtesting=ON
    cmake --build .
    exit $?
 else
