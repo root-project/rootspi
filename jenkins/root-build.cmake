@@ -13,6 +13,7 @@ endif()
 
 #---Compose the confguration options---------------------------------------- 
 set(options -Dall=ON
+            -Dccache=ON
             -Dtesting=ON
             ${testing_options}
             -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
