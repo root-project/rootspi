@@ -64,7 +64,10 @@ if(CTEST_MODE STREQUAL continuous)
   ctest_update(RETURN_VALUE updates)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                  OPTIONS "${options}")
+                  OPTIONS "${options}" RETURN_VALUE status)
+  if(NOT ${status} EQUAL 0)
+    message(FATAL_ERROR "Failed to configure project")
+  endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
   ctest_submit(PARTS Update Configure Build)
@@ -78,8 +81,11 @@ elseif(CTEST_MODE STREQUAL install)
   ctest_update()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                  OPTIONS "${options}"
-                  APPEND)
+                  OPTIONS "${options}" APPEND
+                  RETURN_VALUE status)
+  if(NOT ${status} EQUAL 0)
+    message(FATAL_ERROR "Failed to configure project")
+  endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET install APPEND)
   ctest_submit(PARTS Update Configure Build)
@@ -95,8 +101,11 @@ elseif(CTEST_MODE STREQUAL package)
   ctest_update()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                  OPTIONS "${options}"
-                  APPEND)
+                  OPTIONS "${options}" APPEND
+                  RETURN_VALUE status)
+  if(NOT ${status} EQUAL 0)
+    message(FATAL_ERROR "Failed to configure project")
+  endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET package APPEND)
   ctest_submit(PARTS Update Configure Build)
@@ -190,7 +199,10 @@ Integrating against it. Please make sure you open and merge a PR against it.")
   endif()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                  OPTIONS "${options}")
+                  OPTIONS "${options}" RETURN_VALUE status)
+  if(NOT ${status} EQUAL 0)
+    message(FATAL_ERROR "Failed to configure project")
+  endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
   ctest_submit(PARTS Update Configure Build)
@@ -207,7 +219,10 @@ else()
   ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                  OPTIONS "${options}")
+                  OPTIONS "${options}" RETURN_VALUE status)
+  if(NOT ${status} EQUAL 0)
+    message(FATAL_ERROR "Failed to configure project")
+  endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
   ctest_submit(PARTS Update Configure Build)
