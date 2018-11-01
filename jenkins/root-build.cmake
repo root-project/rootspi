@@ -153,6 +153,10 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # (depending if the PR build was triggered from root or roottest repo) to AUTHOR_ID-BRANCH_NAME if
   # we have if. This ensures consistent building and testing.
   set(FETCH_FAILED)
+
+  # Clean up the area of the 'other' repository, too.
+  cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
+
   execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
     WORKING_DIRECTORY "${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}"
     RESULT_VARIABLE FETCH_FAILED)
