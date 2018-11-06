@@ -59,13 +59,19 @@ cmake -DCMAKE_BUILD_TYPE=%BUILDTYPE% ^
       -DCMAKE_VERBOSE_MAKEFILE=ON ^
       -Wno-dev=ON ^
       -Dall=OFF ^
-      -Dbuiltin_tbb=OFF ^
-      -Dimt=OFF ^
+      -Dbuiltin_tbb=ON ^
+      -Dbuiltin_unuran=OFF ^
+      -Dimt=ON ^
+      -Dmathmore=ON ^
+      -DGSL_CBLAS_LIBRARY=%DRIVE%/libs/vs2017/GSL/2.5/lib/gslcblas.lib ^
+      -DGSL_INCLUDE_DIR=%DRIVE%/libs/vs2017/GSL/2.5/include ^
+      -DGSL_LIBRARY=%DRIVE%/libs/vs2017/GSL/2.5/lib/gsl.lib ^
+      -Dminuit2=ON ^
       -Droofit=ON ^
       -Droot7=OFF ^
       -Dtmva=OFF ^
+      -Dunuran=OFF ^
       -Dvc=OFF ^
-      -Dminuit2=ON ^
       -G"Visual Studio 15 2017" ^
       %SOURCE_DIR%\root-%VERSION%
 
