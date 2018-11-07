@@ -31,6 +31,20 @@ if("$ENV{VERSION}" STREQUAL "")
 else()
   set(CTEST_VERSION "$ENV{VERSION}")
 endif()
+if((CTEST_MODE STREQUAL package)
+    AND
+    ( (CTEST_VERSION STREQUAL master)
+      OR
+      (CTEST_VERSION MATCHES "-patches$")
+    )
+  )
+  # If we don't have a tag, set the version to
+  # "master_2018-10-31_ae7e81bc30cc" to get a nice package name.
+  string(SUBSTRING ${GIT_REVISION} 0 12 SHORT_GIT_REV)
+  string(TIMESTAMP ${VERSION_DATE} "%Y-%m-%d")
+  set(CTEST_VERSION "${CTEST_VERSION}_${VERSION_DATE}_${SHORT_GIT_REV}")
+endif()
+
 
 if("$ENV{SOURCE_PREFIX}" STREQUAL "")
   set(CTEST_SOURCE_PREFIX "${pwd}/sources")
