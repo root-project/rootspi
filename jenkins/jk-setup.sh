@@ -33,6 +33,11 @@ elif [[ $PLATFORM == *fedora* ]]; then
   export PATH=/usr/local/bin:${PATH}
 fi
 
+if [[ $BUILDTYPE == package ]] && [[ $COMPILER != native ]] ; then
+    echo 'ERROR: package builds MUST use native compilers!'
+    exit 1
+fi
+
 # Setup all the externals now-----------------------------------------------------
 PLATFORM=`$THIS/getPlatform.py`
 COMPATIBLE=`$THIS/getCompatiblePlatform.py $PLATFORM`
