@@ -65,6 +65,13 @@ touch $WORKSPACE/controlfile
    -Dall=ON -Dbuiltin_cfitsio=ON -Dbuiltin_davix=ON -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
    -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
    -Dbuiltin_fftw3=ON -Dbuiltin_zlib=OFF -Dkrb5=ON ${ExtraCMakeOptions}"
+ elif [[ ${LABEL} == *ubuntu* ]] ; then
+   # LCG needs a locally installed xroot; we want to use from the distro what the distro has.
+   # The distro has no xroot, so use the builtin!
+   export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+   -Dall=ON -Dbuiltin_cfitsio=OFF -Dbuiltin_davix=OFF -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
+   -Dbuiltin_glew=ON -Dbuiltin_gsl=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_xrootd=ON \
+   -Dbuiltin_fftw3=ON -Dbuiltin_zlib=OFF ${ExtraCMakeOptions}"
  else
    export CMakeOptions="-DCMAKE_BUILD_TYPE=${BUILDTYPE} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
    -Dall=ON -Dbuiltin_cfitsio=OFF -Dbuiltin_davix=OFF -Dbuiltin_freetype=ON -Dbuiltin_ftgl=ON \
