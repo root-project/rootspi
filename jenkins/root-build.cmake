@@ -1,20 +1,28 @@
 #---Common Setting----------------------------------------------------------
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 
+#---Enable tests------------------------------------------------------------
+if(NOT CTEST_MODE STREQUAL "package")
+  set(testing_options "-Dtesting=ON")
+  if(CTEST_VERSION STREQUAL "master" OR CTEST_VERSION MATCHES "^v6-")
 #---Enable roottest---------------------------------------------------------
-if(CTEST_VERSION STREQUAL "master" OR CTEST_VERSION MATCHES "^v6-")
-  set(testing_options "-Droottest=ON")
+    set(testing_options "${testing_options} -Droottest=ON")
+  endif()
+
+  #---Set TCMalloc for fast builds--------------------------------------------
+  if(CTEST_BUILD_CONFIGURATION STREQUAL "Optimized")
+    set(testing_options ${testing_options}" -Dtcmalloc=ON")
+  endif()
 endif()
 
-#---Set TCMalloc for fast builds--------------------------------------------
-if(CTEST_BUILD_CONFIGURATION STREQUAL "Optimized")
-  set(testing_options ${testing_options}" -Dtcmalloc=ON")
+#---Use ccache--------------------------------------------------------------
+if(NOT CTEST_MODE STREQUAL "package")
+  set(ccache_option "-Dccache=ON")
 endif()
 
 #---Compose the confguration options---------------------------------------- 
 set(options -Dall=ON
-            -Dccache=ON
-            -Dtesting=ON
+            ${ccache_option}
             ${testing_options}
             -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
             $ENV{ExtraCMakeOptions})
@@ -31,7 +39,8 @@ elseif("$ENV{CXX_VERSION}" STREQUAL "17")
 endif()
 
 if("$ENV{BUILDOPTS}" STREQUAL "cxxmodules" OR
-   "$ENV{BUILDOPTS}" STREQUAL "coverity")
+   "$ENV{BUILDOPTS}" STREQUAL "coverity" OR
+   CTEST_MODE STREQUAL "package")
   unset(CTEST_CHECKOUT_COMMAND)
 endif()
 
