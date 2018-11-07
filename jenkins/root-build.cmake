@@ -20,7 +20,8 @@ if(NOT CTEST_MODE STREQUAL "package")
   set(ccache_option "-Dccache=ON")
 endif()
 
-#---Compose the confguration options---------------------------------------- 
+
+#---Compose the configuration options---------------------------------------
 set(options -Dall=ON
             ${ccache_option}
             ${testing_options}
