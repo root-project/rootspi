@@ -41,8 +41,8 @@ else
             exit $status
         fi
 
-        # do not run tests if coverity run
-        if [ "$BUILDOPTS" == coverity ]; then
+        # do not run tests if coverity run or package build.
+        if [ "$BUILDOPTS" == "coverity" ] -o [ "$BUILDOPTS" == "package" ]; then
             exit $status
         fi
     fi
