@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+### !!!!!!!!!!!!
+### Used by ROOT only until 6-14!
+### ROOT 6.16 and above use root-build.cmake in "package" mode!
+
  THIS=${PWD}/$(dirname $0)
  ARCH=$(uname -m)
 
