@@ -31,7 +31,7 @@ if("$ENV{VERSION}" STREQUAL "")
 else()
   set(CTEST_VERSION "$ENV{VERSION}")
 endif()
-if((CTEST_MODE STREQUAL package))
+if(CTEST_MODE STREQUAL package)
   if((CTEST_VERSION STREQUAL master) OR (CTEST_VERSION MATCHES "-patches$"))
     # If we don't have a tag, set the version to
     # "master_2018-10-31_ae7e81bc30cc" to get a nice package name.
@@ -166,7 +166,12 @@ if ((CTEST_MODE STREQUAL package) AND NOT (${PACKAGE_DATE}))
     SHOW_PROGRESS
     )
   file(REMOVE_RECURSE ${CTEST_SOURCE_DIRECTORY})
-  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} ${CTEST_SOURCE_DIRECTORY})
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} ${CTEST_SOURCE_DIRECTORY}
+    RESULT_VARIABLE TAR_RESULT)
+  if(TAR_RESULT != 0)
+    message(FATAL "Failed to uncompress tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DIRECTORY}: ${TAR_RESULT}")
+  endif()
+  message("Uncompressed tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DIRECTORY}")
 endif()
 
 #----Recover From Errors------------------------------------------------------
