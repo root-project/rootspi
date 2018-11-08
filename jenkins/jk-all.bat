@@ -8,8 +8,8 @@ if %COMPILER% == vc10  call "%VS100COMNTOOLS%vsvars32.bat"
 if %COMPILER% == vc11  call "%VS110COMNTOOLS%vsvars32.bat"
 if %COMPILER% == vc12  call "%VS120COMNTOOLS%vsvars32.bat"
 if %COMPILER% == vc13  call "%VS130COMNTOOLS%vsvars32.bat"
-rem if %COMPILER% == vc15  call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
-if %COMPILER% == vc15  call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat" x86
+if %COMPILER% == vc15  call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
+if %COMPILER% == native call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat" x86
 
 rem ---External libraries--------------------------------------------
 rem set GSL_DIR=C:\libs\gsl-1.14
@@ -22,7 +22,7 @@ for /f "delims=. tokens=1-3" %%a in ("%VERSION%") do (
 
 rem ---Options-------------------------------------------------------
 set THIS=%~d0%~p0
-if %COMPILER% == vc15 (
+if %COMPILER% == native (
   if %Version.Minor% geq 16 (
     set ExtraCMakeOptions="-DCMAKE_VERBOSE_MAKEFILE=ON -Wno-dev=ON -Dall=OFF -Dbuiltin_tbb=ON -Dbuiltin_unuran=ON -Dimt=ON -Dmathmore=ON -DGSL_CBLAS_LIBRARY=C:/libs/vs2017/GSL/2.5/lib/gslcblas.lib -DGSL_INCLUDE_DIR=C:/libs/vs2017/GSL/2.5/include -DGSL_LIBRARY=C:/libs/vs2017/GSL/2.5/lib/gsl.lib -Dminuit2=ON -Droofit=ON -Droot7=OFF -Dtmva=OFF -Dunuran=ON -Dvc=OFF -Dtesting=ON -Droottest=OFF"
   ) else (
