@@ -14,10 +14,17 @@ if %COMPILER% == native call "C:\Program Files (x86)\Microsoft Visual Studio\201
 rem ---External libraries--------------------------------------------
 rem set GSL_DIR=C:\libs\gsl-1.14
 
-for /f "delims=. tokens=1-3" %%a in ("%VERSION%") do (
-  set Version.Major=%%a
-  set Version.Minor=%%b
-  set Version.Build=%%c
+if %VERSION% == master (
+  set Version.Major=6
+  set Version.Minor=99
+  set Version.Build=99
+)
+else (
+  for /f "delims=. tokens=1-3" %%a in ("%VERSION%") do (
+    set Version.Major=%%a
+    set Version.Minor=%%b
+    set Version.Build=%%c
+  )
 )
 
 rem ---Options-------------------------------------------------------
@@ -42,7 +49,9 @@ if %ERRORLEVEL% neq 0 (
   exit /B %ERRORLEVEL%
 )
 if not %COMPILER% == vc15 (
-  ctest -V -S %THIS%/root-test.cmake
+  if not %COMPILER% == native (
+    ctest -V -S %THIS%/root-test.cmake
+  )
 )
 
 exit /B %ERRORLEVEL%
