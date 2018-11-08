@@ -19,7 +19,7 @@ if %VERSION% == master (
   set Version.Minor=99
   set Version.Build=99
 ) else (
-  for /f "delims=. tokens=1-3" %%a in ("%VERSION%") do (
+  for /f "delims=.- tokens=1-3" %%a in ("%VERSION%") do (
     set Version.Major=%%a
     set Version.Minor=%%b
     set Version.Build=%%c
