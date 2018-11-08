@@ -53,7 +53,7 @@ if [[ $(uname -s) == Linux ]]; then
     source $LCG_EXTERNALS/$PLATFORM/setup.sh
   elif [[ -e $LCG_EXTERNALS/$COMPATIBLE/setup.sh ]]; then
     source $LCG_EXTERNALS/$COMPATIBLE/setup.sh
-  elif [[ $PLATFORM == *slc6* || $PLATFORM == *centos7* ]]; then
+  elif [[ $PLATFORM == *slc6* || $PLATFORM == *centos7* || $PLATFORM == *ubuntu14* ]]; then
     export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
   else
     echo "No $EXTERNALS externals found for $PLATFORM"
