@@ -40,8 +40,7 @@ elseif("$ENV{CXX_VERSION}" STREQUAL "17")
 endif()
 
 if("$ENV{BUILDOPTS}" STREQUAL "cxxmodules" OR
-   "$ENV{BUILDOPTS}" STREQUAL "coverity" OR
-   CTEST_MODE STREQUAL "package")
+   "$ENV{BUILDOPTS}" STREQUAL "coverity")
   unset(CTEST_CHECKOUT_COMMAND)
 endif()
 

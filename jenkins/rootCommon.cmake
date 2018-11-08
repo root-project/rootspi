@@ -31,18 +31,16 @@ if("$ENV{VERSION}" STREQUAL "")
 else()
   set(CTEST_VERSION "$ENV{VERSION}")
 endif()
-if((CTEST_MODE STREQUAL package)
-    AND
-    ( (CTEST_VERSION STREQUAL master)
-      OR
-      (CTEST_VERSION MATCHES "-patches$")
-    )
-  )
-  # If we don't have a tag, set the version to
-  # "master_2018-10-31_ae7e81bc30cc" to get a nice package name.
-  string(SUBSTRING ${GIT_REVISION} 0 12 SHORT_GIT_REV)
-  string(TIMESTAMP ${VERSION_DATE} "%Y-%m-%d")
-  set(CTEST_VERSION "${CTEST_VERSION}_${VERSION_DATE}_${SHORT_GIT_REV}")
+if((CTEST_MODE STREQUAL package))
+  if((CTEST_VERSION STREQUAL master) OR (CTEST_VERSION MATCHES "-patches$"))
+    # If we don't have a tag, set the version to
+    # "master_2018-10-31_ae7e81bc30cc" to get a nice package name.
+    string(SUBSTRING ${GIT_REVISION} 0 12 SHORT_GIT_REV)
+    string(TIMESTAMP ${VERSION_DATE} "%Y-%m-%d")
+    set(PACKAGE_VERSION "${CTEST_VERSION}_${VERSION_DATE}_${SHORT_GIT_REV}")
+  else()
+    set(PACKAGE_VERSION "${CTEST_VERSION}")
+  endif()
 endif()
 
 
@@ -70,9 +68,9 @@ if("$ENV{JENKINS_HOME}" STREQUAL "")
   set(CTEST_BINARY_DIRECTORY ${CTEST_BUILD_PREFIX}/${CTEST_MODE}-${CTEST_VERSION}-${tag})
   set(CTEST_INSTALL_DIRECTORY ${CTEST_BUILD_PREFIX}/install/${CTEST_MODE}-${CTEST_VERSION}-${tag})
 elseif(CTEST_MODE STREQUAL package)
-  get_filename_component(CTEST_SOURCE_DIRECTORY root_${CTEST_VERSION}/root-${CTEST_VERSION} ABSOLUTE)
-  get_filename_component(CTEST_BINARY_DIRECTORY build/root_${CTEST_VERSION}-cmake ABSOLUTE)
-  get_filename_component(CTEST_INSTALL_DIRECTORY install/ROOT/${CTEST_VERSION}/${CTEST_VERSION} ABSOLUTE)
+  get_filename_component(CTEST_SOURCE_DIRECTORY root_${PACKAGE_VERSION}/root-${PACKAGE_VERSION} ABSOLUTE)
+  get_filename_component(CTEST_BINARY_DIRECTORY build/root_${PACKAGE_VERSION}-cmake ABSOLUTE)
+  get_filename_component(CTEST_INSTALL_DIRECTORY install/ROOT/${PACKAGE_VERSION}/${PACKAGE_VERSION} ABSOLUTE)
 else()
   get_filename_component(CTEST_SOURCE_DIRECTORY root ABSOLUTE)
   get_filename_component(CTEST_BINARY_DIRECTORY build ABSOLUTE)
@@ -153,6 +151,21 @@ set(CTEST_UPDATE_COMMAND ${CTEST_GIT_COMMAND})
 if(NOT "$ENV{GIT_COMMIT}" STREQUAL "")  #--- From Jenkins---------------------
   set(CTEST_CHECKOUT_COMMAND "cmake -E chdir ${CTEST_SOURCE_DIRECTORY} ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_PREVIOUS_COMMIT}")
   set(CTEST_GIT_UPDATE_CUSTOM  ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
+endif()
+
+if ((CTEST_MODE STREQUAL package) AND NOT (${PACKAGE_VERSION}))
+  # this is a tag; grab the sources from http://root.cern/downloads and unpack them.
+  unset(CTEST_CHECKOUT_COMMAND)
+  get_filename_component(SOURCE_TAR_FILENAME ${CTEST_SOURCE_DIRECTORY} NAME)
+
+  set(SOURCE_TAR_FILENAME "${SOURCE_TAR_FILENAME}.tar.gz")
+  file(DOWNLOAD
+    http://root.cern/download/${SOURCE_TAR_FILENAME}
+    ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME}
+    SHOW_PROGRESS
+    )
+  file(REMOVE_RECURSE ${CTEST_SOURCE_DIRECTORY})
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} ${CTEST_SOURCE_DIRECTORY})
 endif()
 
 #----Recover From Errors------------------------------------------------------
