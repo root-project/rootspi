@@ -30,9 +30,9 @@ rem ---Options-------------------------------------------------------
 set THIS=%~d0%~p0
 if %Version.Major% == 6 (
   if %Version.Minor% geq 16 (
-    set ExtraCMakeOptions="-DCMAKE_VERBOSE_MAKEFILE=ON -Wno-dev=ON -Dall=OFF -Dbuiltin_tbb=ON -Dbuiltin_unuran=ON -Dimt=ON -Dmathmore=ON -DGSL_CBLAS_LIBRARY=C:/libs/vs2017/GSL/2.5/lib/gslcblas.lib -DGSL_INCLUDE_DIR=C:/libs/vs2017/GSL/2.5/include -DGSL_LIBRARY=C:/libs/vs2017/GSL/2.5/lib/gsl.lib -Dminuit2=ON -Droofit=ON -Droot7=OFF -Dtmva=OFF -Dunuran=ON -Dvc=OFF -Dtesting=ON -Droottest=OFF"
+    set "ExtraCMakeOptions=-DCMAKE_VERBOSE_MAKEFILE=ON -Wno-dev=ON -Dall=OFF -Dbuiltin_tbb=ON -Dbuiltin_unuran=ON -Dimt=ON -Dmathmore=ON -DGSL_CBLAS_LIBRARY=C:/libs/vs2017/GSL/2.5/lib/gslcblas.lib -DGSL_INCLUDE_DIR=C:/libs/vs2017/GSL/2.5/include -DGSL_LIBRARY=C:/libs/vs2017/GSL/2.5/lib/gsl.lib -Dminuit2=ON -Droofit=ON -Droot7=OFF -Dtmva=OFF -Dunuran=ON -Dvc=OFF -Dtesting=ON -Droottest=OFF"
   ) else (
-    set ExtraCMakeOptions="-DCMAKE_VERBOSE_MAKEFILE=ON -Wno-dev=ON -Dall=OFF -Dbuiltin_tbb=OFF -Dbuiltin_unuran=OFF -Dimt=OFF -Dminuit2=ON -Droofit=ON -Droot7=OFF -Dtmva=OFF -Dunuran=OFF -Dvc=OFF -Dtesting=ON -Droottest=OFF"
+    set "ExtraCMakeOptions=-DCMAKE_VERBOSE_MAKEFILE=ON -Wno-dev=ON -Dall=OFF -Dbuiltin_tbb=OFF -Dbuiltin_unuran=OFF -Dimt=OFF -Dminuit2=ON -Droofit=ON -Droot7=OFF -Dtmva=OFF -Dunuran=OFF -Dvc=OFF -Dtesting=ON -Droottest=OFF"
   )
 ) else (
   set ExtraCMakeOptions=";-Droofit=ON"
