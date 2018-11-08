@@ -35,12 +35,13 @@ if((CTEST_MODE STREQUAL package))
   if((CTEST_VERSION STREQUAL master) OR (CTEST_VERSION MATCHES "-patches$"))
     # If we don't have a tag, set the version to
     # "master_2018-10-31_ae7e81bc30cc" to get a nice package name.
-    string(SUBSTRING ${GIT_REVISION} 0 12 SHORT_GIT_REV)
-    string(TIMESTAMP ${VERSION_DATE} "%Y-%m-%d")
-    set(PACKAGE_VERSION "${CTEST_VERSION}_${VERSION_DATE}_${SHORT_GIT_REV}")
+    string(SUBSTRING ${GIT_REVISION} 0 12 PACKAGE_SHORT_GIT_REV)
+    string(TIMESTAMP PACKAGE_DATE "%Y-%m-%d")
+    set(PACKAGE_VERSION "${CTEST_VERSION}_${PACKAGE_DATE}_${PACKAGE_SHORT_GIT_REV}")
   else()
     set(PACKAGE_VERSION "${CTEST_VERSION}")
   endif()
+  message(STATUS "Package version is ${PACKAGE_VERSION}")
 endif()
 
 
@@ -153,7 +154,7 @@ if(NOT "$ENV{GIT_COMMIT}" STREQUAL "")  #--- From Jenkins---------------------
   set(CTEST_GIT_UPDATE_CUSTOM  ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
 endif()
 
-if ((CTEST_MODE STREQUAL package) AND NOT (${PACKAGE_VERSION}))
+if ((CTEST_MODE STREQUAL package) AND NOT (${PACKAGE_DATE}))
   # this is a tag; grab the sources from http://root.cern/downloads and unpack them.
   unset(CTEST_CHECKOUT_COMMAND)
   get_filename_component(SOURCE_TAR_FILENAME ${CTEST_SOURCE_DIRECTORY} NAME)
