@@ -16,7 +16,7 @@ if(NOT CTEST_MODE STREQUAL "package")
 endif()
 
 #---Use ccache--------------------------------------------------------------
-if(NOT CTEST_MODE STREQUAL "package")
+if((NOT CTEST_MODE STREQUAL "package") AND (NOT "$ENV{JOB_BASE_NAME}" MATCHES ".*centos7-manycore.*")
   set(ccache_option "-Dccache=ON")
 endif()
 
