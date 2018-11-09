@@ -31,9 +31,19 @@ then
     status=$?
 
 else
+    include(ProcessorCount)
+    ProcessorCount(NCORES)
+    if(${NCORES} EQUAL 0)
+        # ProcessorCount() failed.
+        set(NCORES 4)
+    else()
+        # Experience says that slightly more jobs than cores increases throughput.
+        math(NCORES "${NCORES} * 12")
+        math(NCORES "${NCORES} / 10")
+    endif()
 
     if [[ "$1" != "test" ]]; then 
-        ctest -j4 -VV -S ${THIS}/root-build.cmake
+        ctest -j${NCORES} -VV -S ${THIS}/root-build.cmake
         status=$?
 
         # do not run the tests if continuous build fails
@@ -48,7 +58,7 @@ else
     fi
 
     if [[ "$1" != "build" ]]; then 
-        ctest -j4 --no-compress-output -V -S ${THIS}/root-test.cmake
+        ctest -j${NCORES} --no-compress-output -V -S ${THIS}/root-test.cmake
         status=$?
     fi
 fi
