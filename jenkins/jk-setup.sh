@@ -179,9 +179,12 @@ esac
 
 
 if [[ $LABEL == slc6 || $LABEL == centos7 ]]; then
+  # No ccache on centos7-manycore:
+  if [[ "${JOB_BASE_NAME/centos7-manycore/}" == "${JOB_BASE_NAME}" ]]; then
     export CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
     export CCACHE_DIR=/ccache
     export CCACHE_MAXSIZE=10G
+  fi
 fi
 
 # Set PYTHON_EXECUTABLE variable if BUILDOPTS is python3
