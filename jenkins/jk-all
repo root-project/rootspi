@@ -31,18 +31,16 @@ then
     status=$?
 
 else
-    include(ProcessorCount)
-    ProcessorCount(NCORES)
-    if(${NCORES} EQUAL 0)
-        # ProcessorCount() failed.
-        set(NCORES 4)
-    else()
+    NCORES=`getconf _NPROCESSORS_ONLN`
+    if [[ "x${NCORES}" = "x" ]]; then
+        # getconf failed.
+        NCORES=4
+    else
         # Experience says that slightly more jobs than cores increases throughput.
-        math(NCORES "${NCORES} * 12")
-        math(NCORES "${NCORES} / 10")
-    endif()
+        NCORES=$(($NCORES*12/10))
+    fi
 
-    if [[ "$1" != "test" ]]; then 
+    if [[ "$1" != "test" ]]; then
         ctest -j${NCORES} -VV -S ${THIS}/root-build.cmake
         status=$?
 
