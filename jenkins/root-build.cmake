@@ -2,7 +2,7 @@
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 
 #---Enable tests------------------------------------------------------------
-if(NOT CTEST_MODE STREQUAL "package")
+if(NOT CTEST_MODE STREQUAL package)
   set(testing_options "-Dtesting=ON")
   if(CTEST_VERSION STREQUAL "master" OR CTEST_VERSION MATCHES "^v6-")
 #---Enable roottest---------------------------------------------------------
@@ -16,7 +16,7 @@ if(NOT CTEST_MODE STREQUAL "package")
 endif()
 
 #---Use ccache--------------------------------------------------------------
-if((NOT CTEST_MODE STREQUAL "package") AND (NOT "$ENV{JOB_BASE_NAME}" MATCHES ".*centos7-manycore.*"))
+if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{JOB_BASE_NAME}" MATCHES ".*centos7-manycore.*"))
   set(ccache_option "-Dccache=ON")
 endif()
 
