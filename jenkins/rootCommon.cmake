@@ -39,9 +39,11 @@ if(CTEST_MODE STREQUAL package)
     string(TIMESTAMP PACKAGE_DATE "%Y-%m-%d")
     set(PACKAGE_VERSION "${CTEST_VERSION}_${PACKAGE_DATE}_${PACKAGE_SHORT_GIT_REV}")
   else()
-    set(PACKAGE_VERSION "${CTEST_VERSION}")
+    string(REPLACE "-" "." PACKAGE_VERSION "${CTEST_VERSION}")
+    # But keep v6.13.02-rc1:
+    string(REPLACE ".rc" "-rc" PACKAGE_VERSION "${PACKAGE_VERSION}")
   endif()
-  message(STATUS "Package version is ${PACKAGE_VERSION}")
+  message("Package version is ${PACKAGE_VERSION}")
 endif()
 
 
@@ -69,9 +71,10 @@ if("$ENV{JENKINS_HOME}" STREQUAL "")
   set(CTEST_BINARY_DIRECTORY ${CTEST_BUILD_PREFIX}/${CTEST_MODE}-${CTEST_VERSION}-${tag})
   set(CTEST_INSTALL_DIRECTORY ${CTEST_BUILD_PREFIX}/install/${CTEST_MODE}-${CTEST_VERSION}-${tag})
 elseif(CTEST_MODE STREQUAL package)
-  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_PREFIX}/root_${PACKAGE_VERSION}/root-${PACKAGE_VERSION})
-  set(CTEST_BINARY_DIRECTORY ${CTEST_BUILD_PREFIX}/root_${PACKAGE_VERSION}-cmake)
-  set(CTEST_INSTALL_DIRECTORY ${CTEST_BUILD_PREFIX}/install/ROOT/${PACKAGE_VERSION}/${PACKAGE_VERSION})
+  string(REPLACE "root_v" "root-" TARSRCDIR "root_${PACKAGE_VERSION}")
+  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_PREFIX}/${TARSRCDIR})
+  set(CTEST_BINARY_DIRECTORY ${CTEST_BUILD_PREFIX}/root_${TARSRCDIR}-cmake)
+  set(CTEST_INSTALL_DIRECTORY ${CTEST_BUILD_PREFIX}/install/ROOT/${TARSRCDIR})
 else()
   get_filename_component(CTEST_SOURCE_DIRECTORY root ABSOLUTE)
   get_filename_component(CTEST_BINARY_DIRECTORY build ABSOLUTE)
@@ -157,21 +160,27 @@ endif()
 if ((CTEST_MODE STREQUAL package) AND NOT (${PACKAGE_DATE}))
   # this is a tag; grab the sources from http://root.cern/downloads and unpack them.
   unset(CTEST_CHECKOUT_COMMAND)
-  get_filename_component(SOURCE_TAR_FILENAME ${CTEST_SOURCE_DIRECTORY} NAME)
-
-  set(SOURCE_TAR_FILENAME "${SOURCE_TAR_FILENAME}.source.tar.gz")
+  set(SOURCE_TAR_FILENAME "root_${PACKAGE_VERSION}.source.tar.gz")
+  set(SOURCE_URL "http://root.cern/download/${SOURCE_TAR_FILENAME}")
   file(DOWNLOAD
-    http://root.cern/download/${SOURCE_TAR_FILENAME}
+    ${SOURCE_URL}
     ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME}
     SHOW_PROGRESS
+    STATUS DOWNLOADRES
     )
+  list(GET DOWNLOADRES 0 ERRORCODE)
+  if(NOT ERRORCODE EQUAL 0)
+    list(GET DOWNLOADRES 1 ERRORMSG)
+    message(FATAL "Download of ${SOURCE_URL} failed with code ${ERRORCODE}: ${ERRORMSG}")
+  endif()
   file(REMOVE_RECURSE ${CTEST_SOURCE_DIRECTORY})
   execute_process(
     COMMAND ${CMAKE_COMMAND} -E tar xzf ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME}
     WORKING_DIRECTORY ${CTEST_SOURCE_PREFIX}
     RESULT_VARIABLE TAR_RESULT)
   if(NOT ${TAR_RESULT} EQUAL 0)
-    message(FATAL "Failed to uncompress tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DIRECTORY}: ${TAR_RESULT}")
+    message(FATAL "Failed to uncompress tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DI\
+RECTORY}: ${TAR_RESULT}")
   endif()
   message("Uncompressed tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DIRECTORY}")
 endif()
