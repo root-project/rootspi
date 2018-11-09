@@ -3,13 +3,17 @@
 echo Execution started: %date% %time%
 
 rem ---Compiler------------------------------------------------------
-if %COMPILER% == vc9   call "%VS90COMNTOOLS%vsvars32.bat"
-if %COMPILER% == vc10  call "%VS100COMNTOOLS%vsvars32.bat"
-if %COMPILER% == vc11  call "%VS110COMNTOOLS%vsvars32.bat"
-if %COMPILER% == vc12  call "%VS120COMNTOOLS%vsvars32.bat"
-if %COMPILER% == vc13  call "%VS130COMNTOOLS%vsvars32.bat"
-if %COMPILER% == vc15  call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
-if %COMPILER% == native call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat" x86
+if "%COMPILER%" == "" (
+  call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat" x86
+) else (
+  if %COMPILER% == vc9   call "%VS90COMNTOOLS%vsvars32.bat"
+  if %COMPILER% == vc10  call "%VS100COMNTOOLS%vsvars32.bat"
+  if %COMPILER% == vc11  call "%VS110COMNTOOLS%vsvars32.bat"
+  if %COMPILER% == vc12  call "%VS120COMNTOOLS%vsvars32.bat"
+  if %COMPILER% == vc13  call "%VS130COMNTOOLS%vsvars32.bat"
+  if %COMPILER% == vc15  call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
+  if %COMPILER% == native call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat" x86
+)
 
 rem ---External libraries--------------------------------------------
 rem set GSL_DIR=C:\libs\gsl-1.14
