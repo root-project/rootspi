@@ -59,7 +59,7 @@ set(possibly_enabled
 # Turn them on by default:
 foreach(package IN LISTS possibly_enabled)
   set(enable_${package} "On")
-endif()
+endforeach()
 #...except these:
 set(enable_bonjour "Off")
 set(enable_cocoa "Off")
