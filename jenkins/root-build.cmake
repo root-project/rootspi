@@ -32,6 +32,7 @@ set(possibly_enabled
   fortran
   gdml
   gfal
+  gsl
   http
   imt
   krb5
@@ -86,6 +87,7 @@ if(WIN32)
   set(enable_fftw3 "Off")
   set(enable_fitsio "Off")
   set(enable_fortran "Off")
+  set(enable_gsl "Off")
   set(enable_krb5 "Off")
   set(enable_mathmore "Off")
   set(enable_qt "Off")
