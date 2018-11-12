@@ -97,7 +97,7 @@ endif()
 set(enabled_packages "")
 foreach(package IN LISTS possibly_enabled)
   set(enabled_packages "${enabled_packages} -D${package}=${enable_${package}}")
-endif
+endforeach()
 
 #---Compose the configuration options---------------------------------------
 set(options
