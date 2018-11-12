@@ -24,20 +24,25 @@ endif()
 #---Select packages to enable-----------------------------------------------
 set(possibly_enabled
   bonjour
+  castor
   cocoa
   davix
   fftw3
   fitsio
   fortran
   gdml
+  gfal
   http
   imt
   krb5
   macos_native
   mathmore
   minuit2
+  mysql
   opengl
+  oracle
   pch
+  pythia6
   pythia8
   python
   qt
@@ -47,6 +52,7 @@ set(possibly_enabled
   ssl
   tmva
   tmva-cpu
+  tmva-gpu
   unuran
   vc
   vdt
@@ -62,10 +68,16 @@ foreach(package IN LISTS possibly_enabled)
 endforeach()
 #...except these:
 set(enable_bonjour "Off")
+set(enable_castor "Off")
 set(enable_cocoa "Off")
+set(enable_gfal "Off")
 set(enable_macos_native "Off")
+set(enable_mysql "Off")
+set(enable_oracle "Off")
+set(enable_pythia6 "Off")
 set(enable_pythia8 "Off")
-set(enable_sqlite "Off") #OUCH! Fedoras and CC don't have it.
+set(enable_sqlite "Off") #OUCH! Our Fedoras and CC don't have it.
+set(enable_tmva-gpu "Off")
 set(enable_x11 "Off")
 set(enable_xft "Off")
 
