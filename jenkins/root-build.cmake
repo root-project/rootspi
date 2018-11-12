@@ -24,6 +24,8 @@ endif()
 #---Select packages to enable-----------------------------------------------
 set(possibly_enabled
   bonjour
+  builtin_davix
+  builtin_gsl
   castor
   cocoa
   davix
@@ -43,6 +45,7 @@ set(possibly_enabled
   opengl
   oracle
   pch
+  pgsql
   pythia6
   pythia8
   python
@@ -69,12 +72,14 @@ foreach(package IN LISTS possibly_enabled)
 endforeach()
 #...except these:
 set(enable_bonjour "Off")
+set(enable_builtin_gsl "Off")
 set(enable_castor "Off")
 set(enable_cocoa "Off")
 set(enable_gfal "Off")
 set(enable_macos_native "Off")
 set(enable_mysql "Off")
 set(enable_oracle "Off")
+set(enable_pgsql "Off")
 set(enable_pythia6 "Off")
 set(enable_pythia8 "Off")
 set(enable_sqlite "Off") #OUCH! Our Fedoras and CC don't have it.
@@ -83,6 +88,7 @@ set(enable_x11 "Off")
 set(enable_xft "Off")
 
 if(WIN32)
+  set(enable_builtin_davix "Off")
   set(enable_davix "Off")
   set(enable_fftw3 "Off")
   set(enable_fitsio "Off")
@@ -110,6 +116,7 @@ if(WIN32)
 
 elseif(APPLE)
   set(enable_bonjour="On")
+  set(enable_builtin_gsl "On")
   set(enable_cocoa "On")
   set(enable_macos_native "On")
   set(enable_sqlite "On")
