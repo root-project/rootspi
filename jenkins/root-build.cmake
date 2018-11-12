@@ -25,9 +25,11 @@ endif()
 set(possibly_enabled
   bonjour
   builtin_davix
+  builtin_fftw3
   builtin_gsl
   builtin_openssl
   builtin_vc
+  builtin_vdt
   castor
   cocoa
   davix
@@ -74,6 +76,7 @@ foreach(package IN LISTS possibly_enabled)
 endforeach()
 #...except these:
 set(enable_bonjour "Off")
+set(enable_builtin_fftw3 "Off")
 set(enable_builtin_gsl "Off")
 set(enable_builtin_openssl "Off")
 set(enable_castor "Off")
@@ -93,6 +96,7 @@ set(enable_xft "Off")
 if(WIN32)
   set(enable_builtin_davix "Off")
   set(enable_builtin_vc "Off")
+  set(enable_builtin_vdt "Off")
   set(enable_davix "Off")
   set(enable_fftw3 "Off")
   set(enable_fitsio "Off")
@@ -121,6 +125,7 @@ if(WIN32)
 
 elseif(APPLE)
   set(enable_bonjour="On")
+  set(enable_builtin_fftw3 "On")
   set(enable_builtin_gsl "On")
   set(enable_builtin_openssl "On")
   set(enable_cocoa "On")
