@@ -26,6 +26,7 @@ set(possibly_enabled
   bonjour
   builtin_davix
   builtin_gsl
+  builtin_vc
   castor
   cocoa
   davix
@@ -89,6 +90,7 @@ set(enable_xft "Off")
 
 if(WIN32)
   set(enable_builtin_davix "Off")
+  set(enable_builtin_vc "Off")
   set(enable_davix "Off")
   set(enable_fftw3 "Off")
   set(enable_fitsio "Off")
