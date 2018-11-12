@@ -5,8 +5,9 @@ include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 if(NOT CTEST_MODE STREQUAL package)
   set(testing_options "-Dtesting=ON")
   if(CTEST_VERSION STREQUAL "master" OR CTEST_VERSION MATCHES "^v6-")
-#---Enable roottest---------------------------------------------------------
-    set(testing_options "${testing_options} -Droottest=ON")
+    if(NOT WIN32)
+      set(testing_options "${testing_options} -Droottest=ON")
+    endif()
   endif()
 
   #---Set TCMalloc for fast builds--------------------------------------------
