@@ -63,7 +63,7 @@ endforeach()
 #...except these:
 set(enable_bonjour "Off")
 set(enable_cocoa "Off")
-set(enable_macos_native "Off";
+set(enable_macos_native "Off")
 set(enable_pythia8 "Off")
 set(enable_sqlite "Off") #OUCH! Fedoras and CC don't have it.
 set(enable_x11 "Off")
@@ -97,7 +97,7 @@ if(WIN32)
 elseif(APPLE)
   set(enable_bonjour="On")
   set(enable_cocoa "On")
-  set(enable_macos_native "On");
+  set(enable_macos_native "On")
   set(enable_sqlite "On")
 
 else()
