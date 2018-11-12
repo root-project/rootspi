@@ -10,7 +10,7 @@ if(NOT CTEST_MODE STREQUAL package)
     endif()
   endif()
 
-  #---Set TCMalloc for fast builds--------------------------------------------
+  #---Set TCMalloc for fast builds------------------------------------------
   if(CTEST_BUILD_CONFIGURATION STREQUAL "Optimized")
     set(testing_options ${testing_options}" -Dtcmalloc=ON")
   endif()
@@ -21,13 +21,95 @@ if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{JOB_BASE_NAME}" MATCHES ".*c
   set(ccache_option "-Dccache=ON")
 endif()
 
+#---Select packages to enable-----------------------------------------------
+set(possibly_enabled
+  bonjour
+  davix
+  fftw3
+  fitsio
+  fortran
+  gdml
+  http
+  imt
+  krb5
+  mathmore
+  minuit2
+  opengl
+  pch
+  pythia8
+  python
+  qt
+  qtgsi
+  roofit
+  sqlite
+  ssl
+  tmva
+  tmva-cpu
+  unuran
+  vc
+  vdt
+  xml
+  xrootd
+)
+
+# Turn them on by default:
+foreach(package IN LISTS possibly_enabled)
+  set(enable_${package} "On")
+endif()
+set(enable_bonjour "Off")
+
+if(WIN32)
+  set(enable_davix "Off")
+  set(enable_fftw3 "Off")
+  set(enable_fitsio "Off")
+  set(enable_fortran "Off")
+  set(enable_krb5 "Off")
+  set(enable_mathmore "Off")
+  set(enable_pythia8 "Off")
+  set(enable_qt "Off")
+  set(enable_qtgsi "Off")
+  set(enable_sqlite "Off")
+  set(enable_ssl "Off")
+  set(enable_tmva "Off")
+  set(enable_tmva-cpu "Off")
+  set(enable_vc "Off")
+  set(enable_vdt "Off")
+  set(enable_xml "Off")
+  set(enable_xrootd "Off")
+
+  if (("${CTEST_VERSION}" MATCHES "^v6-1[0-5].*")
+      OR ("${CTEST_VERSION}" MATCHES "^v6-0[0-9].*")
+      OR ("${CTEST_VERSION}" MATCHES "^v5.*"))
+    # before v6.16:
+    set(enable_unuran "Off")
+    set(enable_imt "Off")
+  endif()
+
+elseif(APPLE)
+  set(enable_bonjour="On")
+  set(enable_pythia8 "Off")
+else()
+  #LINUX
+  set(enable_sqlite "Off") #OUCH! Fedoras and CC don't have it.
+endif()
+
+# Collect enabled / disabled into a CMake argument list:
+set(enabled_packages "")
+foreach(package IN LISTS possibly_enabled)
+  set(enabled_packages "${enabled_packages} -D${package}=${enable_${package}}")
+endif
 
 #---Compose the configuration options---------------------------------------
-set(options -Dall=ON
-            ${ccache_option}
-            ${testing_options}
-            -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
-            $ENV{ExtraCMakeOptions})
+set(options
+#  -DCMAKE_VERBOSE_MAKEFILE=ON
+  -Dfail-on-missing=On
+  -Dall=Off
+  ${enabled_packages}
+  ${ccache_option}
+  ${testing_options}
+  -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
+  $ENV{ExtraCMakeOptions}
+)
  
 #---Special build options---------------------------------------------------
 if("$ENV{BUILDOPTS}" STREQUAL "cxx14root7")
