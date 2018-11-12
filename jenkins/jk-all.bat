@@ -15,38 +15,12 @@ if "%COMPILER%" == "" (
   if %COMPILER% == native call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat" x86
 )
 
-rem ---External libraries--------------------------------------------
-rem set GSL_DIR=C:\libs\gsl-1.14
-
-if %VERSION% == master (
-  set Version.Major=6
-  set Version.Minor=99
-  set Version.Build=99
-) else (
-  for /f "delims=.- tokens=1-3" %%a in ("%VERSION%") do (
-    set Version.Major=%%a
-    set Version.Minor=%%b
-    set Version.Build=%%c
-  )
-)
-
-rem ---Options-------------------------------------------------------
-set THIS=%~d0%~p0
-if %Version.Major% == 6 (
-  if %Version.Minor% geq 16 (
-    set "ExtraCMakeOptions=-DCMAKE_VERBOSE_MAKEFILE=ON -Wno-dev=ON -Dall=OFF -Dbuiltin_tbb=ON -Dbuiltin_unuran=ON -Dimt=ON -Dminuit2=ON -Droofit=ON -Droot7=OFF -Dtmva=OFF -Dunuran=ON -Dvc=OFF -Dtesting=ON -Droottest=OFF"
-  ) else (
-    set "ExtraCMakeOptions=-DCMAKE_VERBOSE_MAKEFILE=ON -Wno-dev=ON -Dall=OFF -Dbuiltin_tbb=OFF -Dbuiltin_unuran=OFF -Dimt=OFF -Dminuit2=ON -Droofit=ON -Droot7=OFF -Dtmva=OFF -Dunuran=OFF -Dvc=OFF -Dtesting=ON -Droottest=OFF"
-  )
-) else (
-  set ExtraCMakeOptions=";-Droofit=ON"
-)
-
 echo Dumping the full environment ---------------------------------------------------------
 set
 echo --------------------------------------------------------------------------------------
 
 rem ---Run the CTest script depending on the compiler------------------------------------------
+set THIS=%~d0%~p0
 ctest -VV -S %THIS%/root-build.cmake
 if %ERRORLEVEL% neq 0 (
   exit /B %ERRORLEVEL%
