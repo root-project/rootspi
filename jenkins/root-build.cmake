@@ -30,6 +30,7 @@ set(possibly_enabled
   builtin_openssl
   builtin_vc
   builtin_vdt
+  builtin_xrootd
   castor
   cocoa
   davix
@@ -97,6 +98,7 @@ if(WIN32)
   set(enable_builtin_davix "Off")
   set(enable_builtin_vc "Off")
   set(enable_builtin_vdt "Off")
+  set(enable_builtin_xrootd "Off")
   set(enable_davix "Off")
   set(enable_fftw3 "Off")
   set(enable_fitsio "Off")
