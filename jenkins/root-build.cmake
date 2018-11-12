@@ -26,6 +26,7 @@ set(possibly_enabled
   bonjour
   builtin_davix
   builtin_gsl
+  builtin_openssl
   builtin_vc
   castor
   cocoa
@@ -74,6 +75,7 @@ endforeach()
 #...except these:
 set(enable_bonjour "Off")
 set(enable_builtin_gsl "Off")
+set(enable_builtin_openssl "Off")
 set(enable_castor "Off")
 set(enable_cocoa "Off")
 set(enable_gfal "Off")
@@ -120,6 +122,7 @@ if(WIN32)
 elseif(APPLE)
   set(enable_bonjour="On")
   set(enable_builtin_gsl "On")
+  set(enable_builtin_openssl "On")
   set(enable_cocoa "On")
   set(enable_macos_native "On")
   set(enable_sqlite "On")
