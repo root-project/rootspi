@@ -114,8 +114,8 @@ foreach(package IN LISTS possibly_enabled)
 endforeach()
 
 #---Compose the configuration options---------------------------------------
+# Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
 set(options
-#  -DCMAKE_VERBOSE_MAKEFILE=ON
   -Dfail-on-missing=On
   -Dall=Off
   ${enabled_packages}
@@ -337,5 +337,3 @@ else()
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
   ctest_submit(PARTS Update Configure Build)
 endif()
-
-
