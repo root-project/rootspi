@@ -24,6 +24,7 @@ endif()
 #---Select packages to enable-----------------------------------------------
 set(possibly_enabled
   bonjour
+  cocoa
   davix
   fftw3
   fitsio
@@ -32,6 +33,7 @@ set(possibly_enabled
   http
   imt
   krb5
+  macos_native
   mathmore
   minuit2
   opengl
@@ -49,6 +51,8 @@ set(possibly_enabled
   vc
   vdt
   xml
+  x11
+  xft
   xrootd
 )
 
@@ -56,7 +60,14 @@ set(possibly_enabled
 foreach(package IN LISTS possibly_enabled)
   set(enable_${package} "On")
 endif()
+#...except these:
 set(enable_bonjour "Off")
+set(enable_cocoa "Off")
+set(enable_macos_native "Off";
+set(enable_pythia8 "Off")
+set(enable_sqlite "Off") #OUCH! Fedoras and CC don't have it.
+set(enable_x11 "Off")
+set(enable_xft "Off")
 
 if(WIN32)
   set(enable_davix "Off")
@@ -65,10 +76,8 @@ if(WIN32)
   set(enable_fortran "Off")
   set(enable_krb5 "Off")
   set(enable_mathmore "Off")
-  set(enable_pythia8 "Off")
   set(enable_qt "Off")
   set(enable_qtgsi "Off")
-  set(enable_sqlite "Off")
   set(enable_ssl "Off")
   set(enable_tmva "Off")
   set(enable_tmva-cpu "Off")
@@ -87,10 +96,15 @@ if(WIN32)
 
 elseif(APPLE)
   set(enable_bonjour="On")
-  set(enable_pythia8 "Off")
+  set(enable_cocoa "On")
+  set(enable_macos_native "On");
+  set(enable_sqlite "On")
+
 else()
   #LINUX
-  set(enable_sqlite "Off") #OUCH! Fedoras and CC don't have it.
+  set(enable_pythia8 "On")
+  set(enable_x11 "On")
+  set(enable_xft "On")
 endif()
 
 # Collect enabled / disabled into a CMake argument list:
