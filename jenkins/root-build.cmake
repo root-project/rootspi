@@ -28,6 +28,7 @@ set(possibly_enabled
   builtin_fftw3
   builtin_gsl
   builtin_openssl
+  builtin_tbb
   builtin_vc
   builtin_vdt
   builtin_xrootd
@@ -80,6 +81,7 @@ set(enable_bonjour "Off")
 set(enable_builtin_fftw3 "Off")
 set(enable_builtin_gsl "Off")
 set(enable_builtin_openssl "Off")
+set(enable_builtin_tbb "Off")
 set(enable_castor "Off")
 set(enable_cocoa "Off")
 set(enable_gfal "Off")
@@ -130,6 +132,7 @@ elseif(APPLE)
   set(enable_builtin_fftw3 "On")
   set(enable_builtin_gsl "On")
   set(enable_builtin_openssl "On")
+  set(enable_builtin_tbb "On")
   set(enable_cocoa "On")
   set(enable_macos_native "On")
   set(enable_sqlite "On")
