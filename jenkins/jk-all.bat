@@ -25,9 +25,11 @@ ctest -VV -S %THIS%/root-build.cmake
 if %ERRORLEVEL% neq 0 (
   exit /B %ERRORLEVEL%
 )
-if not %COMPILER% == vc15 (
-  if not %COMPILER% == native (
-    ctest -V -S %THIS%/root-test.cmake
+if not "%COMPILER%" == "" (
+  if not %COMPILER% == vc15 (
+    if not %COMPILER% == native (
+      ctest -V -S %THIS%/root-test.cmake
+    )
   )
 )
 
