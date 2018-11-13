@@ -111,6 +111,7 @@ if(WIN32)
   set(enable_gsl "Off")
   set(enable_krb5 "Off")
   set(enable_mathmore "Off")
+  set(enable_opengl "Off")
   set(enable_ssl "Off")
   set(enable_tmva "Off")
   set(enable_tmva-cpu "Off")
@@ -144,6 +145,17 @@ else()
   set(enable_qtgsi "On")
   set(enable_x11 "On")
   set(enable_xft "On")
+
+  if("${tag}" MATCHES ".*fedora29.*")
+    # Qt5 us too new.
+    set(enable_qt "Off")
+    set(enable_qtgsi "Off")
+  endif()
+
+  if("${tag}" MATCHES ".*i686.*")
+    # Interferance between externals and GL.
+    set(enable_opengl "Off")
+  endif()
 endif()
 
 # Collect enabled / disabled into a CMake argument list:
