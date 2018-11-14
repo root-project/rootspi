@@ -332,6 +332,10 @@ def getRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new):
    if not new:
       rootSetupScript = "%s/%s/root/bin/thisroot.sh" %(baseDir,platform)
 
+   # check the the scripts actually exist
+   if not os.path.exists(rootSetupScript):
+      return ""
+
    return rootSetupScript
 
 def getRootSetupScriptFromAfsTag(afsTagStr):
@@ -362,12 +366,6 @@ def getBodyFromTag(gitTagStr):
    if "" == rootSetupScriptStr:
        print "No rootSetupScript for",gitTagStr
        return ""
-
-   # check the the scripts actually exist
-   for script in (rootSetupScriptStr):
-      if not os.path.exists(script):
-         print "Warning: setup script (%s) does not exist" %script
-         return ""
 
    # Add the windows paragraph if needed
    winPar = ""
