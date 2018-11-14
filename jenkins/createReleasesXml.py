@@ -33,9 +33,8 @@ NOT YET IMPLEMENTED
 
 {StandaloneInstallationPaths}
 
-## Example for setting up ROOT and the corresponding compiler from CVMFS
+## Example for setting up ROOT from CVMFS
 ~~~
-. {compilerSetupScript}
 . {rootSetupScript}
 ~~~
 
@@ -314,7 +313,7 @@ def getReleasesNotesFromGitTag(gitTag):
 
 tarballsOnTheWeb = ROOTTarballsOnTheWeb()
 
-def getCompilerAndRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new):
+def getRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new):
    """ Find on afs the list of releases based on the tag,
        with the setup script either within ../root/bin/ (old)
        or ../bin/ (new)"""
@@ -333,26 +332,15 @@ def getCompilerAndRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new):
    if not new:
       rootSetupScript = "%s/%s/root/bin/thisroot.sh" %(baseDir,platform)
 
-   if 'centos' in platform:
-      compilerVersion = platform[18:20]
-      print platform
-   else:
-      compilerVersion = platform[15:17]
-   compilerVersionWithDot = "%s.%s" %(compilerVersion[0],compilerVersion[1])
+   return rootSetupScript
 
-   compilerBaseDir = "/cvmfs/sft.cern.ch/lcg/contrib/gcc"
-
-   compilerSetupScript = "%s/%s/%s/setup.sh" %(compilerBaseDir,compilerVersionWithDot,platform)
-
-   return compilerSetupScript,rootSetupScript
-
-def getCompilerAndRootSetupScriptFromAfsTag(afsTagStr):
+def getRootSetupScriptFromAfsTag(afsTagStr):
    """ Find on afs the list of releases based on the tag"""
    # Take the ones compiled with gcc in optimised mode on slc
-   compilerSetupScriptStr, rootSetupScriptStr = getCompilerAndRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new=True)
+   rootSetupScriptStr = getRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new=True)
    if "" == rootSetupScriptStr:
-      compilerSetupScriptStr, rootSetupScriptStr = getCompilerAndRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new=False)
-   return compilerSetupScript,rootSetupScript
+      rootSetupScriptStr = getRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new=False)
+   return rootSetupScript
 
 def getBodyFromTag(gitTagStr):
 
@@ -370,13 +358,13 @@ def getBodyFromTag(gitTagStr):
 
    sourcesTableStr = tarballsOnTheWeb.getSourceDistributionsTableMarkdown(afsTagStr)
    releaseNotesStr = getReleasesNotesFromGitTag(gitTagStr)
-   compilerSetupScriptStr, rootSetupScriptStr = getCompilerAndRootSetupScriptFromAfsTag(afsTagStr)
+   rootSetupScriptStr = getRootSetupScriptFromAfsTag(afsTagStr)
    if "" == rootSetupScriptStr:
        print "No rootSetupScript for",gitTagStr
        return ""
 
    # check the the scripts actually exist
-   for script in (compilerSetupScriptStr, rootSetupScriptStr):
+   for script in (rootSetupScriptStr):
       if not os.path.exists(script):
          print "Warning: setup script (%s) does not exist" %script
          return ""
@@ -387,7 +375,6 @@ def getBodyFromTag(gitTagStr):
       winPar = windowsMarkDownTemplate
 
    return markDownTemplate.format(gitTag = gitTagStr,
-                                  compilerSetupScript = compilerSetupScriptStr,
                                   rootSetupScript = rootSetupScriptStr,
                                   binariesTable = binariesTableStr,
                                   sourcesTable = sourcesTableStr,
