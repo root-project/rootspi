@@ -314,10 +314,11 @@ def getReleasesNotesFromGitTag(gitTag):
 
 tarballsOnTheWeb = ROOTTarballsOnTheWeb()
 
-def getCompilerAndRootSetupScriptFromAfsTag(afsTagStr):
-   """ Find on afs the list of releases based on the tag"""
+def getCompilerAndRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new):
+   """ Find on afs the list of releases based on the tag,
+       with the setup script either within ../root/bin/ (old)
+       or ../bin/ (new)"""
    baseDir = "/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/%s" %afsTagStr
-   # Take the ones compiled with gcc in optimised mode on slc
    platforms = map(lambda s: s.split("/")[-1], glob.glob("%s/x86_64-slc*-gcc*-opt" %baseDir))
    if not platforms:
       platforms = map(lambda s: s.split("/")[-1], glob.glob("%s/x86_64-cc*-gcc*-opt" %baseDir))
@@ -328,7 +329,9 @@ def getCompilerAndRootSetupScriptFromAfsTag(afsTagStr):
 
    platform = platforms[-1]
 
-   rootSetupScript = "%s/%s/root/bin/thisroot.sh" %(baseDir,platform)
+   rootSetupScript = "%s/%s/bin/thisroot.sh" %(baseDir,platform)
+   if not new:
+      rootSetupScript = "%s/%s/root/bin/thisroot.sh" %(baseDir,platform)
 
    if 'centos' in platform:
       compilerVersion = platform[18:20]
@@ -343,6 +346,13 @@ def getCompilerAndRootSetupScriptFromAfsTag(afsTagStr):
 
    return compilerSetupScript,rootSetupScript
 
+def getCompilerAndRootSetupScriptFromAfsTag(afsTagStr):
+   """ Find on afs the list of releases based on the tag"""
+   # Take the ones compiled with gcc in optimised mode on slc
+   compilerSetupScriptStr, rootSetupScriptStr = getCompilerAndRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new=True)
+   if "" == rootSetupScriptStr:
+      compilerSetupScriptStr, rootSetupScriptStr = getCompilerAndRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new=False)
+   return compilerSetupScript,rootSetupScript
 
 def getBodyFromTag(gitTagStr):
 
