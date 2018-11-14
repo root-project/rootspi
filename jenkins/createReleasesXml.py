@@ -340,7 +340,7 @@ def getRootSetupScriptFromAfsTag(afsTagStr):
    rootSetupScriptStr = getRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new=True)
    if "" == rootSetupScriptStr:
       rootSetupScriptStr = getRootSetupScriptFromAfsTagOldOrNew(afsTagStr, new=False)
-   return rootSetupScript
+   return rootSetupScriptStr
 
 def getBodyFromTag(gitTagStr):
 
