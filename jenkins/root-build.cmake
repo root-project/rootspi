@@ -184,7 +184,6 @@ function(INIT_MOST_MODULES)
       monalisa
       oracle
       pythia6
-      r
       rfio
       sapdb
       srp
@@ -195,7 +194,7 @@ function(INIT_MOST_MODULES)
 
     if("$ENV{LABEL}" MATCHES "ubuntu14")
       # Compiler too old for Vc
-      set(ep "${ep} -Dvc=Off")
+      set(ep "${ep} -Dvc=Off -Dr=Off")
     endif()
     set(enabled_packages "${ep}" PARENT_SCOPE)
   endif()
