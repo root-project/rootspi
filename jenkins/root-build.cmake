@@ -201,7 +201,11 @@ if($ENV{SPEC} MATCHES "python3")
 endif
 
 if($ENV{SPEC} MATCHES "noimt")
-set(specflags "${specflags} -Dimt=off -Dbuiltin_tbb=off")
+  set(specflags "${specflags} -Dimt=Off -Dbuiltin_tbb=Off")
+endif()
+
+if($ENV{SPEC} MATCHES "rtcxxmod")
+  set(specflags "${specflags} -Druntime_cxxmodules=On")
 endif()
 
 if("$ENV{SPEC}" MATCHES "cxx14")
