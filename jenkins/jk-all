@@ -12,8 +12,8 @@ then
     fi
 fi
 
-echo source $THIS/jk-setup.sh '"'$LABEL'"' '"'$COMPILER'"' '"'$BUILDTYPE'"' '"'$EXTERNALS'"' > setup.sh
-source $THIS/jk-setup.sh "$LABEL" "$COMPILER" "$BUILDTYPE" "$EXTERNALS"
+echo source $THIS/jk-setup.sh '"'$LABEL'"'> setup.sh
+source $THIS/jk-setup.sh "$LABEL"
 
 echo "Dumping the full environment ---------------------------------------------------------"
 env | grep -v ghprbPullLongDescription | grep -v ghprbPullDescription | grep -v ghprbPullTitle | sort | sed 's/:/:?     /g' | sed 's,//:[?]     ,//:,g' | tr '?' '\n'

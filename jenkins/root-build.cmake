@@ -1,6 +1,173 @@
 #---Common Setting----------------------------------------------------------
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 
+#
+#  Initialize enabled_packages for a package and pullrequests build
+#
+function(INIT_RELEASE_MODULES)
+  set(possibly_enabled
+    bonjour
+    builtin_davix
+    builtin_fftw3
+    builtin_gsl
+    builtin_openssl
+    builtin_tbb
+    builtin_vc
+    builtin_vdt
+    builtin_xrootd
+    castor
+    cocoa
+    davix
+    fftw3
+    fitsio
+    fortran
+    gdml
+    gfal
+    gsl
+    http
+    imt
+    krb5
+    macos_native
+    mathmore
+    minuit2
+    mysql
+    opengl
+    oracle
+    pch
+    pgsql
+    pythia6
+    pythia8
+    python
+    qt
+    qtgsi
+    roofit
+    sqlite
+    ssl
+    tmva
+    tmva-cpu
+    tmva-gpu
+    unuran
+    vc
+    vdt
+    xml
+    x11
+    xft
+    xrootd
+  )
+
+  # Turn them on by default:
+  foreach(package IN LISTS possibly_enabled)
+    set(enable_${package} "On")
+  endforeach()
+  set(enable_bonjour "Off")
+  set(enable_builtin_fftw3 "Off")
+  set(enable_builtin_gsl "Off")
+  set(enable_builtin_openssl "Off")
+  set(enable_builtin_tbb "Off")
+  set(enable_castor "Off")
+  set(enable_cocoa "Off")
+  set(enable_gfal "Off")
+  set(enable_macos_native "Off")
+  set(enable_mysql "Off")
+  set(enable_oracle "Off")
+  set(enable_pgsql "Off")
+  set(enable_pythia6 "Off")
+  set(enable_pythia8 "Off")
+  set(enable_qt "Off")
+  set(enable_qtgsi "Off")
+  set(enable_sqlite "Off") #OUCH! Our Fedoras and CC don't have it.
+  set(enable_tmva-gpu "Off")
+  set(enable_x11 "Off")
+  set(enable_xft "Off")
+
+  if(WIN32)
+    set(enable_builtin_davix "Off")
+    set(enable_builtin_vc "Off")
+    set(enable_builtin_vdt "Off")
+    set(enable_builtin_xrootd "Off")
+    set(enable_davix "Off")
+    set(enable_fftw3 "Off")
+    set(enable_fitsio "Off")
+    set(enable_fortran "Off")
+    set(enable_imt "Off")
+    set(enable_gsl "Off")
+    set(enable_krb5 "Off")
+    set(enable_mathmore "Off")
+    set(enable_ssl "Off")
+    set(enable_tmva "Off")
+    set(enable_tmva-cpu "Off")
+    set(enable_vc "Off")
+    set(enable_vdt "Off")
+    set(enable_xml "Off")
+    set(enable_xrootd "Off")
+
+    if (("${CTEST_VERSION}" MATCHES "^v6-1[0-5].*")
+        OR ("${CTEST_VERSION}" MATCHES "^v6-0[0-9].*")
+        OR ("${CTEST_VERSION}" MATCHES "^v5.*"))
+      # before v6.16:
+      set(enable_unuran "Off")
+      set(enable_imt "Off")
+    endif()
+
+  elseif(APPLE)
+    set(enable_bonjour="On")
+    set(enable_builtin_fftw3 "On")
+    set(enable_builtin_gsl "On")
+    set(enable_builtin_openssl "On")
+    set(enable_builtin_tbb "On")
+    set(enable_cocoa "On")
+    set(enable_macos_native "On")
+    set(enable_sqlite "On")
+
+  else()
+    #LINUX
+    set(enable_pythia8 "On")
+    set(enable_qt "On")
+    set(enable_qtgsi "On")
+    set(enable_x11 "On")
+    set(enable_xft "On")
+
+    if("${tag}" MATCHES ".*fedora29.*")
+      # Qt5 us too new.
+      set(enable_qt "Off")
+      set(enable_qtgsi "Off")
+    endif()
+
+    if("${tag}" MATCHES ".*i686.*")
+      # Interferance between externals and GL.
+      set(enable_opengl "Off")
+    endif()
+  endif()
+
+  # Collect enabled / disabled into a CMake argument list:
+  set(enabled_packages "-Dall=Off" PARENT_SCOPE)
+  foreach(package IN LISTS possibly_enabled)
+    set(enabled_packages "${enabled_packages} -D${package}=${enable_${package}}")
+  endforeach()
+endfunction()
+
+
+#
+#  Initialize enabled_packages for a nightly or incremental build
+#
+function(INIT_MOST_MODULES)
+  set(enabled_packages "" PARENT_SCOPE)
+  if(WIN32)
+    INIT_RELEASE()
+  #elseif(APPLE)
+  else()
+    set(enabled_packages "-Dall=On" PARENT_SCOPE)
+  endif()
+endfunction()
+
+
+#---Select packages to enable-----------------------------------------------
+if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
+  INIT_RELEASE_MODULES()
+else()
+  INIT_MOST_MODULES()
+endif()
+
 #---Enable tests------------------------------------------------------------
 if(NOT CTEST_MODE STREQUAL package)
   set(testing_options "-Dtesting=ON")
@@ -21,176 +188,36 @@ if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{JOB_BASE_NAME}" MATCHES ".*c
   set(ccache_option "-Dccache=ON")
 endif()
 
-#---Select packages to enable-----------------------------------------------
-set(possibly_enabled
-  bonjour
-  builtin_davix
-  builtin_fftw3
-  builtin_gsl
-  builtin_openssl
-  builtin_tbb
-  builtin_vc
-  builtin_vdt
-  builtin_xrootd
-  castor
-  cocoa
-  davix
-  fftw3
-  fitsio
-  fortran
-  gdml
-  gfal
-  gsl
-  http
-  imt
-  krb5
-  macos_native
-  mathmore
-  minuit2
-  mysql
-  opengl
-  oracle
-  pch
-  pgsql
-  pythia6
-  pythia8
-  python
-  qt
-  qtgsi
-  roofit
-  sqlite
-  ssl
-  tmva
-  tmva-cpu
-  tmva-gpu
-  unuran
-  vc
-  vdt
-  xml
-  x11
-  xft
-  xrootd
-)
+#---Consider SPEC flags-----------------------------------------------------
+set(specflags "")
+if($ENV{SPEC} MATCHES ".*python3.*")
+  find_program(PYTHON3PATH python3)
+  if(${PYTHON3PATH} STREQUAL "NOTFOUND")
+    message(FATAL_ERROR "Cannot find Python3 for this python3 build!")
+  endif
+  set(specflags "${specflags} -DPYTHON_EXECUTABLE=${PYTHON3PATH}")
+endif
 
-# Turn them on by default:
-foreach(package IN LISTS possibly_enabled)
-  set(enable_${package} "On")
-endforeach()
-#...except these:
-set(enable_bonjour "Off")
-set(enable_builtin_fftw3 "Off")
-set(enable_builtin_gsl "Off")
-set(enable_builtin_openssl "Off")
-set(enable_builtin_tbb "Off")
-set(enable_castor "Off")
-set(enable_cocoa "Off")
-set(enable_gfal "Off")
-set(enable_macos_native "Off")
-set(enable_mysql "Off")
-set(enable_oracle "Off")
-set(enable_pgsql "Off")
-set(enable_pythia6 "Off")
-set(enable_pythia8 "Off")
-set(enable_qt "Off")
-set(enable_qtgsi "Off")
-set(enable_sqlite "Off") #OUCH! Our Fedoras and CC don't have it.
-set(enable_tmva-gpu "Off")
-set(enable_x11 "Off")
-set(enable_xft "Off")
-
-if(WIN32)
-  set(enable_builtin_davix "Off")
-  set(enable_builtin_vc "Off")
-  set(enable_builtin_vdt "Off")
-  set(enable_builtin_xrootd "Off")
-  set(enable_davix "Off")
-  set(enable_fftw3 "Off")
-  set(enable_fitsio "Off")
-  set(enable_fortran "Off")
-  set(enable_imt "Off")
-  set(enable_gsl "Off")
-  set(enable_krb5 "Off")
-  set(enable_mathmore "Off")
-  set(enable_ssl "Off")
-  set(enable_tmva "Off")
-  set(enable_tmva-cpu "Off")
-  set(enable_vc "Off")
-  set(enable_vdt "Off")
-  set(enable_xml "Off")
-  set(enable_xrootd "Off")
-
-  if (("${CTEST_VERSION}" MATCHES "^v6-1[0-5].*")
-      OR ("${CTEST_VERSION}" MATCHES "^v6-0[0-9].*")
-      OR ("${CTEST_VERSION}" MATCHES "^v5.*"))
-    # before v6.16:
-    set(enable_unuran "Off")
-    set(enable_imt "Off")
-  endif()
-
-elseif(APPLE)
-  set(enable_bonjour="On")
-  set(enable_builtin_fftw3 "On")
-  set(enable_builtin_gsl "On")
-  set(enable_builtin_openssl "On")
-  set(enable_builtin_tbb "On")
-  set(enable_cocoa "On")
-  set(enable_macos_native "On")
-  set(enable_sqlite "On")
-
-else()
-  #LINUX
-  set(enable_pythia8 "On")
-  set(enable_qt "On")
-  set(enable_qtgsi "On")
-  set(enable_x11 "On")
-  set(enable_xft "On")
-
-  if("${tag}" MATCHES ".*fedora29.*")
-    # Qt5 us too new.
-    set(enable_qt "Off")
-    set(enable_qtgsi "Off")
-  endif()
-
-  if("${tag}" MATCHES ".*i686.*")
-    # Interferance between externals and GL.
-    set(enable_opengl "Off")
-  endif()
+if("$ENV{SPEC}" MATCHES ".*cxx14.*")
+  set(options ${options} -Dcxx14=ON)
+elseif("$ENV{SPEC}" MATCHES ".*cxx17.*")
+  set(options ${options} -Dcxx17=ON)
 endif()
-
-# Collect enabled / disabled into a CMake argument list:
-set(enabled_packages "")
-foreach(package IN LISTS possibly_enabled)
-  set(enabled_packages "${enabled_packages} -D${package}=${enable_${package}}")
-endforeach()
 
 #---Compose the configuration options---------------------------------------
 # Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
 set(options
   -Dfail-on-missing=On
-  -Dall=Off
   ${enabled_packages}
+  ${specflags}
   ${ccache_option}
   ${testing_options}
   -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
   $ENV{ExtraCMakeOptions}
 )
- 
-#---Special build options---------------------------------------------------
-if("$ENV{BUILDOPTS}" STREQUAL "cxx14root7")
-  set(options ${options} -Dcxx14=ON -Droot7=ON)
-endif()
 
-if("$ENV{CXX_VERSION}" STREQUAL "14")
-  set(options ${options} -Dcxx14=ON)
-elseif("$ENV{CXX_VERSION}" STREQUAL "17")
-  set(options ${options} -Dcxx17=ON)
-endif()
 
-if("$ENV{BUILDOPTS}" STREQUAL "cxxmodules" OR
-   "$ENV{BUILDOPTS}" STREQUAL "coverity")
-  unset(CTEST_CHECKOUT_COMMAND)
-endif()
-
+#---Configure generator-----------------------------------------------------
 if(CTEST_MODE STREQUAL continuous OR CTEST_MODE STREQUAL pullrequests)
   find_program(NINJA_EXECUTABLE ninja)
   if(NINJA_EXECUTABLE)
@@ -203,6 +230,13 @@ if ((CMAKE_GENERATOR MATCHES "Visual Studio") AND (CMAKE_GENERATOR_TOOLSET STREQ
 endif()
 
 separate_arguments(options)
+
+
+#---Handle cxxmodules and coverity builds' checkout behavior----------------
+if("$ENV{BUILDOPTS}" STREQUAL "cxxmodules" OR
+   "$ENV{BUILDOPTS}" STREQUAL "coverity")
+  unset(CTEST_CHECKOUT_COMMAND)
+endif()
 
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
