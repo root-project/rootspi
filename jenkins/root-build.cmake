@@ -35,6 +35,7 @@ function(INIT_RELEASE_MODULES)
     oracle
     pch
     pgsql
+    pymva
     pythia6
     pythia8
     python
@@ -94,6 +95,7 @@ function(INIT_RELEASE_MODULES)
     set(enable_gsl "Off")
     set(enable_krb5 "Off")
     set(enable_mathmore "Off")
+    set(enable_pymva "Off")
     set(enable_ssl "Off")
     set(enable_tmva "Off")
     set(enable_tmva-cpu "Off")
@@ -128,8 +130,9 @@ function(INIT_RELEASE_MODULES)
     set(enable_builtin_gsl "On")
     set(enable_davix "On")
     set(enable_fftw3 "On")
-    set(enable_fitsio "off")
+    set(enable_fitsio "Off")
     set(enable_mathmore "On")
+    set(enable_pymva "Off")
 
   else()
     #LINUX
