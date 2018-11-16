@@ -190,7 +190,7 @@ endif()
 
 #---Consider SPEC flags-----------------------------------------------------
 set(specflags "")
-if($ENV{SPEC} MATCHES ".*python3.*")
+if($ENV{SPEC} MATCHES "python3")
   find_program(PYTHON3PATH python3)
   if(${PYTHON3PATH} STREQUAL "NOTFOUND")
     message(FATAL_ERROR "Cannot find Python3 for this python3 build!")
@@ -198,9 +198,13 @@ if($ENV{SPEC} MATCHES ".*python3.*")
   set(specflags "${specflags} -DPYTHON_EXECUTABLE=${PYTHON3PATH}")
 endif
 
-if("$ENV{SPEC}" MATCHES ".*cxx14.*")
+if($ENV{SPEC} MATCHES "noimt")
+set(specflags "${specflags} -Dimt=off -Dbuiltin_tbb=off")
+endif()
+
+if("$ENV{SPEC}" MATCHES "cxx14")
   set(options ${options} -Dcxx14=ON)
-elseif("$ENV{SPEC}" MATCHES ".*cxx17.*")
+elseif("$ENV{SPEC}" MATCHES "cxx17")
   set(options ${options} -Dcxx17=ON)
 endif()
 
