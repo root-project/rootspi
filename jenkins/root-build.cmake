@@ -159,6 +159,28 @@ function(INIT_MOST_MODULES)
   #elseif(APPLE)
   else()
     set(enabled_packages "-Dall=On" PARENT_SCOPE)
+    set(disable_these
+      arrow
+      castor
+      chirp
+      glite
+      hdfs
+      monalisa
+      oracle
+      pythia6
+      r
+      rfio
+      sapdb
+      srp
+    )
+    foreach(package IN LISTS disable_these)
+      set(enabled_packages "${enabled_packages} -D${package}=Off")
+    endforeach()
+
+    if("$ENV{LABEL}" MATCHES "ubuntu14")
+      # Compiler too old for Vc
+      set(enabled_packages "${enabled_packages} -Dvc=Off")
+    endif()
   endif()
 endfunction()
 
@@ -186,7 +208,7 @@ if(NOT CTEST_MODE STREQUAL package)
 endif()
 
 #---Use ccache--------------------------------------------------------------
-if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{JOB_BASE_NAME}" MATCHES ".*centos7-manycore.*"))
+if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{LABEL}" MATCHES "centos7-manycore"))
   set(ccache_option "-Dccache=ON")
 endif()
 
