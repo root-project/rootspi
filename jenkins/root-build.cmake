@@ -130,6 +130,7 @@ function(INIT_RELEASE_MODULES)
     set(enable_fftw3 "On")
     set(enable_fitsio "off")
     set(enable_mathmore "On")
+
   else()
     #LINUX
     set(enable_pythia8 "On")
@@ -142,6 +143,17 @@ function(INIT_RELEASE_MODULES)
       # Qt5 us too new.
       set(enable_qt "Off")
       set(enable_qtgsi "Off")
+    endif()
+
+    if("$ENV{LABEL}" MATCHES "ubuntu14")
+      # Compiler too old for Vc
+      set(enable_vc "Off")
+      set(enable veccore "Off")
+      # Davix too old
+      set(enable_builtin_davix "On")
+    elseif("$ENV{LABEL}" MATCHES "ubuntu16")
+      # Davix too old
+      set(enable_builtin_davix "On")
     endif()
 
     if("${tag}" MATCHES ".*i686.*")
@@ -195,6 +207,11 @@ function(INIT_MOST_MODULES)
     if("$ENV{LABEL}" MATCHES "ubuntu14")
       # Compiler too old for Vc
       set(ep "${ep} -Dvc=Off -Dr=Off")
+      # Davix too old
+      set(ep "${ep} -Dbuiltin_davix=On")
+    elseif("$ENV{LABEL}" MATCHES "ubuntu16")
+      # Davix too old
+      set(ep "${ep} -Dbuiltin_davix=On")
     endif()
     set(enabled_packages "${ep}" PARENT_SCOPE)
   endif()
