@@ -156,7 +156,7 @@ function(INIT_RELEASE_MODULES)
       set(enable veccore "Off")
       # Davix too old
       set(enable_builtin_davix "On")
-    elseif("$ENV{LABEL}" MATCHES "ubuntu16")
+    elseif("$ENV{LABEL}" MATCHES "ubuntu")
       # Davix too old
       set(enable_builtin_davix "On")
     endif()
