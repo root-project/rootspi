@@ -196,7 +196,7 @@ if($ENV{SPEC} MATCHES "python3")
   find_program(PYTHON3PATH python3)
   if(${PYTHON3PATH} STREQUAL "NOTFOUND")
     message(FATAL_ERROR "Cannot find Python3 for this python3 build!")
-  endif
+  endif()
   set(specflags "${specflags} -DPYTHON_EXECUTABLE=${PYTHON3PATH}")
 endif
 
