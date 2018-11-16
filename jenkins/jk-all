@@ -16,7 +16,7 @@ echo source $THIS/jk-setup.sh '"'$LABEL'"' '"'$COMPILER'"' '"'$BUILDTYPE'"' '"'$
 source $THIS/jk-setup.sh "$LABEL" "$COMPILER" "$BUILDTYPE" "$EXTERNALS"
 
 echo "Dumping the full environment ---------------------------------------------------------"
-env | grep -v ghprbPullLongDescription | grep -v ghprbPullDescription | grep -v ghprbPullTitle | sort | sed 's/:/:?     /g' | tr '?' '\n'
+env | grep -v ghprbPullLongDescription | grep -v ghprbPullDescription | grep -v ghprbPullTitle | sort | sed 's/:/:?     /g' | sed 's,//:[?]     ,//:,g' | tr '?' '\n'
 declare -p > $WORKSPACE/jenkins_node_env.sh
 echo "--------------------------------------------------------------------------------------"
 
