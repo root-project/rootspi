@@ -198,7 +198,7 @@ if($ENV{SPEC} MATCHES "python3")
     message(FATAL_ERROR "Cannot find Python3 for this python3 build!")
   endif()
   set(specflags "${specflags} -DPYTHON_EXECUTABLE=${PYTHON3PATH}")
-endif
+endif()
 
 if($ENV{SPEC} MATCHES "noimt")
   set(specflags "${specflags} -Dimt=Off -Dbuiltin_tbb=Off")
