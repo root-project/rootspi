@@ -58,9 +58,12 @@ elseif(CTEST_MODE STREQUAL package)
 elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_start(Pullrequests TRACK Pullrequests APPEND)
   string(TOLOWER "$ENV{ExtraCMakeOptions}" EXTRA_CMAKE_OPTS_LOWER)
-  if(${EXTRA_CMAKE_OPTS_LOWER} MATCHES "dctest_test_exclude_none=on")
+  if(${EXTRA_CMAKE_OPTS_LOWER} MATCHES "dctest_test_exclude_none=on"
+     OR "$ENV{LABEL}" MATCHES "centos7-manycore")
+    message("Enabling all tests.")
     ctest_test(PARALLEL_LEVEL ${ncpu})
   else()
+    message("***WARNING: DISABLING TUTORIALS / SLOW TESTS.***")
     ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
   endif()
 
