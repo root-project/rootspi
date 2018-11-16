@@ -142,10 +142,11 @@ function(INIT_RELEASE_MODULES)
   endif()
 
   # Collect enabled / disabled into a CMake argument list:
-  set(enabled_packages "-Dall=Off" PARENT_SCOPE)
+  set(ep "-Dall=Off")
   foreach(package IN LISTS possibly_enabled)
-    set(enabled_packages "${enabled_packages} -D${package}=${enable_${package}}")
+    set(ep "${ep} -D${package}=${enable_${package}}")
   endforeach()
+  set(enabled_packages "${ep}" PARENT_SCOPE)
 endfunction()
 
 
@@ -153,13 +154,14 @@ endfunction()
 #  Initialize enabled_packages for a nightly or incremental build
 #
 function(INIT_MOST_MODULES)
-  set(enabled_packages "" PARENT_SCOPE)
   if(WIN32)
     INIT_RELEASE()
+    set(enabled_packages "${enabled_packages}" PARENT_SCOPE)
   elseif(APPLE)
     INIT_RELEASE()
+    set(enabled_packages "${enabled_packages}" PARENT_SCOPE)
   else()
-    set(enabled_packages "-Dall=On" PARENT_SCOPE)
+    set(ep "-Dall=On")
     set(disable_these
       arrow
       castor
@@ -175,13 +177,14 @@ function(INIT_MOST_MODULES)
       srp
     )
     foreach(package IN LISTS disable_these)
-      set(enabled_packages "${enabled_packages} -D${package}=Off")
+      set(ep "${ep} -D${package}=Off")
     endforeach()
 
     if("$ENV{LABEL}" MATCHES "ubuntu14")
       # Compiler too old for Vc
-      set(enabled_packages "${enabled_packages} -Dvc=Off")
+      set(ep "${ep} -Dvc=Off")
     endif()
+    set(enabled_packages "${ep}" PARENT_SCOPE)
   endif()
 endfunction()
 
