@@ -24,6 +24,7 @@ function(INIT_RELEASE_MODULES)
     gdml
     gfal
     gsl
+    gviz
     http
     imt
     krb5
@@ -69,6 +70,7 @@ function(INIT_RELEASE_MODULES)
   set(enable_castor "Off")
   set(enable_cocoa "Off")
   set(enable_gfal "Off")
+  set(enable_gviz "Off")
   set(enable_macos_native "Off")
   set(enable_mysql "Off")
   set(enable_oracle "Off")
