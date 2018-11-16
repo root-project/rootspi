@@ -49,6 +49,7 @@ function(INIT_RELEASE_MODULES)
     unuran
     vc
     vdt
+    veccore
     xml
     x11
     xft
@@ -98,6 +99,7 @@ function(INIT_RELEASE_MODULES)
     set(enable_tmva-cpu "Off")
     set(enable_vc "Off")
     set(enable_vdt "Off")
+    set(enable_veccore "Off")
     set(enable_xml "Off")
     set(enable_xrootd "Off")
 
