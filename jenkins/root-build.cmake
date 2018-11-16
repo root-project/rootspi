@@ -133,6 +133,7 @@ function(INIT_RELEASE_MODULES)
     set(enable_davix "On")
     set(enable_fftw3 "On")
     set(enable_fitsio "Off")
+    set(enable_opengl "Off'") # No such file or directory: #  include <GL/glxew.h>
     set(enable_mathmore "On")
     set(enable_tmva-pymva "Off")
 
