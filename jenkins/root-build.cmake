@@ -11,6 +11,7 @@ function(INIT_RELEASE_MODULES)
     builtin_fftw3
     builtin_glew
     builtin_gsl
+    builtin_lz4
     builtin_openssl
     builtin_tbb
     builtin_vc
@@ -67,6 +68,7 @@ function(INIT_RELEASE_MODULES)
   set(enable_builtin_fftw3 "Off")
   set(enable_builtin_glew "Off")
   set(enable_builtin_gsl "Off")
+  set(enable_builtin_lz4 "Off")
   set(enable_builtin_openssl "Off")
   set(enable_builtin_tbb "On")
   set(enable_castor "Off")
@@ -141,6 +143,7 @@ function(INIT_RELEASE_MODULES)
 
   else()
     #LINUX
+    set(enable_builtin_lz4 "On") # everyone's LZ4 is too old
     set(enable_pythia8 "On")
     set(enable_qt "On")
     set(enable_qtgsi "On")
