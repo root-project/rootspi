@@ -9,6 +9,7 @@ function(INIT_RELEASE_MODULES)
     bonjour
     builtin_davix
     builtin_fftw3
+    builtin_glew
     builtin_gsl
     builtin_openssl
     builtin_tbb
@@ -64,6 +65,7 @@ function(INIT_RELEASE_MODULES)
   endforeach()
   set(enable_bonjour "Off")
   set(enable_builtin_fftw3 "Off")
+  set(enable_builtin_glew "Off")
   set(enable_builtin_gsl "Off")
   set(enable_builtin_openssl "Off")
   set(enable_builtin_tbb "On")
@@ -129,11 +131,11 @@ function(INIT_RELEASE_MODULES)
     # We don't have all required packages installed yet.
     set(enable_builtin_davix "On")
     set(enable_builtin_fftw3 "On")
+    set(enable_builtin_glew "On") # No such file or directory: #  include <GL/glxew.h>
     set(enable_builtin_gsl "On")
     set(enable_davix "On")
     set(enable_fftw3 "On")
     set(enable_fitsio "Off")
-    set(enable_opengl "Off'") # No such file or directory: #  include <GL/glxew.h>
     set(enable_mathmore "On")
     set(enable_tmva-pymva "Off")
 
