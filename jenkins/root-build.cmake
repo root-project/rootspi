@@ -197,7 +197,7 @@ function(INIT_MOST_MODULES)
     INIT_RELEASE_MODULES()
     set(enabled_packages "${enabled_packages}" PARENT_SCOPE)
   else()
-    set(ep "-Dall=On -Dbuiltin_tbb=On -Dbuiltin_veccore=On -Dbuiltin_vc=On -Dbuiltin_vdt=On")
+    set(ep "-Dall=On -Dbuiltin_tbb=On -Dbuiltin_veccore=On -Dbuiltin_vc=On -Dbuiltin_vdt=On -Dbuiltin_lz4=On")
     set(disable_these
       arrow
       castor
