@@ -34,7 +34,6 @@ function(INIT_RELEASE_MODULES)
     mathmore
     minuit2
     mysql
-    opengl
     oracle
     pch
     pgsql
@@ -165,11 +164,6 @@ function(INIT_RELEASE_MODULES)
     elseif("$ENV{LABEL}" MATCHES "ubuntu")
       # Davix too old
       set(enable_builtin_davix "On")
-    endif()
-
-    if("${tag}" MATCHES ".*i686.*")
-      # Interferance between externals and GL.
-      set(enable_opengl "Off")
     endif()
   endif()
 
