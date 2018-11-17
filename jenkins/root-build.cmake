@@ -89,6 +89,7 @@ function(INIT_RELEASE_MODULES)
 
   if(WIN32)
     set(enable_builtin_davix "Off")
+    set(enable_builtin_glew "On")
     set(enable_builtin_vc "Off")
     set(enable_builtin_vdt "Off")
     set(enable_builtin_xrootd "Off")
