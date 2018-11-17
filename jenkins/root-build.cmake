@@ -214,7 +214,7 @@ function(INIT_MOST_MODULES)
       set(ep "${ep} -Dvc=Off -Dr=Off")
       # Davix too old
       set(ep "${ep} -Dbuiltin_davix=On")
-    elseif("$ENV{LABEL}" MATCHES "ubuntu16")
+    elseif("$ENV{LABEL}" MATCHES "ubuntu")
       # Davix too old
       set(ep "${ep} -Dbuiltin_davix=On")
     endif()
