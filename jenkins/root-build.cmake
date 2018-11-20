@@ -134,7 +134,6 @@ function(INIT_RELEASE_MODULES)
     # We don't have all required packages installed yet.
     set(enable_builtin_davix "On")
     set(enable_builtin_fftw3 "On")
-    set(enable_builtin_glew "On") # No such file or directory: #  include <GL/glxew.h>
     set(enable_builtin_gsl "On")
     set(enable_davix "On")
     set(enable_fftw3 "On")
