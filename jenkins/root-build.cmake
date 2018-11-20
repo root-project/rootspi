@@ -25,6 +25,7 @@ function(INIT_RELEASE_MODULES)
     fortran
     gdml
     gfal
+    globus
     gsl
     gviz
     http
@@ -73,6 +74,7 @@ function(INIT_RELEASE_MODULES)
   set(enable_castor "Off")
   set(enable_cocoa "Off")
   set(enable_gfal "Off")
+  set(enable_globus "Off")
   set(enable_gviz "Off")
   set(enable_macos_native "Off")
   set(enable_mysql "Off")
@@ -138,6 +140,7 @@ function(INIT_RELEASE_MODULES)
     set(enable_davix "On")
     set(enable_fftw3 "On")
     set(enable_fitsio "Off")
+    set(enable_globus "On")
     set(enable_mathmore "On")
     set(enable_tmva-pymva "Off")
 
