@@ -9,6 +9,9 @@ function(INIT_RELEASE_MODULES)
     bonjour
     builtin_davix
     builtin_fftw3
+    builtin_freetype
+    builtin_ftgl
+    builtin_gl2ps
     builtin_glew
     builtin_gsl
     builtin_lz4
@@ -66,6 +69,9 @@ function(INIT_RELEASE_MODULES)
   endforeach()
   set(enable_bonjour "Off")
   set(enable_builtin_fftw3 "Off")
+  set(enable_builtin_freetype "Off")
+  set(enable_builtin_ftgl "Off")
+  set(enable_builtin_gl2ps "Off")
   set(enable_builtin_glew "Off")
   set(enable_builtin_gsl "Off")
   set(enable_builtin_lz4 "Off")
