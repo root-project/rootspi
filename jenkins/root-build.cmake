@@ -453,7 +453,6 @@ endfunction()
 
 #---Select modules to enable as ${enabled_modules}--------------------------
 GET_MODULES()
-message("AXEL: ${enabled_modules}")
 
 #---Enable tests------------------------------------------------------------
 if(NOT CTEST_MODE STREQUAL package)
