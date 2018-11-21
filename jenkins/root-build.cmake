@@ -230,6 +230,8 @@ function(INIT_MOST_MODULES)
     elseif("$ENV{LABEL}" MATCHES "ubuntu")
       # Davix too old
       set(ep "${ep} -Dbuiltin_davix=On")
+    elseif("$ENV{LABEL}" MATCHES "fedora")
+    set(ep "${ep} -Dbonjour=Off")
     endif()
     set(enabled_packages "${ep}" PARENT_SCOPE)
   endif()
