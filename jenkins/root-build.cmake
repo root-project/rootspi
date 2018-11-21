@@ -387,7 +387,7 @@ endfunction()
 #  Returned as ${want_modules}
 #
 function(GET_RELEASE_MODULES ALL_MODULES)
-  GET_MOST_MODULES(${ALL_MODULES})
+  GET_MOST_MODULES("${ALL_MODULES}")
 
   # Build as stand-alone as possible: add optional builtins.
   list(APPEND want_modules ${optional_builtins})
