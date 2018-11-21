@@ -64,17 +64,15 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     builtin_lzma
     builtin_lz4
     builtin_pcre
-    builtin_tbb
-    builtin_unuran
     builtin_xxhash
     builtin_zlib
     asimage
     astiff
     clad
     cling
+    fftw3
     gdml
     http
-    imt
     minuit2
     opengl
     python
@@ -83,11 +81,12 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     sqlite
     table
     thread
-    unuran
   )
 
   if ("${ROOT_VERSION}" VERSION_GREATER "6.15")
     list(APPEND all_supported
+      builtin_tbb
+      builtin_unuran
       imt
       unuran
     )
