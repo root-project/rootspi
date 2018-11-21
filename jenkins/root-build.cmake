@@ -25,6 +25,7 @@ function(GET_ALL_MODULES)
   )
   string(REPLACE " " ";" all_modules ${all_modules})
   set(all_modules ${all_modules} PARENT_SCOPE)
+  message("AXEL: all modules = ${all_modules}")
 endfunction()
 
 
@@ -352,6 +353,7 @@ function(FILTER_PLATFORM_SUPPORTED_MODULES MODULES)
   else()
     GET_ALL_SUPPORTED_MODULES_LINUX()
   endif()
+  message("AXEL: all_supported=${all_supported}")
 
   # Unsupported modules are those that are in MODULES but not in ${all_supported}
   set(MODULES_UNSUPPORTED ${MODULES})
@@ -361,6 +363,8 @@ function(FILTER_PLATFORM_SUPPORTED_MODULES MODULES)
   list(REMOVE_ITEM MODULES ${MODULES_UNSUPPORTED})
   set(supported_modules "${MODULES}" PARENT_SCOPE)
   set(optional_builtins "{optional_builtins}" PARENT_SCOPE)
+  message("AXEL: supported_modules=${supported_modules}")
+  message("AXEL: optional_builtins=${optional_builtins}")
 endfunction()
 
 
@@ -456,6 +460,7 @@ endfunction()
 
 #---Select modules to enable as ${enabled_modules}--------------------------
 GET_MODULES()
+message("AXEL: ${enabled_modules}")
 
 #---Enable tests------------------------------------------------------------
 if(NOT CTEST_MODE STREQUAL package)
