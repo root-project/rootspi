@@ -36,6 +36,7 @@ function(GET_ALL_MODULES)
     explicitlink
     gnuinstall
     jemalloc
+    macos_native
     memory_termination
     pch
     pyroot_experimental
@@ -139,7 +140,6 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     krb5
     ldap
     libcxx
-    macos_native
     mathmore
     memstat
     minuit2
