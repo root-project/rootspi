@@ -24,6 +24,25 @@ function(GET_ALL_MODULES)
     ${all_modules}
   )
   string(REPLACE " " ";" all_modules ${all_modules})
+  # Remove build configuration settings: they are not modules.
+  list(REMOVE_ITEM all_modules
+    builtin_llvm
+    builtin_clang
+    cxxmodules
+    exceptions
+    explicitlink
+    gnuinstall
+    jemalloc
+    memory_termination
+    pch
+    pyroot_experimental
+    rpath
+    runtime_cxxmodules
+    shared
+    tcmalloc
+    winrtdebug
+    coverage
+  )
   set(all_modules ${all_modules} PARENT_SCOPE)
 endfunction()
 
@@ -39,8 +58,6 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     builtin_ftgl
     builtin_gl2ps
     builtin_glew
-    builtin_llvm
-    builtin_clang
     builtin_lzma
     builtin_lz4
     builtin_pcre
@@ -52,19 +69,14 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     astiff
     clad
     cling
-    cxx14
-    exceptions
-    explicitlink
     gdml
     http
     imt
     minuit2
     opengl
-    pch
     python
     roofit
     root7
-    shared
     sqlite
     table
     thread
@@ -96,8 +108,6 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_gl2ps
     builtin_glew
     builtin_gsl
-    builtin_llvm
-    builtin_clang
     builtin_lzma
     builtin_lz4
     builtin_openssl
@@ -115,12 +125,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     clad
     cling
     cocoa
-    cxx11
-    cxx14
-    cxx17
     davix
-    exceptions
-    explicitlink
     fftw3
     fitsio
     fortran
@@ -137,11 +142,9 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     memstat
     minuit2
     opengl
-    pch
     python
     roofit
     root7
-    shared
     sqlite
     ssl
     table
@@ -165,8 +168,6 @@ endfunction()
 #
 function(GET_ALL_SUPPORTED_MODULES_LINUX)
   set(all_supported
-    builtin_llvm
-    builtin_clang
     builtin_vdt
     builtin_veccore
 
@@ -176,8 +177,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     clad
     cling
     davix
-    exceptions
-    explicitlink
     fftw3
     fitsio
     fortran
@@ -193,7 +192,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     mysql
     odbc
     opengl
-    pch
     pgsql
     pythia6
     pythia8
@@ -204,7 +202,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     roofit
     root7
     shadowpw
-    shared
     soversion
     sqlite
     ssl
