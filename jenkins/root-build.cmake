@@ -380,13 +380,13 @@ endfunction()
 #  Returned as ${want_modules}
 #
 function(GET_RELEASE_MODULES ALL_MODULES)
-  GET_MOST_MODULES(ALLMODULES)
+  GET_MOST_MODULES(${ALL_MODULES})
 
   # Build as stand-alone as possible: add optional builtins.
   list(APPEND want_modules ${optional_builtins})
 
   # We don't want to include these modules in releases:
-  list(REMOVE_ITEM all_modules
+  list(REMOVE_ITEM want_modules
     afdsmgrd
     alien
     arrow
@@ -416,12 +416,12 @@ function(GET_RELEASE_MODULES ALL_MODULES)
   )
   if (ROOT_VERSION VERSION_LESS 6.16)
     # Releasing with soversion enabled starting v6.16
-    list(REMOVE_ITEM all_modules
+    list(REMOVE_ITEM want_modules
       soversion
     )
   endif()
 
-  set(want_modules "${all_modules}" PARENT_SCOPE)
+  set(want_modules "${want_modules}" PARENT_SCOPE)
 endfunction()
 
 
