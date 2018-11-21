@@ -28,6 +28,9 @@ function(GET_ALL_MODULES)
   list(REMOVE_ITEM all_modules
     builtin_llvm
     builtin_clang
+    cxx11
+    cxx14
+    cxx17
     cxxmodules
     exceptions
     explicitlink
@@ -494,6 +497,8 @@ if("$ENV{SPEC}" MATCHES "cxx14")
   set(options ${options} -Dcxx14=ON)
 elseif("$ENV{SPEC}" MATCHES "cxx17")
   set(options ${options} -Dcxx17=ON)
+else()
+  set(options ${options} -Dcxx11=ON)
 endif()
 
 #---Compose the configuration options---------------------------------------
