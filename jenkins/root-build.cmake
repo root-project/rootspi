@@ -10,6 +10,9 @@ function(GET_ALL_MODULES)
     WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
     OUTPUT_VARIABLE GITGREP
   )
+  if(NOT GITGREP)
+  message(FATAL_ERROR "Cannot get configuration options from ${CTEST_SOURCE_DIRECTORY}/cmake/modules/RootBuildOptions.cmake")
+  endif()
   string(REGEX MATCHALL
     "ROOT_BUILD_OPTION[(]([^ ]+) "
     all_modules
