@@ -76,7 +76,6 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     table
     thread
     unuran
-    xml
   )
 
   if ("${ROOT_VERSION}" VERSION_GREATER "6.15")
