@@ -46,6 +46,21 @@ if(CTEST_MODE STREQUAL package)
   message("Package version is ${PACKAGE_VERSION}")
 endif()
 
+# Set ROOT_VERSION for simple version comparison using VERSION_GREATER etc.
+if(CTEST_VERSION STREQUAL master)
+  set(ROOT_VERSION "99.99.999-master") # newer than everything else.
+elseif(CTEST_VERSION MATCHES "-patches")
+  string(REGEX REPLACE "v([^-]+)-([^-]+)-00-patches" "\\1.\\2.999"
+    ROOT_VERSION
+    "${CTEST_VERSION}"
+  )
+else()
+  string(REGEX REPLACE "v([^-]+)-([^-]+)-([^-]+)" "\\1.\\2.\\3"
+    ROOT_VERSION
+    "${CTEST_VERSION}"
+  )
+endif()
+message("Building ROOT version ${ROOT_VERSION}")
 
 if("$ENV{SOURCE_PREFIX}" STREQUAL "")
   set(CTEST_SOURCE_PREFIX "${pwd}/sources")
