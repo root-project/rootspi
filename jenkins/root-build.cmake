@@ -7,7 +7,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 function(GET_ALL_MODULES)
   execute_process(
     COMMAND git grep "^ROOT_BUILD_OPTION" cmake/modules/RootBuildOptions.cmake
-    WORKING_DIRECTORY ${CTEST_SOURCE_PREFIX}
+    WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
     OUTPUT_VARIABLE GITGREP
   )
   string(REGEX MATCHALL
