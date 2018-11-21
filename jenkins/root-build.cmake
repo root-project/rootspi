@@ -25,7 +25,6 @@ function(GET_ALL_MODULES)
   )
   string(REPLACE " " ";" all_modules ${all_modules})
   set(all_modules ${all_modules} PARENT_SCOPE)
-  message("AXEL: all modules = ${all_modules}")
 endfunction()
 
 
@@ -86,7 +85,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
       unuran
     )
   endif()
-  set(all_supported "${all_supported}" PARENT_SCOPE)
+  set(all_supported ${all_supported} PARENT_SCOPE)
   set(optional_builtins "" PARENT_SCOPE)
 endfunction()
 
@@ -164,7 +163,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     xml
     xrootd
   )
-  set(all_supported "${all_supported}" PARENT_SCOPE)
+  set(all_supported ${all_supported} PARENT_SCOPE)
   set(optional_builtins "" PARENT_SCOPE)
 endfunction()
 
@@ -336,8 +335,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   )
   list(REMOVE_ITEM OPTIONAL_BUILTINS ${all_supported})
 
-  set(all_supported "${all_supported}" PARENT_SCOPE)
-  set(optional_builtins "{OPTIONAL_BUILTINS}" PARENT_SCOPE)
+  set(all_supported ${all_supported} PARENT_SCOPE)
+  set(optional_builtins ${OPTIONAL_BUILTINS} PARENT_SCOPE)
 endfunction()
 
 
@@ -358,12 +357,13 @@ function(FILTER_PLATFORM_SUPPORTED_MODULES MODULES)
   # Unsupported modules are those that are in MODULES but not in ${all_supported}
   set(MODULES_UNSUPPORTED ${MODULES})
   list(REMOVE_ITEM MODULES_UNSUPPORTED ${all_supported})
+  message("AXEL: MODULES_UNSUPPORTED=${MODULES_UNSUPPORTED}")
 
   # Supported modules are those in MODULES that are not unsupported.
   list(REMOVE_ITEM MODULES ${MODULES_UNSUPPORTED})
-  set(supported_modules "${MODULES}" PARENT_SCOPE)
-  set(optional_builtins "{optional_builtins}" PARENT_SCOPE)
-  message("AXEL: supported_modules=${supported_modules}")
+  set(supported_modules ${MODULES} PARENT_SCOPE)
+  set(optional_builtins ${optional_builtins} PARENT_SCOPE)
+  message("AXEL: supported_modules=${MODULES}")
   message("AXEL: optional_builtins=${optional_builtins}")
 endfunction()
 
@@ -376,8 +376,8 @@ endfunction()
 function(GET_MOST_MODULES ALL_MODULES)
   FILTER_PLATFORM_SUPPORTED_MODULES("${ALL_MODULES}")
 
-  set(want_modules "${supported_modules}" PARENT_SCOPE)
-  set(optional_builtins "{optional_builtins}" PARENT_SCOPE)
+  set(want_modules ${supported_modules} PARENT_SCOPE)
+  set(optional_builtins ${optional_builtins} PARENT_SCOPE)
 endfunction()
 
 
@@ -428,7 +428,7 @@ function(GET_RELEASE_MODULES ALL_MODULES)
     )
   endif()
 
-  set(want_modules "${want_modules}" PARENT_SCOPE)
+  set(want_modules ${want_modules} PARENT_SCOPE)
 endfunction()
 
 
@@ -438,6 +438,7 @@ endfunction()
 #
 function(GET_MODULES)
   GET_ALL_MODULES()
+  message("AXEL: all modules = ${all_modules}")
   if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
     GET_RELEASE_MODULES("${all_modules}")
   else()
@@ -453,7 +454,7 @@ function(GET_MODULES)
       set(enabled_modules "${enabled_modules} -D${module}=On")
     endif()
   endforeach()
-  set(enabled_modules "${enabled_modules}" PARENT_SCOPE)
+  set(enabled_modules ${enabled_modules} PARENT_SCOPE)
 endfunction()
 
 
