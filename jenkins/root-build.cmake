@@ -2,11 +2,98 @@
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 
 #
-#  Initialize enabled_packages for a package and pullrequests build
+#  Initialize ${all_modules} to all available build options.
 #
-function(INIT_RELEASE_MODULES)
-  set(possibly_enabled
-    bonjour
+function(GET_ALL_MODULES)
+  execute_process(
+    COMMAND git grep "^ROOT_BUILD_OPTION" cmake/modules/RootBuildOptions.cmake
+    WORKING_DIRECTORY ${CTEST_SOURCE_PREFIX}
+    OUTPUT_VARIABLE GITGREP
+  )
+  string(REGEX MATCHALL
+    "ROOT_BUILD_OPTION[(]([^ ]+) "
+    all_modules
+    "${GITGREP}"
+  )
+  string(REGEX REPLACE
+    "ROOT_BUILD_OPTION[(]([^ ])" "\\1"
+    all_modules
+    ${all_modules}
+  )
+  string(REPLACE " " ";" all_modules ${all_modules})
+  set(all_modules ${all_modules} PARENT_SCOPE)
+endfunction()
+
+
+#
+#  Get all supported modules as ${all_supported}, on Windows.
+#  Get all optional builtins as ${optional_builtins}.
+#
+function(GET_ALL_SUPPORTED_MODULES_WIN32)
+  set(all_supported
+    builtin_afterimage
+    builtin_freetype
+    builtin_ftgl
+    builtin_gl2ps
+    builtin_glew
+    builtin_gsl
+    builtin_llvm
+    builtin_clang
+    builtin_lzma
+    builtin_lz4
+    builtin_pcre
+    builtin_tbb
+    builtin_unuran
+    builtin_xxhash
+    builtin_zlib
+    asimage
+    astiff
+    clad
+    cling
+    cxx14
+    exceptions
+    explicitlink
+    fftw3
+    fitsio
+    fortran
+    gdml
+    gviz
+    http
+    mathmore
+    minuit2
+    opengl
+    pch
+    pythia6
+    pythia8
+    python
+    roofit
+    root7
+    shared
+    sqlite
+    table
+    thread
+    unuran
+    xml
+  )
+
+  if ("${ROOT_VERSION}" VERSION_GREATER "6.15")
+    list(APPEND all_supported
+      imt
+      unuran
+    )
+  endif()
+  set(all_supported "${all_supported}" PARENT_SCOPE)
+  set(optional_builtins "" PARENT_SCOPE)
+endfunction()
+
+#
+#  Get all supported modules as ${all_supported}, on MacOS.
+#  Get all optional builtins as ${optional_builtins}.
+#
+function(GET_ALL_SUPPORTED_MODULES_APPLE)
+  set(all_suppported
+    builtin_afterimage
+    builtin_cfitsio
     builtin_davix
     builtin_fftw3
     builtin_freetype
@@ -14,31 +101,103 @@ function(INIT_RELEASE_MODULES)
     builtin_gl2ps
     builtin_glew
     builtin_gsl
+    builtin_llvm
+    builtin_clang
+    builtin_lzma
     builtin_lz4
     builtin_openssl
+    builtin_pcre
     builtin_tbb
+    builtin_unuran
     builtin_vc
     builtin_vdt
+    builtin_veccore
     builtin_xrootd
-    castor
+    builtin_xxhash
+    asimage
+    astiff
+    bonjour
+    clad
+    cling
     cocoa
+    cxx11
+    cxx14
+    cxx17
     davix
+    exceptions
+    explicitlink
+    fftw3
+    fitsio
+    fortran
+    freetype
+    ftgl
+    gdml
+    http
+    imt
+    krb5
+    ldap
+    libcxx
+    macos_native
+    mathmore
+    memstat
+    minuit2
+    opengl
+    pch
+    python
+    roofit
+    root7
+    shared
+    sqlite
+    ssl
+    table
+    thread
+    tmva
+    tmva-cpu
+    tmva-pymva
+    unuran
+    vdt
+    veccore
+    xml
+    xrootd
+  )
+  set(all_supported "${all_supported}" PARENT_SCOPE)
+  set(optional_builtins "" PARENT_SCOPE)
+endfunction()
+
+#
+#  Get all supported modules as ${all_supported}, on Linux.
+#  Get all optional builtins as ${optional_builtins}.
+#
+function(GET_ALL_SUPPORTED_MODULES_LINUX)
+  set(all_supported
+    builtin_llvm
+    builtin_clang
+    builtin_vdt
+    builtin_veccore
+
+    asimage
+    astiff
+    bonjour
+    clad
+    cling
+    davix
+    exceptions
+    explicitlink
     fftw3
     fitsio
     fortran
     gdml
-    gfal
-    globus
-    gsl
     gviz
     http
     imt
     krb5
-    macos_native
+    ldap
     mathmore
+    memstat
     minuit2
     mysql
-    oracle
+    odbc
+    opengl
     pch
     pgsql
     pythia6
@@ -46,204 +205,255 @@ function(INIT_RELEASE_MODULES)
     python
     qt
     qtgsi
+    r
     roofit
+    root7
+    shadowpw
+    shared
+    soversion
     sqlite
     ssl
+    table
+    thread
     tmva
     tmva-cpu
-    tmva-gpu
     tmva-pymva
+    tmva-rmva
     unuran
     vc
     vdt
     veccore
-    xml
     x11
     xft
+    xml
     xrootd
   )
 
-  # Turn them on by default:
-  foreach(package IN LISTS possibly_enabled)
-    set(enable_${package} "On")
-  endforeach()
-  set(enable_bonjour "Off")
-  set(enable_builtin_fftw3 "Off")
-  set(enable_builtin_freetype "Off")
-  set(enable_builtin_ftgl "Off")
-  set(enable_builtin_gl2ps "Off")
-  set(enable_builtin_glew "Off")
-  set(enable_builtin_gsl "Off")
-  set(enable_builtin_lz4 "Off")
-  set(enable_builtin_openssl "Off")
-  set(enable_builtin_tbb "On")
-  set(enable_castor "Off")
-  set(enable_cocoa "Off")
-  set(enable_gfal "Off")
-  set(enable_globus "Off")
-  set(enable_gviz "Off")
-  set(enable_macos_native "Off")
-  set(enable_mysql "Off")
-  set(enable_oracle "Off")
-  set(enable_pgsql "Off")
-  set(enable_pythia6 "Off")
-  set(enable_pythia8 "Off")
-  set(enable_qt "Off")
-  set(enable_qtgsi "Off")
-  set(enable_sqlite "Off") #OUCH! Our Fedoras and CC don't have it.
-  set(enable_tmva-gpu "Off")
-  set(enable_x11 "Off")
-  set(enable_xft "Off")
-
-  if(WIN32)
-    set(enable_builtin_davix "Off")
-    set(enable_builtin_freetype "On")
-    set(enable_builtin_ftgl "On")
-    set(enable_builtin_gl2ps "On")
-    set(enable_builtin_glew "On")
-    set(enable_builtin_vc "Off")
-    set(enable_builtin_vdt "Off")
-    set(enable_builtin_xrootd "Off")
-    set(enable_davix "Off")
-    set(enable_fftw3 "Off")
-    set(enable_fitsio "Off")
-    set(enable_fortran "Off")
-    set(enable_imt "Off")
-    set(enable_gsl "Off")
-    set(enable_krb5 "Off")
-    set(enable_mathmore "Off")
-    set(enable_ssl "Off")
-    set(enable_tmva "Off")
-    set(enable_tmva-cpu "Off")
-    set(enable_tmva-pymva "Off")
-    set(enable_vc "Off")
-    set(enable_vdt "Off")
-    set(enable_veccore "Off")
-    set(enable_xml "Off")
-    set(enable_xrootd "Off")
-
-    if (("${CTEST_VERSION}" MATCHES "^v6-1[0-5].*")
-        OR ("${CTEST_VERSION}" MATCHES "^v6-0[0-9].*")
-        OR ("${CTEST_VERSION}" MATCHES "^v5.*"))
-      # before v6.16:
-      set(enable_unuran "Off")
-      set(enable_imt "Off")
-    endif()
-
-  elseif(APPLE)
-    set(enable_bonjour="On")
-    set(enable_builtin_fftw3 "On")
-    set(enable_builtin_glew "On")
-    set(enable_builtin_gsl "On")
-    set(enable_builtin_openssl "On")
-    set(enable_builtin_tbb "On")
-    set(enable_cocoa "On")
-    set(enable_macos_native "On")
-    set(enable_sqlite "On")
-
-  elseif("$ENV{LABEL}" MATCHES "centos7")
-    # We don't have all required packages installed yet.
-    set(enable_builtin_davix "On")
-    set(enable_builtin_fftw3 "On")
-    set(enable_builtin_gsl "On")
-    set(enable_davix "On")
-    set(enable_fftw3 "On")
-    set(enable_fitsio "Off")
-    set(enable_globus "On")
-    set(enable_mathmore "On")
-    set(enable_tmva-pymva "Off")
-
-  else()
-    #LINUX
-    set(enable_builtin_lz4 "On") # everyone's LZ4 is too old
-    set(enable_pythia8 "On")
-    set(enable_qt "On")
-    set(enable_qtgsi "On")
-    set(enable_x11 "On")
-    set(enable_xft "On")
-
-    if("${tag}" MATCHES ".*fedora29.*")
-      # Qt5 us too new.
-      set(enable_qt "Off")
-      set(enable_qtgsi "Off")
-    endif()
-
-    if("$ENV{LABEL}" MATCHES "ubuntu14")
-      # Compiler too old for Vc
-      set(enable_vc "Off")
-      set(enable veccore "Off")
-      # Davix too old
-      set(enable_builtin_davix "On")
-    elseif("$ENV{LABEL}" MATCHES "ubuntu")
-      # Davix too old
-      set(enable_builtin_davix "On")
+  if (ROOT_VERSION VERSION_LESS 6.16)
+    if("$ENV{LABEL}" MATCHES "ubuntu14" OR
+       "$ENV{LABEL}" MATCHES "ubuntu16" OR
+       "$ENV{LABEL}" MATCHES "ubuntu18" OR
+       "$ENV{LABEL}" MATCHES "fedora27" OR
+       "$ENV{LABEL}" MATCHES "fedora28" OR
+       "$ENV{LABEL}" MATCHES "fedora29" OR
+       "$ENV{LABEL}" MATCHES "centos7")
+      list(APPEND all_supported
+        builtin_tbb
+      )
     endif()
   endif()
 
-  # Collect enabled / disabled into a CMake argument list:
-  set(ep "-Dall=Off")
-  foreach(package IN LISTS possibly_enabled)
-    set(ep "${ep} -D${package}=${enable_${package}}")
-  endforeach()
-  set(enabled_packages "${ep}" PARENT_SCOPE)
-endfunction()
-
-
-#
-#  Initialize enabled_packages for a nightly or incremental build
-#
-function(INIT_MOST_MODULES)
-  if(WIN32)
-    INIT_RELEASE_MODULES()
-    set(enabled_packages "${enabled_packages}" PARENT_SCOPE)
-  elseif(APPLE)
-    INIT_RELEASE_MODULES()
-    set(enabled_packages "${enabled_packages}" PARENT_SCOPE)
-  elseif("$ENV{LABEL}" MATCHES "centos7")
-    # We don't have all required packages installed yet.
-    INIT_RELEASE_MODULES()
-    set(enabled_packages "${enabled_packages}" PARENT_SCOPE)
-  else()
-    set(ep "-Dall=On -Dbuiltin_tbb=On -Dbuiltin_veccore=On -Dbuiltin_vc=On -Dbuiltin_vdt=On -Dbuiltin_lz4=On")
-    set(disable_these
-      arrow
-      castor
-      chirp
-      glite
-      hdfs
-      monalisa
-      oracle
-      pythia6
-      rfio
-      sapdb
-      srp
+  if("$ENV{LABEL}" MATCHES "ubuntu14")
+    # LZ4 is too old.
+    list(APPEND all_supported
+      builtin_lz4
     )
-    foreach(package IN LISTS disable_these)
-      set(ep "${ep} -D${package}=Off")
-    endforeach()
-
-    if("$ENV{LABEL}" MATCHES "ubuntu14")
-      # Compiler too old for Vc
-      set(ep "${ep} -Dvc=Off -Dr=Off")
-      # Davix too old
-      set(ep "${ep} -Dbuiltin_davix=On")
-    elseif("$ENV{LABEL}" MATCHES "ubuntu")
-      # Davix too old
-      set(ep "${ep} -Dbuiltin_davix=On")
-    elseif("$ENV{LABEL}" MATCHES "fedora")
-    set(ep "${ep} -Dbonjour=Off")
-    endif()
-    set(enabled_packages "${ep}" PARENT_SCOPE)
   endif()
+
+  if("$ENV{LABEL}" MATCHES "ubuntu14" OR
+     "$ENV{LABEL}" MATCHES "ubuntu16" OR
+     "$ENV{LABEL}" MATCHES "ubuntu18")
+    # Davix is there but in a Davix version that's broken.
+    # The others don't exist
+    list(APPEND all_supported
+      builtin_davix
+      builtin_unuran
+      builtin_xrootd
+      builtin_xxhash
+    )
+  endif()
+
+  if("$ENV{LABEL}" MATCHES "fedora" OR
+     ("$ENV{LABEL}" MATCHES "ubuntu" AND
+      NOT ("$ENV{LABEL}" MATCHES "ubuntu14")))
+     # vc needs GCC >= 5
+     list(APPEND all_supported
+       builtin_vc
+     )
+  endif()
+
+  if("$ENV{LABEL}" MATCHES "fedora" OR
+     ("$ENV{LABEL}" MATCHES "ubuntu"
+     AND NOT ("$ENV{LABEL}" MATCHES "ubuntu14" OR
+              "$ENV{LABEL}" MATCHES "ubuntu16")))
+    # Fedora and Ubuntu 18 and up:
+    list(APPEND all_supported
+      qt5web
+    )
+  endif()
+
+  if("$ENV{LABEL}" MATCHES "centos")
+    list(APPEND all_supported
+      castor
+      globus
+      rfio
+    )
+  endif()
+
+  if("$ENV{LABEL}" MATCHES "fedora")
+    list(APPEND all_supported
+      cuda
+      tmva-gpu
+      hdfs
+    )
+  endif()
+
+  if("$ENV{LABEL}" MATCHES "centos" OR
+     "$ENV{LABEL}" MATCHES "fedora")
+    list(APPEND all_supported
+      dcache
+      geocad
+      gfal
+    )
+  endif()
+
+  set(OPTIONAL_BUILTINS
+    builtin_afterimage
+    builtin_cfitsio
+    builtin_davix
+    builtin_fftw3
+    builtin_freetype
+    builtin_ftgl
+    builtin_gl2ps
+    builtin_glew
+    builtin_gsl
+    builtin_lzma
+    builtin_lz4
+    builtin_openssl
+    builtin_pcre
+    builtin_tbb
+    builtin_unuran
+    builtin_vc
+    builtin_vdt
+    builtin_veccore
+    builtin_xrootd
+    builtin_xxhash
+    builtin_zlib
+  )
+  list(REMOVE_ITEM OPTIONAL_BUILTINS ${all_supported})
+
+  set(all_supported "${all_supported}" PARENT_SCOPE)
+  set(optional_builtins "{OPTIONAL_BUILTINS}" PARENT_SCOPE)
 endfunction()
 
 
-#---Select packages to enable-----------------------------------------------
-if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
-  INIT_RELEASE_MODULES()
-else()
-  INIT_MOST_MODULES()
-endif()
+#
+#  Get the subset of MODULES that is supported on the current platform.
+#  Returns ${supported_modules}.
+#
+function(FILTER_PLATFORM_SUPPORTED_MODULES MODULES)
+  if(WIN32)
+    GET_ALL_SUPPORTED_MODULES_WINDOWS()
+  elseif(APPLE)
+    GET_ALL_SUPPORTED_MODULES_APPLE()
+  else()
+    GET_ALL_SUPPORTED_MODULES_LINUX()
+  endif()
+
+  # Unsupported modules are those that are in MODULES but not in ${all_supported}
+  set(MODULES_UNSUPPORTED ${MODULES})
+  list(REMOVE_ITEM MODULES_UNSUPPORTED ${all_supported})
+
+  # Supported modules are those in MODULES that are not unsupported.
+  list(REMOVE_ITEM MODULES ${MODULES_UNSUPPORTED})
+  set(supported_modules "${MODULES}" PARENT_SCOPE)
+  set(optional_builtins "{optional_builtins}" PARENT_SCOPE)
+endfunction()
+
+
+#
+#  Get modules to enable for a nightly or incremental build, if supported
+#  on the current platform. Use as many packages from the distro as possible.
+#  Returned as ${want_modules}
+#
+function(GET_MOST_MODULES ALL_MODULES)
+  FILTER_PLATFORM_SUPPORTED_MODULES("${ALL_MODULES}")
+
+  set(want_modules "${supported_modules}" PARENT_SCOPE)
+  set(optional_builtins "{optional_builtins}" PARENT_SCOPE)
+endfunction()
+
+
+#
+#  Get modules to enable for a package or pullrequests build, if supported
+#  on the current platform. Only important modules will be enabled.
+#  Returned as ${want_modules}
+#
+function(GET_RELEASE_MODULES ALL_MODULES)
+  GET_MOST_MODULES(ALLMODULES)
+
+  # Build as stand-alone as possible: add optional builtins.
+  list(APPEND want_modules ${optional_builtins})
+
+  # We don't want to include these modules in releases:
+  list(REMOVE_ITEM all_modules
+    afdsmgrd
+    alien
+    arrow
+    bonjour
+    castor
+    cefweb
+    cuda
+    dcache
+    geocad
+    gfal
+    globus
+    gviz
+    hdfs
+    krb5
+    ldap
+    memstat
+    monalisa
+    odbc
+    oracle
+    pythia6
+    r
+    rfio
+    table
+    tmva-gpu
+    tmva-rmva
+    vecgeom
+  )
+  if (ROOT_VERSION VERSION_LESS 6.16)
+    # Releasing with soversion enabled starting v6.16
+    list(REMOVE_ITEM all_modules
+      soversion
+    )
+  endif()
+
+  set(want_modules "${all_modules}" PARENT_SCOPE)
+endfunction()
+
+
+#
+#  Get modules to enable for this build, on this platform.
+#  Return as ${enabled_modules}
+#
+function(GET_MODULES)
+  GET_ALL_MODULES()
+  if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
+    GET_RELEASE_MODULES("${all_modules}")
+  else()
+    GET_MOST_MODULES("${all_modules}")
+  endif()
+  list(SORT all_modules)
+  set(enabled_modules "")
+  foreach(module IN LISTS all_modules)
+    list(FIND want_modules ${module} FOUNDIDX)
+    if(FOUNDIDX EQUAL -1)
+      set(enabled_modules "${enabled_modules} -D${module}=Off")
+    else()
+      set(enabled_modules "${enabled_modules} -D${module}=On")
+    endif()
+  endforeach()
+  set(enabled_modules "${enabled_modules}" PARENT_SCOPE)
+endfunction()
+
+
+
+#---Select modules to enable as ${enabled_modules}--------------------------
+GET_MODULES()
+message("AXEL: ${enabled_modules}")
 
 #---Enable tests------------------------------------------------------------
 if(NOT CTEST_MODE STREQUAL package)
@@ -293,7 +503,7 @@ endif()
 # Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
 set(options
   -Dfail-on-missing=On
-  ${enabled_packages}
+  ${enabled_modules}
   ${specflags}
   ${ccache_option}
   ${testing_options}
