@@ -91,7 +91,7 @@ endfunction()
 #  Get all optional builtins as ${optional_builtins}.
 #
 function(GET_ALL_SUPPORTED_MODULES_APPLE)
-  set(all_suppported
+  set(all_supported
     builtin_afterimage
     builtin_cfitsio
     builtin_davix
