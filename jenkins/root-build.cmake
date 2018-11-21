@@ -39,7 +39,6 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     builtin_ftgl
     builtin_gl2ps
     builtin_glew
-    builtin_gsl
     builtin_llvm
     builtin_clang
     builtin_lzma
@@ -56,18 +55,12 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     cxx14
     exceptions
     explicitlink
-    fftw3
-    fitsio
-    fortran
     gdml
-    gviz
     http
-    mathmore
+    imt
     minuit2
     opengl
     pch
-    pythia6
-    pythia8
     python
     roofit
     root7
