@@ -195,7 +195,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     odbc
     opengl
     pgsql
-    pythia6
     pythia8
     python
     qt
@@ -404,7 +403,6 @@ function(GET_RELEASE_MODULES ALL_MODULES)
     monalisa
     odbc
     oracle
-    pythia6
     r
     rfio
     table
