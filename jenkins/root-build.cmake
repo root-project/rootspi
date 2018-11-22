@@ -222,7 +222,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     xrootd
   )
 
-  if (ROOT_VERSION VERSION_LESS 6.16)
+  if (ROOT_VERSION VERSION_GREATER 6.14)
     if("$ENV{LABEL}" MATCHES "ubuntu14" OR
        "$ENV{LABEL}" MATCHES "ubuntu16" OR
        "$ENV{LABEL}" MATCHES "ubuntu18" OR
