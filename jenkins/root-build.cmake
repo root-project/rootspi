@@ -1,6 +1,7 @@
 #---Common Setting----------------------------------------------------------
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 
+cmake_policy(SET CMP0057 ON) # interpret the IN_LIST operator
 #
 #  Initialize ${all_modules} to all available build options.
 #
