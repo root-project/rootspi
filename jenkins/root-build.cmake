@@ -216,7 +216,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     tmva-pymva
     tmva-rmva
     unuran
-    vc
     vdt
     veccore
     x11
@@ -262,13 +261,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   if("$ENV{LABEL}" MATCHES "fedora" OR
-     "$ENV{LABEL}" MATCHES "centos7" OR
      ("$ENV{LABEL}" MATCHES "ubuntu" AND
       NOT ("$ENV{LABEL}" MATCHES "ubuntu14")))
-     # vc needs GCC >= 5
-     list(APPEND all_supported
-       builtin_vc
-     )
+    # vc needs GCC >= 5
+    list(APPEND all_supported
+      builtin_vc
+      vc
+    )
   endif()
 
   if("$ENV{LABEL}" MATCHES "fedora" OR
