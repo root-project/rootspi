@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -e
+set -x
+THIS=$(dirname $0)
+
+# Set the home directory for slc6 and centos7 to avoid dealing with afs and kerb tickets with ccache on PRs.
+if [[ "$MODE" == "pullrequests" ]]
+then
+    if [ "$LABEL" == "slc6" ] ||  [ "$LABEL" == "centos7" ]
+    then
+        HOME=/build
+    fi
+fi
+
+echo source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS > setup.sh
+source $THIS/jk-setup.sh $LABEL $COMPILER $BUILDTYPE $EXTERNALS
+
+echo "Dumping the full environment ---------------------------------------------------------"
+env | grep -v ghprbPullLongDescription | grep -v ghprbPullDescription | grep -v ghprbPullTitle | sort | sed 's/:/:?     /g' | tr '?' '\n'
+declare -p > $WORKSPACE/jenkins_node_env.sh
+echo "--------------------------------------------------------------------------------------"
+
+#---Create stampfile to enable our jenkins to purge old builds------------------------------
+touch $WORKSPACE/controlfile
+
+if [[ "$1" != "test" ]]; then
+    ctest -j4 -VV -S ${THIS}/root-build-rootbench.cmake
+    status=$?
+
+    # do not run the tests if continous build fails
+    if [ $status -ne 0 ] && [ "$MODE" = continuous ]; then
+        exit $status
+    fi
+        # do not run tests if coverity run
+    if [ "$BUILDOPTS" == coverity ]; then
+        exit $status
+    fi
+fi
+
+if [[ "$1" != "build" ]]; then
+    ctest -j4 --no-compress-output -V -S ${THIS}/root-test-rootbench.cmake
+    status=$?
+fi
+
+exit $status
