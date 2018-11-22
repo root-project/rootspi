@@ -482,8 +482,12 @@ if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{LABEL}" MATCHES "centos7-man
 endif()
 
 #---Consider SPEC flags-----------------------------------------------------
+
+# First build a list out of spec1-spec2-spec3 for easier matching.
+string(REPLACE "-" ";" SPECLIST $ENV{SPEC})
+
 set(specflags "")
-if($ENV{SPEC} MATCHES "python3")
+if("python3" IN_LIST SPECLIST)
   find_program(PYTHON3PATH python3)
   if(${PYTHON3PATH} STREQUAL "NOTFOUND")
     message(FATAL_ERROR "Cannot find Python3 for this python3 build!")
@@ -491,21 +495,21 @@ if($ENV{SPEC} MATCHES "python3")
   set(specflags "${specflags} -DPYTHON_EXECUTABLE=${PYTHON3PATH}")
 endif()
 
-if($ENV{SPEC} MATCHES "noimt")
+if("noimt" IN_LIST SPECLIST)
   set(specflags "${specflags} -Dimt=Off -Dbuiltin_tbb=Off")
 endif()
 
-if($ENV{SPEC} MATCHES "rtcxxmod")
+if("rtcxxmod" IN_LIST SPECLIST)
   set(specflags "${specflags} -Druntime_cxxmodules=On")
 endif()
 
-if($ENV{SPEC} MATCHES "cxxmod")
+if("cxxmod" IN_LIST SPECLIST)
   set(specflags "${specflags} -Dcxxmodules=On")
 endif()
 
-if("$ENV{SPEC}" MATCHES "cxx14")
+if("cxx14" IN_LIST SPECLIST)
   set(options ${options} -Dcxx14=ON)
-elseif("$ENV{SPEC}" MATCHES "cxx17")
+elseif("cxx17" IN_LIST SPECLIST)
   set(options ${options} -Dcxx17=ON)
 else()
   set(options ${options} -Dcxx11=ON)
