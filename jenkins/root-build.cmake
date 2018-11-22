@@ -237,7 +237,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   if("$ENV{LABEL}" MATCHES "ubuntu14" OR
-     "$ENV{LABEL}" MATCHES "ubuntu16")
+     "$ENV{LABEL}" MATCHES "ubuntu16" OR
+     "$ENV{LABEL}" MATCHES "centos7")
     # LZ4 is too old.
     list(APPEND all_supported
       builtin_lz4
