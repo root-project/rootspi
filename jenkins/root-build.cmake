@@ -501,6 +501,8 @@ endif()
 
 if($ENV{SPEC} MATCHES "cxxmod")
   set(specflags "${specflags} -Dcxxmodules=On")
+  # Enable incremental builds for cxxmodules
+  set(ENV{LIBCLANG_DISABLE_PCH_VALIDATION} 1)
 endif()
 
 if("$ENV{SPEC}" MATCHES "cxx14")
