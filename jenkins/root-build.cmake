@@ -309,6 +309,12 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
+  if("ENV{LABEL}" MATCHES "ubuntu")
+    list(APPEND all_supported
+      builtin_afterimage
+    )
+  endif()
+
   set(OPTIONAL_BUILTINS
     builtin_afterimage
     builtin_cfitsio
