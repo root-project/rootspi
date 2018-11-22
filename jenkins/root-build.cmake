@@ -514,6 +514,8 @@ endif()
 
 if("cxxmod" IN_LIST SPECLIST)
   set(specflags "${specflags} -Dcxxmodules=On")
+  # Enable incremental builds for cxxmodules
+  set(ENV{LIBCLANG_DISABLE_PCH_VALIDATION} 1)
 endif()
 
 if("cxx14" IN_LIST SPECLIST)
