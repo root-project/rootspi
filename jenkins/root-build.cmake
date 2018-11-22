@@ -262,6 +262,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   if("$ENV{LABEL}" MATCHES "fedora" OR
+     "$ENV{LABEL}" MATCHES "centos7" OR
      ("$ENV{LABEL}" MATCHES "ubuntu" AND
       NOT ("$ENV{LABEL}" MATCHES "ubuntu14")))
      # vc needs GCC >= 5
