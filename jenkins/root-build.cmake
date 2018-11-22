@@ -499,6 +499,10 @@ if($ENV{SPEC} MATCHES "rtcxxmod")
   set(specflags "${specflags} -Druntime_cxxmodules=On")
 endif()
 
+if($ENV{SPEC} MATCHES "cxxmod")
+  set(specflags "${specflags} -Dcxxmodules=On")
+endif()
+
 if("$ENV{SPEC}" MATCHES "cxx14")
   set(options ${options} -Dcxx14=ON)
 elseif("$ENV{SPEC}" MATCHES "cxx17")
