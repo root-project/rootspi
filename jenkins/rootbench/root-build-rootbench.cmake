@@ -1,5 +1,5 @@
 #---Common Setting----------------------------------------------------------
-include(${CTEST_SCRIPT_DIRECTORY}/../rootCommon.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 
 #---Enable roottest---------------------------------------------------------
 if(CTEST_VERSION STREQUAL "master" OR CTEST_VERSION MATCHES "^v6-")
