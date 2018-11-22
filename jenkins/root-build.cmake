@@ -289,7 +289,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   if("$ENV{LABEL}" MATCHES "ubuntu"
-     AND NOT ("$ENV{LABEL}" MATCHES "ubuntu14"))
+     AND NOT ("$ENV{LABEL}" MATCHES "ubuntu14" OR
+              "$ENV{LABEL}" MATCHES "ubuntu16"))
     list(APPEND all_supported
       cuda
       tmva-gpu
