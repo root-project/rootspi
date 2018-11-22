@@ -24,12 +24,12 @@ else
 fi
 
 if [ ! -d $gittag.build ]; then
-   mkdir -p $gittag.build 
+   mkdir -p $gittag.build
 fi
 
 if [ -f $gittag/CMakeLists.txt ]; then
    cd $gittag.build
-   cmake -G Ninja ../$gittag -Dall=ON -Dtesting=ON
+   cmake -G Ninja ../$gittag -Dall=ON -Dbuiltin_lz4=ON -Dtesting=ON
    cmake --build .
    exit $?
 else
