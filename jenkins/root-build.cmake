@@ -228,16 +228,15 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   # Keep this "open ended", i.e. assume that if Ubuntu18 can do it,
   # Ubuntu22 will also be able to do it.
 
-  if(LABEL MATCHES "fedora" OR
-     (LABEL MATCHES "ubuntu" AND
-      NOT (LABEL MATCHES "ubuntu1[46]")))
+  if("${LABEL}" MATCHES "fedora|ubuntu" AND
+     NOT ("${LABEL}" MATCHES "ubuntu1[46]"))
     # Fedora and Ubuntu 18 and up:
     list(APPEND all_supported
       qt5web
     )
   endif()
 
-  if(LABEL MATCHES "centos")
+  if("${LABEL}" MATCHES "centos")
     list(APPEND all_supported
       castor
       globus
@@ -245,22 +244,21 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     )
   endif()
 
-  if(LABEL MATCHES "ubuntu" AND
-     NOT (LABEL MATCHES "ubuntu1[46]"))
+  if("${LABEL}" MATCHES "ubuntu" AND
+     NOT ("${LABEL}" MATCHES "ubuntu1[46]"))
     list(APPEND all_supported
       cuda
       tmva-gpu
     )
   endif()
 
-  if(LABEL MATCHES "fedora")
+  if("${LABEL}" MATCHES "fedora")
     list(APPEND all_supported
       hdfs
     )
   endif()
 
-  if(LABEL MATCHES "centos" OR
-    LABEL MATCHES "fedora")
+  if("${LABEL}" MATCHES "centos|fedora")
     list(APPEND all_supported
       dcache
       geocad
@@ -268,9 +266,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     )
   endif()
 
-  if(LABEL MATCHES "fedora" OR
-     (LABEL MATCHES "ubuntu" AND
-      NOT (LABEL MATCHES "ubuntu14")))
+  if("${LABEL}" MATCHES "fedora|ubuntu" AND
+     NOT ("${LABEL}" MATCHES "ubuntu14"))
     # vc needs GCC >= 5
     list(APPEND all_supported
       builtin_vc
@@ -284,24 +281,21 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   # and for that we should not treat it special.
 
   if (ROOT_VERSION VERSION_GREATER 6.14)
-    if(LABEL MATCHES "ubuntu1[468]" OR
-       LABEL MATCHES "fedora2[789]" OR
-       LABEL MATCHES "centos7")
+    if("${LABEL}" MATCHES "ubuntu1[468]|fedora2[789]|centos7")
       list(APPEND all_supported
         builtin_tbb
       )
     endif()
   endif()
 
-  if(LABEL MATCHES "ubuntu1[46]" OR
-     LABEL MATCHES "centos7")
+  if("${LABEL}" MATCHES "ubuntu1[46]|centos7")
     # LZ4 is too old.
     list(APPEND all_supported
       builtin_lz4
     )
   endif()
 
-  if(LABEL MATCHES "ubuntu1[468]")
+  if("${LABEL}" MATCHES "ubuntu1[468]")
     # Davix is there but in a Davix version that's broken.
     # The others don't exist
     list(APPEND all_supported
@@ -312,7 +306,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     )
   endif()
 
-  if(LABEL MATCHES "ubuntu")
+  if("${LABEL}" MATCHES "ubuntu")
     list(APPEND all_supported
       builtin_afterimage
     )
