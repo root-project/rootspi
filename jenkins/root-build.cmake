@@ -58,7 +58,7 @@ endfunction()
 #  Get all supported modules as ${all_supported}, on Windows.
 #  Get all optional builtins as ${optional_builtins}.
 #
-function(GET_ALL_SUPPORTED_MODULES_WIN32)
+function(GET_ALL_SUPPORTED_MODULES_WIN32 LABEL)
   set(all_supported
     builtin_afterimage
     builtin_freetype
@@ -103,7 +103,7 @@ endfunction()
 #  Get all supported modules as ${all_supported}, on MacOS.
 #  Get all optional builtins as ${optional_builtins}.
 #
-function(GET_ALL_SUPPORTED_MODULES_APPLE)
+function(GET_ALL_SUPPORTED_MODULES_APPLE LABEL)
   set(all_supported
     builtin_afterimage
     builtin_cfitsio
@@ -171,7 +171,7 @@ endfunction()
 #  Get all supported modules as ${all_supported}, on Linux.
 #  Get all optional builtins as ${optional_builtins}.
 #
-function(GET_ALL_SUPPORTED_MODULES_LINUX)
+function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   set(all_supported
     builtin_vdt
     builtin_veccore
@@ -224,32 +224,29 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     xrootd
   )
 
+  # DO NOT use "open ended" matches, i.e. "no Ubuntu supports X".
+  # We want to see whether the next Ubuntu version provides a package,
+  # and for that we should not treat it special.
+
   if (ROOT_VERSION VERSION_GREATER 6.14)
-    if("$ENV{LABEL}" MATCHES "ubuntu14" OR
-       "$ENV{LABEL}" MATCHES "ubuntu16" OR
-       "$ENV{LABEL}" MATCHES "ubuntu18" OR
-       "$ENV{LABEL}" MATCHES "fedora27" OR
-       "$ENV{LABEL}" MATCHES "fedora28" OR
-       "$ENV{LABEL}" MATCHES "fedora29" OR
-       "$ENV{LABEL}" MATCHES "centos7")
+    if(LABEL MATCHES "ubuntu1[468]" OR
+       LABEL MATCHES "fedora2[789]" OR
+       LABEL MATCHES "centos7")
       list(APPEND all_supported
         builtin_tbb
       )
     endif()
   endif()
 
-  if("$ENV{LABEL}" MATCHES "ubuntu14" OR
-     "$ENV{LABEL}" MATCHES "ubuntu16" OR
-     "$ENV{LABEL}" MATCHES "centos7")
+  if(LABEL MATCHES "ubuntu1[46]" OR
+     LABEL MATCHES "centos7")
     # LZ4 is too old.
     list(APPEND all_supported
       builtin_lz4
     )
   endif()
 
-  if("$ENV{LABEL}" MATCHES "ubuntu14" OR
-     "$ENV{LABEL}" MATCHES "ubuntu16" OR
-     "$ENV{LABEL}" MATCHES "ubuntu18")
+  if(LABEL MATCHES "ubuntu1[468]")
     # Davix is there but in a Davix version that's broken.
     # The others don't exist
     list(APPEND all_supported
@@ -260,9 +257,9 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("$ENV{LABEL}" MATCHES "fedora" OR
-     ("$ENV{LABEL}" MATCHES "ubuntu" AND
-      NOT ("$ENV{LABEL}" MATCHES "ubuntu14")))
+  if(LABEL MATCHES "fedora" OR
+     (LABEL MATCHES "ubuntu" AND
+      NOT (LABEL MATCHES "ubuntu14")))
     # vc needs GCC >= 5
     list(APPEND all_supported
       builtin_vc
@@ -270,17 +267,16 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("$ENV{LABEL}" MATCHES "fedora" OR
-     ("$ENV{LABEL}" MATCHES "ubuntu"
-     AND NOT ("$ENV{LABEL}" MATCHES "ubuntu14" OR
-              "$ENV{LABEL}" MATCHES "ubuntu16")))
+  if(LABEL MATCHES "fedora" OR
+     (LABEL MATCHES "ubuntu"
+     AND NOT (LABEL MATCHES "ubuntu1[46]")))
     # Fedora and Ubuntu 18 and up:
     list(APPEND all_supported
       qt5web
     )
   endif()
 
-  if("$ENV{LABEL}" MATCHES "centos")
+  if(LABEL MATCHES "centos")
     list(APPEND all_supported
       castor
       globus
@@ -288,23 +284,22 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("$ENV{LABEL}" MATCHES "ubuntu"
-     AND NOT ("$ENV{LABEL}" MATCHES "ubuntu14" OR
-              "$ENV{LABEL}" MATCHES "ubuntu16"))
+  if(LABEL MATCHES "ubuntu"
+     AND NOT (LABEL MATCHES "ubuntu1[46]"))
     list(APPEND all_supported
       cuda
       tmva-gpu
     )
   endif()
 
-  if("$ENV{LABEL}" MATCHES "fedora")
+  if(LABEL MATCHES "fedora")
     list(APPEND all_supported
       hdfs
     )
   endif()
 
-  if("$ENV{LABEL}" MATCHES "centos" OR
-     "$ENV{LABEL}" MATCHES "fedora")
+  if(LABEL MATCHES "centos" OR
+     LABEL MATCHES "fedora")
     list(APPEND all_supported
       dcache
       geocad
@@ -312,7 +307,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("ENV{LABEL}" MATCHES "ubuntu")
+  if(LABEL MATCHES "ubuntu")
     list(APPEND all_supported
       builtin_afterimage
     )
@@ -354,11 +349,11 @@ endfunction()
 #
 function(FILTER_PLATFORM_SUPPORTED_MODULES MODULES)
   if(WIN32)
-    GET_ALL_SUPPORTED_MODULES_WIN32()
+    GET_ALL_SUPPORTED_MODULES_WIN32("$ENV{LABEL}")
   elseif(APPLE)
-    GET_ALL_SUPPORTED_MODULES_APPLE()
+    GET_ALL_SUPPORTED_MODULES_APPLE("$ENV{LABEL}")
   else()
-    GET_ALL_SUPPORTED_MODULES_LINUX()
+    GET_ALL_SUPPORTED_MODULES_LINUX("$ENV{LABEL}")
   endif()
   message("AXEL: all_supported=${all_supported}")
 
