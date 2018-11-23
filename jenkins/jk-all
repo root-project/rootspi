@@ -27,7 +27,7 @@ touch $WORKSPACE/controlfile
 if [[ $COMPILER == *classic* ]]
 then
 
-    ctest -VV -S ${THIS}/root-classic.cmake
+    $CTEST -VV -S ${THIS}/root-classic.cmake
     status=$?
 
 else
@@ -41,7 +41,7 @@ else
     fi
 
     if [[ "$1" != "test" ]]; then
-        ctest -j${NCORES} -VV -S ${THIS}/root-build.cmake
+        $CTEST -j${NCORES} -VV -S ${THIS}/root-build.cmake
         status=$?
 
         # do not run the tests if continuous build fails
@@ -56,7 +56,7 @@ else
     fi
 
     if [[ "$1" != "build" ]]; then 
-        ctest -j${NCORES} --no-compress-output -V -S ${THIS}/root-test.cmake
+        $CTEST -j${NCORES} --no-compress-output -V -S ${THIS}/root-test.cmake
         status=$?
     fi
 fi

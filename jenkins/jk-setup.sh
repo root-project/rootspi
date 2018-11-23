@@ -22,14 +22,17 @@ elif [[ $PLATFORM == *fedora* ]]; then
   export PATH=/usr/local/bin:${PATH}
 fi
 
-# Inject a modern CMake and git from cvmfs if they are reachable.
+# Inject a modern git from cvmfs if reachable.
 if [[ $(uname -s) == Linux ]]; then
-  if [[ -e /cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin ]]; then
-    export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
-  fi
   if [[ -e /cvmfs/sft.cern.ch/lcg/contrib/git/latest/$ARCH-slc6/bin ]]; then
     export PATH=/cvmfs/sft.cern.ch/lcg/contrib/git/latest/$ARCH-slc6/bin:$PATH
   fi
+fi
+
+# CentOS uses "ctest3"
+CTEST=ctest
+if [[ $LABEL == *centos7* ]]; then
+  CTEST=ctest3
 fi
 
 if [[ $LABEL == *-clangHEAD ]]; then
