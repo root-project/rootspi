@@ -224,6 +224,61 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     xrootd
   )
 
+  # Modules that we can only build on selected platforms.
+  # Keep this "open ended", i.e. assume that if Ubuntu18 can do it,
+  # Ubuntu22 will also be able to do it.
+
+  if(LABEL MATCHES "fedora" OR
+     (LABEL MATCHES "ubuntu" AND
+      NOT (LABEL MATCHES "ubuntu1[46]")))
+    # Fedora and Ubuntu 18 and up:
+    list(APPEND all_supported
+      qt5web
+    )
+  endif()
+
+  if(LABEL MATCHES "centos")
+    list(APPEND all_supported
+      castor
+      globus
+      rfio
+    )
+  endif()
+
+  if(LABEL MATCHES "ubuntu" AND
+     NOT (LABEL MATCHES "ubuntu1[46]"))
+    list(APPEND all_supported
+      cuda
+      tmva-gpu
+    )
+  endif()
+
+  if(LABEL MATCHES "fedora")
+    list(APPEND all_supported
+      hdfs
+    )
+  endif()
+
+  if(LABEL MATCHES "centos" OR
+    LABEL MATCHES "fedora")
+    list(APPEND all_supported
+      dcache
+      geocad
+      gfal
+    )
+  endif()
+
+  if(LABEL MATCHES "fedora" OR
+     (LABEL MATCHES "ubuntu" AND
+      NOT (LABEL MATCHES "ubuntu14")))
+    # vc needs GCC >= 5
+    list(APPEND all_supported
+      builtin_vc
+      vc
+    )
+  endif()
+
+
   # DO NOT use "open ended" matches, i.e. "no Ubuntu supports X".
   # We want to see whether the next Ubuntu version provides a package,
   # and for that we should not treat it special.
@@ -254,56 +309,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
       builtin_unuran
       builtin_xrootd
       builtin_xxhash
-    )
-  endif()
-
-  if(LABEL MATCHES "fedora" OR
-     (LABEL MATCHES "ubuntu" AND
-      NOT (LABEL MATCHES "ubuntu14")))
-    # vc needs GCC >= 5
-    list(APPEND all_supported
-      builtin_vc
-      vc
-    )
-  endif()
-
-  if(LABEL MATCHES "fedora" OR
-     (LABEL MATCHES "ubuntu"
-     AND NOT (LABEL MATCHES "ubuntu1[46]")))
-    # Fedora and Ubuntu 18 and up:
-    list(APPEND all_supported
-      qt5web
-    )
-  endif()
-
-  if(LABEL MATCHES "centos")
-    list(APPEND all_supported
-      castor
-      globus
-      rfio
-    )
-  endif()
-
-  if(LABEL MATCHES "ubuntu"
-     AND NOT (LABEL MATCHES "ubuntu1[46]"))
-    list(APPEND all_supported
-      cuda
-      tmva-gpu
-    )
-  endif()
-
-  if(LABEL MATCHES "fedora")
-    list(APPEND all_supported
-      hdfs
-    )
-  endif()
-
-  if(LABEL MATCHES "centos" OR
-     LABEL MATCHES "fedora")
-    list(APPEND all_supported
-      dcache
-      geocad
-      gfal
     )
   endif()
 
