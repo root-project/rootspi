@@ -440,18 +440,39 @@ endfunction()
 
 
 #
-#  Get modules to enable for this build, on this platform.
+#  Remove modules that cannot be built given the SPECLIST.
+#
+function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
+  if("rtcxxmod" IN_LIST SPECLIST)
+    # cling complains about cfitsio version mismatch header/library
+    list(REMOVE_ITEM want_modules
+      builtin_cfitsio
+      fitsio
+    )
+  endif()
+  set(want_modules ${want_modules} PARENT_SCOPE)
+endfunction()
+
+
+#
+#  Get modules to enable for this build, on this platform, given the SPECLIST.
 #  Return as ${enabled_modules}
 #
-function(GET_MODULES)
+function(GET_MODULES SPECLIST)
   GET_ALL_MODULES()
+  list(SORT all_modules)
   message("AXEL: all modules = ${all_modules}")
+
   if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
     GET_RELEASE_MODULES("${all_modules}")
   else()
     GET_MOST_MODULES("${all_modules}")
   endif()
-  list(SORT all_modules)
+
+
+  REMOVE_SPEC_SUPPRESSED("${SPECLIST}" "${want_modules}")
+  message("AXEL: modules after removing SPEC suppressed = ${all_modules}")
+
   set(enabled_modules "")
   foreach(module IN LISTS all_modules)
     list(FIND want_modules ${module} FOUNDIDX)
@@ -465,9 +486,17 @@ function(GET_MODULES)
 endfunction()
 
 
+#
+#  MAIN(), sort of.
+#
+
+
+# First build a list out of spec1-spec2-spec3 for easier matching.
+string(REPLACE "-" ";" SPECLIST $ENV{SPEC})
+
 
 #---Select modules to enable as ${enabled_modules}--------------------------
-GET_MODULES()
+GET_MODULES("${SPECLIST}")
 message("AXEL: ${enabled_modules}")
 
 #---Enable tests------------------------------------------------------------
@@ -491,9 +520,6 @@ if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{LABEL}" MATCHES "centos7-man
 endif()
 
 #---Consider SPEC flags-----------------------------------------------------
-
-# First build a list out of spec1-spec2-spec3 for easier matching.
-string(REPLACE "-" ";" SPECLIST $ENV{SPEC})
 
 set(specflags "")
 if("python3" IN_LIST SPECLIST)
