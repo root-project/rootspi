@@ -10,7 +10,7 @@ set(CTEST_NOTES_FILES  ignoredtests.txt)
 
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
-  ctest_start (Continuous TRACK Continuous-${CTEST_VERSION} APPEND)
+  ctest_start (Continuous TRACK Incremental APPEND)
   ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark")
 
 #----Install mode---------------------------------------------------------
