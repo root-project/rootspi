@@ -211,7 +211,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     table
     thread
     tmva
-    tmva-cpu
     tmva-pymva
     tmva-rmva
     unuran
@@ -227,6 +226,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   if(NOT "${LABEL}" MATCHES "clang-HEAD")
     list(APPEND all_supported
       imt
+    )
+  endif()
+
+  # Fedora27's openblas is buggy.
+  if(NOT "${LABEL}" MATCHES "fedora27")
+    list(APPEND all_supported
+      tmva-cpu
     )
   endif()
 
