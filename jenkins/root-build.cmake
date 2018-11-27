@@ -308,7 +308,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     list(APPEND all_supported
       builtin_davix
       builtin_unuran
-      builtin_xrootd
       builtin_xxhash
     )
   endif()
@@ -449,6 +448,12 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
     list(REMOVE_ITEM want_modules
       builtin_cfitsio
       fitsio
+    )
+  endif()
+  if("cxx17" IN_LIST SPECLIST)
+    # builtin_xrootd cannot be built with C++17.
+    list(REMOVE_ITEM want_modules
+      buildin_xrootd
     )
   endif()
   set(want_modules ${want_modules} PARENT_SCOPE)
