@@ -297,7 +297,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     endif()
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu1[46]|centos7")
+  if("${LABEL}" MATCHES "ubuntu1[46]|fedora27|centos7")
     # LZ4 is too old.
     list(APPEND all_supported
       builtin_lz4
