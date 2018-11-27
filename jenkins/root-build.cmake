@@ -599,7 +599,7 @@ if(CTEST_MODE STREQUAL continuous)
       file(REMOVE_RECURSE ${testruns})
     endif()
   endif()
-  ctest_start (Continuous TRACK Continuous-${CTEST_VERSION})
+  ctest_start (Continuous TRACK Incremental)
   ctest_update(RETURN_VALUE updates)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
