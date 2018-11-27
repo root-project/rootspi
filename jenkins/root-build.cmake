@@ -286,7 +286,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
 
   if (ROOT_VERSION VERSION_GREATER 6.14)
     if(("${LABEL}" MATCHES "ubuntu1[468]|fedora2[789]|centos7")
-       AND NOT (${LABEL}" MATCHES "clang-HEAD"))
+       AND NOT ("${LABEL}" MATCHES "clang-HEAD"))
       list(APPEND all_supported
         builtin_tbb
       )
