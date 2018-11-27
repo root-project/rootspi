@@ -225,7 +225,9 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
 
   # tbb cannot be compiled with clang-HEAD.
   if(NOT "${LABEL}" MATCHES "clang-HEAD")
-    imt
+    list(APPEND all_supported
+      imt
+    )
   endif()
 
   # Modules that we can only build on selected platforms.
