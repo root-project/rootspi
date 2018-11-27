@@ -188,7 +188,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     gdml
     gviz
     http
-    imt
     krb5
     ldap
     mathmore
@@ -223,6 +222,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     xml
     xrootd
   )
+
+  # tbb cannot be compiled with clang-HEAD.
+  if(NOT "${LABEL}" MATCHES "clang-HEAD")
+    imt
+  endif()
 
   # Modules that we can only build on selected platforms.
   # Keep this "open ended", i.e. assume that if Ubuntu18 can do it,
@@ -281,7 +285,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   # and for that we should not treat it special.
 
   if (ROOT_VERSION VERSION_GREATER 6.14)
-    if("${LABEL}" MATCHES "ubuntu1[468]|fedora2[789]|centos7")
+    if(("${LABEL}" MATCHES "ubuntu1[468]|fedora2[789]|centos7")
+       AND NOT (${LABEL}" MATCHES "clang-HEAD"))
       list(APPEND all_supported
         builtin_tbb
       )
