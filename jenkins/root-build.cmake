@@ -608,9 +608,11 @@ if(CTEST_MODE STREQUAL continuous)
   endif()
   ctest_start (Continuous TRACK Incremental)
   ctest_update(RETURN_VALUE updates)
-  ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
-                  SOURCE  ${CTEST_SOURCE_DIRECTORY}
-                  OPTIONS "${options}" RETURN_VALUE status)
+  if(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
+    ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
+                    SOURCE  ${CTEST_SOURCE_DIRECTORY}
+                    OPTIONS "${options}" RETURN_VALUE status)
+  endif()
   if(NOT ${status} EQUAL 0)
     message(FATAL_ERROR "Failed to configure project")
   endif()
