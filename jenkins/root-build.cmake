@@ -269,7 +269,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   if("${LABEL}" MATCHES "centos|fedora")
     list(APPEND all_supported
       dcache
-      geocad
       gfal
     )
   endif()
