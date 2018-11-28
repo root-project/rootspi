@@ -38,7 +38,7 @@ fi
 if [[ $LABEL == *-clangHEAD ]]; then
   # We use clang as a compiler with libstdc++.
   # Get the gcc version. First parameter is a zero-based offset and the second is the length.
-  . /afs/cern.ch/sw/lcg/contrib/gcc/6.2/x86_64-centos7/setup.sh
+  . /cvmfs/sft.cern.ch/lcg/contrib/gcc/6.2/x86_64-centos7/setup.sh
   export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/x86_64-centos7-gcc62-opt/bin/:$PATH
   export CC=`which clang`
   export CXX=`which clang++`
