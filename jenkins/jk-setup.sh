@@ -42,7 +42,6 @@ if [[ $LABEL == *-clangHEAD ]]; then
   export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/x86_64-centos7-gcc62-opt/bin/:$PATH
   export CC=`which clang`
   export CXX=`which clang++`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dhdfs=OFF"
   # On centos7 we want to compile with a more 'standard' toolchain.
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
 elif [[ $COMPILER == *native* ]]; then
