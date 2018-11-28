@@ -612,9 +612,9 @@ if(CTEST_MODE STREQUAL continuous)
     ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                     SOURCE  ${CTEST_SOURCE_DIRECTORY}
                     OPTIONS "${options}" RETURN_VALUE status)
-  endif()
-  if(NOT ${status} EQUAL 0)
-    message(FATAL_ERROR "Failed to configure project")
+    if(NOT ${status} EQUAL 0)
+      message(FATAL_ERROR "Failed to configure project")
+    endif()
   endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
