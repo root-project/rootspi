@@ -260,6 +260,12 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     )
   endif()
 
+  if("${LABEL}" MATCHES "fedora27")
+    # OpenBlas 3.2 has a bug that causes test failures.
+    # Use the generic, slower one from Netlib instead.
+    set(ENV{ExtraCMakeOptions} "-DBLA_VENDOR=Generic $ENV{ExtraCMakeOptions}")
+  endif()
+
   if("${LABEL}" MATCHES "fedora")
     list(APPEND all_supported
       hdfs
