@@ -469,6 +469,12 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
       buildin_xrootd
     )
   endif()
+  if("cxxmod" IN_LIST SPECLIST)
+    # The module build currently fails to compile gfal.
+    list(REMOVE_ITEM want_modules
+      gfal
+    )
+  endif()
   set(want_modules ${want_modules} PARENT_SCOPE)
 endfunction()
 
