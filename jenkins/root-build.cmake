@@ -2,6 +2,7 @@
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 
 cmake_policy(SET CMP0057 NEW) # interpret the IN_LIST operator
+cmake_policy(SET CMP0061 NEW) # do not pass "-i" to GNU make ("continue on error as if success")
 
 #
 #  Initialize ${all_modules} to all available build options.
