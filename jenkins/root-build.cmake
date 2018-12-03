@@ -457,7 +457,8 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
     list(REMOVE_ITEM want_modules
       builtin_cfitsio
       fitsio
-      tmva_cuda
+      cuda
+      tmva_gpu
     )
   endif()
   if("cxx17" IN_LIST SPECLIST)
