@@ -186,7 +186,7 @@ if ((CTEST_MODE STREQUAL package) AND NOT (${PACKAGE_DATE}))
   list(GET DOWNLOADRES 0 ERRORCODE)
   if(NOT ERRORCODE EQUAL 0)
     list(GET DOWNLOADRES 1 ERRORMSG)
-    message(FATAL "Download of ${SOURCE_URL} failed with code ${ERRORCODE}: ${ERRORMSG}")
+    message(FATAL_ERROR "Download of ${SOURCE_URL} failed with code ${ERRORCODE}: ${ERRORMSG}")
   endif()
   file(REMOVE_RECURSE ${CTEST_SOURCE_DIRECTORY})
   execute_process(
@@ -194,7 +194,7 @@ if ((CTEST_MODE STREQUAL package) AND NOT (${PACKAGE_DATE}))
     WORKING_DIRECTORY ${CTEST_SOURCE_PREFIX}
     RESULT_VARIABLE TAR_RESULT)
   if(NOT ${TAR_RESULT} EQUAL 0)
-    message(FATAL "Failed to uncompress tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DI\
+    message(FATAL_ERROR "Failed to uncompress tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DI\
 RECTORY}: ${TAR_RESULT}")
   endif()
   message("Uncompressed tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DIRECTORY}")
