@@ -35,7 +35,7 @@ if(CTEST_MODE STREQUAL package)
   if((CTEST_VERSION STREQUAL master) OR (CTEST_VERSION MATCHES "-patches$"))
     # If we don't have a tag, set the version to
     # "master_2018-10-31_ae7e81bc30cc" to get a nice package name.
-    string(SUBSTRING ${GIT_COMMIT} 0 12 PACKAGE_SHORT_GIT_REV)
+    string(SUBSTRING "$ENV{GIT_COMMIT}" 0 12 PACKAGE_SHORT_GIT_REV)
     if("${PACKAGE_SHORT_GIT_REV}" STREQUAL "")
       message(FATAL_ERROR "Empty git revision!")
     endif()
