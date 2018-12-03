@@ -320,6 +320,12 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     )
   endif()
 
+  if("${LABEL}" MATCHES "centos7-clang-HEAD")
+    # clang's C++17 does not work with old C++ standard's libraries
+    builtin_davix
+    builtin_xrootd
+  endif()
+
   if("${LABEL}" MATCHES "ubuntu")
     list(APPEND all_supported
       builtin_afterimage
