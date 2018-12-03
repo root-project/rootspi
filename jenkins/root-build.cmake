@@ -10,7 +10,7 @@ cmake_policy(SET CMP0061 NEW) # do not pass "-i" to GNU make ("continue on error
 function(GET_ALL_MODULES)
   execute_process(
     COMMAND git grep "^ROOT_BUILD_OPTION" cmake/modules/RootBuildOptions.cmake
-    WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+    WORKING_DIRECTORY ${WORKSPACE}/root
     OUTPUT_VARIABLE GITGREP
   )
   if(NOT GITGREP)
