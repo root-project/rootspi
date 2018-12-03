@@ -175,7 +175,7 @@ if(NOT "$ENV{GIT_COMMIT}" STREQUAL "")  #--- From Jenkins---------------------
   set(CTEST_GIT_UPDATE_CUSTOM  ${CTEST_GIT_COMMAND} checkout -f $ENV{GIT_COMMIT})
 endif()
 
-if ((CTEST_MODE STREQUAL package) AND NOT (PACKAGE_DATE))
+if ((CTEST_MODE STREQUAL package) AND NOT PACKAGE_DATE)
   # this is a tag; grab the sources from http://root.cern/downloads and unpack them.
   unset(CTEST_CHECKOUT_COMMAND)
   set(SOURCE_TAR_FILENAME "root_${PACKAGE_VERSION}.source.tar.gz")
