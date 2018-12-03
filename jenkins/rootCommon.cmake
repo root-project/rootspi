@@ -171,7 +171,6 @@ endif()
 set(CTEST_UPDATE_COMMAND ${CTEST_GIT_COMMAND})
 
 if(NOT "$ENV{GIT_COMMIT}" STREQUAL "")  #--- From Jenkins---------------------
-for package and DATE_STAMP: move sources
   if(CTEST_MODE STREQUAL package AND PACKAGE_DATE)
     file(RENAME "$ENV{WORKSPACE}/root" "${CTEST_SOURCE_DIRECTORY}")
   endif()
