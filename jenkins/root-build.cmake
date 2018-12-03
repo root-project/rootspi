@@ -224,13 +224,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     xrootd
   )
 
-  # tbb cannot be compiled with clang-HEAD.
-  if(NOT "${LABEL}" MATCHES "clang-HEAD")
-    list(APPEND all_supported
-      imt
-    )
-  endif()
-
   # Modules that we can only build on selected platforms.
   # Keep this "open ended", i.e. assume that if Ubuntu18 can do it,
   # Ubuntu22 will also be able to do it.
@@ -320,7 +313,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     )
   endif()
 
-  if("${LABEL}" MATCHES "centos7-clang-HEAD")
+  if("${LABEL}" MATCHES "centos7-clangHEAD")
     # clang's C++17 does not work with old C++ standard's libraries
     list(APPEND all_supported
       builtin_davix
