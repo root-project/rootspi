@@ -514,8 +514,7 @@ endfunction()
 
 
 # First build a list out of spec1-spec2-spec3 for easier matching.
-string(REPLACE "-" ";" SPECLIST $ENV{SPEC})
-
+string(REPLACE "-" ";" SPECLIST "$ENV{SPEC}")
 
 #---Select modules to enable as ${enabled_modules}--------------------------
 GET_MODULES("${SPECLIST}")
