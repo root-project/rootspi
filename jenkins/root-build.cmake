@@ -332,6 +332,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     )
   endif()
 
+  # Do not build builtin_openssl on Linuxes, rely on distro.
   set(OPTIONAL_BUILTINS
     builtin_afterimage
     builtin_cfitsio
@@ -344,7 +345,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     builtin_gsl
     builtin_lzma
     builtin_lz4
-    builtin_openssl
     builtin_pcre
     builtin_tbb
     builtin_unuran
