@@ -559,8 +559,8 @@ if("python3" IN_LIST SPECLIST)
 endif()
 
 if("noimt" IN_LIST SPECLIST)
-  string(REGEX REPLACE "-Dimt=[^ ] ?" "" enabled_modules ${enabled_modules})
-  string(REGEX REPLACE "-Dbuiltin_tbb=[^ ] ?" "" enabled_modules ${enabled_modules})
+  string(REGEX REPLACE "-Dimt=[^ ]+ ?" "" enabled_modules ${enabled_modules})
+  string(REGEX REPLACE "-Dbuiltin_tbb=[^ ]+ ?" "" enabled_modules ${enabled_modules})
   set(specflags "${specflags} -Dimt=Off -Dbuiltin_tbb=Off")
 endif()
 
