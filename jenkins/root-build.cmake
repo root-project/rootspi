@@ -231,6 +231,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   if(NOT "${LABEL}" MATCHES "centos7-clangHEAD")
     list(APPEND all_supported
       r
+      tmva-rmva
     )
   endif()
 
