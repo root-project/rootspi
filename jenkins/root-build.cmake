@@ -213,7 +213,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     tmva
     tmva-cpu
     tmva-pymva
-    tmva-rmva
     unuran
     vdt
     veccore
