@@ -202,7 +202,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     python
     qt
     qtgsi
-    r
     roofit
     root7
     shadowpw
@@ -227,6 +226,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   # Modules that we can only build on selected platforms.
   # Keep this "open ended", i.e. assume that if Ubuntu18 can do it,
   # Ubuntu22 will also be able to do it.
+
+  # Rinside uses wrong C++ std (missing abi tag for C++11)
+  if(NOT "${LABEL}" MATCHES "centos7-clangHEAD")
+    list(APPEND all_supported
+      r
+    )
+  endif()
 
   if("${LABEL}" MATCHES "fedora|ubuntu" AND
      NOT ("${LABEL}" MATCHES "ubuntu1[46]"))
