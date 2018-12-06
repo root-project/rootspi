@@ -44,20 +44,12 @@ if [[ $LABEL == *-clangHEAD ]]; then
   export CXX=`which clang++`
   # On centos7 we want to compile with a more 'standard' toolchain.
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
-elif [[ $COMPILER == *native* ]]; then
-  unset CC
-  unset CXX
-  unset FC
 fi
 
 # Special settings for Clang HEAD and for ROOT-patched LLVM/Clang builds
 # Label ROOT-cc7-gcc62 is also used for rootbench.git build
 if [[ $LABEL == *-centos7-gcc62 ]]; then
   . /cvmfs/sft.cern.ch/lcg/contrib/gcc/6.2/x86_64-centos7/setup.sh
-elif [[ $COMPILER == *native* ]]; then
-  unset CC
-  unset CXX
-  unset FC
 fi
 
 if [[ $PLATFORM == *centos7* ]]; then
