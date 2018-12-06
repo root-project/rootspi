@@ -50,6 +50,16 @@ elif [[ $COMPILER == *native* ]]; then
   unset FC
 fi
 
+# Special settings for Clang HEAD and for ROOT-patched LLVM/Clang builds
+# Label ROOT-cc7-gcc62 is also used for rootbench.git build
+if [[ $LABEL == *-centos7-gcc62 ]]; then
+  . /cvmfs/sft.cern.ch/lcg/contrib/gcc/6.2/x86_64-centos7/setup.sh
+elif [[ $COMPILER == *native* ]]; then
+  unset CC
+  unset CXX
+  unset FC
+fi
+
 if [[ $PLATFORM == *centos7* ]]; then
   # No ccache on centos7-manycore:
   if [[ "$LABEL" != "centos7-manycore" ]]; then
