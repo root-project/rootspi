@@ -59,7 +59,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   ctest_start(Pullrequests TRACK Pullrequests APPEND)
   string(TOLOWER "$ENV{ExtraCMakeOptions}" EXTRA_CMAKE_OPTS_LOWER)
   if(${EXTRA_CMAKE_OPTS_LOWER} MATCHES "dctest_test_exclude_none=on"
-     OR "$ENV{LABEL}" MATCHES "centos7-manycore")
+     OR "$ENV{LABEL}" MATCHES "ROOT-performance-centos7-multicore")
     message("Enabling all tests.")
     ctest_test(PARALLEL_LEVEL ${ncpu})
   else()
@@ -78,4 +78,3 @@ else()
 endif()
 
 ctest_submit(PARTS Test Notes)
-

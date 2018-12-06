@@ -543,7 +543,7 @@ if(NOT CTEST_MODE STREQUAL package)
 endif()
 
 #---Use ccache--------------------------------------------------------------
-if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{LABEL}" MATCHES "centos7-manycore"))
+if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{LABEL}" MATCHES "ROOT-performance-centos7-multicore"))
   set(ccache_option "-Dccache=ON")
 endif()
 
