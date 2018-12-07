@@ -47,6 +47,7 @@ function(GET_ALL_MODULES)
     rpath
     runtime_cxxmodules
     shared
+    soversion
     tcmalloc
     winrtdebug
     coverage
@@ -204,7 +205,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     roofit
     root7
     shadowpw
-    soversion
     sqlite
     ssl
     table
@@ -442,12 +442,6 @@ function(GET_RELEASE_MODULES ALL_MODULES)
     tmva-rmva
     vecgeom
   )
-  if (ROOT_VERSION VERSION_LESS 6.16)
-    # Releasing with soversion enabled starting v6.16
-    list(REMOVE_ITEM want_modules
-      soversion
-    )
-  endif()
 
   set(want_modules ${want_modules} PARENT_SCOPE)
 endfunction()
@@ -547,8 +541,15 @@ if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{LABEL}" MATCHES "ROOT-perfor
   set(ccache_option "-Dccache=ON")
 endif()
 
-#---Consider SPEC flags-----------------------------------------------------
+#---soversion-----------------------------------------------------
+if (ROOT_VERSION VERSION_LESS 6.16)
+  # Releasing with soversion enabled starting v6.16
+  if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
+    set(soversion_option "-Dsoversion=On")
+  endif()
+endif()
 
+#---Consider SPEC flags-----------------------------------------------------
 set(specflags "")
 if("python3" IN_LIST SPECLIST)
   find_program(PYTHON3PATH python3)
@@ -589,6 +590,7 @@ set(options
   ${enabled_modules}
   ${specflags}
   ${ccache_option}
+  ${soversion_option}
   ${testing_options}
   -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
   $ENV{ExtraCMakeOptions}
