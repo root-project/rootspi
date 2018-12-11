@@ -586,6 +586,7 @@ endif()
 #---Compose the configuration options---------------------------------------
 # Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
 set(options
+  -Wno-deprecated
   -Dfail-on-missing=On
   ${enabled_modules}
   ${specflags}
