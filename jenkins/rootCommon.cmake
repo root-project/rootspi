@@ -66,7 +66,7 @@ endif()
 message("Building ROOT version ${ROOT_VERSION}")
 
 if("$ENV{SOURCE_PREFIX}" STREQUAL "")
-  set(CTEST_SOURCE_PREFIX "${pwd}/sources")
+  set(CTEST_SOURCE_PREFIX "${pwd}")
 else()
   set(CTEST_SOURCE_PREFIX "$ENV{SOURCE_PREFIX}")
 endif()
