@@ -326,6 +326,14 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     )
   endif()
 
+
+  if("${LABEL}" MATCHES "ubuntu1[468]")
+    # Ubuntu has no xrootd
+    list(APPEND all_supported
+      builtin_xrootd
+    )
+  endif()
+
   if("${LABEL}" MATCHES "ubuntu")
     list(APPEND all_supported
       builtin_afterimage
