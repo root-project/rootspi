@@ -280,8 +280,9 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   endif()
 
   if("${LABEL}" MATCHES "fedora|ubuntu" AND
-     NOT ("${LABEL}" MATCHES "ubuntu14"))
-    # vc needs GCC >= 5
+     NOT ("${LABEL}" MATCHES "ubuntu14") AND
+     NOT ("${LABEL}" MATCHES "-i386"))
+    # vc needs 64bit, GCC >= 5
     list(APPEND all_supported
       builtin_vc
       vc
