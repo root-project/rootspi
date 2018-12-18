@@ -553,9 +553,9 @@ endif()
 #---soversion-----------------------------------------------------
 if (ROOT_VERSION VERSION_GREATER 6.14)
   # Releasing with soversion enabled starting v6.16
-  if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
-    set(soversion_option "-Dsoversion=On")
-  endif()
+  if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests
+     OR "soversion" IN_LIST SPECLIST)
+  set(soversion_option "-Dsoversion=On")
 endif()
 
 #---Consider SPEC flags-----------------------------------------------------
@@ -572,10 +572,6 @@ if("noimt" IN_LIST SPECLIST)
   string(REGEX REPLACE "-Dimt=[^ ]+ ?" "" enabled_modules ${enabled_modules})
   string(REGEX REPLACE "-Dbuiltin_tbb=[^ ]+ ?" "" enabled_modules ${enabled_modules})
   set(specflags "${specflags} -Dimt=Off -Dbuiltin_tbb=Off")
-endif()
-
-if("soversion" IN_LIST SPECLIST)
-  set(specflags "${specflags} -Dsoversion=On")
 endif()
 
 if("rtcxxmod" IN_LIST SPECLIST)
