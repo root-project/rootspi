@@ -574,6 +574,10 @@ if("noimt" IN_LIST SPECLIST)
   set(specflags "${specflags} -Dimt=Off -Dbuiltin_tbb=Off")
 endif()
 
+if("soversion" IN_LIST SPECLIST)
+  set(specflags "${specflags} -Dsoversion=On")
+endif()
+
 if("rtcxxmod" IN_LIST SPECLIST)
   set(specflags "${specflags} -Druntime_cxxmodules=On")
 endif()
