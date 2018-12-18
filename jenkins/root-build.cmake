@@ -555,7 +555,8 @@ if (ROOT_VERSION VERSION_GREATER 6.14)
   # Releasing with soversion enabled starting v6.16
   if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests
      OR "soversion" IN_LIST SPECLIST)
-  set(soversion_option "-Dsoversion=On")
+    set(soversion_option "-Dsoversion=On")
+  endif()
 endif()
 
 #---Consider SPEC flags-----------------------------------------------------
