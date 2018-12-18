@@ -551,7 +551,7 @@ if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{LABEL}" MATCHES "ROOT-perfor
 endif()
 
 #---soversion-----------------------------------------------------
-if (ROOT_VERSION VERSION_LESS 6.16)
+if (ROOT_VERSION VERSION_GREATER 6.14)
   # Releasing with soversion enabled starting v6.16
   if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
     set(soversion_option "-Dsoversion=On")
