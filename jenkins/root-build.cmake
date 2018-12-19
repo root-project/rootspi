@@ -225,12 +225,20 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   # Keep this "open ended", i.e. assume that if Ubuntu18 can do it,
   # Ubuntu22 will also be able to do it.
 
-  # Rinside, pythia8 use wrong C++ std (missing abi tag for C++11)
+  # pythia8 uses wrong C++ std (missing abi tag for C++11)
   if(NOT "${LABEL}" MATCHES "centos7-clangHEAD")
+    list(APPEND all_supported
+      pythia8
+    )
+  endif()
+
+  # For centos7, Rinside uses wrong C++ std (missing abi tag for C++11);
+  # Rinside package does not exist for 32bit Ubuntu.
+  if(NOT "${LABEL}" MATCHES "centos7-clangHEAD" AND
+     NOT "${LABEL}" MATCHES "-i386")
     list(APPEND all_supported
       r
       tmva-rmva
-      pythia8
     )
   endif()
 
