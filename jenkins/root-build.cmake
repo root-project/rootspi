@@ -28,6 +28,7 @@ function(GET_ALL_MODULES)
   )
   string(REPLACE " " ";" all_modules ${all_modules})
   # Remove build configuration settings: they are not modules.
+  # Remove root7 because we simply want it on if >= cxx14, i.e. not explicitly steer it.
   list(REMOVE_ITEM all_modules
     builtin_llvm
     builtin_clang
@@ -44,6 +45,7 @@ function(GET_ALL_MODULES)
     memory_termination
     pch
     pyroot_experimental
+    root7
     rpath
     runtime_cxxmodules
     shared
@@ -83,7 +85,6 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32 LABEL)
     opengl
     python
     roofit
-    root7
     sqlite
     table
     thread
@@ -151,7 +152,6 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE LABEL)
     opengl
     python
     roofit
-    root7
     sqlite
     ssl
     table
@@ -203,7 +203,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     qt
     qtgsi
     roofit
-    root7
     shadowpw
     sqlite
     ssl
