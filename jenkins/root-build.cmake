@@ -233,9 +233,9 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   endif()
 
   # For centos7, Rinside uses wrong C++ std (missing abi tag for C++11);
-  # Rinside package does not exist for 32bit Ubuntu.
+  # Rinside package does not exist for Ubuntu 14.
   if(NOT "${LABEL}" MATCHES "centos7-clangHEAD" AND
-     NOT "${LABEL}" MATCHES "-i386")
+     NOT "${LABEL}" MATCHES "ubuntu14")
     list(APPEND all_supported
       r
       tmva-rmva
