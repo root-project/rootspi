@@ -352,12 +352,17 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   # Build these below as builtins; use the remaining as static libs from the distro.
   # This gives fairly stand-alone binaries (no need to sudo install packages)
   # while being binary compatible with the distro packages.
+  #
+  # On Ubuntu and Fedora, lz4, lzma, zlib, pcre are built without `-fPIC` and cannot
+  # be used to build shared libraries.
+  # Use distro's static cfitsio, fftw3, gsl: they are compiled with `-fPIC`.
   set(package_builtins
     builtin_afterimage
     builtin_davix
     builtin_ftgl
     builtin_gl2ps
     builtin_glew
+    builtin_pcre
     builtin_tbb
     builtin_unuran
     builtin_vc
@@ -365,6 +370,9 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     builtin_veccore
     builtin_xrootd
     builtin_xxhash
+    builtin_lz4
+    builtin_lzma
+    builtin_zlib
   )
 
   list(REMOVE_ITEM package_builtins ${all_supported})
