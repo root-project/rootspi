@@ -62,12 +62,9 @@ if [[ $LABEL == *-centos7-gcc62 ]]; then
 fi
 
 if [[ $PLATFORM == *centos7* ]]; then
-  # No ccache on cROOT-performance-centos7-multicore:
-  if [[ "$LABEL" != "ROOT-performance-centos7-multicore" ]]; then
-    export CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
-    export CCACHE_DIR=/ccache
-    export CCACHE_MAXSIZE=10G
-  fi
+  export CCACHE_BASEDIR=/mnt/build/jenkins/workspace/
+  export CCACHE_DIR=/ccache
+  export CCACHE_MAXSIZE=10G
 fi
 
 
