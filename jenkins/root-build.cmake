@@ -60,7 +60,7 @@ endfunction()
 
 #
 #  Get all supported modules as ${all_supported}, on Windows.
-#  Get all optional builtins as ${optional_builtins}.
+#  Get all optional builtins as ${package_builtins}.
 #
 function(GET_ALL_SUPPORTED_MODULES_WIN32 LABEL)
   set(all_supported
@@ -99,12 +99,12 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32 LABEL)
     )
   endif()
   set(all_supported ${all_supported} PARENT_SCOPE)
-  set(optional_builtins "" PARENT_SCOPE)
+  set(package_builtins "" PARENT_SCOPE)
 endfunction()
 
 #
 #  Get all supported modules as ${all_supported}, on MacOS.
-#  Get all optional builtins as ${optional_builtins}.
+#  Get all optional builtins as ${package_builtins}.
 #
 function(GET_ALL_SUPPORTED_MODULES_APPLE LABEL)
   set(all_supported
@@ -166,12 +166,12 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE LABEL)
     xrootd
   )
   set(all_supported ${all_supported} PARENT_SCOPE)
-  set(optional_builtins "" PARENT_SCOPE)
+  set(package_builtins "" PARENT_SCOPE)
 endfunction()
 
 #
 #  Get all supported modules as ${all_supported}, on Linux.
-#  Get all optional builtins as ${optional_builtins}.
+#  Get all optional builtins as ${package_builtins}.
 #
 function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   set(all_supported
@@ -348,20 +348,16 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     )
   endif()
 
-  # Do not build builtin_openssl on Linuxes, rely on distro.
-  set(OPTIONAL_BUILTINS
+  # Do not build builtin_openssl or freetype on Linuxes, rely on distro.
+  # Build these below as builtins; use the remaining as static libs from the distro.
+  # This gives fairly stand-alone binaries (no need to sudo install packages)
+  # while being binary compatible with the distro packages.
+  set(package_builtins
     builtin_afterimage
-    builtin_cfitsio
     builtin_davix
-    builtin_fftw3
-    builtin_freetype
     builtin_ftgl
     builtin_gl2ps
     builtin_glew
-    builtin_gsl
-    builtin_lzma
-    builtin_lz4
-    builtin_pcre
     builtin_tbb
     builtin_unuran
     builtin_vc
@@ -369,12 +365,12 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
     builtin_veccore
     builtin_xrootd
     builtin_xxhash
-    builtin_zlib
   )
-  list(REMOVE_ITEM OPTIONAL_BUILTINS ${all_supported})
+
+  list(REMOVE_ITEM package_builtins ${all_supported})
 
   set(all_supported ${all_supported} PARENT_SCOPE)
-  set(optional_builtins ${OPTIONAL_BUILTINS} PARENT_SCOPE)
+  set(package_builtins ${package_builtins} PARENT_SCOPE)
 endfunction()
 
 
@@ -400,9 +396,9 @@ function(FILTER_PLATFORM_SUPPORTED_MODULES MODULES)
   # Supported modules are those in MODULES that are not unsupported.
   list(REMOVE_ITEM MODULES ${MODULES_UNSUPPORTED})
   set(supported_modules ${MODULES} PARENT_SCOPE)
-  set(optional_builtins ${optional_builtins} PARENT_SCOPE)
+  set(package_builtins ${package_builtins} PARENT_SCOPE)
   message("AXEL: supported_modules=${MODULES}")
-  message("AXEL: optional_builtins=${optional_builtins}")
+  message("AXEL: package_builtins=${package_builtins}")
 endfunction()
 
 
@@ -415,7 +411,7 @@ function(GET_MOST_MODULES ALL_MODULES)
   FILTER_PLATFORM_SUPPORTED_MODULES("${ALL_MODULES}")
 
   set(want_modules ${supported_modules} PARENT_SCOPE)
-  set(optional_builtins ${optional_builtins} PARENT_SCOPE)
+  set(package_builtins ${package_builtins} PARENT_SCOPE)
 endfunction()
 
 
@@ -428,7 +424,7 @@ function(GET_RELEASE_MODULES ALL_MODULES)
   GET_MOST_MODULES("${ALL_MODULES}")
 
   # Build as stand-alone as possible: add optional builtins.
-  list(APPEND want_modules ${optional_builtins})
+  list(APPEND want_modules ${package_builtins})
 
   # We don't want to include these modules in releases:
   list(REMOVE_ITEM want_modules
@@ -552,6 +548,13 @@ if(NOT CTEST_MODE STREQUAL package)
   endif()
 endif()
 
+#---Prefer static libs for releases-----------------------------------------
+if((CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
+   AND NOT WIN32 AND NOT APPLE)
+  set(shared_option "-Dshared=Off")
+endif()
+
+
 #---Use ccache--------------------------------------------------------------
 if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{LABEL}" MATCHES "ROOT-performance-centos7-multicore"))
   set(ccache_option "-Dccache=ON")
@@ -606,6 +609,7 @@ set(options
   -Wno-deprecated
   -Dfail-on-missing=On
   ${enabled_modules}
+  ${shared_option}
   ${specflags}
   ${ccache_option}
   ${soversion_option}
