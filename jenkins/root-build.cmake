@@ -559,7 +559,9 @@ endif()
 #---Prefer static libs for releases-----------------------------------------
 if((CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
    AND NOT WIN32 AND NOT APPLE)
-  set(shared_option "-Dshared=Off")
+  # Several static libs are compiled without -fPIC (e.g. xml2, GLU) and we
+  # cannot select static vs shared in a fine-grained way - yet?
+  #set(shared_option "-Dshared=Off")
 endif()
 
 
