@@ -359,8 +359,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   # be used to build shared libraries. We expect most users to not #include their
   # headers, so (distro-incompatible) builtins should be fine.
   #
-  # Use distro's static cfitsio, fftw3, gsl: they are compiled with `-fPIC`.
-  # (Note: Centos7 has no static gsl, we use its shared lkibrary.)
+  # Use distro's static fftw3, gsl: they are compiled with `-fPIC`.
+  # (Note: Centos7 has no static gsl, we use its shared library.)
   set(package_builtins
     builtin_afterimage
     builtin_davix
@@ -576,7 +576,6 @@ if((CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
   endif()
   if(NOT "${LABEL}" MATCHES "ROOT-performance-centos7-multicore")
     set(explicit_libraries "-DFFTW_LIBRARY=${MULTIARCH_STATIC_DIR}/libfftw3.a")
-    set(explicit_libraries "${explicit_libraries} -DCFITSIO_LIBRARY=${MULTIARCH_STATIC_DIR}/libcfitsio.a")
   endif()
   if(NOT "${LABEL}" MATCHES "centos7" AND
      NOT "${LABEL}" MATCHES "fedora27")
