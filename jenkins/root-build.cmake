@@ -667,7 +667,7 @@ if(CTEST_MODE STREQUAL continuous OR CTEST_MODE STREQUAL pullrequests)
   endif()
 endif()
 
-if ((CMAKE_GENERATOR MATCHES "Visual Studio") AND (CMAKE_GENERATOR_TOOLSET STREQUAL ""))
+if (CTEST_CMAKE_GENERATOR MATCHES "Visual Studio" AND WIN32)
   set(options ${options} -Thost=x64)
 endif()
 
