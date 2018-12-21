@@ -556,12 +556,19 @@ if(NOT CTEST_MODE STREQUAL package)
   endif()
 endif()
 
-#---Prefer static libs for releases-----------------------------------------
+#---Prefer these static libs for releases-----------------------------------------
 if((CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
    AND NOT WIN32 AND NOT APPLE)
-  # Several static libs are compiled without -fPIC (e.g. xml2, GLU) and we
-  # cannot select static vs shared in a fine-grained way - yet?
-  #set(shared_option "-Dshared=Off")
+  if(EXISTS /usr/lib/x86_64-linux-gnu/)
+    set(MULTIARCH_STATIC_DIR "/usr/lib/x86_64-linux-gnu")
+  elseif(EXISTS /usr/lib/i386-linux-gnu/libfftw3.a)
+    set(MULTIARCH_STATIC_DIR "-DFFTW_LIBRARY=/usr/lib/x86_64-linux-gnu")
+  else()
+    message(FATAL_ERROR "Cannot find multiarch path for static libraries.")
+  endif()
+  set(explicit_libraries "-DFFTW_LIBRARY=${MULTIARCH_STATIC_DIR}/libfftw3.a")
+  set(explicit_libraries "${explicit_libraries} -DGSL_LIBRARY=${MULTIARCH_STATIC_DIR}/libgsl.a")
+  set(explicit_libraries "${explicit_libraries} -DCFITSIO_LIBRARY=${MULTIARCH_STATIC_DIR}/libcfitsio.a")
 endif()
 
 
@@ -633,6 +640,7 @@ set(options
   ${specflags}
   ${ccache_option}
   ${soversion_option}
+  ${explicit_libraries}
   ${testing_options}
   -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
   $ENV{ExtraCMakeOptions}
