@@ -4,6 +4,8 @@ include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 cmake_policy(SET CMP0057 NEW) # interpret the IN_LIST operator
 cmake_policy(SET CMP0061 NEW) # do not pass "-i" to GNU make ("continue on error as if success")
 
+set(LABEL "$ENV{LABEL}")
+
 #
 #  Initialize ${all_modules} to all available build options.
 #
@@ -106,7 +108,7 @@ endfunction()
 #  Get all supported modules as ${all_supported}, on MacOS.
 #  Get all optional builtins as ${package_builtins}.
 #
-function(GET_ALL_SUPPORTED_MODULES_APPLE LABEL)
+function(GET_ALL_SUPPORTED_MODULES_APPLE)
   set(all_supported
     builtin_afterimage
     builtin_cfitsio
@@ -173,7 +175,7 @@ endfunction()
 #  Get all supported modules as ${all_supported}, on Linux.
 #  Get all optional builtins as ${package_builtins}.
 #
-function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
+function(GET_ALL_SUPPORTED_MODULES_LINUX)
   set(all_supported
     builtin_vdt
     builtin_veccore
@@ -391,11 +393,11 @@ endfunction()
 #
 function(FILTER_PLATFORM_SUPPORTED_MODULES MODULES)
   if(WIN32)
-    GET_ALL_SUPPORTED_MODULES_WIN32("$ENV{LABEL}")
+    GET_ALL_SUPPORTED_MODULES_WIN32()
   elseif(APPLE)
-    GET_ALL_SUPPORTED_MODULES_APPLE("$ENV{LABEL}")
+    GET_ALL_SUPPORTED_MODULES_APPLE()
   else()
-    GET_ALL_SUPPORTED_MODULES_LINUX("$ENV{LABEL}")
+    GET_ALL_SUPPORTED_MODULES_LINUX()
   endif()
   message("AXEL: all_supported=${all_supported}")
 
@@ -584,7 +586,7 @@ endif()
 
 
 #---Use ccache--------------------------------------------------------------
-if((NOT CTEST_MODE STREQUAL package) AND (NOT "$ENV{LABEL}" MATCHES "ROOT-performance-centos7-multicore"))
+if((NOT CTEST_MODE STREQUAL package) AND (NOT "${LABEL}" MATCHES "ROOT-performance-centos7-multicore"))
   set(ccache_option "-Dccache=ON")
 endif()
 
