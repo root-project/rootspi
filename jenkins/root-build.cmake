@@ -64,7 +64,7 @@ endfunction()
 #  Get all supported modules as ${all_supported}, on Windows.
 #  Get all optional builtins as ${package_builtins}.
 #
-function(GET_ALL_SUPPORTED_MODULES_WIN32 LABEL)
+function(GET_ALL_SUPPORTED_MODULES_WIN32)
   set(all_supported
     builtin_afterimage
     builtin_freetype
