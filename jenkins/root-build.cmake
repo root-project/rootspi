@@ -569,7 +569,7 @@ if((CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
   elseif(EXISTS /usr/lib/i386-linux-gnu/)
     set(MULTIARCH_STATIC_DIR "/usr/lib/i386-linux-gnu")
   elseif("${LABEL}" MATCHES "centos7" OR
-         "${LABEL}" MATCHES "fedora27")
+         "${LABEL}" MATCHES "fedora")
     set(MULTIARCH_STATIC_DIR "/usr/lib64")
   else()
     message(FATAL_ERROR "Cannot find multiarch path for static libraries.")
