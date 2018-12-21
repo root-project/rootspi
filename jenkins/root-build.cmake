@@ -354,8 +354,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX LABEL)
   # while being binary compatible with the distro packages.
   #
   # On Ubuntu and Fedora, lz4, lzma, zlib, pcre are built without `-fPIC` and cannot
-  # be used to build shared libraries.
+  # be used to build shared libraries. We expect most users to not #include their
+  # headers, so (distro-incompatible) builtins should be fine.
+  #
   # Use distro's static cfitsio, fftw3, gsl: they are compiled with `-fPIC`.
+  # (Note: Centos7 has no static gsl, we use its shared lkibrary.)
   set(package_builtins
     builtin_afterimage
     builtin_davix
@@ -562,13 +565,19 @@ if((CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
   if(EXISTS /usr/lib/x86_64-linux-gnu/)
     set(MULTIARCH_STATIC_DIR "/usr/lib/x86_64-linux-gnu")
   elseif(EXISTS /usr/lib/i386-linux-gnu/libfftw3.a)
-    set(MULTIARCH_STATIC_DIR "-DFFTW_LIBRARY=/usr/lib/x86_64-linux-gnu")
+    set(MULTIARCH_STATIC_DIR "/usr/lib/x86_64-linux-gnu")
+  elseif("${LABEL}" MATCHES "centos7")
+    set(MULTIARCH_STATIC_DIR "/usr/lib64")
   else()
     message(FATAL_ERROR "Cannot find multiarch path for static libraries.")
   endif()
-  set(explicit_libraries "-DFFTW_LIBRARY=${MULTIARCH_STATIC_DIR}/libfftw3.a")
-  set(explicit_libraries "${explicit_libraries} -DGSL_LIBRARY=${MULTIARCH_STATIC_DIR}/libgsl.a")
-  set(explicit_libraries "${explicit_libraries} -DCFITSIO_LIBRARY=${MULTIARCH_STATIC_DIR}/libcfitsio.a")
+  if(NOT "${LABEL}" MATCHES "ROOT-performance-centos7-multicore")
+    set(explicit_libraries "-DFFTW_LIBRARY=${MULTIARCH_STATIC_DIR}/libfftw3.a")
+    set(explicit_libraries "${explicit_libraries} -DCFITSIO_LIBRARY=${MULTIARCH_STATIC_DIR}/libcfitsio.a")
+  endif()
+  if(NOT "${LABEL}" MATCHES "centos7")
+    set(explicit_libraries "${explicit_libraries} -DGSL_LIBRARY=${MULTIARCH_STATIC_DIR}/libgsl.a")
+  endif()
 endif()
 
 
