@@ -121,7 +121,12 @@ EOF
 	rm mytemplate.tpl
 	cd $NBDIR
 	pandoc --toc --template=$BASEDIR/mdtemplate.tex --highlight-style=tango $NBDIR/*_NOJS$NBEXTMD --pdf-engine=pdflatex -o $NBDIR/ROOT-Primer_v0.pdf
-	pdftk frontpage.pdf $NBDIR/ROOT-Primer_v0.pdf output $NBDIR/ROOT-Primer.pdf
+	if type pdftk &>/dev/null; then
+		pdftk frontpage.pdf $NBDIR/ROOT-Primer_v0.pdf output $NBDIR/ROOT-Primer.pdf
+	else
+		pdfunite frontpage.pdf $NBDIR/ROOT-Primer_v0.pdf $NBDIR/ROOT-Primer.pdf
+	fi
+
 	rm -rf *NOJS*
 	rm $NBDIR/ROOT-Primer_v0.pdf
 	cd $CURRENTPOS
