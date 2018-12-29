@@ -351,16 +351,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   # Do not build builtin_openssl or freetype on Linuxes, rely on distro.
-  # Build these below as builtins; use the remaining as static libs from the distro.
-  # This gives fairly stand-alone binaries (no need to sudo install packages)
-  # while being binary compatible with the distro packages.
+  # Build these below as builtins; use the remaining as shared libs from the distro.
   #
-  # On Ubuntu and Fedora, lz4, lzma, zlib, pcre are built without `-fPIC` and cannot
-  # be used to build shared libraries. We expect most users to not #include their
-  # headers, so (distro-incompatible) builtins should be fine.
-  #
-  # Use distro's static fftw3, gsl: they are compiled with `-fPIC`.
-  # (Note: Centos7 has no static gsl, we use its shared library.)
+  # On Ubuntu and Fedora, static lz4, lzma, zlib, pcre are built without `-fPIC`
+  # and cannot be used to build shared libraries. We expect most users to not
+  #  `#include` their headers, so (distro-incompatible) builtins should be fine.
   set(package_builtins
     builtin_afterimage
     builtin_davix
@@ -561,29 +556,6 @@ if(NOT CTEST_MODE STREQUAL package)
   endif()
 endif()
 
-#---Prefer these static libs for releases-----------------------------------------
-if((CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
-   AND NOT WIN32 AND NOT APPLE)
-  if(EXISTS /usr/lib/x86_64-linux-gnu/)
-    set(MULTIARCH_STATIC_DIR "/usr/lib/x86_64-linux-gnu")
-  elseif(EXISTS /usr/lib/i386-linux-gnu/)
-    set(MULTIARCH_STATIC_DIR "/usr/lib/i386-linux-gnu")
-  elseif("${LABEL}" MATCHES "centos7" OR
-         "${LABEL}" MATCHES "fedora")
-    set(MULTIARCH_STATIC_DIR "/usr/lib64")
-  else()
-    message(FATAL_ERROR "Cannot find multiarch path for static libraries.")
-  endif()
-  if(NOT "${LABEL}" MATCHES "ROOT-performance-centos7-multicore")
-    set(explicit_libraries "-DFFTW_LIBRARY=${MULTIARCH_STATIC_DIR}/libfftw3.a")
-  endif()
-  if(NOT "${LABEL}" MATCHES "centos7" AND
-     NOT "${LABEL}" MATCHES "fedora27")
-    set(explicit_libraries "${explicit_libraries} -DGSL_LIBRARY=${MULTIARCH_STATIC_DIR}/libgsl.a -DGSL_CBLAS_LIBRARY=${MULTIARCH_STATIC_DIR}/atlas/libblas.a")
-  endif()
-endif()
-
-
 #---Use ccache--------------------------------------------------------------
 if((NOT CTEST_MODE STREQUAL package) AND (NOT "${LABEL}" MATCHES "ROOT-performance-centos7-multicore"))
   set(ccache_option "-Dccache=ON")
@@ -652,7 +624,6 @@ set(options
   ${specflags}
   ${ccache_option}
   ${soversion_option}
-  ${explicit_libraries}
   ${testing_options}
   -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
   $ENV{ExtraCMakeOptions}
