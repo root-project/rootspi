@@ -579,7 +579,7 @@ if((CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests)
   endif()
   if(NOT "${LABEL}" MATCHES "centos7" AND
      NOT "${LABEL}" MATCHES "fedora27")
-    set(explicit_libraries "${explicit_libraries} -DGSL_LIBRARY=${MULTIARCH_STATIC_DIR}/libgsl.a -DGSL_CBLAS_LIBRARY=${MULTIARCH_STATIC_DIR}/libgslcblas.a")
+    set(explicit_libraries "${explicit_libraries} -DGSL_LIBRARY=${MULTIARCH_STATIC_DIR}/libgsl.a -DGSL_CBLAS_LIBRARY=${MULTIARCH_STATIC_DIR}/atlas/libblas.a")
   endif()
 endif()
 
