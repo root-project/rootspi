@@ -614,11 +614,15 @@ else()
   endif()
 endif()
 
+#---CMAKE_BUILD_TYPE--------------------------------------------------------
+set(buildtype_option -DCMAKE_BUILD_TYPE=${CTEST_BUILD_CONFIGURATION})
+
 #---Compose the configuration options---------------------------------------
 # Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
 set(options
   -Wno-deprecated
   -Dfail-on-missing=On
+  ${buildtype_option}
   ${enabled_modules}
   ${shared_option}
   ${specflags}
