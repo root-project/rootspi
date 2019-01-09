@@ -528,111 +528,113 @@ function(GET_MODULES SPECLIST)
   set(enabled_modules ${enabled_modules} PARENT_SCOPE)
 endfunction()
 
-
 #
 #  MAIN(), sort of.
 #
+function(CONFIGURE_ROOT_OPTIONS)
 
+  # First build a list out of spec1-spec2-spec3 for easier matching.
+  string(REPLACE "-" ";" SPECLIST "$ENV{SPEC}")
 
-# First build a list out of spec1-spec2-spec3 for easier matching.
-string(REPLACE "-" ";" SPECLIST "$ENV{SPEC}")
+  #---Select modules to enable as ${enabled_modules}--------------------------
+  GET_MODULES("${SPECLIST}")
+  message("AXEL: ${enabled_modules}")
 
-#---Select modules to enable as ${enabled_modules}--------------------------
-GET_MODULES("${SPECLIST}")
-message("AXEL: ${enabled_modules}")
+  #---Enable tests------------------------------------------------------------
+  if(NOT CTEST_MODE STREQUAL package)
+    set(testing_options "-Dtesting=ON")
+    if(CTEST_VERSION STREQUAL "master" OR CTEST_VERSION MATCHES "^v6-")
+      if(NOT WIN32)
+        set(testing_options "${testing_options} -Droottest=ON")
+      endif()
+    endif()
 
-#---Enable tests------------------------------------------------------------
-if(NOT CTEST_MODE STREQUAL package)
-  set(testing_options "-Dtesting=ON")
-  if(CTEST_VERSION STREQUAL "master" OR CTEST_VERSION MATCHES "^v6-")
-    if(NOT WIN32)
-      set(testing_options "${testing_options} -Droottest=ON")
+    #---Set TCMalloc for fast builds------------------------------------------
+    if(CTEST_BUILD_CONFIGURATION STREQUAL "Optimized")
+      set(testing_options ${testing_options}" -Dtcmalloc=ON")
     endif()
   endif()
 
-  #---Set TCMalloc for fast builds------------------------------------------
-  if(CTEST_BUILD_CONFIGURATION STREQUAL "Optimized")
-    set(testing_options ${testing_options}" -Dtcmalloc=ON")
+  #---Use ccache--------------------------------------------------------------
+  if((NOT CTEST_MODE STREQUAL package) AND (NOT "${LABEL}" MATCHES "ROOT-performance-centos7-multicore"))
+    set(ccache_option "-Dccache=ON")
   endif()
-endif()
 
-#---Use ccache--------------------------------------------------------------
-if((NOT CTEST_MODE STREQUAL package) AND (NOT "${LABEL}" MATCHES "ROOT-performance-centos7-multicore"))
-  set(ccache_option "-Dccache=ON")
-endif()
-
-#---soversion-----------------------------------------------------
-if (ROOT_VERSION VERSION_GREATER 6.14)
-  # Releasing with soversion enabled starting v6.16
-  if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests
-     OR "soversion" IN_LIST SPECLIST)
-    set(soversion_option "-Dsoversion=On")
+  #---soversion-----------------------------------------------------
+  if (ROOT_VERSION VERSION_GREATER 6.14)
+    # Releasing with soversion enabled starting v6.16
+    if(CTEST_MODE STREQUAL package OR CTEST_MODE STREQUAL pullrequests
+       OR "soversion" IN_LIST SPECLIST)
+      set(soversion_option "-Dsoversion=On")
+    endif()
   endif()
-endif()
 
-#---Consider SPEC flags-----------------------------------------------------
-set(specflags "")
-if("python3" IN_LIST SPECLIST)
-  find_program(PYTHON3PATH python3)
-  if(${PYTHON3PATH} STREQUAL "NOTFOUND")
-    message(FATAL_ERROR "Cannot find Python3 for this python3 build!")
+  #---Consider SPEC flags-----------------------------------------------------
+  set(specflags "")
+  if("python3" IN_LIST SPECLIST)
+    find_program(PYTHON3PATH python3)
+    if(${PYTHON3PATH} STREQUAL "NOTFOUND")
+      message(FATAL_ERROR "Cannot find Python3 for this python3 build!")
+    endif()
+    set(specflags "${specflags} -DPYTHON_EXECUTABLE=${PYTHON3PATH}")
   endif()
-  set(specflags "${specflags} -DPYTHON_EXECUTABLE=${PYTHON3PATH}")
-endif()
 
-if("noimt" IN_LIST SPECLIST)
-  string(REGEX REPLACE "-Dimt=[^ ]+ ?" "" enabled_modules ${enabled_modules})
-  string(REGEX REPLACE "-Dbuiltin_tbb=[^ ]+ ?" "" enabled_modules ${enabled_modules})
-  set(specflags "${specflags} -Dimt=Off -Dbuiltin_tbb=Off")
-endif()
+  if("noimt" IN_LIST SPECLIST)
+    string(REGEX REPLACE "-Dimt=[^ ]+ ?" "" enabled_modules ${enabled_modules})
+    string(REGEX REPLACE "-Dbuiltin_tbb=[^ ]+ ?" "" enabled_modules ${enabled_modules})
+    set(specflags "${specflags} -Dimt=Off -Dbuiltin_tbb=Off")
+  endif()
 
-if("rtcxxmod" IN_LIST SPECLIST)
-  set(specflags "${specflags} -Druntime_cxxmodules=On")
-endif()
+  if("rtcxxmod" IN_LIST SPECLIST)
+    set(specflags "${specflags} -Druntime_cxxmodules=On")
+  endif()
 
-if("cxxmod" IN_LIST SPECLIST)
-  set(specflags "${specflags} -Dcxxmodules=On")
-  # Enable incremental builds for cxxmodules
-  set(ENV{LIBCLANG_DISABLE_PCH_VALIDATION} 1)
-endif()
+  if("cxxmod" IN_LIST SPECLIST)
+    set(specflags "${specflags} -Dcxxmodules=On")
+    # Enable incremental builds for cxxmodules
+    set(ENV{LIBCLANG_DISABLE_PCH_VALIDATION} 1)
+  endif()
 
-if (ROOT_VERSION VERSION_GREATER 6.16)
-  if("cxx17" IN_LIST SPECLIST)
-    set(options ${options} -DCMAKE_CXX_STANDARD=17)
-  elseif("cxx14" IN_LIST SPECLIST)
-    set(options ${options} -DCMAKE_CXX_STANDARD=14)
+  if (ROOT_VERSION VERSION_GREATER 6.16)
+    if("cxx17" IN_LIST SPECLIST)
+      set(options ${options} -DCMAKE_CXX_STANDARD=17)
+    elseif("cxx14" IN_LIST SPECLIST)
+      set(options ${options} -DCMAKE_CXX_STANDARD=14)
+    else()
+      set(options ${options} -DCMAKE_CXX_STANDARD=11)
+    endif()
   else()
-    set(options ${options} -DCMAKE_CXX_STANDARD=11)
+    if("cxx17" IN_LIST SPECLIST)
+      set(options ${options} -Dcxx17=ON)
+    elseif("cxx14" IN_LIST SPECLIST)
+      set(options ${options} -Dcxx14=ON)
+    else()
+      set(options ${options} -Dcxx11=ON)
+    endif()
   endif()
-else()
-  if("cxx17" IN_LIST SPECLIST)
-    set(options ${options} -Dcxx17=ON)
-  elseif("cxx14" IN_LIST SPECLIST)
-    set(options ${options} -Dcxx14=ON)
-  else()
-    set(options ${options} -Dcxx11=ON)
-  endif()
-endif()
 
-#---CMAKE_BUILD_TYPE--------------------------------------------------------
-set(buildtype_option -DCMAKE_BUILD_TYPE=${CTEST_BUILD_CONFIGURATION})
+  #---CMAKE_BUILD_TYPE--------------------------------------------------------
+  set(buildtype_option -DCMAKE_BUILD_TYPE=${CTEST_BUILD_CONFIGURATION})
 
-#---Compose the configuration options---------------------------------------
-# Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
-set(options
-  -Wno-deprecated
-  -Dfail-on-missing=On
-  ${buildtype_option}
-  ${enabled_modules}
-  ${shared_option}
-  ${specflags}
-  ${ccache_option}
-  ${soversion_option}
-  ${testing_options}
-  -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
-  $ENV{ExtraCMakeOptions}
-)
+  #---Compose the configuration options---------------------------------------
+  # Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
+  set(options
+    -Wno-deprecated
+    -Dfail-on-missing=On
+    ${buildtype_option}
+    ${enabled_modules}
+    ${shared_option}
+    ${specflags}
+    ${ccache_option}
+    ${soversion_option}
+    ${testing_options}
+    -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
+    $ENV{ExtraCMakeOptions}
+  )
 
+  separate_arguments(options)
+  set(options ${options} PARENT_SCOPE)
+endfunction()
 
 #---Configure generator-----------------------------------------------------
 if(CTEST_MODE STREQUAL continuous OR CTEST_MODE STREQUAL pullrequests)
@@ -641,13 +643,6 @@ if(CTEST_MODE STREQUAL continuous OR CTEST_MODE STREQUAL pullrequests)
     set(CTEST_CMAKE_GENERATOR "Ninja")
   endif()
 endif()
-
-if (CTEST_CMAKE_GENERATOR MATCHES "Visual Studio" AND WIN32)
-  set(options ${options} -Thost=x64)
-endif()
-
-separate_arguments(options)
-
 
 #---Handle cxxmodules and coverity builds' checkout behavior----------------
 if("$ENV{BUILDOPTS}" STREQUAL "cxxmodules" OR
@@ -669,6 +664,9 @@ if(CTEST_MODE STREQUAL continuous)
   endif()
   ctest_start (Continuous TRACK Incremental)
   ctest_update(RETURN_VALUE updates)
+
+  CONFIGURE_ROOT_OPTIONS()
+
   if(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
     ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                     SOURCE  ${CTEST_SOURCE_DIRECTORY}
@@ -688,6 +686,9 @@ elseif(CTEST_MODE STREQUAL install)
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} TRACK Install)
   ctest_update()
+
+  CONFIGURE_ROOT_OPTIONS()
+
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "${options}" APPEND
@@ -708,6 +709,9 @@ elseif(CTEST_MODE STREQUAL package)
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} TRACK Package)
   ctest_update()
+
+  CONFIGURE_ROOT_OPTIONS()
+
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "${options}" APPEND
@@ -804,6 +808,8 @@ Integrating against it. Please make sure you open and merge a PR against it.")
   set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME})
   ctest_update(SOURCE "${REBASE_WORKING_DIR}" RETURN_VALUE updates)
 
+  CONFIGURE_ROOT_OPTIONS()
+
   if(updates LESS 0) # stop if update error
     # We are in the error case, switch to master to clean up the created branch.
     cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
@@ -830,6 +836,9 @@ else()
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE})
   ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
+
+  CONFIGURE_ROOT_OPTIONS()
+
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}
                   OPTIONS "${options}" RETURN_VALUE status)
