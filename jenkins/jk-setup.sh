@@ -32,6 +32,12 @@ fi
 # Use "ctest3" if it exists, otherwise ctest:
 : ${CTEST:=$(command -v ctest3 >/dev/null && which ctest3 || which ctest)}
 
+# Grab it from cvmfs on buildcoverity (SLC6):
+if [[ $LABEL == *slc6* ]]; then
+  CTEST=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.11.1/Linux-x86_64/bin/ctest
+fi
+export CTEST
+
 if [[ $LABEL == *centos7-clangHEAD ]]; then
   # We use clang as a compiler with libstdc++.
   # Get the gcc version. First parameter is a zero-based offset and the second is the length.
