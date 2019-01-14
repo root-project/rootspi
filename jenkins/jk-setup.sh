@@ -29,11 +29,8 @@ if [[ $(uname -s) == Linux ]]; then
   fi
 fi
 
-# CentOS uses "ctest3"
-CTEST=ctest
-if [[ $LABEL == *centos7* ]]; then
-  CTEST=ctest3
-fi
+# Use "ctest3" if it exists, otherwise ctest:
+: ${CTEST:=$(command -v ctest3 >/dev/null && which ctest3 || which ctest)}
 
 if [[ $LABEL == *centos7-clangHEAD ]]; then
   # We use clang as a compiler with libstdc++.
