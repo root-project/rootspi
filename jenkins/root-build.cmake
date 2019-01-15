@@ -632,6 +632,21 @@ function(CONFIGURE_ROOT_OPTIONS)
     $ENV{ExtraCMakeOptions}
   )
 
+  #---Do not enable removed options-------------------------------------------
+  set(removed_options )
+
+  if (ROOT_VERSION VERSION_GREATER 6.14)
+    list(APPEND removed_options afs chirp glite ios ruby sapdb srp)
+  endif()
+
+  if (ROOT_VERSION VERSION_GREATER 6.16)
+    list(APPEND removed_options afdsmgrd bonjour castor geocad globus gviz hdfs qt qtgsi rfio table)
+  endif()
+
+  foreach(opt ${removed_options})
+    set(options ${options} -D${opt}=OFF)
+  endforeach()
+
   separate_arguments(options)
   set(options ${options} PARENT_SCOPE)
 endfunction()
