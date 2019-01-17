@@ -260,16 +260,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu" AND
-     NOT ("${LABEL}" MATCHES "ubuntu1[48]"))
-    # Ubuntu 14 too old, Ubuntu 18 has a CUDA runtime dev that cannot be
-    # compiled with their default compiler...
-    list(APPEND all_supported
-      cuda
-      tmva-gpu
-    )
-  endif()
-
   if("${LABEL}" MATCHES "fedora27")
     # OpenBlas 3.2 has a bug that causes test failures.
     # Use the generic, slower one from Netlib instead.
