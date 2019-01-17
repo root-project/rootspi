@@ -192,6 +192,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     gdml
     gviz
     http
+    imt
     krb5
     ldap
     mathmore
