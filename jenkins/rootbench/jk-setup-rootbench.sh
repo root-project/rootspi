@@ -57,7 +57,7 @@ fi
 
 # The final compiler may not yet be totally setup-------------------------------------
 if [[ $COMPILER == gcc* ]]; then
-  export ExtraCMakeOptions="-Dchirp=OFF -Dhdfs=OFF -Dbonjour=OFF ${ExtraCMakeOptions}"
+  export ExtraCMakeOptions="-Darrow=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
     export ExtraCMakeOptions="-Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
   fi
@@ -83,7 +83,7 @@ elif [[ $COMPILER == clang_gcc* ]]; then
       . /cvmfs/sft.cern.ch/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
   fi
 
-  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/${ARCH}-${LABEL}-${GCCcompiler}-opt/bin/:$PATH
+  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/x86_64-centos7-gcc48-opt/bin/:$PATH
   export CC=`which clang`
   export CXX=`which clang++`
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dhdfs=OFF"
@@ -123,7 +123,7 @@ elif [[ $COMPILER == *clang* ]]; then
 
   export CC=`which clang`
   export CXX=`which clang++`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Doracle=OFF -Dhdfs=OFF"
+  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Doracle=OFF"
 
   # On slc we want to compile with a more 'standard' toolchain.
   if [[ $PLATFORM == *slc* ]] || [[ $LABEL == *centos7* ]] ; then
@@ -133,7 +133,7 @@ elif [[ $COMPILER == *native* ]]; then
   unset CC
   unset CXX
   unset FC
-  export ExtraCMakeOptions="-Dhdfs=OFF ${ExtraCMakeOptions}"
+  export ExtraCMakeOptions="${ExtraCMakeOptions}"
   if [[ $LABEL == *mac* ]]; then
     export ExtraCMakeOptions="-Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
   fi
