@@ -86,7 +86,7 @@ elif [[ $COMPILER == clang_gcc* ]]; then
   export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/x86_64-centos7-gcc48-opt/bin/:$PATH
   export CC=`which clang`
   export CXX=`which clang++`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Dhdfs=OFF"
+  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Darrow=OFF"
   # On slc we want to compile with a more 'standard' toolchain.
   if [[ $PLATFORM == *slc* ]] || [[ $LABEL == *centos7* ]] ; then
     export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
@@ -123,7 +123,7 @@ elif [[ $COMPILER == *clang* ]]; then
 
   export CC=`which clang`
   export CXX=`which clang++`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Doracle=OFF"
+  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Doracle=OFF -Darrow=OFF"
 
   # On slc we want to compile with a more 'standard' toolchain.
   if [[ $PLATFORM == *slc* ]] || [[ $LABEL == *centos7* ]] ; then
@@ -135,7 +135,7 @@ elif [[ $COMPILER == *native* ]]; then
   unset FC
   export ExtraCMakeOptions="${ExtraCMakeOptions}"
   if [[ $LABEL == *mac* ]]; then
-    export ExtraCMakeOptions="-Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Darrow=OFF -Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
   fi
 elif [[ $COMPILER == *icc* ]]; then
   iccyear=2013
