@@ -706,7 +706,9 @@ elseif(CTEST_MODE STREQUAL package)
   #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
   ctest_start(${CTEST_MODE} TRACK Package)
-  ctest_update()
+  if (PACKAGE_DATE) # otherwise we have extracted a tar file
+    ctest_update()
+  endif()
 
   CONFIGURE_ROOT_OPTIONS()
 
