@@ -10,7 +10,7 @@ set(LABEL "$ENV{LABEL}")
 #  Initialize ${all_modules} to all available build options.
 #
 function(GET_ALL_MODULES)
-  if(WINDOWS)
+  if(WIN32)
     set(GREP_OR_FIND "find")
   else()
     set(GREP_OR_FIND "grep")
