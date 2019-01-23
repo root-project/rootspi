@@ -11,12 +11,12 @@ set(LABEL "$ENV{LABEL}")
 #
 function(GET_ALL_MODULES)
   execute_process(
-    COMMAND git grep "^ROOT_BUILD_OPTION" cmake/modules/RootBuildOptions.cmake
+    COMMAND grep "^ROOT_BUILD_OPTION" cmake/modules/RootBuildOptions.cmake
     WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
     OUTPUT_VARIABLE GITGREP
   )
   if(NOT GITGREP)
-  message(FATAL_ERROR "Cannot get configuration options from ${CTEST_SOURCE_DIRECTORY}/cmake/modules/RootBuildOptions.cmake")
+    message(FATAL_ERROR "Cannot get configuration options from ${CTEST_SOURCE_DIRECTORY}/cmake/modules/RootBuildOptions.cmake")
   endif()
   string(REGEX MATCHALL
     "ROOT_BUILD_OPTION[(]([^ ]+) "
