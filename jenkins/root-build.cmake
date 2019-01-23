@@ -16,8 +16,8 @@ function(GET_ALL_MODULES)
     set(GREP_OR_FIND "grep")
   endif()
   execute_process(
-    COMMAND ${GREP_OR_FIND} ROOT_BUILD_OPTION cmake/modules/RootBuildOptions.cmake
-    WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
+    COMMAND ${GREP_OR_FIND} ROOT_BUILD_OPTION RootBuildOptions.cmake
+    WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}/cmake/modules"
     OUTPUT_VARIABLE GITGREP
   )
   if(NOT GITGREP)
