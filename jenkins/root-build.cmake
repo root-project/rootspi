@@ -438,6 +438,7 @@ function(GET_RELEASE_MODULES ALL_MODULES)
     alien
     arrow
     bonjour
+    builtin_pcre
     castor
     cefweb
     cuda
@@ -453,6 +454,9 @@ function(GET_RELEASE_MODULES ALL_MODULES)
     monalisa
     odbc
     oracle
+    qt
+    qt5web
+    qtgsi
     r
     rfio
     table
