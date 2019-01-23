@@ -203,6 +203,8 @@ RECTORY}: ${TAR_RESULT}")
   string(REPLACE "root-v" "root-" DISTSRCDIR "${DISTSRCDIR}")
   file(RENAME "${DISTSRCDIR}" "root") # The build setup expects sources here.
   message("Uncompressed tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DIRECTORY}")
+  # CTest should not do git update / checkout:
+  set(CTEST_GIT_UPDATE_CUSTOM "")
 endif()
 
 #----Recover From Errors------------------------------------------------------
