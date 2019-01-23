@@ -192,13 +192,16 @@ if ((CTEST_MODE STREQUAL package) AND NOT PACKAGE_DATE)
   endif()
   file(REMOVE_RECURSE ${CTEST_SOURCE_DIRECTORY})
   execute_process(
-    COMMAND ${CMAKE_COMMAND} -E tar xzf ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} -C root --strip-components 1
+    COMMAND ${CMAKE_COMMAND} -E tar xzf ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME}
     WORKING_DIRECTORY ${CTEST_SOURCE_PREFIX}
     RESULT_VARIABLE TAR_RESULT)
   if(NOT ${TAR_RESULT} EQUAL 0)
     message(FATAL_ERROR "Failed to uncompress tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DI\
 RECTORY}: ${TAR_RESULT}")
   endif()
+  set(DISTSRCDIR "root-${PACKAGE_VERSION}")
+  string(REPLACE "root-v" "root-" DISTSRCDIR "${DISTSRCDIR}")
+  file(RENAME "${DISTSRCDIR}" "root") # The build setup expects sources here.
   message("Uncompressed tar file ${CTEST_SOURCE_PREFIX}/${SOURCE_TAR_FILENAME} into ${CTEST_SOURCE_DIRECTORY}")
 endif()
 
