@@ -133,7 +133,7 @@ elif [[ $COMPILER == *native* ]]; then
   unset CC
   unset CXX
   unset FC
-  export ExtraCMakeOptions="${ExtraCMakeOptions}"
+  export ExtraCMakeOptions="-Darrow=OFF ${ExtraCMakeOptions}"
   if [[ $LABEL == *mac* ]]; then
     export ExtraCMakeOptions="-Darrow=OFF -Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
   fi
@@ -161,6 +161,7 @@ elif [[ $COMPILER == *icc* ]]; then
   export CC=`which icc`
   export CXX=`which icc`
   export FC=`which ifort`
+  export ExtraCMakeOptions="-Darrow=OFF ${ExtraCMakeOptions}"
 fi
 
 case $ARCH in
