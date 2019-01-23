@@ -10,8 +10,13 @@ set(LABEL "$ENV{LABEL}")
 #  Initialize ${all_modules} to all available build options.
 #
 function(GET_ALL_MODULES)
+  if(WINDOWS)
+    set(GREP_OR_FIND "find")
+  else()
+    set(GREP_OR_FIND "grep")
+  endif()
   execute_process(
-    COMMAND grep "^ROOT_BUILD_OPTION" cmake/modules/RootBuildOptions.cmake
+    COMMAND ${GREP_OR_FIND} ROOT_BUILD_OPTION cmake/modules/RootBuildOptions.cmake
     WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
     OUTPUT_VARIABLE GITGREP
   )
