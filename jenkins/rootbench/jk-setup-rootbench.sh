@@ -83,7 +83,7 @@ elif [[ $COMPILER == clang_gcc* ]]; then
       . /cvmfs/sft.cern.ch/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
   fi
 
-  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/x86_64-centos7-gcc48-opt/bin/:$PATH
+  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/x86_64-ubuntu1804-gcc7-opt/bin/:$PATH
   export CC=`which clang`
   export CXX=`which clang++`
   export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Darrow=OFF"
