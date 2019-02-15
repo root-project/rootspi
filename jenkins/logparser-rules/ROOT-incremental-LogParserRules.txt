@@ -1,8 +1,9 @@
-
 ok /not really/
 ok /^make\[[[:digit:]]+\]: [*][*][*] \[.*[.]test. Error [[:digit:]]+$/
 ok /^make\[[[:digit:]]+\]: Target `test. not remade because of errors.$/
-
+ok /FAILED TO establish the default connection to the WindowServer/
+# MacOS 10.13 spurrious warning "text-based stub file X and library file Y are out of sync. Falling back to library file for linking."
+ok /ld: warning: text-based stub file /
 
 # match line starting with 'error ', case-insensitive
 error /(?i)^error /
@@ -11,41 +12,28 @@ error /\[ERROR\]/
 error /\[FATAL\]/
 error / FAILED /
 error /: error:/
+error /fatal error:/
 error /MSBUILD : error MSB/
-
+error /CMake Error at /
+error /FAILED: /
 
 # list of warnings here...
 warning /: warning:/
 warning /UNSTABLE/
+warning /CMake Warning at /
+# warning /Warning: /
+warning /^Warning: /
+
 
 # create a quick access link to lines in the report containing 'INFO'
 info /INFO/
+info /: remark:/
+info /  See also/
 
 # each line containing 'BUILD' represents the start of a section for grouping errors and warnings found after the line.
 # also creates a quick access link.
-
-ok /not really/
-ok /^make\[[[:digit:]]+\]: [*][*][*] \[.*[.]test. Error [[:digit:]]+$/
-ok /^make\[[[:digit:]]+\]: Target `test. not remade because of errors.$/
-
-
-# match line starting with 'error ', case-insensitive
-error /(?i)^error /
-error /(?i)^error: /
-error /\[ERROR\]/
-error /\[FATAL\]/
-error / FAILED /
-error /: error:/
-error /MSBUILD : error MSB/
-
-
-# list of warnings here...
-warning /: warning:/
-warning /UNSTABLE/
-
-# create a quick access link to lines in the report containing 'INFO'
-info /INFO/
-
-# each line containing 'BUILD' represents the start of a section for grouping errors and warnings found after the line.
-# also creates a quick access link.
-
+#start /BUILD/
+start /^Configure project$/
+start /^Build project$/
+# no trailing "$" here:
+start /^Test project/
