@@ -113,6 +113,8 @@ class Builder:
         if self.cmake == None:
             if self.label == 'cc7':
                 self.cmake = '/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.7.0/Linux-x86_64/bin/cmake'
+            elif self.label == 'arm64':
+                self.cmake = '/usr/bin/cmake3'
             else:
                 self.cmake = '/usr/local/bin/cmake'
 
