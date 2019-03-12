@@ -107,14 +107,14 @@ class Builder:
         self.cleanbuild = cleanbuild
         self.binaries = binaries
 
-        self.cmake = spawn.find_executable('cmake')
+        self.cmake = spawn.find_executable('cmake3')
+        if self.cmake == None:
+          self.cmake = spawn.find_executable('cmake')
         if self.label == 'ubuntu14':
            self.cmake = '/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.7.0/Linux-x86_64/bin/cmake'
         if self.cmake == None:
             if self.label == 'cc7':
                 self.cmake = '/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.7.0/Linux-x86_64/bin/cmake'
-            elif self.label == 'arm64':
-                self.cmake = '/usr/bin/cmake3'
             else:
                 self.cmake = '/usr/local/bin/cmake'
 
