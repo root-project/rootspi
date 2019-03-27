@@ -495,6 +495,12 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
     list(REMOVE_ITEM want_modules
       gfal
     )
+    if(APPLE)
+      list(REMOVE_ITEM want_modules
+        cocoa
+        opengl
+      )
+    endif()
   endif()
   set(want_modules ${want_modules} PARENT_SCOPE)
 endfunction()
