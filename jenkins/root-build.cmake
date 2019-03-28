@@ -499,6 +499,7 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
       list(REMOVE_ITEM want_modules
         cocoa
         opengl
+        r
       )
     endif()
   endif()
