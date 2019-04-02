@@ -491,15 +491,15 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
     )
   endif()
   if("cxxmod" IN_LIST SPECLIST)
-    # The module build currently fails to compile gfal.
+    # The module build currently fails to compile gfal and R.
     list(REMOVE_ITEM want_modules
       gfal
+      r
     )
     if(APPLE)
       list(REMOVE_ITEM want_modules
         cocoa
         opengl
-        r
       )
     endif()
   endif()
