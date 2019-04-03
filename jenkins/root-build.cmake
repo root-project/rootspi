@@ -280,9 +280,12 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
+  # Vc generates warnings with latest clang HEAD, which are visible in some tests and breaking
+  # references.
   if("${LABEL}" MATCHES "fedora|ubuntu" AND
      NOT ("${LABEL}" MATCHES "ubuntu14") AND
-     NOT ("${LABEL}" MATCHES "-i386"))
+     NOT ("${LABEL}" MATCHES "-i386") AND
+     NOT ("${LABEL}" MATCHES "ubuntu1804-clangHEAD"))
     # vc needs 64bit, GCC >= 5
     list(APPEND all_supported
       builtin_vc
