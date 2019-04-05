@@ -367,7 +367,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     builtin_pcre
     builtin_tbb
     builtin_unuran
-    builtin_vc
     builtin_vdt
     builtin_veccore
     builtin_xrootd
@@ -376,6 +375,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     builtin_lzma
     builtin_zlib
   )
+
+  # Don't add builtin_vc if vc is disabled.
+  if ("vc" IN_LIST all_supported)
+    list(APPEND all_supported
+      builtin_vc
+    )
+  endif()
 
   list(REMOVE_ITEM package_builtins ${all_supported})
 
