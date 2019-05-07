@@ -634,6 +634,9 @@ function(CONFIGURE_ROOT_OPTIONS)
 
   #---CMAKE_BUILD_TYPE--------------------------------------------------------
   set(buildtype_option -DCMAKE_BUILD_TYPE=${CTEST_BUILD_CONFIGURATION})
+  if(WIN32)
+    set(buildtype_option -A Win32 -Thost=x64 ${buildtype_option})
+  endif()
 
   #---Compose the configuration options---------------------------------------
   # Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
@@ -663,10 +666,6 @@ if(CTEST_MODE STREQUAL continuous OR CTEST_MODE STREQUAL pullrequests)
       set(CTEST_CMAKE_GENERATOR "Ninja")
     endif()
   endif()
-endif()
-
-if(WIN32)
-  set(options ${options} -A Win32)
 endif()
 
 #---Handle cxxmodules and coverity builds' checkout behavior----------------
