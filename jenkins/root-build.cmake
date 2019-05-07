@@ -665,11 +665,8 @@ if(CTEST_MODE STREQUAL continuous OR CTEST_MODE STREQUAL pullrequests)
   endif()
 endif()
 
-if(CMAKE_GENERATOR MATCHES "Visual Studio")
+if(WIN32)
   set(options ${options} -A Win32)
-  if(CMAKE_GENERATOR_TOOLSET STREQUAL "")
-    set(options ${options} -Thost=x64)
-  endif()
 endif()
 
 #---Handle cxxmodules and coverity builds' checkout behavior----------------
