@@ -80,7 +80,9 @@ function(GET_CONFIGURATION_TAG tag)
     execute_process(COMMAND ${compiler_cmd} ERROR_VARIABLE versioninfo OUTPUT_VARIABLE out)
     string(REGEX REPLACE ".*Version ([0-9]+)[.][0-9]+.*" "\\1" CL_MAJOR "${versioninfo}")
     string(REGEX REPLACE ".*Version [0-9]+[.]([0-9]+).*" "\\1" CL_MINOR "${versioninfo}")
-    if(${CL_MAJOR}.${CL_MINOR} VERSION_GREATER 19.10) #Visual Studio 2017
+    if(${CL_MAJOR}.${CL_MINOR} VERSION_GREATER 19.19) #Visual Studio 2019
+      set(cvers 16)
+    elseif(${CL_MAJOR}.${CL_MINOR} VERSION_GREATER 19.10) #Visual Studio 2017
       set(cvers 15)
     else()
       math(EXPR cvers "${CL_MAJOR} - 6")
