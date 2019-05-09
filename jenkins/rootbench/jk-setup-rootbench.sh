@@ -123,7 +123,7 @@ elif [[ $COMPILER == *clang* ]]; then
 
   export CC=`which clang`
   export CXX=`which clang++`
-  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Doracle=OFF -Darrow=OFF"
+  export ExtraCMakeOptions="${ExtraCMakeOptions} -Dfortran=OFF -Doracle=OFF -Darrow=OFF -Dalien=OFF -Dcuda=OFF -Dtmva-gpu=OFF"
 
   # On slc we want to compile with a more 'standard' toolchain.
   if [[ $PLATFORM == *slc* ]] || [[ $LABEL == *centos7* ]] ; then
@@ -133,9 +133,9 @@ elif [[ $COMPILER == *native* ]]; then
   unset CC
   unset CXX
   unset FC
-  export ExtraCMakeOptions="-Darrow=OFF ${ExtraCMakeOptions}"
+  export ExtraCMakeOptions="-Darrow=OFF -Dalien=OFF -Dcuda=OFF -Dtmva-gpu=OFF ${ExtraCMakeOptions}"
   if [[ $LABEL == *mac* ]]; then
-    export ExtraCMakeOptions="-Darrow=OFF -Dmacos_native=ON -Doracle=OFF ${ExtraCMakeOptions}"
+    export ExtraCMakeOptions="-Darrow=OFF -Dmacos_native=ON -Doracle=OFF -Dalien=OFF -Dcuda=OFF -Dtmva-gpu=OFF ${ExtraCMakeOptions}"
   fi
 elif [[ $COMPILER == *icc* ]]; then
   iccyear=2013
@@ -161,7 +161,7 @@ elif [[ $COMPILER == *icc* ]]; then
   export CC=`which icc`
   export CXX=`which icc`
   export FC=`which ifort`
-  export ExtraCMakeOptions="-Darrow=OFF ${ExtraCMakeOptions}"
+  export ExtraCMakeOptions="-Darrow=OFF -Dalien=OFF -Dcuda=OFF -Dtmva-gpu=OFF ${ExtraCMakeOptions}"
 fi
 
 case $ARCH in
