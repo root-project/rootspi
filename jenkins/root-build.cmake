@@ -31,7 +31,7 @@ function(GET_ALL_MODULES)
   )
   string(REPLACE " " ";" all_modules ${all_modules})
   # Remove build configuration settings: they are not modules.
-  # Remove root7 because we simply want it on if >= cxx14, i.e. not explicitly steer it.
+  # Remove root7 and webgui because we simply want it on if >= cxx14, i.e. not explicitly steer it.
   list(REMOVE_ITEM all_modules
     builtin_llvm
     builtin_clang
@@ -55,6 +55,7 @@ function(GET_ALL_MODULES)
     soversion
     tcmalloc
     winrtdebug
+    webgui
     coverage
   )
   set(all_modules ${all_modules} PARENT_SCOPE)
