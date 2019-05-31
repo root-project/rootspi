@@ -307,14 +307,14 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   if (ROOT_VERSION VERSION_GREATER 6.14)
-    if("${LABEL}" MATCHES "ubuntu1[468]|fedora2[789]|centos7")
+    if("${LABEL}" MATCHES "ubuntu1[4689]|fedora2[789]|centos7")
       list(APPEND all_supported
         builtin_tbb
       )
     endif()
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu1[468]|fedora27|centos7")
+  if("${LABEL}" MATCHES "ubuntu1[4689]|fedora27|centos7")
     # LZ4 is too old.
     list(APPEND all_supported
       builtin_lz4
@@ -323,10 +323,21 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
 
   if("${LABEL}" MATCHES "ubuntu1[468]")
     # Davix is there but in a Davix version that's broken.
-    # The others don't exist
     list(APPEND all_supported
       builtin_davix
+    )
+  endif()
+
+  if("${LABEL}" MATCHES "ubuntu1[4689]")
+    # Ubuntu has no unuran package.
+    list(APPEND all_supported
       builtin_unuran
+    )
+  endif()
+
+  if("${LABEL}" MATCHES "ubuntu1[468]")
+    # Ubuntu < 19.04 has no xxhash.
+    list(APPEND all_supported
       builtin_xxhash
     )
   endif()
@@ -340,7 +351,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
 
-  if("${LABEL}" MATCHES "ubuntu1[468]")
+  if("${LABEL}" MATCHES "ubuntu1[4689]")
     # Ubuntu has no xrootd
     list(APPEND all_supported
       builtin_xrootd
