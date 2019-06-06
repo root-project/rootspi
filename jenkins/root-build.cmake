@@ -650,6 +650,11 @@ function(CONFIGURE_ROOT_OPTIONS)
     set(buildtype_option -A Win32 -Thost=x64 ${buildtype_option})
   endif()
 
+  #---ASSERTS-----------------------------------------------------------------
+  if(NOT CTEST_MODE STREQUAL package AND NOT CTEST_BUILD_CONFIGURATION STREQUAL Debug)
+    set(asserts_options -DCMAKE_CXX_FLAGS="-UNDEBUG")
+  endif()
+
   #---Compose the configuration options---------------------------------------
   # Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
   set(options
@@ -662,6 +667,7 @@ function(CONFIGURE_ROOT_OPTIONS)
     ${ccache_option}
     ${soversion_option}
     ${testing_options}
+    ${asserts_options}
     -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
     $ENV{ExtraCMakeOptions}
   )
