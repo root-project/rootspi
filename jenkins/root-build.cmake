@@ -86,6 +86,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     gdml
     http
     minuit2
+    mlp
     opengl
     python
     roofit
@@ -153,6 +154,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     mathmore
     memstat
     minuit2
+    mlp
     opengl
     python
     roofit
@@ -200,6 +202,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     mathmore
     memstat
     minuit2
+    mlp
     mysql
     odbc
     opengl
