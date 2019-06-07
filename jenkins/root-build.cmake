@@ -93,6 +93,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     sqlite
     table
     thread
+    vmc
   )
 
   if ("${ROOT_VERSION}" VERSION_GREATER "6.15")
@@ -168,6 +169,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     unuran
     vdt
     veccore
+    vmc
     xml
     xrootd
   )
@@ -222,6 +224,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     unuran
     vdt
     veccore
+    vmc
     x11
     xft
     xml
