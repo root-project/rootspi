@@ -91,6 +91,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     opengl
     python
     roofit
+    spectrum
     sqlite
     table
     thread
@@ -161,6 +162,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     opengl
     python
     roofit
+    spectrum
     sqlite
     ssl
     table
@@ -217,6 +219,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     qtgsi
     roofit
     shadowpw
+    spectrum
     sqlite
     ssl
     table
