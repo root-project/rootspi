@@ -82,6 +82,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     astiff
     clad
     cling
+    dataframe
     fftw3
     gdml
     http
@@ -140,6 +141,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     clad
     cling
     cocoa
+    dataframe
     davix
     fftw3
     fitsio
@@ -191,6 +193,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     bonjour
     clad
     cling
+    dataframe
     davix
     fftw3
     fitsio
