@@ -192,8 +192,32 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     xml
     xrootd
   )
+
+  set(package_builtins
+    builtin_afterimage
+    builtin_cfitsio
+    builtin_davix
+    builtin_fftw3
+    builtin_freetype
+    builtin_ftgl
+    builtin_gl2ps
+    builtin_glew
+    builtin_gsl
+    builtin_lz4
+    builtin_lzma
+    builtin_openssl
+    builtin_pcre
+    builtin_tbb
+    builtin_unuran
+    builtin_vc
+    builtin_vdt
+    builtin_veccore
+    builtin_xrootd
+    builtin_xxhash
+  )
+
   set(all_supported ${all_supported} PARENT_SCOPE)
-  set(package_builtins "" PARENT_SCOPE)
+  set(package_builtins ${package_builtins} PARENT_SCOPE)
 endfunction()
 
 #
