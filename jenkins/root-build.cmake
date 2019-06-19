@@ -98,6 +98,21 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     vmc
   )
 
+  set(package_builtins
+    builtin_afterimage
+    builtin_freetype
+    builtin_ftgl
+    builtin_gl2ps
+    builtin_glew
+    builtin_lz4
+    builtin_lzma
+    builtin_pcre
+    builtin_tbb
+    builtin_unuran
+    builtin_xxhash
+    builtin_zlib
+  )
+
   if ("${ROOT_VERSION}" VERSION_GREATER "6.15")
     list(APPEND all_supported
       builtin_tbb
@@ -107,7 +122,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     )
   endif()
   set(all_supported ${all_supported} PARENT_SCOPE)
-  set(package_builtins "" PARENT_SCOPE)
+  set(package_builtins ${package_builtins} PARENT_SCOPE)
 endfunction()
 
 #
