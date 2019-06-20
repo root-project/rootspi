@@ -161,7 +161,6 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     davix
     fftw3
     fitsio
-    fortran
     freetype
     ftgl
     gdml
