@@ -234,7 +234,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     bonjour
     clad
     cling
-    dataframe
     davix
     fftw3
     fitsio
@@ -284,6 +283,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   if(NOT "${LABEL}" MATCHES "centos7-clangHEAD")
     list(APPEND all_supported
       pythia8
+    )
+  endif()
+
+  # clang / gcc ABI issues with i386:
+  if (NOT "${LABEL}" MATCHES "-i386")
+    list(APPEND all_supported
+      dataframe
     )
   endif()
 
