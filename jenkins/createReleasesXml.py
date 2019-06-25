@@ -70,7 +70,7 @@ Windows 7/Vista/XP/NT/2000 are supported. We offer two packaging types:
 
 from HTMLParser import HTMLParser
 from urllib2 import urlopen
-ROOTTarballsWebPage = 'https://root.cern.ch/download/'
+ROOTTarballsWebPage = 'https://root.cern/download/'
 
 # create a subclass and override the handler methods
 class RootDownloadsPageParser(HTMLParser):
@@ -266,7 +266,7 @@ def getMarkDownInstallationPathSectionFromAfsTag(afsTag):
 def getReleasesNotesFromGitTag(gitTag):
    """
    Get the markdown for the release notes page
-   ## [Release Notes](https://root.cern.ch/root/html604/notes/release-notes.html#patch-releases)
+   ## [Release Notes](https://root.cern/root/html604/notes/release-notes.html#patch-releases)
    Some a priori knowledge is injected. For example, we check if we have one of these tags, for
    which we have drupal based RN.
    """
@@ -305,7 +305,7 @@ def getReleasesNotesFromGitTag(gitTag):
       return markdownOldRN
 
    # Proceed with the new Scheme
-   markdownNewRN = markdownTemplate % "https://root.cern.ch/doc/v%s/release-notes.html%s"
+   markdownNewRN = markdownTemplate % "https://root.cern/doc/v%s/release-notes.html%s"
    shortId = series+version
    patchString = ""
    if patch!="00":
