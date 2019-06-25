@@ -145,6 +145,7 @@ def download_and_extract_tar(baseurl, filename, platformdir):
     tartopdir = tar.getmembers()[0].name
     tar.extractall()
     os.rename(tartopdir, platformdir)
+    print('Extracted ', baseurl + filename, 'to', tartopdir)
 
 def install_to_cvmfs(basedir, baseurl):
     check_basedir(basedir)
@@ -158,6 +159,7 @@ def install_to_cvmfs(basedir, baseurl):
             platformdir = get_cvmfs_dirname(filename=filename, version=version)
         except RuntimeError:
             print(traceback.format_exc())
+            print('Continuing...')
             continue
         download_and_extract_tar(baseurl=baseurl, filename=filename, platformdir=platformdir)
     cvmfs_publish_transaction()
