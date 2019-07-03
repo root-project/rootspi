@@ -363,7 +363,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   if (ROOT_VERSION VERSION_GREATER 6.14)
-    if("${LABEL}" MATCHES "arm64|ubuntu1[4689]|fedora2[789]|centos7")
+    if("${LABEL}" MATCHES "arm64|ppc64|ubuntu1[4689]|fedora2[789]|centos7")
       list(APPEND all_supported
         builtin_tbb
       )
