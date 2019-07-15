@@ -278,13 +278,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   # Keep this "open ended", i.e. assume that if Ubuntu18 can do it,
   # Ubuntu22 will also be able to do it.
 
-  # pythia8 uses wrong C++ std (missing abi tag for C++11)
-  if(NOT "${LABEL}" MATCHES "centos7-clangHEAD")
-    list(APPEND all_supported
-      pythia8
-    )
-  endif()
-
   # clang / gcc ABI issues with i386:
   if (NOT "${LABEL}" MATCHES "-i386")
     list(APPEND all_supported
@@ -294,8 +287,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
 
   # For centos7, Rinside uses wrong C++ std (missing abi tag for C++11);
   # Rinside package does not exist for Ubuntu 14.
-  if(NOT "${LABEL}" MATCHES "centos7-clangHEAD" AND
-     NOT "${LABEL}" MATCHES "ubuntu14")
+  if(NOT "${LABEL}" MATCHES "ubuntu14")
     list(APPEND all_supported
       r
       tmva-rmva
@@ -398,15 +390,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
       builtin_xxhash
     )
   endif()
-
-  if("${LABEL}" MATCHES "centos7-clangHEAD")
-    # clang's C++17 does not work with old C++ standard's libraries
-    list(APPEND all_supported
-      builtin_davix
-      builtin_xrootd
-    )
-  endif()
-
 
   if("${LABEL}" MATCHES "ubuntu1[4689]")
     # Ubuntu has no xrootd
