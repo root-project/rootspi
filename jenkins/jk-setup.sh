@@ -56,6 +56,11 @@ if [[ $LABEL == *ubuntu1804-clangHEAD ]]; then
   export CXX=`which clang++`
 fi
 
+if [[ $LABEL == *ubuntu1904-clang ]]; then
+  export CC=`which clang`
+  export CXX=`which clang++`
+fi
+
 # Special settings for Clang HEAD and for ROOT-patched LLVM/Clang builds
 # Label ROOT-cc7-gcc62 is also used for rootbench.git build
 if [[ $LABEL == *-centos7-gcc62 ]]; then
