@@ -96,6 +96,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     table
     thread
     vmc
+    pythia8
   )
 
   set(package_builtins
