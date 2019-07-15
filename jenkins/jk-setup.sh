@@ -38,17 +38,6 @@ if [[ $LABEL == *slc6* ]]; then
 fi
 export CTEST
 
-if [[ $LABEL == *centos7-clangHEAD ]]; then
-  # We use clang as a compiler with libstdc++.
-  # Get the gcc version. First parameter is a zero-based offset and the second is the length.
-  #. /cvmfs/sft.cern.ch/lcg/contrib/gcc/7.3.0/x86_64-centos7-gcc7-opt/setup.sh
-  export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/x86_64-centos7-gcc48-opt/bin/:$PATH
-  export CC=`which clang`
-  export CXX=`which clang++`
-  # On centos7 + gcc52/gcc62 we want to compile with a more 'standard' toolchain.
-  #export ExtraCMakeOptions="${ExtraCMakeOptions} -Dgcctoolchain=$(dirname $(dirname `which gcc`))"
-fi
-
 if [[ $LABEL == *ubuntu1804-clangHEAD ]]; then
   # We use clang as a compiler with libstdc++.
   export PATH=/cvmfs/sft.cern.ch/lcg/contrib/llvm/latest/x86_64-ubuntu1804-gcc7-opt/bin/:$PATH
@@ -59,14 +48,6 @@ fi
 if [[ $LABEL == *ubuntu1904-clang ]]; then
   export CC=`which clang`
   export CXX=`which clang++`
-fi
-
-# Special settings for Clang HEAD and for ROOT-patched LLVM/Clang builds
-# Label ROOT-cc7-gcc62 is also used for rootbench.git build
-if [[ $LABEL == *-centos7-gcc62 ]]; then
-  . /cvmfs/sft.cern.ch/lcg/contrib/gcc/6.2/x86_64-centos7/setup.sh
-  export CC=`which gcc`
-  export CXX=`which c++`
 fi
 
 if [[ $PLATFORM == *centos7* ]]; then
