@@ -813,7 +813,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 
   # The code semantically does the following:
   # 1. Resets the working area (and checks out the ghprbTargetBranch aka master).
-  # 2. git fetch https://fix:win@github.com/AUTHOR_ID/root.git REMOTE_BRANCH_NAME:LOCAL_BRANCH_NAME
+  # 2. git fetch https://github.com/AUTHOR_ID/root.git REMOTE_BRANCH_NAME:LOCAL_BRANCH_NAME
   # 3. git rebase master
 
   set(REMOTE_BRANCH_NAME "$ENV{ghprbSourceBranch}")
@@ -827,7 +827,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # need to wait N times the rest of the cleanup procedures to kick in.
   cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
 
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch ${AUTHOR_REPO_GIT_URL_LOGIN} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
 
   # git rebase master LOCAL_BRANCH_NAME rebases the LOCAL_BRANCH_NAME on master and checks out LOCAL_BRANCH_NAME.
   # Note that we cannot rebase against origin/master because sometimes (for an unknown to me reason)
@@ -853,14 +853,14 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # Clean up the area of the 'other' repository, too.
   cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
 
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL_LOGIN} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
+  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
     WORKING_DIRECTORY "${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}"
     RESULT_VARIABLE FETCH_FAILED)
 
   # If fetch failed this means the user did not have the clone of root/roottest or did not have a branch
   # with the expected name. Ignore and continue.
   if(NOT FETCH_FAILED)
-    message(WARNING "Found remote ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL_LOGIN} with corresponding branch name ${REMOTE_BRANCH_NAME}. \
+    message(WARNING "Found remote ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} with corresponding branch name ${REMOTE_BRANCH_NAME}. \
 Integrating against it. Please make sure you open and merge a PR against it.")
     # If we have a corresponding branch, check it out and rebase it as we do for above.
     # FIXME: Figure out how to factor out the rebase cmake fragments.
