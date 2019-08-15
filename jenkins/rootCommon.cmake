@@ -213,6 +213,9 @@ endif()
 
 #----Recover From Errors------------------------------------------------------
 function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
+  message(STATUS "Cleaning up possible lock files [rm -f .git/HEAD.lock] in ${cleanup_working_dir}")
+  execute_process( COMMAND ${CMAKE_COMMAND} -E remove -f ".git/HEAD.lock" WORKING_DIRECTORY ${cleanup_working_dir} )
+
   message(STATUS "Cleaning up [git rebase --abort] in ${cleanup_working_dir}")
   execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir})
 
