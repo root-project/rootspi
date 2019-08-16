@@ -542,6 +542,7 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
       fitsio
       cuda
       tmva_gpu
+      r
     )
   endif()
   if("cxx17" IN_LIST SPECLIST)
