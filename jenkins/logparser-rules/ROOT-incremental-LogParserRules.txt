@@ -12,13 +12,17 @@ error /\[ERROR\]/
 error /\[FATAL\]/
 error / FAILED /
 error /: error:/
+# MSVC's "file(18): error C2039: ..."
+error /: error [A-Z]\d+: /
 error /fatal error:/
+error /: fatal error /
 error /MSBUILD : error MSB/
 error /CMake Error at /
 error /FAILED: /
 
 # list of warnings here...
 warning /: warning:/
+warning /: warning /
 warning /UNSTABLE/
 warning /CMake Warning at /
 # warning /Warning: /
