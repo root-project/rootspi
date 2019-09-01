@@ -22,7 +22,8 @@ error /FAILED: /
 
 # list of warnings here...
 warning /: warning:/
-warning /: warning /
+# Once we start fixing MSVC warnings, enable this:
+#warning /: warning /
 warning /UNSTABLE/
 warning /CMake Warning at /
 # warning /Warning: /
