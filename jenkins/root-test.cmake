@@ -67,6 +67,13 @@ elseif(CTEST_MODE STREQUAL pullrequests)
     ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
   endif()
 
+  if(${EXTRA_CMAKE_OPTS_LOWER} MATCHES "dkeep_pr_builds_for_a_day=on")
+     # Copy the PR environment.
+     # cp /build/workspace/root-pullrequests-build to
+     # /build/workspace/root-pullrequests-build-keep-for-vgvassilev
+     file(COPY $ENV{WORKSPACE} DESTINATION $ENV{WORKSPACE}-keep-for-$ENV{ghprbPullAuthorLogin}
+  endif()
+
   # We are done, switch to master to clean up the created branch.
   set(LOCAL_BRANCH_NAME "$ENV{ghprbPullAuthorLogin}-$ENV{ghprbSourceBranch}")
   cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})

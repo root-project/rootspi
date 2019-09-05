@@ -811,7 +811,7 @@ elseif(CTEST_MODE STREQUAL package)
 #----Pullrequests-----------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
 
-  file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
+  cleanup_pr_build_area(${CTEST_BINARY_DIRECTORY})
 
   # The code semantically does the following:
   # 1. Resets the working area (and checks out the ghprbTargetBranch aka master).

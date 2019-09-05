@@ -211,6 +211,7 @@ RECTORY}: ${TAR_RESULT}")
   set(CTEST_GIT_UPDATE_CUSTOM "")
 endif()
 
+#----Call execute_process and log-----------------------------------------------
 function(execute_process_and_log)
   cmake_parse_arguments(ARG "" "HINT" "" ${ARGN})
   set(msg "[Executing ${ARG_UNPARSED_ARGUMENTS}]")
@@ -221,6 +222,37 @@ function(execute_process_and_log)
   execute_process(${ARG_UNPARSED_ARGUMENTS})
 endfunction(execute_process_and_log)
 
+#----Clean up the build folders-------------------------------------------------
+function(cleanup_pr_build_area build_dir)
+  # This is something like: /build/workspace/root-pullrequests-build/build/
+  get_filename_component(parent_dir ${build_dir} DIRECTORY)
+  if (NOT "$ENV{WORKSPACE}" STREQUAL "${parent_dir}")
+     message(FATAL_ERROR "We are trying to clean an unexpected folder: $ENV{WORKSPACE} should match ${parent_dir}")
+  endif()
+  file(REMOVE_RECURSE ${build_dir})
+  # Try cleaning up old builds requested via -D...
+  set(pr_workspace "$ENV{WORKSPACE}/../")
+  file(GLOB sub_dirs ${pr_workspace}/*)
+  foreach(dir ${sub_dirs})
+     get_filename_component(dir_realpath ${dir} REALPATH)
+     # Eg:  /mnt/build/workspace/root-pullrequests-build-keep-for-vgvasilev
+     if (NOT ${dir_realpath} MATCHES "^.*-.*keep-for-.*")
+       continue()
+     endif()
+     if (NOT EXISTS ${dir_realpath}/controlfile)
+       continue()
+     endif()
+     file(TIMESTAMP ${dir_realpath}/controlfile controlfile_timestamp "%s" UTC)
+     string(TIMESTAMP now "%s" UTC)
+     math(EXPR result_timestamp "${now} - ${controlfile_timestamp}")
+     # Older than 24 hours: 24 * 60 * 60 = 86400
+     if (${result_timestamp} GREATER 86400)
+       message(STATUS "${dir_realpath} is older than 24h. Deleting...")
+       file(REMOVE_RECURSE ${dir_realpath})
+     endif()
+  endforeach()
+
+endfunction(cleanup_pr_build_area)
 #----Recover From Errors------------------------------------------------------
 function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
   execute_process_and_log(COMMAND ${CMAKE_COMMAND} -E remove -f ".git/HEAD.lock" WORKING_DIRECTORY ${cleanup_working_dir}
