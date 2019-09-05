@@ -219,6 +219,7 @@ function(execute_process_and_log)
     set(msg "${ARG_HINT}: ${msg}")
   endif()
   message(STATUS "${msg}")
+  # FIXME: Handle RESULTS_VARIABLE, OUTPUT_VARIABLE, ERROR_VARIABLE
   if (ARG_RESULT_VARIABLE)
     execute_process(RESULT_VARIABLE RESULT ${ARG_UNPARSED_ARGUMENTS})
     set(${ARG_RESULT_VARIABLE} ${RESULT} PARENT_SCOPE)
