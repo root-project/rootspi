@@ -213,13 +213,18 @@ endif()
 
 #----Call execute_process and log-----------------------------------------------
 function(execute_process_and_log)
-  cmake_parse_arguments(ARG "" "HINT" "" ${ARGN})
+  cmake_parse_arguments(ARG "" "HINT;RESULT_VARIABLE" "" ${ARGN})
   set(msg "[Executing ${ARG_UNPARSED_ARGUMENTS}]")
   if (ARG_HINT)
     set(msg "${ARG_HINT}: ${msg}")
   endif()
   message(STATUS "${msg}")
-  execute_process(${ARG_UNPARSED_ARGUMENTS})
+  if (ARG_RESULT_VARIABLE)
+    execute_process(RESULT_VARIABLE RESULT ${ARG_UNPARSED_ARGUMENTS})
+    set(${ARG_RESULT_VARIABLE} ${RESULT} PARENT_SCOPE)
+  else()
+    execute_process(${ARG_UNPARSED_ARGUMENTS})
+  endif()
 endfunction(execute_process_and_log)
 
 #----Clean up the build folders-------------------------------------------------
