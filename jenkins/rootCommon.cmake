@@ -255,8 +255,8 @@ function(cleanup_pr_build_area build_dir)
        file(REMOVE_RECURSE ${dir_realpath})
      endif()
   endforeach()
-
 endfunction(cleanup_pr_build_area)
+
 #----Recover From Errors------------------------------------------------------
 function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
   execute_process_and_log(COMMAND ${CMAKE_COMMAND} -E remove -f ".git/HEAD.lock" WORKING_DIRECTORY ${cleanup_working_dir}

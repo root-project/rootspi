@@ -71,7 +71,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
      # Copy the PR environment.
      # cp /build/workspace/root-pullrequests-build to
      # /build/workspace/root-pullrequests-build-keep-for-vgvassilev
-     file(COPY $ENV{WORKSPACE} DESTINATION $ENV{WORKSPACE}-keep-for-$ENV{ghprbPullAuthorLogin}
+     file(COPY $ENV{WORKSPACE} DESTINATION $ENV{WORKSPACE}-keep-for-$ENV{ghprbPullAuthorLogin})
   endif()
 
   # We are done, switch to master to clean up the created branch.
