@@ -829,17 +829,19 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # need to wait N times the rest of the cleanup procedures to kick in.
   cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
 
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${REBASE_WORKING_DIR}
+  HINT "Fetching from $ENV{ghprbAuthorRepoGitUrl} branch ${REMOTE_BRANCH_NAME} as ${LOCAL_BRANCH_NAME}")
 
   # git rebase master LOCAL_BRANCH_NAME rebases the LOCAL_BRANCH_NAME on master and checks out LOCAL_BRANCH_NAME.
   # Note that we cannot rebase against origin/master because sometimes (for an unknown to me reason)
   # origin/master is behind master. It is likely due to the git fetch configuration on the nodes.
   set(ERROR_OCCURRED 0)
-  execute_process(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
+  execute_process_and_log(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
     -c user.email=sftnight@cern.ch rebase -f -v $ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME}
     WORKING_DIRECTORY ${REBASE_WORKING_DIR}
     TIMEOUT 300
     RESULT_VARIABLE ERROR_OCCURRED
+    HINT "Rebasing $ENV{ghprbTargetBranch} against ${LOCAL_BRANCH_NAME}"
     )
   if (ERROR_OCCURRED)
     # We are in the error case, switch to master to clean up the created branch.
@@ -855,9 +857,10 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # Clean up the area of the 'other' repository, too.
   cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
 
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} fetch ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} fetch ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
     WORKING_DIRECTORY "${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}"
-    RESULT_VARIABLE FETCH_FAILED)
+    RESULT_VARIABLE FETCH_FAILED
+    HINT "Fetching from ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} branch ${REMOTE_BRANCH_NAME} as ${LOCAL_BRANCH_NAME}")
 
   # If fetch failed this means the user did not have the clone of root/roottest or did not have a branch
   # with the expected name. Ignore and continue.
@@ -866,13 +869,16 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 Integrating against it. Please make sure you open and merge a PR against it.")
     # If we have a corresponding branch, check it out and rebase it as we do for above.
     # FIXME: Figure out how to factor out the rebase cmake fragments.
-    execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch}
-      WORKING_DIRECTORY ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
-    execute_process(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
+    execute_process_and_log(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch}
+      WORKING_DIRECTORY ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}
+      HINT "Checking out $ENV{ghprbTargetBranch}"
+      )
+    execute_process_and_log(COMMAND  ${CTEST_GIT_COMMAND} -c user.name=sftnight
       -c user.email=sftnight@cern.ch rebase -f -v $ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME}
       WORKING_DIRECTORY ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}
       TIMEOUT 300
       RESULT_VARIABLE ERROR_OCCURRED
+      HINT "Rebasing $ENV{ghprbTargetBranch} against ${LOCAL_BRANCH_NAME}"
       )
     if (ERROR_OCCURRED)
       cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
@@ -887,7 +893,10 @@ Integrating against it. Please make sure you open and merge a PR against it.")
   # In order to workaround this issue we do the rebase outside of the ctest update system. Then,
   # we checkout the master branch and then checkout the already rebased branch. This way we trick
   # ctest_update to pick up only the relevant differences.
-  execute_process(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch} WORKING_DIRECTORY ${REBASE_WORKING_DIR})
+  execute_process_and_log(COMMAND  ${CTEST_GIT_COMMAND} checkout -f $ENV{ghprbTargetBranch}
+    WORKING_DIRECTORY ${REBASE_WORKING_DIR}
+    HINT "Checking out $ENV{ghprbTargetBranch}"
+    )
 
   # Do not put ${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME} in quotes! It breaks ctest_update.
   set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} checkout ${LOCAL_BRANCH_NAME})

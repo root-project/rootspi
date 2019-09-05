@@ -211,31 +211,42 @@ RECTORY}: ${TAR_RESULT}")
   set(CTEST_GIT_UPDATE_CUSTOM "")
 endif()
 
+function(execute_process_and_log)
+  cmake_parse_arguments(ARG "" "HINT" "" ${ARGN})
+  set(msg "[Executing ${ARG_UNPARSED_ARGUMENTS}]")
+  if (ARG_HINT)
+    set(msg "${ARG_HINT}: ${msg}")
+  endif()
+  message(STATUS "${msg}")
+  execute_process(${ARG_UNPARSED_ARGUMENTS})
+endfunction(execute_process_and_log)
+
 #----Recover From Errors------------------------------------------------------
 function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
-  message(STATUS "Cleaning up possible lock files [rm -f .git/HEAD.lock] in ${cleanup_working_dir}")
-  execute_process( COMMAND ${CMAKE_COMMAND} -E remove -f ".git/HEAD.lock" WORKING_DIRECTORY ${cleanup_working_dir} )
+  execute_process_and_log(COMMAND ${CMAKE_COMMAND} -E remove -f ".git/HEAD.lock" WORKING_DIRECTORY ${cleanup_working_dir}
+  HINT "Cleaning up possible lock files")
 
-  message(STATUS "Cleaning up possible lock files [rm -f .git/index.lock] in ${cleanup_working_dir}")
-  execute_process( COMMAND ${CMAKE_COMMAND} -E remove -f ".git/index.lock" WORKING_DIRECTORY ${cleanup_working_dir} )
+  execute_process_and_log(COMMAND ${CMAKE_COMMAND} -E remove -f ".git/index.lock" WORKING_DIRECTORY ${cleanup_working_dir}
+  HINT "Cleaning up possible lock files")
 
-  message(STATUS "Cleaning up [git rebase --abort] in ${cleanup_working_dir}")
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir})
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir}
+  HINT "Cleaning up possible unsuccessful rebase")
 
-  message(STATUS "Checking out branch ${target_branch} [git checkout ${target_branch}] in ${cleanup_working_dir}")
   # git fetch cannot update the HEAD of the current branch. We should check out some 'safe' branch.
   # The problem can arise if our cleanup failed to checkout different from local_branch_name branch.
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} checkout ${target_branch} WORKING_DIRECTORY ${cleanup_working_dir})
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} checkout ${target_branch} WORKING_DIRECTORY ${cleanup_working_dir}
+  HINT "Checking out branch ${target_branch}" )
 
   # Check if the branch exists.
   set(branch_missing)
-  execute_process(COMMAND  ${CTEST_GIT_COMMAND} rev-parse --quiet --verify ${local_branch_name}
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} rev-parse --quiet --verify ${local_branch_name}
     WORKING_DIRECTORY ${cleanup_working_dir}
     RESULT_VARIABLE branch_missing
+    HINT "Checking if ${local_branch_name} exists"
     )
   if (NOT branch_missing)
-    message(STATUS "Cleaning up [git branch -D ${local_branch_name}] in ${cleanup_working_dir}")
-    execute_process(COMMAND ${CTEST_GIT_COMMAND} branch -D ${local_branch_name} WORKING_DIRECTORY ${cleanup_working_dir})
+    execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} branch -D ${local_branch_name} WORKING_DIRECTORY ${cleanup_working_dir}
+    HINT "Cleaning up ${local_branch_name}")
   endif()
 endfunction()
 
