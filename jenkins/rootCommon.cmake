@@ -226,6 +226,7 @@ endfunction(execute_process_and_log)
 function(cleanup_pr_build_area build_dir)
   # This is something like: /build/workspace/root-pullrequests-build/build/
   get_filename_component(parent_dir ${build_dir} DIRECTORY)
+  get_filename_component(parent_dir ${parent_dir} REALPATH)
   if (NOT "$ENV{WORKSPACE}" STREQUAL "${parent_dir}")
      message(FATAL_ERROR "We are trying to clean an unexpected folder: $ENV{WORKSPACE} should match ${parent_dir}")
   endif()
