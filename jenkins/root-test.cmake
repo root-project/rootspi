@@ -71,7 +71,10 @@ elseif(CTEST_MODE STREQUAL pullrequests)
      # Copy the PR environment.
      # cp /build/workspace/root-pullrequests-build to
      # /build/workspace/root-pullrequests-build-keep-for-vgvassilev
-     file(COPY $ENV{WORKSPACE} DESTINATION $ENV{WORKSPACE}-keep-for-$ENV{ghprbPullAuthorLogin})
+     execute_process_and_log(COMMAND ${CMAKE_COMMAND} -E
+       copy_directory "$ENV{WORKSPACE}/" "$ENV{WORKSPACE}-keep-for-$ENV{ghprbPullAuthorLogin}"
+       HINT "Copying $ENV{WORKSPACE}/ into $ENV{WORKSPACE}-keep-for-$ENV{ghprbPullAuthorLogin} due to -DKEEP_PR_BUILDS_FOR_A_DAY=On"
+       )
   endif()
 
   # We are done, switch to master to clean up the created branch.
