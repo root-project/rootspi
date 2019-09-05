@@ -230,8 +230,11 @@ function(cleanup_pr_build_area build_dir)
   if (NOT "$ENV{WORKSPACE}" STREQUAL "${parent_dir}")
      message(FATAL_ERROR "We are trying to clean an unexpected folder: $ENV{WORKSPACE} should match ${parent_dir}")
   endif()
+
+  # Clean the current working dir.
   file(REMOVE_RECURSE ${build_dir})
-  # Try cleaning up old builds requested via -D...
+
+  # Try cleaning up old builds requested via -DKEEP_PR_BUILDS_FOR_A_DAY=On
   set(pr_workspace "$ENV{WORKSPACE}/../")
   file(GLOB sub_dirs ${pr_workspace}/*)
   foreach(dir ${sub_dirs})
