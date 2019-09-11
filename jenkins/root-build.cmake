@@ -306,8 +306,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     list(APPEND all_supported
       castor
       globus
-      pythia8
       rfio
+    )
+  else()
+    list(APPEND all_supported
+      pythia8
     )
   endif()
 
