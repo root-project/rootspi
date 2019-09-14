@@ -542,8 +542,6 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
     # cling complains about cfitsio version mismatch header/library.
     # cuda fails with `mwaitxintrin.h(36): error: identifier "__builtin_ia32_monitorx" is undefined`
     list(REMOVE_ITEM want_modules
-      builtin_cfitsio
-      fitsio
       cuda
       tmva_gpu
     )
