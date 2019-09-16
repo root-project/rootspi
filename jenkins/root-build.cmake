@@ -539,10 +539,8 @@ endfunction()
 #
 function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
   if("rtcxxmod" IN_LIST SPECLIST)
-    # cling complains about cfitsio version mismatch header/library.
-    # cuda fails with `mwaitxintrin.h(36): error: identifier "__builtin_ia32_monitorx" is undefined`
+    # r has problems in loading libRInterface. Probably an ABI issue.
     list(REMOVE_ITEM want_modules
-      tmva_gpu
       r
     )
   endif()
