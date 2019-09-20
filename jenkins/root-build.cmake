@@ -540,9 +540,9 @@ endfunction()
 function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
   if("rtcxxmod" IN_LIST SPECLIST)
     # r has problems in loading libRInterface. Probably an ABI issue.
-    list(REMOVE_ITEM want_modules
+    #list(REMOVE_ITEM want_modules
     #  r
-    )
+    #)
   endif()
   if("cxx17" IN_LIST SPECLIST)
     # builtin_xrootd cannot be built with C++17.
