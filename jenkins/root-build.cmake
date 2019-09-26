@@ -121,6 +121,12 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
       unuran
     )
   endif()
+  if ("${ROOT_VERSION}" VERSION_GREATER "6.19")
+    list(APPEND all_supported
+      builtin_cfitsio
+      tmva
+    )
+  endif()
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
 endfunction()
