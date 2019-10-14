@@ -78,6 +78,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     builtin_pcre
     builtin_xxhash
     builtin_zlib
+    builtin_zstd
     asimage
     astiff
     clad
@@ -157,6 +158,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_veccore
     builtin_xrootd
     builtin_xxhash
+    builtin_zstd
     asimage
     astiff
     bonjour
