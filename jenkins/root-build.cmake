@@ -348,6 +348,12 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
+  if ("${LABEL}" MATCHES "fedora30")
+    list(APPEND all_supported
+      mpi
+    )
+  endif()
+
   # Vc generates warnings with latest clang HEAD, which are visible in some tests and breaking
   # references.
   if("${LABEL}" MATCHES "fedora|ubuntu" AND
