@@ -310,6 +310,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
+  # zstd binaries are too old on Ubuntu16
+  if("${LABEL}" MATCHES "ubuntu16")
+    list(APPEND all_supported
+      builtin_zstd
+    )
+  endif()
+
   if("${LABEL}" MATCHES "centos")
     list(APPEND all_supported
       castor
