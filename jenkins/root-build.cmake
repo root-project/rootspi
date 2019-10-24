@@ -31,7 +31,6 @@ function(GET_ALL_MODULES)
   )
   string(REPLACE " " ";" all_modules ${all_modules})
   # Remove build configuration settings: they are not modules.
-  # Remove root7 and webgui because we simply want it on if >= cxx14, i.e. not explicitly steer it.
   list(REMOVE_ITEM all_modules
     builtin_llvm
     builtin_clang
@@ -48,14 +47,12 @@ function(GET_ALL_MODULES)
     memory_termination
     pch
     pyroot_experimental
-    root7
     rpath
     runtime_cxxmodules
     shared
     soversion
     tcmalloc
     winrtdebug
-    webgui
     coverage
   )
   set(all_modules ${all_modules} PARENT_SCOPE)
@@ -120,6 +117,16 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
       builtin_unuran
       imt
       unuran
+    )
+  endif()
+  if ("${ROOT_VERSION}" VERSION_GREATER "6.17")
+    list(APPEND all_supported
+      builtin_tbb
+      builtin_unuran
+      imt
+      unuran
+      root7
+      webgui
     )
   endif()
   if ("${ROOT_VERSION}" VERSION_GREATER "6.19")
@@ -223,6 +230,12 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_xxhash
   )
 
+  if ("${ROOT_VERSION}" VERSION_GREATER "6.17")
+    list(APPEND all_supported
+      root7
+      webgui
+    )
+
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
 endfunction()
@@ -317,6 +330,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
+  # only centos7 node on jenkins does not support c++14, required for root7
   if("${LABEL}" MATCHES "centos")
     list(APPEND all_supported
       castor
@@ -326,6 +340,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   else()
     list(APPEND all_supported
       pythia8
+      root7
+      webgui
     )
   endif()
 
@@ -695,6 +711,8 @@ function(CONFIGURE_ROOT_OPTIONS)
     if("cxx17" IN_LIST SPECLIST)
       set(specflags ${specflags} -DCMAKE_CXX_STANDARD=17)
     elseif("cxx14" IN_LIST SPECLIST)
+      set(specflags ${specflags} -DCMAKE_CXX_STANDARD=14)
+    elseif("root7" IN_LIST want_modules)
       set(specflags ${specflags} -DCMAKE_CXX_STANDARD=14)
     else()
       set(specflags ${specflags} -DCMAKE_CXX_STANDARD=11)
