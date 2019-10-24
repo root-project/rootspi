@@ -353,7 +353,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if ("${LABEL}" MATCHES "fedora30")
+  if ("${LABEL}" MATCHES "fedora29")
     list(APPEND all_supported
       mpi
     )
