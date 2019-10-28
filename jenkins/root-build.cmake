@@ -121,10 +121,6 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
   endif()
   if ("${ROOT_VERSION}" VERSION_GREATER "6.17")
     list(APPEND all_supported
-      builtin_tbb
-      builtin_unuran
-      imt
-      unuran
       root7
       webgui
     )
@@ -235,6 +231,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
       root7
       webgui
     )
+  endif()
 
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
@@ -340,9 +337,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   else()
     list(APPEND all_supported
       pythia8
-      root7
-      webgui
     )
+    if ("${ROOT_VERSION}" VERSION_GREATER "6.17")
+       list(APPEND all_supported
+          root7
+          webgui
+        )
+    endif()
   endif()
 
   if("${LABEL}" MATCHES "fedora27")
