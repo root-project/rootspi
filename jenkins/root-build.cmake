@@ -889,7 +889,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # If fetch failed this means the user did not have the clone of root/roottest or did not have a branch
   # with the expected name. Ignore and continue.
   if(NOT FETCH_FAILED)
-    message(WARNING "Found remote ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} with corresponding branch name ${REMOTE_BRANCH_NAME}. \
+    message("Found remote ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} with corresponding branch name ${REMOTE_BRANCH_NAME}. \
 Integrating against it. Please make sure you open and merge a PR against it.")
     # If we have a corresponding branch, check it out and rebase it as we do for above.
     # FIXME: Figure out how to factor out the rebase cmake fragments.
