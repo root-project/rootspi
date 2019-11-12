@@ -4,6 +4,7 @@ ok /^make\[[[:digit:]]+\]: Target `test. not remade because of errors.$/
 ok /FAILED TO establish the default connection to the WindowServer/
 # MacOS 10.13 spurrious warning "text-based stub file X and library file Y are out of sync. Falling back to library file for linking."
 ok /ld: warning: text-based stub file /
+ok /JENKINS-19022: warning: /
 
 # match line starting with 'error ', case-insensitive
 error /(?i)^error /
@@ -28,7 +29,6 @@ warning /UNSTABLE/
 warning /CMake Warning at /
 # warning /Warning: /
 warning /^Warning: /
-
 
 # create a quick access link to lines in the report containing 'INFO'
 info /INFO/
