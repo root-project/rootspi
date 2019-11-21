@@ -4,14 +4,19 @@ rm -rf resources *.txt
 
 src=${1}
 if [[ "$src" == "" ]]; then
-   src=/d/openui5/
+   src=~/d/openui5-1.72.0/
 fi
 
-bndl0=messagebundle_en.properties
-bndl=messagebundle_en_US.properties
+copy_lib() {
+   echo "copy lib $1"
+   mkdir -p ${1}
+   cp ${src}/${1}/library-preload.js ${1}
+   cp ${src}/${1}/library-preload.js.map ${1}
+   cp ${src}/${1}/messagebundle_en.properties ${1}/messagebundle_en_US.properties
+}
 
 copy_themes() {
-   echo "copy themes for $1"
+   echo "copy themes $1"
    mkdir -p ${1}/themes
    cp -r ${src}/${1}/themes/base ${1}/themes
    cp -r ${src}/${1}/themes/sap_belize ${1}/themes
@@ -23,12 +28,10 @@ mkdir resources
 cp ${src}/resources/sap-ui-core-nojQuery.js resources/
 cp ${src}/resources/sap-ui-core-nojQuery.js.map resources/
 
-mkdir -p resources/sap/ui/core/
-cp ${src}/resources/sap/ui/core/library-preload.js resources/sap/ui/core/
-cp ${src}/resources/sap/ui/core/library-preload.js.map resources/sap/ui/core/
-cp ${src}/resources/sap/ui/core/${bndl0} resources/sap/ui/core/${bndl}
-
+copy_lib resources/sap/ui/core
 copy_themes resources/sap/ui/core
+
+# copy_lib resources/sap/ui/codeeditor
 
 mkdir -p resources/sap/ui/codeeditor/
 mkdir -p resources/sap/ui/codeeditor/js/ace/
@@ -47,42 +50,24 @@ cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/c_cpp.js resources/sap/ui/
 
 copy_themes resources/sap/ui/codeeditor
 
-mkdir -p resources/sap/m/
-cp ${src}/resources/sap/m/library-preload.js resources/sap/m/
-cp ${src}/resources/sap/m/library-preload.js.map resources/sap/m/
-cp ${src}/resources/sap/m/${bndl0} resources/sap/m/${bndl}
+copy_lib resources/sap/m
 copy_themes resources/sap/m
 
-mkdir -p resources/sap/uxap/
-cp ${src}/resources/sap/uxap/library-preload.js resources/sap/uxap/
-cp ${src}/resources/sap/uxap/library-preload.js.map resources/sap/uxap/
-cp ${src}/resources/sap/uxap/${bndl0} resources/sap/uxap/${bndl}
+copy_lib resources/sap/uxap
 copy_themes resources/sap/uxap
 
-mkdir -p resources/sap/ui/layout/
-cp ${src}/resources/sap/ui/layout/library-preload.js resources/sap/ui/layout/
-cp ${src}/resources/sap/ui/layout/library-preload.js.map resources/sap/ui/layout/
-cp ${src}/resources/sap/ui/layout/${bndl0} resources/sap/ui/layout/${bndl}
+copy_lib resources/sap/ui/layout
 copy_themes resources/sap/ui/layout
 
-mkdir -p resources/sap/ui/table/
-cp ${src}/resources/sap/ui/table/library-preload.js resources/sap/ui/table/
-cp ${src}/resources/sap/ui/table/library-preload.js.map resources/sap/ui/table/
-cp ${src}/resources/sap/ui/table/${bndl0} resources/sap/ui/table/${bndl}
+copy_lib resources/sap/ui/table
 copy_themes resources/sap/ui/table
 
-mkdir -p resources/sap/ui/unified/
-cp ${src}/resources/sap/ui/unified/library-preload.js resources/sap/ui/unified/
-cp ${src}/resources/sap/ui/unified/library-preload.js.map resources/sap/ui/unified/
-cp ${src}/resources/sap/ui/unified/${bndl0} resources/sap/ui/unified/${bndl}
+copy_lib resources/sap/ui/unified
+copy_themes resources/sap/ui/unified
 mkdir -p resources/sap/ui/unified/img/ColorPicker
 cp ${src}/resources/sap/ui/unified/img/ColorPicker/Alphaslider_BG.png resources/sap/ui/unified/img/ColorPicker
-copy_themes resources/sap/ui/unified
 
-mkdir -p resources/sap/ui/commons/
-cp ${src}/resources/sap/ui/commons/library-preload.js resources/sap/ui/commons/
-cp ${src}/resources/sap/ui/commons/library-preload.js.map resources/sap/ui/commons/
-cp ${src}/resources/sap/ui/commons/${bndl0} resources/sap/ui/commons/${bndl}
+copy_lib resources/sap/ui/commons
 copy_themes resources/sap/ui/commons
 
 mkdir -p resources/sap/ui/unified/themes
