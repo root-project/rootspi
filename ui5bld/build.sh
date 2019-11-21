@@ -11,10 +11,11 @@ bndl0=messagebundle_en.properties
 bndl=messagebundle_en_US.properties
 
 copy_themes() {
-   echo "copy themese for $1"
-   mkdir -p ${1}/themes/sap_belize
-   cp ${src}/${1}/themes/sap_belize/library.css ${1}/themes/sap_belize
-   cp ${src}/${1}/themes/sap_belize/library-parameters.json ${1}/themes/sap_belize
+   echo "copy themes for $1"
+   mkdir -p ${1}/themes
+   cp -r ${src}/${1}/themes/base ${1}/themes
+   cp -r ${src}/${1}/themes/sap_belize ${1}/themes
+   cp -r ${src}/${1}/themes/sap_fiori_3 ${1}/themes
 }
 
 cp ${src}/*.txt .
@@ -26,6 +27,8 @@ mkdir -p resources/sap/ui/core/
 cp ${src}/resources/sap/ui/core/library-preload.js resources/sap/ui/core/
 cp ${src}/resources/sap/ui/core/library-preload.js.map resources/sap/ui/core/
 cp ${src}/resources/sap/ui/core/${bndl0} resources/sap/ui/core/${bndl}
+
+copy_themes resources/sap/ui/core
 
 mkdir -p resources/sap/ui/codeeditor/
 mkdir -p resources/sap/ui/codeeditor/js/ace/
@@ -81,10 +84,6 @@ cp ${src}/resources/sap/ui/commons/library-preload.js resources/sap/ui/commons/
 cp ${src}/resources/sap/ui/commons/library-preload.js.map resources/sap/ui/commons/
 cp ${src}/resources/sap/ui/commons/${bndl0} resources/sap/ui/commons/${bndl}
 copy_themes resources/sap/ui/commons
-
-mkdir -p resources/sap/ui/core/themes
-cp -r ${src}/resources/sap/ui/core/themes/base resources/sap/ui/core/themes
-cp -r ${src}/resources/sap/ui/core/themes/sap_belize resources/sap/ui/core/themes
 
 mkdir -p resources/sap/ui/unified/themes
 cp -r ${src}/resources/sap/ui/unified/themes/base resources/sap/ui/unified/themes
