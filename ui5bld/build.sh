@@ -44,6 +44,9 @@ cp ${src}/resources/sap/ui/codeeditor/js/ace/ext-beautify.js resources/sap/ui/co
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-javascript.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-json.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-c_cpp.js resources/sap/ui/codeeditor/js/ace/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-css.js resources/sap/ui/codeeditor/js/ace/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-sh.js resources/sap/ui/codeeditor/js/ace/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-markdown.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/theme-tomorrow.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/javascript.js resources/sap/ui/codeeditor/js/ace/snippets/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/c_cpp.js resources/sap/ui/codeeditor/js/ace/snippets/
