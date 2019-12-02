@@ -677,7 +677,7 @@ function(CONFIGURE_ROOT_OPTIONS)
 
   if("nortcxxmod" IN_LIST SPECLIST)
     set(specflags "${specflags} -Druntime_cxxmodules=Off")
-  elif("rtcxxmod" IN_LIST SPECLIST)
+  elseif("rtcxxmod" IN_LIST SPECLIST)
     set(specflags "${specflags} -Druntime_cxxmodules=On")
   endif()
 
