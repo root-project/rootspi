@@ -675,7 +675,9 @@ function(CONFIGURE_ROOT_OPTIONS)
     set(specflags "${specflags} -Dimt=Off -Dbuiltin_tbb=Off")
   endif()
 
-  if("rtcxxmod" IN_LIST SPECLIST)
+  if("nortcxxmod" IN_LIST SPECLIST)
+    set(specflags "${specflags} -Druntime_cxxmodules=Off")
+  elif("rtcxxmod" IN_LIST SPECLIST)
     set(specflags "${specflags} -Druntime_cxxmodules=On")
   endif()
 
