@@ -279,6 +279,9 @@ function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
   execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} checkout ${target_branch} WORKING_DIRECTORY ${cleanup_working_dir}
   HINT "Checking out branch ${target_branch}" )
 
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} prune WORKING_DIRECTORY ${cleanup_working_dir}
+  HINT "git prune: remove unreachable loose objects, to avoid git gc errors." )
+
   # Check if the branch exists.
   set(branch_missing)
   execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} rev-parse --quiet --verify ${local_branch_name}
