@@ -58,7 +58,7 @@ fi
 # The final compiler may not yet be totally setup-------------------------------------
 if [[ $COMPILER == gcc* ]]; then
   GCCversion=${COMPILER:3:3}
-  GCCversion="${GCCversion:0:1}.${GCCversion:1:1}.${GCCversion:3:1}"
+  GCCversion="${GCCversion:0:1}.${GCCversion:1:1}.${GCCversion:2:1}"
   . /cvmfs/sft.cern.ch/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
   export ExtraCMakeOptions="-Darrow=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
