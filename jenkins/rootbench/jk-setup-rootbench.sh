@@ -6,13 +6,12 @@ export LC_ALL=en_US.UTF-8
 THIS=$(dirname ${BASH_SOURCE[0]})
 
 # first arguments is the source directory
-if [ $# -ge 4 ]; then
+if [ $# -ge 3 ]; then
   LABEL=$1 ; shift
   COMPILER=$1 ; shift
   BUILDTYPE=$1 ; shift
-  EXTERNALS=$1 ; shift
 else
-  echo "$0: expecting 4 arguments [LABEL]  [COMPILER] [BUILDTYPE] [EXTERNALS]"
+  echo "$0: expecting 3 arguments [LABEL] [COMPILER] [BUILDTYPE]"
   exit 1
 fi
 
@@ -42,21 +41,25 @@ if [[ $COMPILER == gcc73 ]]; then
   COMPATIBLE=${COMPATIBLE/gcc73/gcc7}
 fi
 
-if [[ $(uname -s) == Linux ]]; then
-  LCG_EXTERNALS=/cvmfs/sft.cern.ch/lcg/views/$EXTERNALS
-  if [[ -e $LCG_EXTERNALS/$PLATFORM/setup.sh ]]; then
-    source $LCG_EXTERNALS/$PLATFORM/setup.sh
-  elif [[ -e $LCG_EXTERNALS/$COMPATIBLE/setup.sh ]]; then
-    source $LCG_EXTERNALS/$COMPATIBLE/setup.sh
-  elif [[ $PLATFORM == *slc6* || $PLATFORM == *centos7* ]]; then
-    export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
-  else
-    echo "No $EXTERNALS externals found for $PLATFORM"
-  fi
-fi
+# No need to use externals (all dependencies are installed on testing nodes)
+#if [[ $(uname -s) == Linux ]]; then
+#  LCG_EXTERNALS=/cvmfs/sft.cern.ch/lcg/views/$EXTERNALS
+#  if [[ -e $LCG_EXTERNALS/$PLATFORM/setup.sh ]]; then
+#    source $LCG_EXTERNALS/$PLATFORM/setup.sh
+#  elif [[ -e $LCG_EXTERNALS/$COMPATIBLE/setup.sh ]]; then
+#    source $LCG_EXTERNALS/$COMPATIBLE/setup.sh
+#  elif [[ $PLATFORM == *slc6* || $PLATFORM == *centos7* ]]; then
+#    export PATH=/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.6.0/Linux-$ARCH/bin:${PATH}
+#  else
+#    echo "No $EXTERNALS externals found for $PLATFORM"
+#  fi
+#fi
 
 # The final compiler may not yet be totally setup-------------------------------------
 if [[ $COMPILER == gcc* ]]; then
+  GCCversion=${COMPILER:3:3}
+  GCCversion="${GCCversion:0:1}.${GCCversion:1:1}.${GCCversion:3:1}"
+  . /cvmfs/sft.cern.ch/lcg/contrib/gcc/${GCCversion}/${ARCH}-${LABEL}/setup.sh
   export ExtraCMakeOptions="-Darrow=OFF ${ExtraCMakeOptions}"
   if [ $ARCH != i686 ]; then
     export ExtraCMakeOptions="-Dbuiltin_lzma=ON ${ExtraCMakeOptions}"
