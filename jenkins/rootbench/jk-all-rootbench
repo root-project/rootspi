@@ -24,7 +24,7 @@ echo "--------------------------------------------------------------------------
 touch $WORKSPACE/controlfile
 
 if [[ "$1" != "test" ]]; then
-    ctest -j4 -VV -S ${THIS}/root-build-rootbench.cmake
+    ctest3 -j4 -VV -S ${THIS}/root-build-rootbench.cmake
     status=$?
 
     # do not run the tests if continous build fails
@@ -38,7 +38,7 @@ if [[ "$1" != "test" ]]; then
 fi
 
 if [[ "$1" != "build" ]]; then
-    ctest -j4 --no-compress-output -V -S ${THIS}/root-test-rootbench.cmake
+    ctest3 -j4 --no-compress-output -V -S ${THIS}/root-test-rootbench.cmake
     status=$?
 fi
 
