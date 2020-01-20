@@ -56,6 +56,9 @@ copy_themes resources/sap/ui/codeeditor
 copy_lib resources/sap/m
 copy_themes resources/sap/m
 
+copy_lib resources/sap/tnt
+copy_themes resources/sap/tnt
+
 copy_lib resources/sap/uxap
 copy_themes resources/sap/uxap
 
