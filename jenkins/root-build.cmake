@@ -335,8 +335,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     set(ENV{ExtraCMakeOptions} "-DBLA_VENDOR=Generic $ENV{ExtraCMakeOptions}")
   endif()
 
-  # test MPI on Fedora29
-  if("${LABEL}" MATCHES "fedora29")
+  # test MPI on Fedora29, 31
+  if("${LABEL}" MATCHES "fedora29|fedora31")
     set(ENV{ExtraCMakeOptions} "-DCMAKE_PREFIX_PATH=/usr/lib64/mpich $ENV{ExtraCMakeOptions}")
   endif()
 
