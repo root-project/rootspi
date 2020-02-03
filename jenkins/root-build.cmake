@@ -325,7 +325,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
   
-  if(NOT "{LABEL}" MATCHES "centos|-i386")
+  if(NOT "${LABEL}" MATCHES "centos|-i386")
     list(APPEND all_supported
       pythia8
     )
