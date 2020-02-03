@@ -323,7 +323,10 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
       globus
       rfio
     )
-  else()
+  endif()
+  
+  if(NOT ("{LABEL}" MATCHES "centos") AND
+    NOT ("{LABEL}" MATCHES "-i386"))
     list(APPEND all_supported
       pythia8
     )
