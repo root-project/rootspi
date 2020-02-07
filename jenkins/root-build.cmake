@@ -90,6 +90,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     minuit2
     mlp
     opengl
+    pyroot
     python
     roofit
     spectrum
@@ -182,6 +183,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     minuit2
     mlp
     opengl
+    pyroot
     python
     roofit
     spectrum
@@ -259,6 +261,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     odbc
     opengl
     pgsql
+    pyroot
     python
     qt
     qtgsi
