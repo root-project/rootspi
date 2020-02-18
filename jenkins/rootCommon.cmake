@@ -276,6 +276,7 @@ function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
 
   # git fetch cannot update the HEAD of the current branch. We should check out some 'safe' branch.
   # The problem can arise if our cleanup failed to checkout different from local_branch_name branch.
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} fetch origin ${target_branch} WORKING_DIRECTORY ${cleanup_working_dir}
   execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} checkout ${target_branch} WORKING_DIRECTORY ${cleanup_working_dir}
   HINT "Checking out branch ${target_branch}" )
 
