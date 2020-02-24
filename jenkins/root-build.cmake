@@ -426,7 +426,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu1[4689]")
+  if("${LABEL}" MATCHES "ubuntu1[4689]|debian")
     # Ubuntu has no xrootd
     list(APPEND all_supported
       builtin_xrootd
