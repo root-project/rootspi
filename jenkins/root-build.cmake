@@ -734,7 +734,6 @@ function(CONFIGURE_ROOT_OPTIONS)
     ${soversion_option}
     ${testing_options}
     ${asserts_options}
-    ${signing_options}
     -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
     $ENV{ExtraCMakeOptions}
   )
