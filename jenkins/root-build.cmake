@@ -722,7 +722,7 @@ function(CONFIGURE_ROOT_OPTIONS)
   endif()
 
   #---macOS package signing---------------------------------------------------
-  if(CTEST_MODE STREQUAL package AND "${LABEL}" MATCHES "macos")
+  if(CTEST_MODE STREQUAL package AND "${LABEL}" MATCHES "macos.*-sign")
    set(signing_options -DCPACK_PRODUCTBUILD_IDENTITY_NAME="ROOT Developer" )
   endif()
 
