@@ -723,7 +723,7 @@ function(CONFIGURE_ROOT_OPTIONS)
 
   #---macOS package signing---------------------------------------------------
   if(CTEST_MODE STREQUAL package AND "${LABEL}" MATCHES "mac.*-sign")
-   set(signing_options -DCPACK_PRODUCTBUILD_IDENTITY_NAME="ROOT Developer" )
+   set(signing_options "'-DCPACK_PRODUCTBUILD_IDENTITY_NAME=ROOT Developer'" )
   endif()
 
   #---Compose the configuration options---------------------------------------
