@@ -721,6 +721,11 @@ function(CONFIGURE_ROOT_OPTIONS)
     set(asserts_options -DCMAKE_CXX_FLAGS="-UNDEBUG")
   endif()
 
+  #---macOS package signing---------------------------------------------------
+  if(CTEST_MODE STREQUAL package AND "${LABEL}" MATCHES "macos")
+   set(signing_options -DCPACK_PRODUCTBUILD_IDENTITY_NAME="ROOT Developer" )
+  endif()
+
   #---Compose the configuration options---------------------------------------
   # Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
   set(options
@@ -734,6 +739,7 @@ function(CONFIGURE_ROOT_OPTIONS)
     ${soversion_option}
     ${testing_options}
     ${asserts_options}
+    ${signing_options}
     -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
     $ENV{ExtraCMakeOptions}
   )
