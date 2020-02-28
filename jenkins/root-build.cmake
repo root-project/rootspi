@@ -721,11 +721,6 @@ function(CONFIGURE_ROOT_OPTIONS)
     set(asserts_options -DCMAKE_CXX_FLAGS="-UNDEBUG")
   endif()
 
-  #---macOS package signing---------------------------------------------------
-  if(CTEST_MODE STREQUAL package AND "${LABEL}" MATCHES "mac.*-sign")
-   set(signing_options "'-DCPACK_PRODUCTBUILD_IDENTITY_NAME=ROOT Developer'" )
-  endif()
-
   #---Compose the configuration options---------------------------------------
   # Do we want -DCMAKE_VERBOSE_MAKEFILE=ON? Makes builds slow due to text output.
   set(options
