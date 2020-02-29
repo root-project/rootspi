@@ -579,7 +579,6 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
     # The module build currently fails to compile gfal and R.
     list(REMOVE_ITEM want_modules
       gfal
-      r
     )
     if(APPLE)
       list(REMOVE_ITEM want_modules
