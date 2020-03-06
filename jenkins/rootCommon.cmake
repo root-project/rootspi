@@ -213,18 +213,19 @@ endif()
 
 #----Call execute_process and log-----------------------------------------------
 function(execute_process_and_log)
-  cmake_parse_arguments(ARG "" "HINT;RESULT_VARIABLE" "" ${ARGN})
+  cmake_parse_arguments(ARG "" "HINT;RESULT_VARIABLE;OUTPUT_VARIABLE" "" ${ARGN})
   set(msg "[Executing ${ARG_UNPARSED_ARGUMENTS}]")
   if (ARG_HINT)
     set(msg "${ARG_HINT}: ${msg}")
   endif()
   message(STATUS "${msg}")
-  # FIXME: Handle RESULTS_VARIABLE, OUTPUT_VARIABLE, ERROR_VARIABLE
+  # FIXME: Handle RESULTS_VARIABLE, ERROR_VARIABLE
+  execute_process(RESULT_VARIABLE RESULT OUTPUT_VARIABLE OUTPUT ${ARG_UNPARSED_ARGUMENTS})
   if (ARG_RESULT_VARIABLE)
-    execute_process(RESULT_VARIABLE RESULT ${ARG_UNPARSED_ARGUMENTS})
     set(${ARG_RESULT_VARIABLE} ${RESULT} PARENT_SCOPE)
-  else()
-    execute_process(${ARG_UNPARSED_ARGUMENTS})
+  endif()
+  if (ARG_OUTPUT_VARIABLE)
+    set(${ARG_OUTPUT_VARIABLE} ${OUTPUT} PARENT_SCOPE)
   endif()
 endfunction(execute_process_and_log)
 
