@@ -16,7 +16,7 @@ echo source $THIS/jk-setup.sh '"'$LABEL'"'> setup.sh
 source $THIS/jk-setup.sh "$LABEL"
 
 echo "Dumping the full environment ---------------------------------------------------------"
-env | grep -v ghprbPullLongDescription | grep -v ghprbPullDescription | grep -v ghprbPullTitle | sort | sed 's/:/:?     /g' | sed 's,//:[?]     ,//:,g' | tr '?' '\n'
+env | grep -v ghprbPullLongDescription | grep -v ghprbPullDescription | grep -v ghprbPullTitle | grep -v ghprbCommentBody | sort | sed 's/:/:?     /g' | sed 's,//:[?]     ,//:,g' | tr '?' '\n'
 declare -p > $WORKSPACE/jenkins_node_env.sh
 echo "--------------------------------------------------------------------------------------"
 
