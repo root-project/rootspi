@@ -433,7 +433,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu|fedora29")
+  if("${LABEL}" MATCHES "ubuntu|fedora29|debian")
     list(APPEND all_supported
       builtin_afterimage
     )
