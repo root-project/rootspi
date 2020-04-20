@@ -865,7 +865,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
     WORKING_DIRECTORY ${REBASE_WORKING_DIR}
     TIMEOUT 300
     RESULT_VARIABLE ERROR_OCCURRED
-    HINT "Rebasing $ENV{ghprbTargetBranch} against ${LOCAL_BRANCH_NAME}"
+    HINT "Rebasing ${LOCAL_BRANCH_NAME} against $ENV{ghprbTargetBranch}"
     )
   if (ERROR_OCCURRED)
     # We are in the error case, switch to master to clean up the created branch.
@@ -902,7 +902,7 @@ Integrating against it. Please make sure you open and merge a PR against it.")
       WORKING_DIRECTORY ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}
       TIMEOUT 300
       RESULT_VARIABLE ERROR_OCCURRED
-      HINT "Rebasing $ENV{ghprbTargetBranch} against ${LOCAL_BRANCH_NAME}"
+      HINT "Rebasing ${LOCAL_BRANCH_NAME} against $ENV{ghprbTargetBranch}"
       )
     if (ERROR_OCCURRED)
       cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
