@@ -1,4 +1,4 @@
-import os, platform, re
+import os, platform, re, subprocess
 
 arch = platform.machine()
 
