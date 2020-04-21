@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import os, platform, re
 
 arch = platform.machine()

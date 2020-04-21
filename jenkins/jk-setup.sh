@@ -12,7 +12,18 @@ else
   exit 1
 fi
 
-PLATFORM=`$THIS/getPlatform.py`
+if python -v foo >/dev/null 2>&1; then
+    PYTHON=python
+elif python3 -v foo >/dev/null 2>&1; then
+    PYTHON=python3
+elif python2 -v foo >/dev/null 2>&1; then
+    PYTHON=python2
+else
+    echo "Cannot find python, python3, nor python2"
+    exit 1
+fi
+
+PLATFORM=`$PYTHON $THIS/getPlatform.py`
 ARCH=$(uname -m)
 
 # Adjust enviroment PATH depending on the OS
