@@ -12,11 +12,11 @@ else
   exit 1
 fi
 
-if python -v foo >/dev/null 2>&1; then
+if command -v python >/dev/null 2>&1; then
     PYTHON=python
-elif python3 -v foo >/dev/null 2>&1; then
+elif command -v python3 >/dev/null 2>&1; then
     PYTHON=python3
-elif python2 -v foo >/dev/null 2>&1; then
+elif command -v python2 >/dev/null 2>&1; then
     PYTHON=python2
 else
     echo "Cannot find python, python3, nor python2"
