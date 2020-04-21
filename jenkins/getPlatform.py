@@ -8,9 +8,8 @@ system = platform.system()
 if system == 'Darwin' :
    osvers = 'mac' + ''.join(platform.mac_ver()[0].split('.')[:2])
 elif system == 'Linux' :
-   from subprocess import PIPE
-   res = subprocess.run(["lsb_release", "-a"], stdout=PIPE, stderr=PIPE)
-   lines = [ line.split(b'\t', 1)[-1].strip() for line in res.stdout.split(b'\n') ]
+   res = subprocess.check_output(["lsb_release", "-a"])
+   lines = [ line.split(b'\t', 1)[-1].strip() for line in res.split(b'\n') ]
    dist = [ lines[0], lines[2] ] # 'Ubuntu', '20.04'
    if type(dist[0]) == bytes:
       dist[0] = dist[0].decode("utf-8")
