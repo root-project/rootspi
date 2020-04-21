@@ -8,7 +8,12 @@ system = platform.system()
 if system == 'Darwin' :
    osvers = 'mac' + ''.join(platform.mac_ver()[0].split('.')[:2])
 elif system == 'Linux' :
-   dist = platform.linux_distribution()
+   res = subprocess.run(["lsb_release", "-a"], capture_output=True)
+   lines = [ line.split(b'\t', 1)[-1].strip() for line in res.stdout.split(b'\n') ]
+   dist = [ lines[0], lines[2] ] # 'Ubuntu', '20.04'
+   if type(dist[0]) == bytes:
+      dist[0] = dist[0].decode("utf-8")
+      dist[1] = dist[1].decode("utf-8")
    if re.search('SLC', dist[0]):
       osvers = 'slc' + dist[1].split('.')[0]
    elif re.search('CentOS', dist[0]):
