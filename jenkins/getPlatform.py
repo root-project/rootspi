@@ -10,7 +10,7 @@ if system == 'Darwin' :
 elif system == 'Linux' :
    res = subprocess.check_output(["lsb_release", "-a"])
    lines = [ line.split(b'\t', 1)[-1].strip() for line in res.split(b'\n') ]
-   dist = [ lines[0], lines[2] ] # 'Ubuntu', '20.04'
+   dist = [ lines[1], lines[3] ] # 'Ubuntu', '20.04'
    if type(dist[0]) == bytes:
       dist[0] = dist[0].decode("utf-8")
       dist[1] = dist[1].decode("utf-8")
