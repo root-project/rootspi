@@ -18,7 +18,7 @@ fi
 export BUILDTYPE
 export COMPILER
 
-PLATFORM=`$PYTHON $THIS/../getPlatform.py`
+PLATFORM=`python $THIS/../getPlatform.py`
 ARCH=$(uname -m)
 
 # Adjust LABEL and enviroment PATH depending on the OS
@@ -33,7 +33,7 @@ elif [[ $PLATFORM == *fedora* ]]; then
 fi
 
 # Setup all the externals now-----------------------------------------------------
-PLATFORM=`$PYTHON $THIS/../getPlatform.py`
+PLATFORM=`python $THIS/../getPlatform.py`
 COMPATIBLE=`$THIS/../getCompatiblePlatform.py $PLATFORM`
 
 if [[ $COMPILER == gcc73 ]]; then
