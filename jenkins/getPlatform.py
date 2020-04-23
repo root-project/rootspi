@@ -27,6 +27,8 @@ elif system == 'Linux' :
       osvers = 'ubuntu' + dist[1].split('.')[0] + dist[1].split('.')[1]
    elif re.search('Fedora', dist[0]):
       osvers = 'fedora' + dist[1].split('.')[0]
+   elif re.search('Debian', dist[0]):
+      osvers = 'debian' + dist[1]
    else:
       osvers = 'linux'
 elif system == 'Windows':
