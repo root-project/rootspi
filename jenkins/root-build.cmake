@@ -234,6 +234,10 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_xxhash
   )
 
+  # Disable numba related tests for Python 2 because that's the Mac OS default Python,
+  # which does not allow to install packages
+  set(ENV{ROOTTEST_IGNORE_NUMBA_PY2} 1)
+
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
 endfunction()
@@ -338,7 +342,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
       rfio
     )
   endif()
-  
+
   if(NOT "${LABEL}" MATCHES "centos|-i386")
     list(APPEND all_supported
       pythia8
@@ -448,6 +452,14 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     list(APPEND all_supported
       builtin_afterimage
     )
+  endif()
+
+  # Ubuntu 18.04 has a system python-numba package which is too old.
+  # All other distro versions (14, 16 and 20 up to now) don't have a
+  # distro package and we install via pip.
+  if("${LABEL}" MATCHES "ubuntu18")
+    set(ENV{ROOTTEST_IGNORE_NUMBA_PY2} 1)
+    set(ENV{ROOTTEST_IGNORE_NUMBA_PY3} 1)
   endif()
 
   # Do not build builtin_openssl or freetype on Linuxes, rely on distro.
