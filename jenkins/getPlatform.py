@@ -9,8 +9,8 @@ if system == 'Darwin' :
    osvers = 'mac' + ''.join(platform.mac_ver()[0].split('.')[:2])
 elif system == 'Linux' :
    res = subprocess.check_output(["lsb_release", "-a"])
-   lines = [ line.split(b'\t', 1)[-1].strip() for line in res.split(b'\n') ]
-   dist = [ lines[1], lines[2] ] # 'Ubuntu', '20.04'
+   parsed = dict((line.split(b':')[0], line.split(b':')[1:]) for line in res.split(b'\n'))
+   dist = [ parsed[b'Distributor ID'][0].strip(), parsed[b'Release'][0].strip() ] # 'Ubuntu', '20.04'
    if type(dist[0]) == bytes:
       dist[0] = dist[0].decode("utf-8")
       dist[1] = dist[1].decode("utf-8")
