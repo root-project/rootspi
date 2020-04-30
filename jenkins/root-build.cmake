@@ -720,6 +720,10 @@ function(CONFIGURE_ROOT_OPTIONS)
     endif()
   endif()
 
+  if("asan" IN_LIST SPECLIST)
+    set(specflags ${specflags} -Dasan=ON)
+  endif()
+
   #---CMAKE_BUILD_TYPE--------------------------------------------------------
   set(buildtype_option -DCMAKE_BUILD_TYPE=${CTEST_BUILD_CONFIGURATION})
   if(WIN32)
