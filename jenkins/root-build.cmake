@@ -91,6 +91,8 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     mlp
     opengl
     pyroot
+    pyroot2
+    pyroot3
     python
     roofit
     spectrum
@@ -184,6 +186,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     mlp
     opengl
     pyroot
+    pyroot2
     python
     roofit
     spectrum
@@ -201,6 +204,12 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     xml
     xrootd
   )
+
+  if(NOT CTEST_MODE STREQUAL package)
+    list(APPEND all_supported
+      pyroot3 # Can't release with non-"distro" Python3, but can test
+    )
+  endif()
 
   set(package_builtins
     builtin_afterimage
@@ -262,6 +271,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     opengl
     pgsql
     pyroot
+    pyroot2
+    pyroot3
     python
     qt
     qtgsi
