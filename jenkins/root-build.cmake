@@ -444,8 +444,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   # Ubuntu 18.04 has a system python-numba package which is too old.
-  # All other distro versions (14, 16 and 20 up to now) don't have a
-  # distro package and we install via pip.
+  # Older distro versions (14, 16) don't have a distro package and we install via pip.
+  # Newer ones (20 and up) have sufficiently new distro versions.
   if("${LABEL}" MATCHES "ubuntu18")
     set(ENV{ROOTTEST_IGNORE_NUMBA_PY2} 1)
     set(ENV{ROOTTEST_IGNORE_NUMBA_PY3} 1)
