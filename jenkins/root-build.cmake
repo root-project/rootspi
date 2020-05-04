@@ -398,8 +398,9 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   # We want to see whether the next Ubuntu version provides a package,
   # and for that we should not treat it special.
 
-  # Apache arrow is installed from their ppa on Ubuntu nodes
-  if("${LABEL}" MATCHES "ubuntu1[468].04" AND NOT "${LABEL}" MATCHES "-i386")
+  # Apache arrow is installed from their ppa on Ubuntu nodes.
+  # It's too new for ROOT 6.16.
+  if(ROOT_VERSION VERSION_GREATER 6.17 AND "${LABEL}" MATCHES "ubuntu1[468].04" AND NOT "${LABEL}" MATCHES "-i386")
     list(APPEND all_supported
       arrow
     )
