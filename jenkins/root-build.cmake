@@ -7,6 +7,17 @@ cmake_policy(SET CMP0061 NEW) # do not pass "-i" to GNU make ("continue on error
 set(LABEL "$ENV{LABEL}")
 
 #
+# Declare an environment variable in this script and write it to CTestEnvVars.cmake to be loaded
+# in the test driver script
+#
+function(EXPORT_CTEST_ENVVAR VARNAME)
+  # This file is loaded (optionally) in root/cmake/modules/CTestCustom.cmake
+  file(APPEND ${CTEST_BINARY_DIRECTORY}/CTestEnvVars.cmake "set(ENV{${VARNAME}} TRUE)\n")
+  # Also define the variable in this scope to cover possible switches at configuration time
+  set(ENV{${VARNAME}} TRUE)
+endfunction()
+
+#
 #  Initialize ${all_modules} to all available build options.
 #
 function(GET_ALL_MODULES)
@@ -236,7 +247,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
 
   # Disable numba related tests for Python 2 because that's the Mac OS default Python,
   # which does not allow to install packages
-  set(ENV{ROOTTEST_IGNORE_NUMBA_PY2} 1)
+  EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
 
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
@@ -458,8 +469,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   # Older distro versions (14, 16) don't have a distro package and we install via pip.
   # Newer ones (20 and up) have sufficiently new distro versions.
   if("${LABEL}" MATCHES "ubuntu18")
-    set(ENV{ROOTTEST_IGNORE_NUMBA_PY2} 1)
-    set(ENV{ROOTTEST_IGNORE_NUMBA_PY3} 1)
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY3)
   endif()
 
   # Do not build builtin_openssl or freetype on Linuxes, rely on distro.
