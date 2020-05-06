@@ -476,6 +476,12 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY3)
   endif()
 
+  # Fedora 32 upwards have python2 completely deprecated, also installation of python2-pip is
+  # not possible via dnf.
+  if("${LABEL}" MATCHES "fedora32")
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
+  endif()
+
   # Do not build builtin_openssl or freetype on Linuxes, rely on distro.
   # Build these below as builtins; use the remaining as shared libs from the distro.
   #
