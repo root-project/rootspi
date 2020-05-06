@@ -478,7 +478,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
 
   # Fedora 32 upwards have python2 completely deprecated, also installation of python2-pip is
   # not possible via dnf.
-  if("${LABEL}" MATCHES "fedora32")
+  if("${LABEL}" MATCHES "fedora32|centos8")
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
   endif()
 
