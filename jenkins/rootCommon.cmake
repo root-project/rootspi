@@ -300,13 +300,12 @@ function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
   HINT "git prune: remove unreachable loose objects, to avoid git gc errors." )
 
   # Check if the branch exists.
-  set(branch_missing)
   execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} rev-parse --quiet --verify ${local_branch_name}
     WORKING_DIRECTORY ${cleanup_working_dir}
-    RESULT_VARIABLE branch_missing
+    RESULT_VARIABLE foundbranch
     HINT "Checking if ${local_branch_name} exists"
     )
-  if (NOT branch_missing)
+  if (NOT foundbranch EQUAL "0")
     execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} branch -D ${local_branch_name} WORKING_DIRECTORY ${cleanup_working_dir}
     HINT "Cleaning up ${local_branch_name}")
   endif()
