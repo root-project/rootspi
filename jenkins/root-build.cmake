@@ -245,9 +245,13 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_xxhash
   )
 
-  # Disable numba related tests for Python 2 because that's the Mac OS default Python,
-  # which does not allow to install packages
+  # Disable Python related tests for Python 2 because that's the Mac OS default Python,
+  # which does not allow to install packages. Features related on following Python
+  # packages are not tested:
+  # - numba
+  # - jupyter (notebooks and ROOT C++ kernel)
   EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
+  EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_JUPYTER_PY2)
 
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
