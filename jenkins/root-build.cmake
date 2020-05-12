@@ -480,6 +480,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY3)
   endif()
 
+  # Jupyter on Ubuntu 14.04 is too old in the distro packages and installing via pip
+  # is also not feasible, e.g., pip3 doesn't work anymore with the system python3 (v3.4)
+  if("${LABEL}" MATCHES "ubuntu14")
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_JUPYTER_PY2)
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_JUPYTER_PY3)
+  endif()
+
   # Fedora 32 upwards have python2 completely deprecated, also installation of python2-pip is
   # not possible via dnf.
   if("${LABEL}" MATCHES "fedora32|centos8")
