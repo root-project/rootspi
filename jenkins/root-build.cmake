@@ -773,6 +773,11 @@ function(CONFIGURE_ROOT_OPTIONS)
     set(buildtype_option -A Win32 -Thost=x64 ${buildtype_option})
   endif()
 
+  #---No OS Python3 on MacOS--------------------------------------------------
+  if(APPLE AND CTEST_MODE STREQUAL package)
+    set(pythonexe_options -DPYTHON_EXECUTABLE=/usr/bin/python)
+  endif()
+
   #---ASSERTS-----------------------------------------------------------------
   if(NOT CTEST_MODE STREQUAL package AND NOT CTEST_BUILD_CONFIGURATION STREQUAL Debug)
     set(asserts_options "-DCMAKE_CXX_FLAGS=-UNDEBUG -DLLVM_ENABLE_ASSERTIONS=On")
@@ -790,6 +795,7 @@ function(CONFIGURE_ROOT_OPTIONS)
     ${ccache_option}
     ${soversion_option}
     ${testing_options}
+    ${pythonexe_options}
     ${asserts_options}
     -DCMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
     $ENV{ExtraCMakeOptions}
