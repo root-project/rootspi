@@ -59,6 +59,7 @@ function(GET_ALL_MODULES)
     memory_termination
     pch
     pyroot_experimental
+    pyroot_legacy
     root7
     rpath
     runtime_cxxmodules
