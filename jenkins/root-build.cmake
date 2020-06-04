@@ -142,6 +142,11 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
       tmva
     )
   endif()
+  if ("${ROOT_VERSION}" VERSION_GREATER "6.21")
+    list(APPEND all_supported
+      pyroot_legacy
+    )
+  endif()
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
 endfunction()
