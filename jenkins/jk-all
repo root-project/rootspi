@@ -20,6 +20,10 @@ env | grep -v ghprbPullLongDescription | grep -v ghprbPullDescription | grep -v 
 declare -p > $WORKSPACE/jenkins_node_env.sh
 echo "--------------------------------------------------------------------------------------"
 
+echo "Kerberos Info ------------------------------------------------------------------------"
+klist
+echo "--------------------------------------------------------------------------------------"
+
 #---Create stampfile to enable our jenkins to purge old builds------------------------------
 touch $WORKSPACE/controlfile
 
