@@ -306,7 +306,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     pgsql
     pyroot
     pyroot2
-    pyroot3
     python
     qt
     qtgsi
@@ -363,6 +362,14 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     list(APPEND all_supported
       builtin_zstd
     )
+  endif()
+
+  # Ubuntu <= 18 have a CMake too old for multi-python.
+  # Select their default one, python2.
+  if(NOT "${LABEL}" MATCHES "ubuntu1[468]")
+    list(APPEND all_supported
+      pyroot3
+      )
   endif()
 
   if("${LABEL}" MATCHES "centos")
