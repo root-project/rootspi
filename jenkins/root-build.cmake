@@ -40,6 +40,8 @@ function(GET_ALL_MODULES)
     all_modules
     ${all_modules}
   )
+  string(REPLACE " " ";" all_modules ${all_modules})
+
   if("${ROOT_VERSION}" VERSION_GREATER "6.19")
     # These are not *actually* build options. But we want to expose them as such in the CI.
     list(APPEND all_modules
@@ -47,7 +49,7 @@ function(GET_ALL_MODULES)
       pyroot3
     )
   endif()
-  string(REPLACE " " ";" all_modules ${all_modules})
+
   # Remove build configuration settings: they are not modules.
   # Remove root7 and webgui because we simply want it on if >= cxx14, i.e. not explicitly steer it.
   list(REMOVE_ITEM all_modules
