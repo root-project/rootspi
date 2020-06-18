@@ -644,7 +644,7 @@ endfunction()
 #  Remove modules that cannot be built given the SPECLIST.
 #
 function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
-  if("cxx17" IN_LIST SPECLIST)
+  if("cxx17" IN_LIST SPECLIST AND ${ROOT_VERSION} VERSION_LESS 6.23)
     # builtin_xrootd cannot be built with C++17.
     list(REMOVE_ITEM want_modules
       buildin_xrootd
