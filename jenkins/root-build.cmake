@@ -662,6 +662,12 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
       )
     endif()
   endif()
+  if("python3" IN_LIST SPECLIST)
+    # If we force pyroot3 we will not be building pyroot2:
+    list(REMOVE_ITEM enabled_modules
+        pyroot2
+    )
+  endif()
   set(want_modules ${want_modules} PARENT_SCOPE)
 endfunction()
 
@@ -746,10 +752,6 @@ function(CONFIGURE_ROOT_OPTIONS)
       message(FATAL_ERROR "Cannot find Python3 for this python3 build!")
     endif()
     set(specflags "${specflags} -DPYTHON_EXECUTABLE=${PYTHON3PATH}")
-    # If we force pyroot3 we will not be building pyroot2:
-    list(REMOVE_ITEM enabled_modules
-        pyroot2
-    )
   endif()
 
   if("noimt" IN_LIST SPECLIST)
