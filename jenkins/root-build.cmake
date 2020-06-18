@@ -68,7 +68,6 @@ function(GET_ALL_MODULES)
     memory_termination
     pch
     pyroot_experimental
-    pyroot_legacy
     root7
     rpath
     runtime_cxxmodules
@@ -114,6 +113,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     pyroot
     pyroot2
     pyroot3
+    pyroot_legacy
     python
     roofit
     spectrum
