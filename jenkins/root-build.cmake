@@ -664,9 +664,11 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
   endif()
   if("python3" IN_LIST SPECLIST)
     # If we force pyroot3 we will not be building pyroot2:
-    list(REMOVE_ITEM enabled_modules
+    message("AXEL: before removing pyroot2: ${want_modules}")
+    list(REMOVE_ITEM want_modules
         pyroot2
     )
+    message("AXEL: after removing pyroot2: ${want_modules}")
   endif()
   set(want_modules ${want_modules} PARENT_SCOPE)
 endfunction()
