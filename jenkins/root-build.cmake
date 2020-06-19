@@ -365,7 +365,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
 
   # Ubuntu <= 18, Debian10 have a CMake too old for multi-python.
   # Select their default one, python2.
-  if(NOT "${LABEL}" MATCHES "ubuntu1[468]|debian10")
+  if(NOT "${LABEL}" MATCHES "ubuntu1[4689]|debian10|macos1013")
     list(APPEND all_supported
       pyroot3
       )
