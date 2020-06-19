@@ -111,7 +111,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     mlp
     opengl
     pyroot
-    pyroot2
+    pyroot3
     pyroot_legacy
     python
     roofit
