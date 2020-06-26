@@ -304,7 +304,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     opengl
     pgsql
     pyroot
-    pyroot2
     python
     qt
     qtgsi
@@ -368,6 +367,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   if(NOT "${LABEL}" MATCHES "ubuntu1[4689]|debian10")
     list(APPEND all_supported
       pyroot3
+      )
+  endif()
+
+  # Fedora32 and CentOS8 do not have python2 anymore.
+  if(NOT "${LABEL}" MATCHES "fedora3[3]|centos8")
+    list(APPEND all_supported
+      pyroot2
       )
   endif()
 
