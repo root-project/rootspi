@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 #
 # Get the ROOT source specified by the gittag passed as $1.
 
@@ -30,7 +30,7 @@ fi
 if [ -f $gittag/CMakeLists.txt ]; then
    cd $gittag.build
    cmake -G Ninja ../$gittag -Dall=ON -Dalien=OFF -Dcuda=OFF -Dtmva-gpu=OFF -Dbuiltin_lz4=ON -Dtesting=ON
-   cmake --build -j6 .
+   cmake --build . -j6
    exit $?
 else
    echo "$prog: $gittag/CMakeLists.txt not found, checkout of $gittag failed"
