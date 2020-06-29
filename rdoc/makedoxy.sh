@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 #
 # Generate the ROOT Doxygen reference manual for the specified version in the
 # directory rootdoc or root<root_major><root_minor>.
