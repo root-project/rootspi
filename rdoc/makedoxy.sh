@@ -44,10 +44,22 @@ rm -rf $docdir $dir/${docdir}_TMP
 # set HOME (used by doxygen/Makefile)
 export DOXYGEN_OUTPUT_DIRECTORY=$dir/${docdir}_TMP
 
+PYTHON=`which python`
+if ! [ -x ${PYTHON} ]; then
+    PYTHON=`which python3`
+fi
+if ! [ -x ${PYTHON} ]; then
+    PYTHON=`which python2`
+fi
+if ! [ -x ${PYTHON} ]; then
+    echo 'ERROR: cannot find python, python3, nor python2!'
+    exit 1
+fi
+
 # make doxygen
 if [ -d $srcdir/documentation/doxygen ]; then
   cd $srcdir/documentation/doxygen
-  make
+  make PYTHON_EXECUTABLE=${PYTHON}
   cd $dir
   mv $dir/${docdir}_TMP/html $dir/${docdir}
   if [ -d $dir/${docdir}_TMP/notebooks ]; then
