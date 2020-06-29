@@ -45,13 +45,13 @@ rm -rf $docdir $dir/${docdir}_TMP
 export DOXYGEN_OUTPUT_DIRECTORY=$dir/${docdir}_TMP
 
 PYTHON=`which python` || true
-if ! [ -x ${PYTHON} ]; then
+if ! [ -x "${PYTHON}" ]; then
     PYTHON=`which python3` || true
 fi
-if ! [ -x ${PYTHON} ]; then
+if ! [ -x "${PYTHON}" ]; then
     PYTHON=`which python2` || true
 fi
-if ! [ -x ${PYTHON} ]; then
+if ! [ -x "${PYTHON}" ]; then
     echo 'ERROR: cannot find python, python3, nor python2!'
     exit 1
 fi
