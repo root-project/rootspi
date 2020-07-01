@@ -33,23 +33,23 @@ NBEXTMD=.nbconvert.md
 NBLIST=`echo 1-Motivation-and-Introduction 2-ROOT-Basics 3-ROOT-Macros 4-Graphs 5-Histograms 6-Functions-and-Parameter-Estimation 7-File-IO-and-Parallel-Analysis 8-ROOT-in-Python 9-Concluding-Remarks`
 
 if [ -d "$BASEDIR/../$DIRECTORY" ]; then
-	rm -rf $BASEDIR/../$DIRECTORY
+    rm -rf $BASEDIR/../$DIRECTORY
 fi
 if [ ! -d "$BASEDIR/../$DIRECTORY" ]; then
-	git clone https://github.com/root-project/NotebookPrimer.git $BASEDIR/../$DIRECTORY
+    git clone https://github.com/root-project/NotebookPrimer.git $BASEDIR/../$DIRECTORY
 fi
 
 if [ "$2" = "html" ] || [ "$2" = "all" ]
 then
-	chapter=0
-	for name in $NBLIST ;do
-		jupyter nbconvert --ExecutePreprocessor.timeout=600 --to html $NBDIR/$name"$NBEXT"
-		let chapter=chapter+1
-	done
-	$PYTHON $BASEDIR/Build_html.py $NBLIST
+    chapter=0
+    for name in $NBLIST ;do
+        jupyter nbconvert --ExecutePreprocessor.timeout=600 --to html $NBDIR/$name"$NBEXT"
+        let chapter=chapter+1
+    done
+    $PYTHON $BASEDIR/Build_html.py $NBLIST
     find $NBDIR -type f -name "*.html" -and -not -name "ROOT-Primer.html" | xargs rm
-  	scp $NBDIR/ROOT-Primer.html $OUTPUTDIR
-  	scp $NBDIR/images/* $OUTPUTDIR/images
+      scp $NBDIR/ROOT-Primer.html $OUTPUTDIR
+      scp $NBDIR/images/* $OUTPUTDIR/images
 fi
 if [ "$2" = "pdf" ] || [ "$2" = "all" ]
 then
@@ -125,33 +125,33 @@ cat > mytemplate.tpl<< EOF
 unknown type  {{ cell.type }}
 {% endblock unknowncell %}
 EOF
-	for name in $NBLIST ;do
-	 	$PYTHON $BASEDIR/removeJS.py $NBDIR/$name$NBEXT $NBDIR/"$name"_NOJS"$NBEXT";
-		jupyter nbconvert --ExecutePreprocessor.timeout=2000 --to notebook --execute $NBDIR/"$name"_NOJS"$NBEXT";
-		jupyter nbconvert  --to markdown $NBDIR/"$name"_NOJS"$NBEXTNEW" --template="mytemplate.tpl";
-	done
-	rm mytemplate.tpl
-	cd $NBDIR
-	pandoc --toc --template=$BASEDIR/mdtemplate.tex --highlight-style=tango $NBDIR/*_NOJS$NBEXTMD --pdf-engine=pdflatex -o $NBDIR/ROOT-Primer_v0.pdf
-	if type pdftk &>/dev/null; then
-		pdftk frontpage.pdf $NBDIR/ROOT-Primer_v0.pdf output $NBDIR/ROOT-Primer.pdf
-	else
-		pdfunite frontpage.pdf $NBDIR/ROOT-Primer_v0.pdf $NBDIR/ROOT-Primer.pdf
-	fi
+    for name in $NBLIST ;do
+         $PYTHON $BASEDIR/removeJS.py $NBDIR/$name$NBEXT $NBDIR/"$name"_NOJS"$NBEXT";
+        jupyter nbconvert --ExecutePreprocessor.timeout=2000 --to notebook --execute $NBDIR/"$name"_NOJS"$NBEXT";
+        jupyter nbconvert  --to markdown $NBDIR/"$name"_NOJS"$NBEXTNEW" --template="mytemplate.tpl";
+    done
+    rm mytemplate.tpl
+    cd $NBDIR
+    pandoc --toc --template=$BASEDIR/mdtemplate.tex --highlight-style=tango $NBDIR/*_NOJS$NBEXTMD --pdf-engine=pdflatex -o $NBDIR/ROOT-Primer_v0.pdf
+    if type pdftk &>/dev/null; then
+        pdftk frontpage.pdf $NBDIR/ROOT-Primer_v0.pdf output $NBDIR/ROOT-Primer.pdf
+    else
+        pdfunite frontpage.pdf $NBDIR/ROOT-Primer_v0.pdf $NBDIR/ROOT-Primer.pdf
+    fi
 
-	rm -rf *NOJS*
-	rm $NBDIR/ROOT-Primer_v0.pdf
-	cd $CURRENTPOS
-	scp $NBDIR/ROOT-Primer.pdf $OUTPUTDIR
-	scp $NBDIR/images/* $OUTPUTDIR/images
+    rm -rf *NOJS*
+    rm $NBDIR/ROOT-Primer_v0.pdf
+    cd $CURRENTPOS
+    scp $NBDIR/ROOT-Primer.pdf $OUTPUTDIR
+    scp $NBDIR/images/* $OUTPUTDIR/images
 fi
 if [ "$2" != "html" ] && [ "$2" != "all" ] && [ "$2" != "pdf" ]
 then
-	echo "Wrong arguments. Accepted arguments are: 1rs argument location of output files - 2nd argument  pdf, html, all"
+    echo "Wrong arguments. Accepted arguments are: 1rs argument location of output files - 2nd argument  pdf, html, all"
 fi
 
 if [ -d "$BASEDIR/../$DIRECTORY" ]; then
-	rm -rf * $BASEDIR/../$DIRECTORY
+    rm -rf * $BASEDIR/../$DIRECTORY
 fi
 cd $CURRENTPOS
 
