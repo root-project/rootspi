@@ -9,6 +9,18 @@ get_abs_filename() {
 
 . src/master.build/bin/thisroot.sh
 
+PYTHON=`which python` || true
+if ! [ -x "${PYTHON}" ]; then
+    PYTHON=`which python3` || true
+fi
+if ! [ -x "${PYTHON}" ]; then
+    PYTHON=`which python2` || true
+fi
+if ! [ -x "${PYTHON}" ]; then
+    echo 'ERROR: cannot find python, python3, nor python2!'
+    exit 1
+fi
+
 CURRENTPOS=$(pwd)
 BASEDIR=$(cd $(dirname $BASH_SOURCE);pwd)
 DIRECTORY=ROOT-PRIMER-notebooks
@@ -34,7 +46,7 @@ then
 		jupyter nbconvert --ExecutePreprocessor.timeout=600 --to html $NBDIR/$name"$NBEXT"
 		let chapter=chapter+1
 	done
-	python $BASEDIR/Build_html.py $NBLIST
+	$PYTHON $BASEDIR/Build_html.py $NBLIST
     find $NBDIR -type f -name "*.html" -and -not -name "ROOT-Primer.html" | xargs rm
   	scp $NBDIR/ROOT-Primer.html $OUTPUTDIR
   	scp $NBDIR/images/* $OUTPUTDIR/images
@@ -114,7 +126,7 @@ unknown type  {{ cell.type }}
 {% endblock unknowncell %}
 EOF
 	for name in $NBLIST ;do
-	 	python $BASEDIR/removeJS.py $NBDIR/$name$NBEXT $NBDIR/"$name"_NOJS"$NBEXT";
+	 	$PYTHON $BASEDIR/removeJS.py $NBDIR/$name$NBEXT $NBDIR/"$name"_NOJS"$NBEXT";
 		jupyter nbconvert --ExecutePreprocessor.timeout=2000 --to notebook --execute $NBDIR/"$name"_NOJS"$NBEXT";
 		jupyter nbconvert  --to markdown $NBDIR/"$name"_NOJS"$NBEXTNEW" --template="mytemplate.tpl";
 	done
