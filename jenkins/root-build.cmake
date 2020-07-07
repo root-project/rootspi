@@ -520,6 +520,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
   endif()
 
+  # numba does not support python 2 on 32 bit (missing llvmlite package)
+  if("${LABEL}" MATCHES "-i386")
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
+  endif()
+
   # Do not build builtin_openssl or freetype on Linuxes, rely on distro.
   # Build these below as builtins; use the remaining as shared libs from the distro.
   #
