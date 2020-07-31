@@ -514,6 +514,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_JUPYTER_PY3)
   endif()
 
+  # Fedora 32 is the dedicated liburing test environment
+  if("${LABEL}" MATCHES "fedora32")
+    EXPORT_CTEST_ENVVAR(ROOTTEST_ENABLE_URING)
+  endif()
+
   # Fedora 32 upwards have python2 completely deprecated, also installation of python2-pip is
   # not possible via dnf.
   if("${LABEL}" MATCHES "fedora32|centos8")
