@@ -515,8 +515,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   # Fedora 32 is the dedicated liburing test environment
-  if("${LABEL}" MATCHES "fedora32")
-    EXPORT_CTEST_ENVVAR(ROOTTEST_ENABLE_URING)
+  if(NOT "${LABEL}" MATCHES "fedora32")
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_URING)
   endif()
 
   # Fedora 32 upwards have python2 completely deprecated, also installation of python2-pip is
