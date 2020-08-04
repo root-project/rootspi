@@ -56,7 +56,7 @@ if [[ $LABEL == *ubuntu1804-clangHEAD ]]; then
   export CXX=`which clang++`
 fi
 
-if [[ $LABEL == *ubuntu1904-clang ]]; then
+if [[ $LABEL == *ubuntu2004-clang ]]; then
   export CC=`which clang-8`
   export CXX=`which clang++-8`
 fi

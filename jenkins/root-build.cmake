@@ -427,7 +427,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
      NOT ("${LABEL}" MATCHES "ubuntu14") AND
      NOT ("${LABEL}" MATCHES "-i386") AND
      NOT ("${LABEL}" MATCHES "ubuntu1804-clangHEAD") AND
-     NOT ("${LABEL}" MATCHES "ubuntu1904-clang"))
+     NOT ("${LABEL}" MATCHES "ubuntu2004-clang"))
     # vc needs 64bit, GCC >= 5
     list(APPEND all_supported
       builtin_vc
