@@ -498,11 +498,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   # - Ubuntu 18.04 has a system python-numba package which is too old.
-  # - Older distro versions (14, 16) don't have a distro package and we try to install via pip.
   # - Ubuntu 14 has a too old Numpy version from the system that conflicts with installing
   #   numba via pip.
+  # - On Ubuntu 16 the installation via pip crashes because of a missing llvmlite for Python 3.5
   # - Newer ones (20 and up) have sufficiently new distro versions.
-  if("${LABEL}" MATCHES "ubuntu1[48]")
+  if("${LABEL}" MATCHES "ubuntu1[468]")
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY3)
   endif()
