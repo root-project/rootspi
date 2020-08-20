@@ -30,6 +30,7 @@ rem ---Run the CTest script depending on the compiler---------------------------
 set THIS=%~d0%~p0
 set NCORES=%NUMBER_OF_PROCESSORS%
 if "!NCORES!" == "" set NCORES=4
+if "!NCORES!" == "32" set NCORES=16
 set ACTION=%1
 set RUN_TESTS=no
 
