@@ -37,7 +37,8 @@ if "%VERSION%" neq "" (
     if "%VERSION%" == "master" (
         set RUN_TESTS=yes
     ) else (
-        for /F "tokens=1,2,3 delims=." %%a in ("%VERSION%") do (
+        if "%VERSION:~0,1%" == "v" set VERSION=%VERSION:~1%
+        for /F "tokens=1,2,3 delims=.-" %%a in ("!VERSION!") do (
             set Major=%%a
             set Minor=%%b
             set Revision=%%c
