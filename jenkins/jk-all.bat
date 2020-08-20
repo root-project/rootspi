@@ -1,5 +1,7 @@
 @echo off
 
+setlocal enabledelayedexpansion
+
 echo Execution started: %date% %time%
 
 rem ---Compiler------------------------------------------------------
@@ -24,18 +26,57 @@ set
 echo --------------------------------------------------------------------------------------
 
 rem ---Run the CTest script depending on the compiler------------------------------------------
-set THIS=%~d0%~p0
-ctest -VV -S %THIS%/root-build.cmake
-if %ERRORLEVEL% neq 0 (
-  exit /B %ERRORLEVEL%
-)
-rem if not "%COMPILER%" == "" (
-rem   if not %COMPILER% == vc15 (
-rem     if not %COMPILER% == native (
-rem       ctest -V -S %THIS%/root-test.cmake
-rem     )
-rem   )
-rem )
 
-exit /B %ERRORLEVEL%
+set THIS=%~d0%~p0
+set NCORES=%NUMBER_OF_PROCESSORS%
+if "!NCORES!" == "" set NCORES=4
+set ACTION=%1
+set RUN_TESTS=no
+
+if "%VERSION%" neq "" (
+    if "%VERSION%" == "master" (
+        set RUN_TESTS=yes
+    ) else (
+        for /F "tokens=1,2,3 delims=." %%a in ("%VERSION%") do (
+            set Major=%%a
+            set Minor=%%b
+            set Revision=%%c
+        )
+        if !Major! == 6 (
+            if !Minor! geq 23 (
+                set RUN_TESTS=yes
+            )
+        )
+        if !Major! geq 7 set RUN_TESTS=yes
+    )
+)
+
+if "!ACTION!" neq "test" (
+
+    ctest -j!NCORES! -VV -S !THIS!/root-build.cmake
+    set status=%errorlevel%
+
+    rem do not run the tests if continuous build fails
+    if !status! neq 0 (
+        if "%MODE%" == "continuous" (
+            exit /b !status!
+        )
+    )
+
+    rem do not run tests if coverity run or package build.
+    if "%BUILDOPTS%" == "coverity" (
+        exit /b !status!
+    )
+    if "%MODE%" == "package" (
+        exit /b !status!
+    )
+)
+
+if "!ACTION!" neq "build" (
+    if "!RUN_TESTS!" == "yes" (
+        ctest -j!NCORES! --no-compress-output -V -S !THIS!/root-test.cmake
+    )
+)
+
+exit /b %errorlevel%
 
