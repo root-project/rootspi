@@ -136,6 +136,7 @@ class Builder:
                 doxygen = ' -DLLVM_ENABLE_DOXYGEN=On -DLLVM_INCLUDE_DOCS=On'
             print_and_call(self.cmake + ' ../src' # -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
+                           + ' -DLLVM_BUILD_TOOLS=Off'
                            + ' -DCMAKE_INSTALL_PREFIX=' + self.workspace + '/' + self.instdir
                            + ' "-DLLVM_LIT_ARGS=-sv --no-progress-bar --xunit-xml-output=lit-xunit-output.xml"'
                            + doxygen)
