@@ -150,7 +150,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
       tmva
     )
   endif()
-  if(ROOT_VERSION VERSION_EQUAL 6.22)
+  if(ROOT_VERSION VERSION_GREATER 6.21 AND ROOT_VERSION VERSION_LESS 6.23)
     list(APPEND all_supported
       pyroot_legacy
     )
