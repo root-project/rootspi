@@ -507,9 +507,10 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY3)
   endif()
 
-  # Jupyter on Ubuntu 14.04 is too old in the distro packages and installing via pip
-  # is also not feasible, e.g., pip3 doesn't work anymore with the system python3 (v3.4)
-  if("${LABEL}" MATCHES "ubuntu14")
+  # - Jupyter on Ubuntu 14.04 is too old in the distro packages and installing via pip
+  #   is also not feasible, e.g., pip3 doesn't work anymore with the system python3 (v3.4)
+  # - On Ubuntu 16 the system ipython is too old and does not allow to install metakernel>0.20.0
+  if("${LABEL}" MATCHES "ubuntu1[46]")
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_JUPYTER_PY2)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_JUPYTER_PY3)
   endif()
