@@ -1,7 +1,5 @@
 @echo off
 
-setlocal enabledelayedexpansion
-
 echo Execution started: %date% %time%
 
 rem ---Compiler------------------------------------------------------
@@ -30,54 +28,43 @@ rem ---Run the CTest script depending on the compiler---------------------------
 set THIS=%~d0%~p0
 set NCORES=%NUMBER_OF_PROCESSORS%
 set BUILD_VERSION=%VERSION%
-if "!NCORES!" == "" set NCORES=4
-if "!NCORES!" == "32" set NCORES=24
+if "%NCORES%" == "" set NCORES=4
+if "%NCORES%" == "32" set NCORES=24
 set ACTION=%1
 set RUN_TESTS=no
 
-if "!BUILD_VERSION!" neq "" (
-    if "!BUILD_VERSION!" == "master" (
+if "%BUILD_VERSION%" neq "" (
+    if "%BUILD_VERSION%" == "master" (
         set RUN_TESTS=yes
     ) else (
-        if "!BUILD_VERSION:~0,1!" == "v" set BUILD_VERSION=!BUILD_VERSION:~1!
-        for /F "tokens=1,2,3 delims=.-" %%a in ("!BUILD_VERSION!") do (
-            set Major=%%a
-            set Minor=%%b
-            set Revision=%%c
-        )
-        if !Major! == 6 (
-            if !Minor! geq 23 (
-                set RUN_TESTS=yes
-            )
-        )
-        if !Major! geq 7 set RUN_TESTS=yes
+        if "%BUILD_VERSION:~1,1%" == "6" if "%BUILD_VERSION:~3,2%" geq "23" set RUN_TESTS=yes
+        if "%BUILD_VERSION:~1,1%" geq "7" set RUN_TESTS=yes
     )
 )
 
-if "!ACTION!" neq "test" (
+if "%ACTION%" neq "test" (
 
-    ctest -j!NCORES! -VV -S !THIS!/root-build.cmake
-    set status=%errorlevel%
+    ctest -j%NCORES% -VV -S %THIS%/root-build.cmake
 
     rem do not run the tests if continuous build fails
-    if !status! neq 0 (
+    if %errorlevel% neq 0 (
         if "%MODE%" == "continuous" (
-            exit /b !status!
+            exit /b %errorlevel%
         )
     )
 
     rem do not run tests if coverity run or package build.
     if "%BUILDOPTS%" == "coverity" (
-        exit /b !status!
+        exit /b %errorlevel%
     )
     if "%MODE%" == "package" (
-        exit /b !status!
+        exit /b %errorlevel%
     )
 )
 
-if "!ACTION!" neq "build" (
-    if "!RUN_TESTS!" == "yes" (
-        ctest -j!NCORES! --no-compress-output -V -S !THIS!/root-test.cmake
+if "%ACTION%" neq "build" (
+    if "%RUN_TESTS%" == "yes" (
+        ctest -j%NCORES% --no-compress-output -V -S %THIS%/root-test.cmake
     )
 )
 
