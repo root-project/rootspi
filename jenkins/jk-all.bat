@@ -29,17 +29,18 @@ rem ---Run the CTest script depending on the compiler---------------------------
 
 set THIS=%~d0%~p0
 set NCORES=%NUMBER_OF_PROCESSORS%
+set BUILD_VERSION=%VERSION%
 if "!NCORES!" == "" set NCORES=4
 if "!NCORES!" == "32" set NCORES=24
 set ACTION=%1
 set RUN_TESTS=no
 
-if "%VERSION%" neq "" (
-    if "%VERSION%" == "master" (
+if "!BUILD_VERSION!" neq "" (
+    if "!BUILD_VERSION!" == "master" (
         set RUN_TESTS=yes
     ) else (
-        if "%VERSION:~0,1%" == "v" set VERSION=%VERSION:~1%
-        for /F "tokens=1,2,3 delims=.-" %%a in ("!VERSION!") do (
+        if "!BUILD_VERSION:~0,1!" == "v" set BUILD_VERSION=!BUILD_VERSION:~1!
+        for /F "tokens=1,2,3 delims=.-" %%a in ("!BUILD_VERSION!") do (
             set Major=%%a
             set Minor=%%b
             set Revision=%%c
