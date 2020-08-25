@@ -136,7 +136,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     builtin_zlib
   )
 
-  if ("${ROOT_VERSION}" VERSION_GREATER "6.15")
+  if(ROOT_VERSION VERSION_GREATER 6.15)
     list(APPEND all_supported
       builtin_tbb
       builtin_unuran
@@ -144,13 +144,13 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
       unuran
     )
   endif()
-  if ("${ROOT_VERSION}" VERSION_GREATER_EQUAL "6.20")
+  if(ROOT_VERSION VERSION_GREATER_EQUAL 6.20)
     list(APPEND all_supported
       builtin_cfitsio
       tmva
     )
   endif()
-  if ("${ROOT_VERSION}" VERSION_EQUAL "6.22")
+  if(ROOT_VERSION VERSION_EQUAL 6.22)
     list(APPEND all_supported
       pyroot_legacy
     )
