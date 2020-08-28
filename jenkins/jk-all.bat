@@ -64,7 +64,7 @@ if "%ACTION%" neq "test" (
 
 if "%ACTION%" neq "build" (
     if "%RUN_TESTS%" == "yes" (
-        ctest -j%NCORES% --no-compress-output -V -S %THIS%/root-test.cmake
+        ctest --no-compress-output -V -S %THIS%/root-test.cmake
     )
 )
 
