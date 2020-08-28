@@ -2,6 +2,10 @@
 include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 unset(CTEST_CHECKOUT_COMMAND)  # We do not need to checkout
 
+if(WIN32 AND ${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.17)
+  set(CTEST_EXTRA_ARGS REPEAT UNTIL_PASS:15)
+endif()
+
 #---Read custom files and generate a note with ignored tests----------------
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 WRITE_INGNORED_TESTS(ignoredtests.txt)
@@ -11,7 +15,8 @@ set(CTEST_NOTES_FILES  ignoredtests.txt)
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
   ctest_start (Continuous TRACK Incremental APPEND)
-  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark")
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark"
+  ${CTEST_EXTRA_ARGS})
 
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
@@ -29,7 +34,8 @@ elseif(CTEST_MODE STREQUAL install)
   #---Configure and run the tests--------------------------------------------
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/tutorials
                   SOURCE  ${CTEST_INSTALL_DIRECTORY}/share/doc/root/tutorials)
-  ctest_test(BUILD ${CTEST_RUNTESTS_DIRECTORY}/tutorials PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark")
+  ctest_test(BUILD ${CTEST_RUNTESTS_DIRECTORY}/tutorials PARALLEL_LEVEL ${ncpu}
+             EXCLUDE_LABEL "benchmark" ${CTEST_EXTRA_ARGS})
 
 #----Package mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL package)
@@ -52,7 +58,8 @@ elseif(CTEST_MODE STREQUAL package)
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
                   SOURCE  ${CTEST_SOURCE_DIRECTORY}/tutorials)
   ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
-             PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark")
+             PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark"
+             ${CTEST_EXTRA_ARGS})
 
 #---Pullrequest mode--------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
@@ -61,10 +68,11 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   if(${EXTRA_CMAKE_OPTS_LOWER} MATCHES "dctest_test_exclude_none=on"
      OR "$ENV{LABEL}" MATCHES "ROOT-performance-centos7-multicore")
     message("Enabling all tests.")
-    ctest_test(PARALLEL_LEVEL ${ncpu})
+    ctest_test(PARALLEL_LEVEL ${ncpu} ${CTEST_EXTRA_ARGS})
   else()
     message("***WARNING: DISABLING TUTORIALS / SLOW TESTS.***")
-    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
+    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest"
+               ${CTEST_EXTRA_ARGS})
   endif()
 
   if(${EXTRA_CMAKE_OPTS_LOWER} MATCHES "dkeep_pr_builds_for_a_day=on")
@@ -84,7 +92,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 #---Experimental/Nightly----------------------------------------------------
 else()
   ctest_start(${CTEST_MODE} APPEND)
-  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark")
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark" ${CTEST_EXTRA_ARGS})
 endif()
 
 ctest_submit(PARTS Test Notes)
