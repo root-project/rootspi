@@ -738,7 +738,7 @@ function(CONFIGURE_ROOT_OPTIONS)
       if(NOT WIN32)
         set(testing_options "${testing_options} -Droottest=ON")
       elseif(CTEST_VERSION STREQUAL "master" OR ROOT_VERSION VERSION_GREATER_EQUAL 6.23)
-        #set(testing_options "${testing_options} -Droottest=ON")
+        set(testing_options "${testing_options} -Droottest=ON")
       endif()
     endif()
 
