@@ -92,7 +92,12 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 #---Experimental/Nightly----------------------------------------------------
 else()
   ctest_start(${CTEST_MODE} APPEND)
-  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark" ${CTEST_EXTRA_ARGS})
+  if(WIN32)
+    # force sequential mode until the sporadic failures are understood and fixed
+    ctest_test(PARALLEL_LEVEL 1 EXCLUDE_LABEL "benchmark")
+  else()
+    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark")
+  endif()
 endif()
 
 ctest_submit(PARTS Test Notes)
