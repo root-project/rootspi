@@ -15,8 +15,12 @@ set(CTEST_NOTES_FILES  ignoredtests.txt)
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
   ctest_start (Continuous TRACK Incremental APPEND)
-  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark"
-  ${CTEST_EXTRA_ARGS})
+  if(WIN32)
+    # force sequential mode until the sporadic failures are understood and fixed
+    ctest_test(PARALLEL_LEVEL 1 EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark")
+  else()
+    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark")
+  endif()
 
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
@@ -71,8 +75,12 @@ elseif(CTEST_MODE STREQUAL pullrequests)
     ctest_test(PARALLEL_LEVEL ${ncpu} ${CTEST_EXTRA_ARGS})
   else()
     message("***WARNING: DISABLING TUTORIALS / SLOW TESTS.***")
-    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest"
-               ${CTEST_EXTRA_ARGS})
+    if(WIN32)
+      # force sequential mode until the sporadic failures are understood and fixed
+      ctest_test(PARALLEL_LEVEL 1 EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
+    else()
+      ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
+    endif()
   endif()
 
   if(${EXTRA_CMAKE_OPTS_LOWER} MATCHES "dkeep_pr_builds_for_a_day=on")
