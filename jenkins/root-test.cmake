@@ -3,7 +3,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/rootCommon.cmake)
 unset(CTEST_CHECKOUT_COMMAND)  # We do not need to checkout
 
 if(WIN32 AND ${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.17)
-  set(CTEST_EXTRA_ARGS REPEAT UNTIL_PASS:15)
+  set(CTEST_EXTRA_ARGS REPEAT UNTIL_PASS:3)
 endif()
 
 #---Read custom files and generate a note with ignored tests----------------
@@ -15,12 +15,8 @@ set(CTEST_NOTES_FILES  ignoredtests.txt)
 #----Continuous-----------------------------------------------------------
 if(CTEST_MODE STREQUAL continuous)
   ctest_start (Continuous TRACK Incremental APPEND)
-  if(WIN32)
-    # force sequential mode until the sporadic failures are understood and fixed
-    ctest_test(PARALLEL_LEVEL 1 EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark")
-  else()
-    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark")
-  endif()
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "benchmark"
+  ${CTEST_EXTRA_ARGS})
 
 #----Install mode---------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
@@ -75,12 +71,8 @@ elseif(CTEST_MODE STREQUAL pullrequests)
     ctest_test(PARALLEL_LEVEL ${ncpu} ${CTEST_EXTRA_ARGS})
   else()
     message("***WARNING: DISABLING TUTORIALS / SLOW TESTS.***")
-    if(WIN32)
-      # force sequential mode until the sporadic failures are understood and fixed
-      ctest_test(PARALLEL_LEVEL 1 EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
-    else()
-      ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest")
-    endif()
+    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE "^tutorial-" EXCLUDE_LABEL "longtest"
+               ${CTEST_EXTRA_ARGS})
   endif()
 
   if(${EXTRA_CMAKE_OPTS_LOWER} MATCHES "dkeep_pr_builds_for_a_day=on")
@@ -100,12 +92,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 #---Experimental/Nightly----------------------------------------------------
 else()
   ctest_start(${CTEST_MODE} APPEND)
-  if(WIN32)
-    # force sequential mode until the sporadic failures are understood and fixed
-    ctest_test(PARALLEL_LEVEL 1 EXCLUDE_LABEL "benchmark")
-  else()
-    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark")
-  endif()
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark" ${CTEST_EXTRA_ARGS})
 endif()
 
 ctest_submit(PARTS Test Notes)
