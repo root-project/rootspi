@@ -55,6 +55,7 @@ function(GET_ALL_MODULES)
   list(REMOVE_ITEM all_modules
     builtin_llvm
     builtin_clang
+    builtin_cling
     ccache
     cxx11
     cxx14
