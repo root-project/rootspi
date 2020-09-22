@@ -164,7 +164,7 @@ set(CTEST_NIGHTLY_START_TIME "00:00:00 CET")
 set(CTEST_DROP_METHOD "http")
 set(CTEST_DROP_SITE "cdash.cern.ch")
 set(CTEST_DROP_LOCATION "/submit.php?project=ROOT")
-set(CTEST_DROP_SITE_CDASH TRUE)
+set(CTEST_DROP_SITE_CDASH FALSE)
 
 #---Custom CTest settings---------------------------------------------------
 #set(CTEST_NOTES_FILES  ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME})
