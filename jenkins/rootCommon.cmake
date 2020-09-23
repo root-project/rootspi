@@ -159,7 +159,8 @@ else()
 endif()
 
 #---CDash settings----------------------------------------------------------
-#set(CTEST_PROJECT_NAME "ROOT")
+# CTEST_PROJECT_NAME is required for CTest (independently from CDash submission)
+set(CTEST_PROJECT_NAME "ROOT")
 #set(CTEST_NIGHTLY_START_TIME "00:00:00 CET")
 #set(CTEST_DROP_METHOD "http")
 #set(CTEST_DROP_SITE "cdash.cern.ch")
