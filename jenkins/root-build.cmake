@@ -87,6 +87,7 @@ endfunction()
 #  Get all supported modules as ${all_supported}, on Windows.
 #  Get all optional builtins as ${package_builtins}.
 #
+# FIXME: sqlite was disabled to avoid failures in nighlies (compiler error and build configuration issues)
 function(GET_ALL_SUPPORTED_MODULES_WIN32)
   set(all_supported
     builtin_afterimage
@@ -116,7 +117,6 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     python
     roofit
     spectrum
-    sqlite
     table
     thread
     vmc
