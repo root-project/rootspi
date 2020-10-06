@@ -826,7 +826,7 @@ function(CONFIGURE_ROOT_OPTIONS)
 
   #---ASSERTS-----------------------------------------------------------------
   if(NOT CTEST_MODE STREQUAL package AND NOT CTEST_BUILD_CONFIGURATION STREQUAL Debug)
-    set(asserts_options "-DCMAKE_CXX_FLAGS=-UNDEBUG -DLLVM_ENABLE_ASSERTIONS=On")
+    set(asserts_options "-Dasserts=ON -DLLVM_ENABLE_ASSERTIONS=On")
   endif()
 
   #---Compose the configuration options---------------------------------------
