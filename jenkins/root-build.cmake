@@ -750,7 +750,7 @@ function(CONFIGURE_ROOT_OPTIONS)
   endif()
 
   #---Use ccache--------------------------------------------------------------
-  if((NOT CTEST_MODE STREQUAL package) AND (NOT "${LABEL}" MATCHES "ROOT-performance-centos7-multicore"))
+  if((NOT CTEST_MODE STREQUAL package) AND (NOT "${LABEL}" MATCHES "ROOT-performance-centos8-multicore"))
     set(ccache_option "-Dccache=ON")
   endif()
 
