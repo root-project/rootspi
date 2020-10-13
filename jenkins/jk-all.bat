@@ -48,9 +48,7 @@ if "%ACTION%" neq "test" (
 
     rem do not run the tests if continuous build fails
     if %errorlevel% neq 0 (
-        if "%MODE%" == "continuous" (
-            exit /b %errorlevel%
-        )
+        exit /b %errorlevel%
     )
 
     rem do not run tests if coverity run or package build.
