@@ -19,10 +19,6 @@ rem   if %COMPILER% == vc15  call "C:\Program Files (x86)\Microsoft Visual Studi
 rem   if %COMPILER% == native call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat" x86
 rem )
 
-echo Dumping the full environment ---------------------------------------------------------
-set
-echo --------------------------------------------------------------------------------------
-
 rem ---Run the CTest script depending on the compiler------------------------------------------
 
 set THIS=%~d0%~p0
@@ -44,6 +40,10 @@ if "%BUILD_VERSION%" neq "" (
 
 if "%ACTION%" neq "test" (
 
+    echo Dumping the full environment ---------------------------------------------------------
+    set
+    echo --------------------------------------------------------------------------------------
+
     ctest -j%NCORES% -VV -S %THIS%/root-build.cmake
 
     rem do not run the tests if continuous build fails
@@ -64,7 +64,13 @@ if "%ACTION%" neq "test" (
 
 if "%ACTION%" neq "build" (
     if "%RUN_TESTS%" == "yes" (
+        echo Dumping the full environment ---------------------------------------------------------
+        set
+        echo --------------------------------------------------------------------------------------
+
         ctest --no-compress-output -V -S %THIS%/root-test.cmake
+    ) else (
+        exit /b 0
     )
 )
 
