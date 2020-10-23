@@ -156,6 +156,11 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
       pyroot_legacy
     )
   endif()
+  if(ROOT_VERSION VERSION_GREATER 6.22)
+    list(APPEND all_supported
+      builtin_nlohmannjson
+    )
+  endif()
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
 endfunction()
@@ -177,6 +182,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_gsl
     builtin_lzma
     builtin_lz4
+    builtin_nlohmannjson
     builtin_openssl
     builtin_pcre
     builtin_tbb
@@ -248,6 +254,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_gsl
     builtin_lz4
     builtin_lzma
+    builtin_nlohmannjson
     builtin_openssl
     builtin_pcre
     builtin_tbb
@@ -456,6 +463,12 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     endif()
   endif()
 
+  if(ROOT_VERSION VERSION_GREATER 6.22)
+    list(APPEND all_supported
+      builtin_nlohmannjson
+    )
+  endif()
+
   if("${LABEL}" MATCHES "ubuntu1[4689]|fedora27|centos7")
     # LZ4 is too old.
     list(APPEND all_supported
@@ -552,6 +565,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     builtin_xxhash
     builtin_lz4
     builtin_lzma
+    builtin_nlohmannjson
     builtin_zlib
   )
 
