@@ -43,6 +43,7 @@ cp ${src}/resources/sap/ui/codeeditor/js/ace/ace.js resources/sap/ui/codeeditor/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/ext-language_tools.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/ext-beautify.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-javascript.js resources/sap/ui/codeeditor/js/ace/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-plain_text.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-json.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-c_cpp.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-css.js resources/sap/ui/codeeditor/js/ace/
@@ -50,6 +51,7 @@ cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-sh.js resources/sap/ui/codeedi
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-markdown.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/theme-tomorrow.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/javascript.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/plain_text.js resources/sap/ui/codeeditor/js/ace/snippets/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/c_cpp.js resources/sap/ui/codeeditor/js/ace/snippets/
 cp ${src}/resources/sap/ui/codeeditor/messagebundle.properties resources/sap/ui/codeeditor/
 cp ${src}/resources/sap/ui/codeeditor/messagebundle_en.properties resources/sap/ui/codeeditor/
