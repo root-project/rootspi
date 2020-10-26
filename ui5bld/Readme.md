@@ -3,7 +3,7 @@
 Try to extract minimal possible set of openui5 libraries, used in ROOT
 
 1. Download and unpack runtime tarball from openui5 website: https://openui5.org/download.html
-   Tested with ui5 v1.63.0 - used in ROOT as on May 2019
+   Currently working with ui5 v1.82.2 - used in ROOT as on October 2020
 
 2. Run provided shell script:
 
