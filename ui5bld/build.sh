@@ -4,7 +4,7 @@ rm -rf resources *.txt
 
 src=${1}
 if [[ "$src" == "" ]]; then
-   src=~/d/openui5-1.72.0/
+   src=~/d/openui5-1.82.2/
 fi
 
 copy_lib() {
@@ -12,7 +12,8 @@ copy_lib() {
    mkdir -p ${1}
    cp ${src}/${1}/library-preload.js ${1}
    cp ${src}/${1}/library-preload.js.map ${1}
-   cp ${src}/${1}/messagebundle_en.properties ${1}/messagebundle_en_US.properties
+   cp ${src}/${1}/messagebundle.properties ${1}/messagebundle.properties
+   cp ${src}/${1}/messagebundle_en.properties ${1}/messagebundle_en.properties
 }
 
 copy_themes() {
@@ -50,6 +51,10 @@ cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-markdown.js resources/sap/ui/c
 cp ${src}/resources/sap/ui/codeeditor/js/ace/theme-tomorrow.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/javascript.js resources/sap/ui/codeeditor/js/ace/snippets/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/c_cpp.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/messagebundle.properties resources/sap/ui/codeeditor/
+cp ${src}/resources/sap/ui/codeeditor/messagebundle_en.properties resources/sap/ui/codeeditor/
+
+
 
 copy_themes resources/sap/ui/codeeditor
 
@@ -60,6 +65,7 @@ copy_lib resources/sap/tnt
 copy_themes resources/sap/tnt
 
 copy_lib resources/sap/uxap
+mv resources/sap/uxap/messagebundle_en.properties resources/sap/uxap/messagebundle_en_US.properties
 copy_themes resources/sap/uxap
 
 copy_lib resources/sap/ui/layout
@@ -81,6 +87,9 @@ cp -r ${src}/resources/sap/ui/unified/themes/base resources/sap/ui/unified/theme
 
 mkdir -p resources/sap/ui/commons/themes
 cp -r ${src}/resources/sap/ui/commons/themes/base resources/sap/ui/commons/themes
+
+mkdir -p resources/sap/ui/thirdparty
+cp ${src}/resources/sap/ui/thirdparty/jquery-compat.js resources/sap/ui/thirdparty
 
 rm -f openui5.tar.gz
 
