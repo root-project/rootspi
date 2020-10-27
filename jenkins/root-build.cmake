@@ -159,6 +159,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
   if(ROOT_VERSION VERSION_GREATER 6.22)
     list(APPEND all_supported
       builtin_nlohmannjson
+      builtin_openui5
     )
   endif()
   set(all_supported ${all_supported} PARENT_SCOPE)
@@ -183,6 +184,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_lzma
     builtin_lz4
     builtin_nlohmannjson
+    builtin_openui5
     builtin_openssl
     builtin_pcre
     builtin_tbb
@@ -255,6 +257,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_lz4
     builtin_lzma
     builtin_nlohmannjson
+    builtin_openui5
     builtin_openssl
     builtin_pcre
     builtin_tbb
@@ -466,6 +469,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   if(ROOT_VERSION VERSION_GREATER 6.22)
     list(APPEND all_supported
       builtin_nlohmannjson
+      builtin_openui5
     )
   endif()
 
@@ -566,6 +570,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     builtin_lz4
     builtin_lzma
     builtin_nlohmannjson
+    builtin_openui5
     builtin_zlib
   )
 
