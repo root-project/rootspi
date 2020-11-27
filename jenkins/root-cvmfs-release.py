@@ -102,6 +102,7 @@ def get_cvmfs_dirname(filename, version):
       root_v6.14.04.source.tar.gz => src
       root_v6.14.04.Linux-fedora27-x86_64-gcc7.2.tar.gz => x86_64-fedora27-gcc72-opt
       root_v6.14.04.macosx64-10.13-clang91.tar.gz => x86_64-mac1013-clang91-opt
+      root_v6.22.06.macos-11.0-x86_64-clang120.tar.gz => x86_64-mac1100-clang120-opt
 
     No Windows gets published into cvmfs.
     '''
@@ -109,7 +110,7 @@ def get_cvmfs_dirname(filename, version):
     # ('Linux', '-Raspbian9.4arm6l-gcc6.3', None, 'tar.gz')
     # ('macosx64', '-10.12-clang90', None, 'dmg')
     # ('source', None, None, 'tar.gz')
-    matches = re.match('^root_v' + version + '[.](Linux|macosx64|source)(-[^-]+)?(-[^-]+)?(-[^-]+)?[.]tar[.]gz$', filename)
+    matches = re.match('^root_v' + version + '[.](Linux|macosx64|macos|source)(-[^-]+)?(-[^-]+)?(-[^-]+)?[.]tar[.]gz$', filename)
     if not matches:
         raise RuntimeError('Ignoring unknown file name syntax / extension ' + filename)
     print(matches.groups())
@@ -121,6 +122,11 @@ def get_cvmfs_dirname(filename, version):
         # x86_64-mac1013-clang91-opt
         macvers = matches.group(2)[1:].replace('.','') # 1013
         return 'x86_64-mac' + macvers + matches.group(3) + '-opt'
+    elif matches.group(1) == 'macos':
+        # ('macos', '-10.13', '-x86_64', '-clang91')
+        # x86_64-mac1013-clang91-opt
+        macvers = matches.group(2)[1:].replace('.','') # 1013
+        return matches.group(3)[1:] + '-mac' + macvers + matches.group(4) + '-opt'
     elif matches.group(1) == 'Linux':
         if matches.group(3) == '-x86_64':
             # ('Linux', '-ubuntu18', '-x86_64', '-gcc7.3')
