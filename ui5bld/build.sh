@@ -51,6 +51,7 @@ cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-markdown.js resources/sap/ui/c
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-plain_text.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-python.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-sh.js resources/sap/ui/codeeditor/js/ace/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-fortran.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/mode-xml.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/worker-css.js resources/sap/ui/codeeditor/js/ace/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/worker-html.js resources/sap/ui/codeeditor/js/ace/
