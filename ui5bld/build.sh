@@ -53,6 +53,14 @@ cp ${src}/resources/sap/ui/codeeditor/js/ace/theme-tomorrow.js resources/sap/ui/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/javascript.js resources/sap/ui/codeeditor/js/ace/snippets/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/plain_text.js resources/sap/ui/codeeditor/js/ace/snippets/
 cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/c_cpp.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/fortran.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/html.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/markdown.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/python.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/latex.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/css.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/sh.js resources/sap/ui/codeeditor/js/ace/snippets/
+cp ${src}/resources/sap/ui/codeeditor/js/ace/snippets/xml.js resources/sap/ui/codeeditor/js/ace/snippets/
 cp ${src}/resources/sap/ui/codeeditor/messagebundle.properties resources/sap/ui/codeeditor/
 cp ${src}/resources/sap/ui/codeeditor/messagebundle_en.properties resources/sap/ui/codeeditor/
 
