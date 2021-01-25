@@ -92,12 +92,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
 #---Experimental/Nightly----------------------------------------------------
 else()
   ctest_start(${CTEST_MODE} APPEND)
-  if(WIN32)
-    # force sequential mode for roottest until it can be run in parallel
-    ctest_test(PARALLEL_LEVEL 1 EXCLUDE_LABEL "benchmark" ${CTEST_EXTRA_ARGS})
-  else()
-    ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark" ${CTEST_EXTRA_ARGS})
-  endif()
+  ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark" ${CTEST_EXTRA_ARGS})
 endif()
 
 ctest_submit(PARTS Test Notes)
