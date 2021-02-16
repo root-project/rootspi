@@ -561,7 +561,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   # pyspark not supported on these labels
-  if("${LABEL}" MATCHES "i386|centos7|multicore|ubuntu1[46]")
+  if("${LABEL}" MATCHES "-i386|centos7|multicore|ubuntu1[46]")
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PYSPARK_PY3)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PYSPARK_PY2)
   endif()
