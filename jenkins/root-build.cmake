@@ -164,6 +164,10 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
   endif()
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
+
+  # pyspark is not installed on windows nodes
+  EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PYSPARK_PY2)
+  EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PYSPARK_PY3)
 endfunction()
 
 #
@@ -276,6 +280,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
   # - jupyter (notebooks and ROOT C++ kernel)
   EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
   EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_JUPYTER_PY2)
+  EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PYSPARK_PY2)
 
   # We cannot install numba on mac10beta because pip does not yet distribute binaries
   # for llvmlite and building the wheel locally also fails.
@@ -553,6 +558,22 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   # numba does not support python 2 on 32 bit (missing llvmlite package)
   if("${LABEL}" MATCHES "-i386")
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
+  endif()
+
+  # pyspark not supported on these labels
+  if("${LABEL}" MATCHES "i386|centos7|multicore|ubuntu1[46]")
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PYSPARK_PY3)
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PYSPARK_PY2)
+  endif()
+
+  # pip fails in installing pyspark for python3 on ROOT-ubuntu1904-1
+  if("${LABEL}" MATCHES "ubuntu19")
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PYSPARK_PY3)
+  endif()
+
+  # pip2 not present on ROOT-fedora32-1
+  if("${LABEL}" MATCHES "fedora32")
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PYSPARK_PY2)
   endif()
 
   # Do not build builtin_openssl or freetype on Linuxes, rely on distro.
