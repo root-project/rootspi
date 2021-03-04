@@ -95,4 +95,5 @@ else()
   ctest_test(PARALLEL_LEVEL ${ncpu} EXCLUDE_LABEL "benchmark" ${CTEST_EXTRA_ARGS})
 endif()
 
-ctest_submit(PARTS Test Notes)
+# TODO: uncomment next line if CDASH will be back
+#ctest_submit(PARTS Test Notes)

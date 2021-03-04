@@ -14,7 +14,8 @@ ctest_start(${CTEST_MODE})
 ctest_update(SOURCE ${CTEST_SOURCE_DIRECTORY})
 ctest_configure(BUILD ${CTEST_BINARY_DIRECTORY})
 ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
-ctest_submit(PARTS Update Configure Build)
+# TODO: uncomment next line if CDASH will be back
+#ctest_submit(PARTS Update Configure Build)
 
 unset(CTEST_CHECKOUT_COMMAND)
 unset(CTEST_CONFIGURE_COMMAND)
@@ -77,7 +78,8 @@ ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtutorials
            PARALLEL_LEVEL ${ncpu}
            APPEND)
-ctest_submit(PARTS Test)
+# TODO: uncomment next line if CDASH will be back
+#ctest_submit(PARTS Test)
 
 #---Run root tests --------------------------------------------------------------
 #file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/runtests)
