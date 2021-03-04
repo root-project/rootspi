@@ -43,7 +43,8 @@ ctest_build(BUILD ${RUN_TESTS_DIR_TUTORIALS})
 ctest_test(BUILD ${RUN_TESTS_DIR_TUTORIALS}
            PARALLEL_LEVEL ${ncpu})
 
-ctest_submit(PARTS Update Configure Build Test Notes)
+# TODO: uncomment next line if CDASH will be back
+#ctest_submit(PARTS Update Configure Build Test Notes)
 
 #---For the roottest--------------------------------------------
 file(MAKE_DIRECTORY ${RUN_TESTS_DIR_ROOTTEST})
@@ -62,7 +63,8 @@ ctest_test(BUILD ${RUN_TESTS_DIR_ROOTTEST}
            APPEND
            PARALLEL_LEVEL ${ncpu})
 
-ctest_submit(PARTS Configure Test)
+# TODO: uncomment next line if CDASH will be back
+#ctest_submit(PARTS Configure Test)
 
 
 

@@ -33,6 +33,7 @@ ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}/runtests
 ctest_test(BUILD ${CTEST_BINARY_DIRECTORY}/runtests
            PARALLEL_LEVEL ${ncpu})
 
-ctest_submit(PARTS Test Notes)
+# TODO: uncomment next line if CDASH will be back
+#ctest_submit(PARTS Test Notes)
 
 

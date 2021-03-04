@@ -941,7 +941,8 @@ if(CTEST_MODE STREQUAL continuous)
   endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
-  ctest_submit(PARTS Update Configure Build)
+  # TODO: uncomment next line if CDASH will be back
+  #ctest_submit(PARTS Update Configure Build)
 
 #---Install---------------------------------------------------------------
 elseif(CTEST_MODE STREQUAL install)
@@ -962,7 +963,8 @@ elseif(CTEST_MODE STREQUAL install)
   endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET install APPEND)
-  ctest_submit(PARTS Update Configure Build)
+  # TODO: uncomment next line if CDASH will be back
+  #ctest_submit(PARTS Update Configure Build)
   #ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
   file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY})
 
@@ -987,7 +989,8 @@ elseif(CTEST_MODE STREQUAL package)
   endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET package APPEND)
-  ctest_submit(PARTS Update Configure Build)
+  # TODO: uncomment next line if CDASH will be back
+  #ctest_submit(PARTS Update Configure Build)
 
 #----Pullrequests-----------------------------------------------------------
 elseif(CTEST_MODE STREQUAL pullrequests)
@@ -1088,7 +1091,8 @@ Integrating against it. Please make sure you open and merge a PR against it.")
   if(updates LESS 0) # stop if update error
     # We are in the error case, switch to master to clean up the created branch.
     cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
-    ctest_submit(PARTS Update)
+    # TODO: uncomment next line if CDASH will be back
+    #ctest_submit(PARTS Update)
     message(FATAL_ERROR "There are no updated files. Perhaps the rebase of ${LOCAL_BRANCH_NAME} branch on top of $ENV{ghprbTargetBranch} failed!")
   endif()
   ctest_configure(BUILD   ${CTEST_BINARY_DIRECTORY}
@@ -1099,7 +1103,8 @@ Integrating against it. Please make sure you open and merge a PR against it.")
   endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
-  ctest_submit(PARTS Update Configure Build)
+  # TODO: uncomment next line if CDASH will be back
+  #ctest_submit(PARTS Update Configure Build)
 
   # We must not delete the branches here. They are deleted *after* running ctest (in root-test.cmake).
 
@@ -1122,5 +1127,6 @@ else()
   endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY})
-  ctest_submit(PARTS Update Configure Build)
+  # TODO: uncomment next line if CDASH will be back
+  #ctest_submit(PARTS Update Configure Build)
 endif()
