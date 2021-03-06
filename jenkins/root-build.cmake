@@ -202,6 +202,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     cling
     cocoa
     dataframe
+    test_distrdf_pyspark
     davix
     fftw3
     fitsio
@@ -352,6 +353,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   if (NOT "${LABEL}" MATCHES "-i386")
     list(APPEND all_supported
       dataframe
+    )
+  endif()
+
+  # Pyspark cannot be tested on following labels
+  if (NOT "${LABEL}" MATCHES "-i386|arm64|ppc64|centos7|-multicore|ubuntu1[46]")
+    list(APPEND all_supported
+      test_distrdf_pyspark
     )
   endif()
 
