@@ -738,6 +738,10 @@ function(GET_MODULES SPECLIST)
     GET_MOST_MODULES("${all_modules}")
   endif()
 
+  # Don't bother running distributed dataframe tests for release builds
+  if(CTEST_MODE STREQUAL package AND "test_distrdf_pyspark" IN_LIST want_modules)
+    list(REMOVE_ITEM want_modules test_distrdf_pyspark)
+  endif()
 
   REMOVE_SPEC_SUPPRESSED("${SPECLIST}" "${want_modules}")
   message("AXEL: modules after removing SPEC suppressed = ${all_modules}")
