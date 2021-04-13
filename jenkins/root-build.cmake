@@ -278,10 +278,9 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
   EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
   EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_JUPYTER_PY2)
 
-  # We cannot install numba on mac10beta because pip does not yet distribute binaries
+  # We cannot install numba on some Macs because pip does not (yet) distribute binaries
   # for llvmlite and building the wheel locally also fails.
-  # NOTE: To be removed once the OS is officially released
-  if("${LABEL}" MATCHES "mac10beta")
+  if("${LABEL}" MATCHES "mac11arm|mac10beta")
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY3)
   endif()
 
