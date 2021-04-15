@@ -280,7 +280,10 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
 
   # We cannot install numba on some Macs because pip does not (yet) distribute binaries
   # for llvmlite and building the wheel locally also fails.
+  # Also installing pandas fails due to incompatibilities on this system with the numpy.
   if("${LABEL}" MATCHES "mac11arm|mac10beta")
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PANDAS_PY2)
+    EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PANDAS_PY3)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY3)
   endif()
 
