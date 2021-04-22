@@ -25,6 +25,7 @@ set THIS=%~d0%~p0
 set NCORES=%NUMBER_OF_PROCESSORS%
 set BUILD_VERSION=%VERSION%
 if "%NCORES%" == "" set NCORES=4
+if "%NCORES%" == "16" set NCORES=12
 if "%NCORES%" == "32" set NCORES=24
 set ACTION=%1
 set RUN_TESTS=no
