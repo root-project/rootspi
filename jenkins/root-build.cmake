@@ -767,6 +767,7 @@ function(CONFIGURE_ROOT_OPTIONS)
 
   # First build a list out of spec1-spec2-spec3 for easier matching.
   string(REPLACE "-" ";" SPECLIST "$ENV{SPEC}")
+  message("AXEL SPEC: ${SPECLIST}")
 
   #---Select modules to enable as ${enabled_modules}--------------------------
   GET_MODULES("${SPECLIST}")
