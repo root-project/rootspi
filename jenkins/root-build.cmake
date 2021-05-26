@@ -389,9 +389,10 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  # Ubuntu <= 18, Debian10 have a CMake too old for multi-python.
+  # Ubuntu < 18, Debian10 have a CMake too old for multi-python.
   # Select their default one, python2.
-  if(NOT "${LABEL}" MATCHES "ubuntu1[4689]|debian10")
+  # Ubu18 has apt sources from Kitware, getting latest CMake.
+  if(NOT "${LABEL}" MATCHES "ubuntu1[469]|debian10")
     list(APPEND all_supported
       pyroot3
       )
