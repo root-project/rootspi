@@ -21,9 +21,13 @@ else
 fi
 
 if [ $docdir != "master" -a $docdir != "html602" ]; then
-   tarname=${docdir/v/html}.tar.gz
-   tar zcf $tarname $docdir
-   scp $tarname root.cern.ch:/var/www/root/download/
+   tarnamegz=${docdir/v/html}.tar.gz
+   tar zcf $tarnamegz $docdir
+   scp $tarnamegz root.cern.ch:/var/www/root/download/
+   tarnamexz=${docdir/v/html}.tar
+   tar cf $tarnamexz $docdir
+   xz -T5 $tarnamexz
+   scp $tarnamexz root.cern.ch:/var/www/root/download/
 fi
 
 exit $ret
