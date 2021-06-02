@@ -4,16 +4,23 @@ arch = platform.machine()
 
 system = platform.system()
 
+def parse_osrelease_line(line):
+   k, v = line.split('=')
+   return k, v.strip('"')
+
 #---Determine the OS and version--------------------------------------
 if system == 'Darwin' :
    osvers = 'mac' + ''.join(platform.mac_ver()[0].split('.')[:2])
 elif system == 'Linux' :
-   res = subprocess.check_output(["lsb_release", "-a"])
-   parsed = dict((line.split(b':')[0], line.split(b':')[1:]) for line in res.split(b'\n'))
-   dist = [ parsed[b'Distributor ID'][0].strip(), parsed[b'Release'][0].strip() ] # 'Ubuntu', '20.04'
-   if type(dist[0]) == bytes:
-      dist[0] = dist[0].decode("utf-8")
-      dist[1] = dist[1].decode("utf-8")
+   lines = []
+   with open('/etc/os-release') as f:
+      lines = f.readlines()
+   parsed = dict(
+      parse_osrelease_line(line.strip())
+      for line in lines
+   )
+
+   dist = [ parsed['NAME'], parsed['VERSION_ID'] ]
    if re.search('SLC', dist[0]):
       osvers = 'slc' + dist[1].split('.')[0]
    elif re.search('CentOS', dist[0]):
