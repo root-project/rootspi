@@ -310,7 +310,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     fitsio
     fortran
     gdml
-    gviz
     http
     imt
     krb5
@@ -358,6 +357,12 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
+  if (NOT "${LABEL}" MATCHES "-power8-centos8")
+    list(APPEND all_supported
+      gviz
+    )
+  endif()
+
   # Pyspark cannot be tested on following labels
   if (NOT "${LABEL}" MATCHES "-i386|arm64|ppc64|centos7|-multicore|ubuntu1[46]")
     list(APPEND all_supported
@@ -367,7 +372,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
 
   # For centos7, Rinside uses wrong C++ std (missing abi tag for C++11);
   # Rinside package does not exist for Ubuntu 14.
-  if(NOT "${LABEL}" MATCHES "ubuntu14")
+  if(NOT "${LABEL}" MATCHES "ubuntu14|-power8-centos8")
     list(APPEND all_supported
       r
       tmva-rmva
@@ -436,7 +441,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("${LABEL}" MATCHES "centos|fedora")
+  if("${LABEL}" MATCHES "centos|fedora" AND NOT ("${LABEL}" MATCHES "-power8-centos8"))
     list(APPEND all_supported
       dcache
       gfal
@@ -498,7 +503,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu1[468]")
+  if("${LABEL}" MATCHES "ubuntu1[468]|-power8-centos8")
     # Davix is there but in a Davix version that's broken.
     list(APPEND all_supported
       builtin_davix
@@ -512,23 +517,32 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu1[468]")
+  if("${LABEL}" MATCHES "ubuntu1[468]|power8-centos8")
     # Ubuntu < 19.04 has no xxhash.
     list(APPEND all_supported
       builtin_xxhash
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu|debian")
+  if("${LABEL}" MATCHES "ubuntu|debian|power8-centos8")
     # Ubuntu has no xrootd
     list(APPEND all_supported
       builtin_xrootd
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu|fedora29|debian")
+  if("${LABEL}" MATCHES "ubuntu|fedora29|debian|power8-centos8")
     list(APPEND all_supported
       builtin_afterimage
+    )
+  endif()
+
+  if("${LABEL}" MATCHES "power8-centos8")
+    list(APPEND all_supported
+      builtin_cfitsio
+      builtin_ftgl
+      builtin_gl2ps
+      builtin_glew
     )
   endif()
 
