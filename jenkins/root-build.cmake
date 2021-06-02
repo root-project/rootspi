@@ -505,7 +505,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu|debian")
+  if("${LABEL}" MATCHES "ubuntu|debian|power8-centos8")
     # Ubuntu has no unuran package.
     list(APPEND all_supported
       builtin_unuran
