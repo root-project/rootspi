@@ -18,6 +18,7 @@ elif system == 'Linux' :
    parsed = dict(
       parse_osrelease_line(line.strip())
       for line in lines
+      if '=' in line
    )
 
    dist = [ parsed['NAME'], parsed['VERSION_ID'] ]
