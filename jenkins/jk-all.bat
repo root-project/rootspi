@@ -42,7 +42,7 @@ if "%BUILD_VERSION%" neq "" (
 if "%ACTION%" neq "test" (
 
     echo Dumping the full environment ---------------------------------------------------------
-    set
+    set | find /V "ghprbPullLongDescription" | find /V "ghprbPullDescription" | find /V "ghprbPullTitle" | find /V "ghprbCommentBody"
     echo --------------------------------------------------------------------------------------
 
     ctest -j%NCORES% -VV -S %THIS%/root-build.cmake
