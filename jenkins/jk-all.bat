@@ -42,23 +42,22 @@ if "%BUILD_VERSION%" neq "" (
 if "%ACTION%" neq "test" (
 
     echo Dumping the full environment ---------------------------------------------------------
-    set | find /V "ghprbPullLongDescription" | find /V "ghprbPullDescription" | find /V "ghprbPullTitle" | find /V "ghprbCommentBody"
+    set
     echo --------------------------------------------------------------------------------------
 
     ctest -j%NCORES% -VV -S %THIS%/root-build.cmake
-    set error_level=%ERRORLEVEL%
 
     rem do not run the tests if continuous build fails
-    if %error_level% neq 0 (
-        exit /b %error_level%
+    if %errorlevel% neq 0 (
+        exit /b %errorlevel%
     )
 
     rem do not run tests if coverity run or package build.
     if "%BUILDOPTS%" == "coverity" (
-        exit /b %error_level%
+        exit /b %errorlevel%
     )
     if "%MODE%" == "package" (
-        exit /b %error_level%
+        exit /b %errorlevel%
     )
 )
 
@@ -69,11 +68,10 @@ if "%ACTION%" neq "build" (
         echo --------------------------------------------------------------------------------------
 
         ctest --no-compress-output -V -S %THIS%/root-test.cmake
-        set error_level=%ERRORLEVEL%
     ) else (
         exit /b 0
     )
 )
 
-exit /b %error_level%
+exit /b %errorlevel%
 
