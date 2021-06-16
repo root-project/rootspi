@@ -46,18 +46,19 @@ if "%ACTION%" neq "test" (
     echo --------------------------------------------------------------------------------------
 
     ctest -j%NCORES% -VV -S %THIS%/root-build.cmake
+    set error_level=%ERRORLEVEL%
 
     rem do not run the tests if continuous build fails
-    if %errorlevel% neq 0 (
-        exit /b %errorlevel%
+    if %error_level% neq 0 (
+        exit /b %error_level%
     )
 
     rem do not run tests if coverity run or package build.
     if "%BUILDOPTS%" == "coverity" (
-        exit /b %errorlevel%
+        exit /b %error_level%
     )
     if "%MODE%" == "package" (
-        exit /b %errorlevel%
+        exit /b %error_level%
     )
 )
 
@@ -68,10 +69,11 @@ if "%ACTION%" neq "build" (
         echo --------------------------------------------------------------------------------------
 
         ctest --no-compress-output -V -S %THIS%/root-test.cmake
+        set error_level=%ERRORLEVEL%
     ) else (
         exit /b 0
     )
 )
 
-exit /b %errorlevel%
+exit /b %error_level%
 
