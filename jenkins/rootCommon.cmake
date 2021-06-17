@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.9)
 
 #---Utility Macros----------------------------------------------------------
 include(${CTEST_SCRIPT_DIRECTORY}/rootmacros.cmake)
