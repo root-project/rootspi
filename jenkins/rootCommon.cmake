@@ -283,10 +283,10 @@ endfunction(cleanup_pr_build_area)
 #----Recover From Errors------------------------------------------------------
 function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
   execute_process_and_log(COMMAND ${CMAKE_COMMAND} -E remove -f ".git/HEAD.lock" WORKING_DIRECTORY ${cleanup_working_dir}
-  HINT "Cleaning up possible lock files")
+      HINT "Cleaning up possible lock files")
 
   execute_process_and_log(COMMAND ${CMAKE_COMMAND} -E remove -f ".git/index.lock" WORKING_DIRECTORY ${cleanup_working_dir}
-  HINT "Cleaning up possible lock files")
+      HINT "Cleaning up possible lock files")
 
   execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} for-each-ref --format="%(refname)"
       OUTPUT_VARIABLE GITREFS
