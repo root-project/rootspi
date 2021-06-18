@@ -26,7 +26,7 @@ if [ $docdir != "master" -a $docdir != "html602" ]; then
    scp $tarnamegz root.cern.ch:/var/www/root/download/
    tarnamexz1=${docdir/v/html}.tar
    tar cf $tarnamexz1 $docdir
-   xz -T5 $tarnamexz1
+   xz -T5 -f $tarnamexz1
    tarnamexz2=${docdir/v/html}.tar.xz
    scp $tarnamexz2 root.cern.ch:/var/www/root/download/
 fi
