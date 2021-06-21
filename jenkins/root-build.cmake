@@ -215,7 +215,6 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     ldap
     libcxx
     mathmore
-    memstat
     minuit2
     mlp
     opengl
