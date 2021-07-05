@@ -256,6 +256,8 @@ function(cleanup_pr_build_area build_dir)
 
   # Clean the current working dir.
   file(REMOVE_RECURSE ${build_dir})
+  file(GLOB DEBUG_LEFTOVER_FILES LIST_DIRECTORIES true ${build_dir}/*)
+  message("Files left in build dir `${build_dir}`: ${DEBUG_LEFTOVER_FILES}")
 
   # Try cleaning up old builds requested via -DKEEP_PR_BUILDS_FOR_A_DAY=On
   set(pr_workspace "$ENV{WORKSPACE}/../")
