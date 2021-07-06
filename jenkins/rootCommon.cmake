@@ -294,13 +294,16 @@ function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
       OUTPUT_VARIABLE GITREFS
       WORKING_DIRECTORY ${cleanup_working_dir}
       HINT "Getting git refs")
+  string(REPLACE "\n" ";" GITREFS ${GITREFS}) # convert multi-line git output into string.
   foreach(GITREF ${GITREFS})
       execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} show-ref --quiet --verify ${GITREF}
           RESULT_VARIABLE REFRESULT
+          WORKING_DIRECTORY ${cleanup_working_dir}
           HINT "Verifying ref ${GITREF}")
       if(NOT REFRESULT EQUAL "0")
           execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} update-ref -d ${GITREF}
-          HINT "Removing stale ref ${GITREF}")
+              WORKING_DIRECTORY ${cleanup_working_dir}
+              HINT "Removing stale ref ${GITREF}")
       endif()
    endforeach()
 
