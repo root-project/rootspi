@@ -298,8 +298,7 @@ function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
   foreach(GITREF ${GITREFS})
       execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} show-ref --quiet --verify ${GITREF}
           RESULT_VARIABLE REFRESULT
-          WORKING_DIRECTORY ${cleanup_working_dir}
-          HINT "Verifying ref ${GITREF}")
+          WORKING_DIRECTORY ${cleanup_working_dir})
       if(NOT REFRESULT EQUAL "0")
           execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} update-ref -d ${GITREF}
               WORKING_DIRECTORY ${cleanup_working_dir}
