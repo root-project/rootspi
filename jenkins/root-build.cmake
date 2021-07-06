@@ -1025,7 +1025,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # need to wait N times the rest of the cleanup procedures to kick in.
   cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${REBASE_WORKING_DIR})
 
-  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} fetch $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${REBASE_WORKING_DIR}
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} fetch -p $ENV{ghprbAuthorRepoGitUrl} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME} WORKING_DIRECTORY ${REBASE_WORKING_DIR}
   HINT "Fetching from $ENV{ghprbAuthorRepoGitUrl} branch ${REMOTE_BRANCH_NAME} as ${LOCAL_BRANCH_NAME}")
 
   # git rebase master LOCAL_BRANCH_NAME rebases the LOCAL_BRANCH_NAME on master and checks out LOCAL_BRANCH_NAME.
@@ -1053,7 +1053,7 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # Clean up the area of the 'other' repository, too.
   cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
 
-  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} fetch ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} fetch -p ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
     WORKING_DIRECTORY "${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}"
     RESULT_VARIABLE FETCH_FAILED
     HINT "Fetching from ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} branch ${REMOTE_BRANCH_NAME} as ${LOCAL_BRANCH_NAME}")
