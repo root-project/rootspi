@@ -229,19 +229,28 @@ endif()
 
 #----Call execute_process and log-----------------------------------------------
 function(execute_process_and_log)
-  cmake_parse_arguments(ARG "" "HINT;RESULT_VARIABLE;OUTPUT_VARIABLE" "" ${ARGN})
+  cmake_parse_arguments(ARG "" "HINT;RESULT_VARIABLE;OUTPUT_VARIABLE;LOGONERROR" "" ${ARGN})
   set(msg "[Executing ${ARG_UNPARSED_ARGUMENTS}]")
   if (ARG_HINT)
     set(msg "${ARG_HINT}: ${msg}")
   endif()
-  message(STATUS "${msg}")
+  if (NOT ARG_LOGONERROR)
+    message(STATUS "${msg}")
+  endif()
   # FIXME: Handle RESULTS_VARIABLE, ERROR_VARIABLE
-  execute_process(RESULT_VARIABLE RESULT OUTPUT_VARIABLE OUTPUT ${ARG_UNPARSED_ARGUMENTS})
+  execute_process(RESULT_VARIABLE RESULT OUTPUT_VARIABLE OUTPUT ERROR_VARIABLE ERRORLOG ${ARG_UNPARSED_ARGUMENTS})
+  if (ARG_LOGONERROR AND RESULT)
+    message(STATUS "${msg}")
+  endif()
   if (ARG_RESULT_VARIABLE)
     set(${ARG_RESULT_VARIABLE} ${RESULT} PARENT_SCOPE)
   endif()
   if (ARG_OUTPUT_VARIABLE)
     set(${ARG_OUTPUT_VARIABLE} ${OUTPUT} PARENT_SCOPE)
+  endif()
+  if(${RESULT})
+    message("stdout: ${OUTPUT}")
+    message("stderr: ${ERRORLOG}")
   endif()
 endfunction(execute_process_and_log)
 
@@ -298,6 +307,7 @@ function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
   foreach(GITREF ${GITREFS})
       execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} show-ref --quiet --verify ${GITREF}
           RESULT_VARIABLE REFRESULT
+          LOGONERROR
           WORKING_DIRECTORY ${cleanup_working_dir})
       if(NOT REFRESULT EQUAL "0")
           execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} update-ref -d ${GITREF}
