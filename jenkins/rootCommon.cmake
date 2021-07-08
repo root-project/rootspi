@@ -229,7 +229,7 @@ endif()
 
 #----Call execute_process and log-----------------------------------------------
 function(execute_process_and_log)
-  cmake_parse_arguments(ARG "" "HINT;RESULT_VARIABLE;OUTPUT_VARIABLE;LOGONERROR" "" ${ARGN})
+  cmake_parse_arguments(ARG "LOGONERROR" "HINT;RESULT_VARIABLE;OUTPUT_VARIABLE" "" ${ARGN})
   set(msg "[Executing ${ARG_UNPARSED_ARGUMENTS}]")
   if (ARG_HINT)
     set(msg "${ARG_HINT}: ${msg}")
