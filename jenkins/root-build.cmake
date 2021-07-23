@@ -1053,10 +1053,13 @@ elseif(CTEST_MODE STREQUAL pullrequests)
   # Clean up the area of the 'other' repository, too.
   cleanup_pr_area($ENV{ghprbTargetBranch} ${LOCAL_BRANCH_NAME} ${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR})
 
-  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} fetch -p ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
+  # Windows will sit and wait for credentials to be entered if the repo isn't (publicly) visible.
+  # Prevent that by providing invalid credentials.
+  string(REGEX_REPLACE "(https?://)" "\\1INVALID:INVALID@" OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL_INVALID_CREDENTIALS "${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL}")
+  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} fetch -p ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL_INVALID_CREDENTIALS} ${REMOTE_BRANCH_NAME}:${LOCAL_BRANCH_NAME}
     WORKING_DIRECTORY "${OTHER_REPO_FOR_BRANCH_SYNC_SOURCE_DIR}"
     RESULT_VARIABLE FETCH_FAILED
-    HINT "Fetching from ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL} branch ${REMOTE_BRANCH_NAME} as ${LOCAL_BRANCH_NAME}")
+    HINT "Fetching from ${OTHER_REPO_FOR_BRANCH_SYNC_GIT_URL_INVALID_CREDENTIALS} branch ${REMOTE_BRANCH_NAME} as ${LOCAL_BRANCH_NAME}")
 
   # If fetch failed this means the user did not have the clone of root/roottest or did not have a branch
   # with the expected name. Ignore and continue.
