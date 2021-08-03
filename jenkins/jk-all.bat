@@ -46,6 +46,7 @@ if "%ACTION%" neq "test" (
     echo --------------------------------------------------------------------------------------
 
     ctest -j%NCORES% -VV -S %THIS%/root-build.cmake
+    echo "DEBUG BUILD EXIT CODE: %errorlevel%"
 
     rem do not run the tests if continuous build fails
     if %errorlevel% neq 0 (
