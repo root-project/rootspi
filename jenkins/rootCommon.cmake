@@ -316,8 +316,10 @@ function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
       endif()
    endforeach()
 
-  execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir}
-  HINT "Cleaning up possible unsuccessful rebase")
+  if(EXISTS "${cleanup_working_dir}/.git/rebase-apply/head-name")
+    execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir}
+      HINT "Cleaning up unsuccessful rebase")
+  endif()
 
   # git fetch cannot update the HEAD of the current branch. We should check out some 'safe' branch.
   # The problem can arise if our cleanup failed to checkout different from local_branch_name branch.
