@@ -316,7 +316,8 @@ function(cleanup_pr_area target_branch local_branch_name cleanup_working_dir)
       endif()
    endforeach()
 
-  if(EXISTS "${cleanup_working_dir}/.git/rebase-apply/head-name")
+  if(EXISTS "${cleanup_working_dir}/.git/rebase-apply/head-name"
+     OR EXISTS "${cleanup_working_dir}/.git/rebase-merge")
     execute_process_and_log(COMMAND ${CTEST_GIT_COMMAND} rebase --abort WORKING_DIRECTORY ${cleanup_working_dir}
       HINT "Cleaning up unsuccessful rebase")
   endif()
