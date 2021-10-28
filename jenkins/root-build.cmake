@@ -203,6 +203,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     cocoa
     dataframe
     test_distrdf_pyspark
+    test_distrdf_dask
     davix
     fftw3
     fitsio
@@ -366,6 +367,13 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   if (NOT "${LABEL}" MATCHES "-i386|arm64|ppc64|centos7|-multicore|ubuntu1[46]")
     list(APPEND all_supported
       test_distrdf_pyspark
+    )
+  endif()
+
+  # For now we run Dask tests only on ubuntu2004
+  if ("${LABEL}" MATCHES "ubuntu2004")
+    list(APPEND all_supported
+      test_distrdf_dask
     )
   endif()
 
@@ -757,6 +765,9 @@ function(GET_MODULES SPECLIST)
   # Don't bother running distributed dataframe tests for release builds
   if(CTEST_MODE STREQUAL package AND "test_distrdf_pyspark" IN_LIST want_modules)
     list(REMOVE_ITEM want_modules test_distrdf_pyspark)
+  endif()
+  if(CTEST_MODE STREQUAL package AND "test_distrdf_dask" IN_LIST want_modules)
+    list(REMOVE_ITEM want_modules test_distrdf_dask)
   endif()
 
   REMOVE_SPEC_SUPPRESSED("${SPECLIST}" "${want_modules}")
