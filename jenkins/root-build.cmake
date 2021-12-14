@@ -174,6 +174,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
   set(all_supported
     builtin_afterimage
     builtin_cfitsio
+    builtin_cppzmq
     builtin_davix
     builtin_fftw3
     builtin_freetype
@@ -194,6 +195,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_veccore
     builtin_xrootd
     builtin_xxhash
+    builtin_zeromq
     builtin_zstd
     asimage
     astiff
@@ -223,6 +225,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     pyroot2
     python
     roofit
+    roofit_multiprocess
     spectrum
     sqlite
     ssl
@@ -298,8 +301,10 @@ endfunction()
 #
 function(GET_ALL_SUPPORTED_MODULES_LINUX)
   set(all_supported
+    builtin_cppzmq
     builtin_vdt
     builtin_veccore
+    builtin_zeromq
 
     asimage
     astiff
@@ -328,6 +333,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     qt
     qtgsi
     roofit
+    roofit_multiprocess
     shadowpw
     spectrum
     sqlite
