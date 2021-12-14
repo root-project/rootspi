@@ -268,6 +268,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_veccore
     builtin_xrootd
     builtin_xxhash
+    builtin_zstd
   )
 
   # Disable Python related tests for Python 2 because that's the Mac OS default Python,
@@ -611,6 +612,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     builtin_nlohmannjson
     builtin_openui5
     builtin_zlib
+    builtin_zstd
   )
 
   # Don't add builtin_vc if vc is disabled.
