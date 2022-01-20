@@ -26,8 +26,8 @@ copy_themes() {
 
 cp ${src}/*.txt .
 mkdir resources
-cp ${src}/resources/sap-ui-core-nojQuery.js resources/
-cp ${src}/resources/sap-ui-core-nojQuery.js.map resources/
+cp ${src}/resources/sap-ui-core.js resources/
+cp ${src}/resources/sap-ui-core.js.map resources/
 
 copy_lib resources/sap/ui/core
 copy_themes resources/sap/ui/core
