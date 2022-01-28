@@ -898,7 +898,7 @@ function(CONFIGURE_ROOT_OPTIONS)
   endif()
 
   #---No OS Python3 on MacOS--------------------------------------------------
-  if(APPLE AND CTEST_MODE STREQUAL package)
+  if(APPLE AND CTEST_MODE STREQUAL package AND NOT CTEST_VERSION STREQUAL "master")
     set(pythonexe_options -DPYTHON_EXECUTABLE=/usr/bin/python)
   endif()
 
