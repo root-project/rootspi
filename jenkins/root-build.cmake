@@ -248,6 +248,12 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     )
   endif()
 
+  if("${LABEL}" MATCHES "mac12" AND CTEST_VERSION STREQUAL "master")
+    list(APPEND all_supported
+      pyroot3 # To make mac12 master release builds have the same pyroot3 option as nightlies
+    )
+  endif()
+
   set(package_builtins
     builtin_afterimage
     builtin_cfitsio
