@@ -154,6 +154,7 @@ class ROOTTarballsOnTheWeb(object):
                  ["win32.vc12",    "Windows Visual Studio 2013"],
                  ["win32.vc15",    "Windows Visual Studio 2017"],
                  ["win32.vc16",    "Windows Visual Studio 2019"],
+                 ["win32.vc17",    "Windows Visual Studio 2022"],
                  [".debug",      " (dbg)"],
                  ["x86_64-",     ""]]
         for old, new in pairs:
