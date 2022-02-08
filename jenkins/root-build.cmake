@@ -243,13 +243,11 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
 
   if(NOT CTEST_MODE STREQUAL package)
     list(APPEND all_supported
-      pyroot3 # Can't release with non-"distro" Python3, but can test
+      pyroot3 # We can test with non-"distro" Python3
     )
-  endif()
-
-  if("${LABEL}" MATCHES "mac12" AND CTEST_VERSION STREQUAL "master")
+  elseif("${LABEL}" MATCHES "mac11|mac12" AND ROOT_VERSION VERSION_GREATER_EQUAL 6.26)
     list(APPEND all_supported
-      pyroot3 # To make mac12 master release builds have the same pyroot3 option as nightlies
+      pyroot3 # On mac11&12 we release against the XCode Python3 too, starting in v6.26
     )
   endif()
 
@@ -912,8 +910,8 @@ function(CONFIGURE_ROOT_OPTIONS)
     set(buildtype_option -A Win32 -Thost=x64 ${buildtype_option})
   endif()
 
-  #---No OS Python3 on MacOS--------------------------------------------------
-  if(APPLE AND CTEST_MODE STREQUAL package AND NOT CTEST_VERSION STREQUAL "master")
+  #---No OS Python3 on MacOS10------------------------------------------------
+  if("${LABEL}" MATCHES "mac10" AND CTEST_MODE STREQUAL package)
     set(pythonexe_options -DPYTHON_EXECUTABLE=/usr/bin/python)
   endif()
 
