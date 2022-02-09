@@ -243,9 +243,9 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
 
   if(NOT CTEST_MODE STREQUAL package)
     list(APPEND all_supported
-      pyroot3 # We can test with non-"distro" Python3
+      pyroot3 # We can test with Python3, be it from Xcode or installed manually.
     )
-  elseif("${LABEL}" MATCHES "mac11|mac12" AND ROOT_VERSION VERSION_GREATER_EQUAL 6.26)
+  elseif(NOT "${LABEL}" MATCHES "mac10" AND ROOT_VERSION VERSION_GREATER_EQUAL 6.26)
     list(APPEND all_supported
       pyroot3 # On mac11&12 we release against the XCode Python3 too, starting in v6.26
     )
@@ -285,7 +285,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
   )
 
   # Disable Python related tests for Python 2 because that's the Mac OS default Python,
-  # which does not allow to install packages. Features related on following Python
+  # which does not allow to install packages. Features related to following Python
   # packages are not tested:
   # - numba
   # - jupyter (notebooks and ROOT C++ kernel)
