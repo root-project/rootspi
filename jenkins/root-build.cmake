@@ -222,7 +222,6 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     mlp
     opengl
     pyroot
-    pyroot2
     python
     roofit
     roofit_multiprocess
@@ -253,6 +252,13 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
       pyroot3 # To make mac12 master release builds have the same pyroot3 option as nightlies
     )
   endif()
+
+  if("${LABEL}" MATCHES "mac10|mac11")
+    list(APPEND all_supported
+      pyroot2 # macOS 13 does not have Python2 anymore
+    )
+  endif()
+
 
   set(package_builtins
     builtin_afterimage
@@ -290,12 +296,12 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
 
   # We cannot install numba on some Macs because pip does not (yet) distribute binaries
   # for llvmlite and building the wheel locally also fails.
-  if("${LABEL}" MATCHES "mac11arm|mac10beta|mac12arm")
+  if("${LABEL}" MATCHES "mac11arm|mac12beta|mac12arm")
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY3)
   endif()
 
   # Installing pandas fails due to incompatibilities with numpy on some macOS
-  if("${LABEL}" MATCHES "mac11arm|mac10beta")
+  if("${LABEL}" MATCHES "mac11arm|mac12beta")
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PANDAS_PY2)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PANDAS_PY3)
   endif()
