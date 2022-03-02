@@ -907,7 +907,11 @@ function(CONFIGURE_ROOT_OPTIONS)
   #---CMAKE_BUILD_TYPE--------------------------------------------------------
   set(buildtype_option -DCMAKE_BUILD_TYPE=${CTEST_BUILD_CONFIGURATION})
   if(WIN32)
-    set(buildtype_option -A Win32 -Thost=x64 ${buildtype_option})
+    if("${tag}" MATCHES "x64")
+      set(buildtype_option -A x64 -Thost=x64 ${buildtype_option})
+    else()
+      set(buildtype_option -A Win32 -Thost=x64 ${buildtype_option})
+    endif()
   endif()
 
   #---No OS Python3 on MacOS10------------------------------------------------
