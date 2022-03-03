@@ -111,6 +111,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     http
     minuit2
     mlp
+    odbc
     opengl
     pyroot
     pyroot3
