@@ -29,7 +29,7 @@ fi
 
 if [ -f $gittag/CMakeLists.txt ]; then
    cd $gittag.build
-   cmake -G Ninja ../$gittag -Dall=ON -DCMAKE_CXX_STANDARD=17 -DPYTHON_EXECUTABLE=/usr/bin/python3 -Dalien=OFF -Dcuda=OFF -Dtmva-gpu=OFF -Dbuiltin_lz4=ON -Dtesting=ON
+   cmake -G Ninja ../$gittag -Dall=ON -DCMAKE_CXX_STANDARD=17 -DPYTHON_EXECUTABLE=/usr/bin/python3 -Dalien=OFF -Dcuda=OFF -Dtmva-sofie=On -Dtmva-gpu=OFF -Dbuiltin_lz4=ON -Dtesting=ON
    cmake --build . -j6
    exit $?
 else
