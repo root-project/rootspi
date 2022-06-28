@@ -473,6 +473,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   if("${LABEL}" MATCHES "centos|fedora" AND NOT ("${LABEL}" MATCHES "-power8-centos8"))
     list(APPEND all_supported
       dcache
+    )
+  endif()
+
+  if("${LABEL}" MATCHES "centos[78]|fedora" AND NOT ("${LABEL}" MATCHES "-power8-centos8"))
+    list(APPEND all_supported
       gfal
     )
   endif()
