@@ -432,7 +432,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   endif()
 
   # Fedora32 and CentOS8 do not have python2 anymore.
-  if(NOT "${LABEL}" MATCHES "fedora3[3]|centos8")
+  if("${LABEL}" MATCHES "centos7")
     list(APPEND all_supported
       pyroot2
       )
@@ -605,7 +605,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
 
   # Fedora 32 upwards have python2 completely deprecated, also installation of python2-pip is
   # not possible via dnf.
-  if("${LABEL}" MATCHES "fedora32|centos8")
+  if("${LABEL}" MATCHES "fedora|centos" AND NOT "${LABEL}" MATCHES "centos7")
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_NUMBA_PY2)
   endif()
 
