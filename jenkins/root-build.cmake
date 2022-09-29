@@ -582,7 +582,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
 
   if("${LABEL}" MATCHES "ubuntu")
     list(APPEND all_supported
-      tmva-sofie
+      tmva-sofie)
   endif()
 
   # - Ubuntu 18.04 has a system python-numba package which is too old.
