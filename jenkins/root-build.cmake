@@ -580,6 +580,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
+  if("${LABEL}" MATCHES "ubuntu")
+    list(APPEND all_supported
+      tmva-sofie
+  endif()
+
   # - Ubuntu 18.04 has a system python-numba package which is too old.
   # - Ubuntu 14 has a too old Numpy version from the system that conflicts with installing
   #   numba via pip.
