@@ -304,6 +304,12 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PANDAS_PY2)
     EXPORT_CTEST_ENVVAR(ROOTTEST_IGNORE_PANDAS_PY3)
   endif()
+ 
+  # Distributed RDataFrame on ARM is blocked by https://github.com/root-project/root/issues/10061
+  if("${LABEL}" MATCHES "mac11arm|mac12arm")
+    list(REMOVE_ITEM all_supported test_distrdf_pyspark)
+    list(REMOVE_ITEM all_supported test_distrdf_dask)
+  endif()
 
   set(all_supported ${all_supported} PARENT_SCOPE)
   set(package_builtins ${package_builtins} PARENT_SCOPE)
