@@ -161,6 +161,8 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     list(APPEND all_supported
       builtin_nlohmannjson
       builtin_openui5
+      tmva-cpu
+      tmva-pymva
     )
   endif()
   set(all_supported ${all_supported} PARENT_SCOPE)
