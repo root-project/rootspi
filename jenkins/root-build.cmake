@@ -519,7 +519,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   # It's too new for ROOT 6.16.
   if(ROOT_VERSION VERSION_GREATER 6.17
       AND "${LABEL}" MATCHES "ubuntu"
-      AND NOT "${LABEL}" MATCHES "ubuntu1[46].04"
+      AND NOT "${LABEL}" MATCHES "ubuntu1[46]"
       AND NOT "${LABEL}" MATCHES "-i386")
     list(APPEND all_supported
       arrow
