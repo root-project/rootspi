@@ -591,7 +591,8 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu")
+  if("${LABEL}" MATCHES "ubuntu"
+     AND NOT "${LABEL}" MATCHES "ubuntu16")
     list(APPEND all_supported
       tmva-sofie)
   endif()
