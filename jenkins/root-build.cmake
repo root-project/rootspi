@@ -1060,7 +1060,25 @@ elseif(CTEST_MODE STREQUAL package)
     message(FATAL_ERROR "Failed to configure project")
   endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-  ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET package APPEND)
+  if(WIN32)
+    ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} APPEND RETURN_VALUE status)
+    if(${status} EQUAL 0)
+      execute_process_and_log(COMMAND signtool sign /t http://timestamp.digicert.com /sm /i "CERN Certification Authority" /debug /a *.exe *.dll
+        WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/bin/
+        HINT "Digitally signing Windows executables"
+      )
+      execute_process_and_log(COMMAND cpack -C ${CTEST_BUILD_CONFIGURATION}
+        WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+        HINT "Creating binary packages"
+      )
+      execute_process_and_log(COMMAND signtool sign /t http://timestamp.digicert.com /sm /i "CERN Certification Authority" /debug /a *.exe
+        WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+        HINT "Digitally signing self-extracting executable"
+      )
+    endif()
+  else()
+    ctest_build(BUILD ${CTEST_BINARY_DIRECTORY} TARGET package APPEND)
+  endif()
   # TODO: uncomment next line if CDASH will be back
   #ctest_submit(PARTS Update Configure Build)
 
