@@ -788,6 +788,11 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
         pyroot2
     )
   endif()
+  if(NOT "cxx17" IN_LIST SPECLIST)
+    list(REMOVE_ITEM want_modules
+      arrow
+    )
+  endif()
   set(want_modules ${want_modules} PARENT_SCOPE)
 endfunction()
 
