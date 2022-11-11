@@ -423,10 +423,11 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  # zstd binaries are too old on Ubuntu 14, 16
+  # zstd, davix binaries are too old on Ubuntu 14, 16 (davix: for rootd)
   if("${LABEL}" MATCHES "ubuntu1[46]")
     list(APPEND all_supported
       builtin_zstd
+      builtin_davix
     )
   endif()
 
