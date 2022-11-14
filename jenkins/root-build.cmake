@@ -95,6 +95,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     builtin_ftgl
     builtin_gl2ps
     builtin_glew
+    builtin_gtest
     builtin_lzma
     builtin_lz4
     builtin_pcre
@@ -129,6 +130,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     builtin_ftgl
     builtin_gl2ps
     builtin_glew
+    builtin_gtest
     builtin_lz4
     builtin_lzma
     builtin_pcre
@@ -185,6 +187,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_gl2ps
     builtin_glew
     builtin_gsl
+    builtin_gtest
     builtin_lzma
     builtin_lz4
     builtin_nlohmannjson
@@ -271,6 +274,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     builtin_gl2ps
     builtin_glew
     builtin_gsl
+    builtin_gtest
     builtin_lz4
     builtin_lzma
     builtin_nlohmannjson
@@ -324,6 +328,7 @@ endfunction()
 function(GET_ALL_SUPPORTED_MODULES_LINUX)
   set(all_supported
     builtin_cppzmq
+    builtin_gtest
     builtin_vdt
     builtin_veccore
     builtin_zeromq
@@ -644,6 +649,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     builtin_ftgl
     builtin_gl2ps
     builtin_glew
+    builtin_gtest
     builtin_pcre
     builtin_tbb
     builtin_unuran
