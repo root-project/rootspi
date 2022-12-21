@@ -60,6 +60,7 @@ function(GET_ALL_MODULES)
     cxx11
     cxx14
     cxx17
+    cxx20
     cxxmodules
     exceptions
     explicitlink
@@ -916,7 +917,9 @@ function(CONFIGURE_ROOT_OPTIONS)
   # Release always builds with "native" standard.
   if(NOT CTEST_MODE STREQUAL package)
     if (ROOT_VERSION VERSION_GREATER_EQUAL 6.17)
-      if("cxx17" IN_LIST SPECLIST)
+      if("cxx20" IN_LIST SPECLIST)
+        set(specflags ${specflags} -DCMAKE_CXX_STANDARD=20)
+      elseif("cxx17" IN_LIST SPECLIST)
         set(specflags ${specflags} -DCMAKE_CXX_STANDARD=17)
       elseif("cxx14" IN_LIST SPECLIST)
         set(specflags ${specflags} -DCMAKE_CXX_STANDARD=14)
