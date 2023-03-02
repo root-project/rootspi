@@ -73,7 +73,7 @@ if "%ACTION%" neq "test" (
 if "%ACTION%" neq "build" (
     if "%RUN_TESTS%" == "yes" (
         echo Dumping the full environment ---------------------------------------------------------
-        set
+        set | find /V "ghprbPullLongDescription" | find /V "ghprbPullDescription" | find /V "ghprbPullTitle" | find /V "ghprbCommentBody"
         echo --------------------------------------------------------------------------------------
 
         ctest --no-compress-output -V -S %THIS%/root-test.cmake
