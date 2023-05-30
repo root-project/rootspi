@@ -414,11 +414,15 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
 
   # For centos7, Rinside uses wrong C++ std (missing abi tag for C++11);
   # Rinside package does not exist for Ubuntu 14.
+  # And none of that builds with C++20.
   if(NOT "${LABEL}" MATCHES "ubuntu14|-power8-centos8")
-    list(APPEND all_supported
-      r
-      tmva-rmva
-    )
+    if("cxx14" IN_LIST SPECLIST
+       OR "cxx17" IN_LIST SPECLIST)
+      list(APPEND all_supported
+        r
+        tmva-rmva
+      )
+    endif()
   endif()
 
   if("${LABEL}" MATCHES "fedora|ubuntu" AND
