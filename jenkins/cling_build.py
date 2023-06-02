@@ -234,3 +234,43 @@ class Builder:
         self.housekeeping()
 
 
+# Create controlfile
+open('controlfile','w').write('')
+
+# Remove old build directories:
+import shutil, os, time
+now = time.time()
+for filename in os.listdir(".."):
+  if filename.startswith("cling_"):
+    fullname = os.path.join("..", filename)
+    if os.path.getmtime(fullname) < now - 3 * 86400: #three days
+      print("Removing " + fullname)
+      shutil.rmtree(fullname)
+
+
+import os, sys, subprocess
+
+generatorType = 'Unix Makefiles'
+label = os.environ['LABEL']
+if 'win' in label:
+  generatorType = 'Visual Studio 9 2008'
+
+if 'ubuntu22' in label:
+  # Get a krb ticket to be able to copy doxygen files to the master's /eos.
+  subprocess.check_call("/usr/bin/kinit sftnight@CERN.CH -5 -V -k -t /ec/conf/sftnight.keytab", shell=True)
+
+
+sys.path.append('./rootspi/jenkins')
+import cling_build
+bld = cling_build.Builder(
+  workspace = os.environ["WORKSPACE"],
+  label = label,
+  generatorType = generatorType,
+  cleanbuild = os.environ['CLEAN'] == 'true',
+  binaries = os.environ['BINARIES'] == 'true',
+  buildcause = os.environ.get('ROOT_BUILD_CAUSE'),
+  testcling = os.environ['TESTCLING'] == 'true',
+  testllvmclang = os.environ['TESTLLVMCLANG'] == 'true'
+)
+
+bld.build()
