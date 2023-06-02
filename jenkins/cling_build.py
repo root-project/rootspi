@@ -44,7 +44,7 @@ class Builder:
         workspace: str
           Jenkins workspace directory.
         label: str
-          Label of the node this script is running on. 'ubuntu-14.04' is expected to
+          Label of the node this script is running on. 'ubuntu2204' is expected to
           be able to run doxygen and will create source snapshot if binaries are
           requested.
         clean: bool
@@ -75,7 +75,7 @@ class Builder:
         self.testcling = testcling
         self.testllvmclang = testllvmclang
         self.doxygen = False
-        if 'ubuntu14' in self.label:
+        if 'ubuntu22' in self.label:
             self.doxygen = True
 
         self.parallelFlag = ''
@@ -110,8 +110,6 @@ class Builder:
         self.cmake = spawn.find_executable('cmake3')
         if self.cmake == None:
           self.cmake = spawn.find_executable('cmake')
-        if self.label == 'ubuntu14':
-           self.cmake = '/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.7.0/Linux-x86_64/bin/cmake'
         if self.cmake == None:
             if self.label == 'cc7':
                 self.cmake = '/cvmfs/sft.cern.ch/lcg/contrib/CMake/3.7.0/Linux-x86_64/bin/cmake'
@@ -134,12 +132,16 @@ class Builder:
             doxygen = ''
             if self.doxygen:
                 doxygen = ' -DLLVM_ENABLE_DOXYGEN=On -DLLVM_INCLUDE_DOCS=On'
-            print_and_call(self.cmake + ' ../src' # -G "' + self.generatorType + '"'
+            print_and_call(self.cmake # -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
                            + ' -DLLVM_BUILD_TOOLS=Off'
                            + ' -DCMAKE_INSTALL_PREFIX=' + self.workspace + '/' + self.instdir
+                           + ' -DLLVM_EXTERNAL_PROJECTS=cling -DLLVM_EXTERNAL_CLING_SOURCE_DIR=' + self.workspace + '/cling'
+                           + ' -DLLVM_ENABLE_PROJECTS=clang'
+                           + ' -DLLVM_TARGETS_TO_BUILD="host;NVPTX"'
                            + ' "-DLLVM_LIT_ARGS=-sv --no-progress-bar --xunit-xml-output=lit-xunit-output.xml"'
-                           + doxygen)
+                           + doxygen
+                           + ' ../src' )
 
 
     def make(self):
@@ -178,7 +180,7 @@ class Builder:
                 shutil.rmtree('doxygen')
             shutil.copytree(os.path.join(self.instdir, 'docs', 'html', 'html'), 'doxygen')
             # and then publish to EOS:
-            check_call('rsync -avz -e "ssh -K -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" doxygen epsft-jenkins.cern.ch:/eos/project/r/root-eos/www/cling/', shell=True)
+            check_call('rsync -avz -e "ssh -K -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" doxygen lxplus:/eos/project/r/root-eos/www/cling/', shell=True)
 
     def packaging(self):
         if os.path.isdir('artifacts'):
@@ -199,7 +201,7 @@ class Builder:
             tar.add(self.instdir)
             tar.close()
 
-            if self.label == 'ubuntu14':
+            if self.label == 'ubuntu22':
                 # Tar the source directory.
                 shutil.rmtree('src/.git') # remove .git; not part of source tar
                 tar = tarfile.open(os.path.join('artifacts', 'cling_' + self.today + '_sources.tar.bz2'), "w:bz2")
