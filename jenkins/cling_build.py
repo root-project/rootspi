@@ -141,7 +141,7 @@ class Builder:
                            + ' -DLLVM_TARGETS_TO_BUILD="host;NVPTX"'
                            + ' "-DLLVM_LIT_ARGS=-sv --no-progress-bar --xunit-xml-output=lit-xunit-output.xml"'
                            + doxygen
-                           + ' ../src' )
+                           + ' ../src/llvm' )
 
 
     def make(self):
