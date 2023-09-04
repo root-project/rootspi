@@ -115,6 +115,7 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     mlp
     odbc
     opengl
+    proof
     pyroot
     pyroot3
     python
@@ -228,6 +229,7 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     minuit2
     mlp
     opengl
+    proof
     pyroot
     python
     roofit
@@ -356,6 +358,7 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     odbc
     opengl
     pgsql
+    proof
     pyroot
     python
     qt
