@@ -45,7 +45,6 @@ function(GET_ALL_MODULES)
   if("${ROOT_VERSION}" VERSION_GREATER "6.19")
     # These are not *actually* build options. But we want to expose them as such in the CI.
     list(APPEND all_modules
-      pyroot2
       pyroot3
     )
   endif()
@@ -260,13 +259,6 @@ function(GET_ALL_SUPPORTED_MODULES_APPLE)
     )
   endif()
 
-  if("${LABEL}" MATCHES "mac10|mac11")
-    list(APPEND all_supported
-      pyroot2 # macOS 13 does not have Python2 anymore
-    )
-  endif()
-
-
   set(package_builtins
     builtin_afterimage
     builtin_cfitsio
@@ -450,13 +442,6 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
   if(NOT "${LABEL}" MATCHES "ubuntu1[469]|debian10")
     list(APPEND all_supported
       pyroot3
-      )
-  endif()
-
-  # Fedora32 and CentOS8 do not have python2 anymore.
-  if("${LABEL}" MATCHES "centos7")
-    list(APPEND all_supported
-      pyroot2
       )
   endif()
 
@@ -796,12 +781,6 @@ function(REMOVE_SPEC_SUPPRESSED SPECLIST want_modules)
         opengl
       )
     endif()
-  endif()
-  if("python3" IN_LIST SPECLIST)
-    # If we force pyroot3 we will not be building pyroot2:
-    list(REMOVE_ITEM want_modules
-        pyroot2
-    )
   endif()
   if(NOT "cxx17" IN_LIST SPECLIST)
     list(REMOVE_ITEM want_modules
