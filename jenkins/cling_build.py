@@ -134,7 +134,7 @@ class Builder:
                 doxygen = ' -DLLVM_ENABLE_DOXYGEN=On -DLLVM_INCLUDE_DOCS=On'
             print_and_call(self.cmake # -G "' + self.generatorType + '"'
                            + ' -DCMAKE_BUILD_TYPE=Release'
-                           + ' -DCMAKE_CXX_VERSION=17'
+                           + ' -DCMAKE_CXX_STANDARD=17'
                            + ' -DLLVM_BUILD_TOOLS=Off'
                            + ' -DCMAKE_INSTALL_PREFIX=' + self.workspace + '/' + self.instdir
                            + ' -DLLVM_EXTERNAL_PROJECTS=cling -DLLVM_EXTERNAL_CLING_SOURCE_DIR=' + self.workspace + '/cling'
