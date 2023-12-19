@@ -111,32 +111,6 @@ for f in $min2guides; do
    cp $srcmin2/$f $destmin2
 done
 
-# ROOT primer products
-srcprim=$src/documentation/primer
-destprim=$dest/primer
-destprimfig=$destprim/figures
-
-if [ ! -d $destprim ]; then
-   mkdir -p $destprim
-fi
-
-if [ ! -d $destprimfig ]; then
-   mkdir -p $destprimfig
-fi
-
-primguides="
-ROOTPrimer.pdf
-ROOTPrimerLetter.pdf
-ROOTPrimer.html
-ROOTPrimer.epub
-"
-
-cp $srcprim/figures/*        $destprimfig/
-
-for f in $primguides; do
-   cp $srcprim/$f $destprim
-done
-
 # Spectrum products
 srcspec=$src/documentation/spectrum
 destspec=$dest/spectrum
@@ -234,6 +208,6 @@ done
 
 # Copy the guides to root.cern.ch
 echo "Synchronize $dest/ with root.cern.ch:/var/www/root/root/$dest/"
-rsync --delete --exclude nbprimer -a $dest/ root.cern.ch:/var/www/root/root/$dest/
+rsync --delete -a $dest/ root.cern.ch:/var/www/root/root/$dest/
 
 exit 0
