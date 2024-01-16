@@ -561,8 +561,10 @@ function(GET_ALL_SUPPORTED_MODULES_LINUX)
     )
   endif()
 
-  if("${LABEL}" MATCHES "ubuntu1[468]|power8-centos8")
-    # Ubuntu < 19.04 has no xxhash.
+  if("${LABEL}" MATCHES "ubuntu1[468]|power8-centos8"
+    OR "${LABEL}" MATCHES "debian10|ubuntu20" AND ROOT_VERSION VERSION_GREATER 6.30)
+    # Ubuntu < 19.04 has no xxhash
+    # and for ROOT > 6.30 we need version 0.8, which is not on Ubuntu 20 nor Debian 10
     list(APPEND all_supported
       builtin_xxhash
     )
