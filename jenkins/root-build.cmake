@@ -110,7 +110,6 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
     fftw3
     gdml
     http
-    minuit2
     mlp
     odbc
     opengl
@@ -166,6 +165,11 @@ function(GET_ALL_SUPPORTED_MODULES_WIN32)
       builtin_openui5
       tmva-cpu
       tmva-pymva
+    )
+  endif()
+  if(ROOT_VERSION VERSION_LESS 6.31)
+    list(APPEND all_supported
+      minuit2
     )
   endif()
   set(all_supported ${all_supported} PARENT_SCOPE)
