@@ -65,11 +65,6 @@ cd $srcdir/documentation/minuit2
 make
 cd $dir
 
-# make ROOT primer
-cd $srcdir/documentation/primer
-make
-cd $dir
-
 # make Spectrum guide
 cd $srcdir/documentation/spectrum
 make
