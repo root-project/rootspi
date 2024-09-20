@@ -4,7 +4,7 @@ rm -rf resources *.txt
 
 src=${1}
 if [[ "$src" == "" ]]; then
-   src=~/d/openui5-1.98.0/
+   src=~/d/openui5-runtime-1.128.0/
 fi
 
 copy_lib() {
