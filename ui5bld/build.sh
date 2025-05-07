@@ -4,7 +4,7 @@ rm -rf resources *.txt
 
 src=${1}
 if [[ "$src" == "" ]]; then
-   src=~/d/openui5-runtime-1.128.0/
+   src=~/d/openui5-1.135.0/
 fi
 
 copy_lib() {
@@ -21,8 +21,10 @@ copy_themes() {
    echo "copy themes $1"
    mkdir -p ${1}/themes
    cp -r ${src}/${1}/themes/base ${1}/themes
-   cp -r ${src}/${1}/themes/sap_belize ${1}/themes
    cp -r ${src}/${1}/themes/sap_fiori_3 ${1}/themes
+   cp -r ${src}/${1}/themes/sap_fiori_3_dark ${1}/themes
+   cp -r ${src}/${1}/themes/sap_horizon ${1}/themes
+   cp -r ${src}/${1}/themes/sap_horizon_dark ${1}/themes
 }
 
 cp ${src}/*.txt .
