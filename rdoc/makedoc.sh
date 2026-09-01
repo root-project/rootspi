@@ -73,11 +73,4 @@ fi
 # Free the space used by the $docdir
 rm -rf $docdir
 
-#if [ "x$1" = "xmaster" ]; then
-#   . ../ROOT-Primer/scripts/build.sh root.cern.ch:/var/www/root/root/htmldoc/guides/nbprimer all
-#   if [ $? -ne 0 ]; then
-#      echo "$prog: Primer failed, exiting..."
-#      exit 1
-#   fi
-#fi
 exit 0
